@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "885c6d80dbade0784bf17a39770bff54",
+    "content-hash": "875ffbaad39db44f4aaea6a40efeccb3",
     "packages": [
         {
             "name": "aura/intl",
@@ -51,6 +51,129 @@
                 "localization"
             ],
             "time": "2017-01-20T05:00:11+00:00"
+        },
+        {
+            "name": "cakedc/auth",
+            "version": "3.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CakeDC/auth.git",
+                "reference": "83ac6e545515acc1d0aaa440fb13ac1d1fe1ffa0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CakeDC/auth/zipball/83ac6e545515acc1d0aaa440fb13ac1d1fe1ffa0",
+                "reference": "83ac6e545515acc1d0aaa440fb13ac1d1fe1ffa0",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakeDC\\Auth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakeDC",
+                    "homepage": "https://www.cakedc.com",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/CakeDC/auth/graphs/contributors"
+                }
+            ],
+            "description": "Auth objects for CakePHP",
+            "homepage": "https://github.com/CakeDC/auth",
+            "keywords": [
+                "Authentication",
+                "auth",
+                "cakedc",
+                "cakephp"
+            ],
+            "time": "2019-04-26T11:46:35+00:00"
+        },
+        {
+            "name": "cakedc/users",
+            "version": "8.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CakeDC/users.git",
+                "reference": "04c543edbec3f6a4860f49f761143a37bb52f6fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CakeDC/users/zipball/04c543edbec3f6a4860f49f761143a37bb52f6fd",
+                "reference": "04c543edbec3f6a4860f49f761143a37bb52f6fd",
+                "shasum": ""
+            },
+            "require": {
+                "cakedc/auth": "^3.0",
+                "cakephp/cakephp": "^3.7"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "dev-master",
+                "google/recaptcha": "@stable",
+                "league/oauth2-facebook": "@stable",
+                "league/oauth2-google": "@stable",
+                "league/oauth2-instagram": "@stable",
+                "league/oauth2-linkedin": "@stable",
+                "luchianenco/oauth2-amazon": "^1.1",
+                "phpunit/phpunit": "^5.7.14|^6.0",
+                "robthree/twofactorauth": "~1.6",
+                "yubico/u2flib-server": "^1.0"
+            },
+            "suggest": {
+                "google/recaptcha": "Provides reCAPTCHA validation for registration form",
+                "league/oauth1-client": "Provides Social Authentication with Twitter",
+                "league/oauth2-facebook": "Provides Social Authentication with Facebook",
+                "league/oauth2-google": "Provides Social Authentication with Google+",
+                "league/oauth2-instagram": "Provides Social Authentication with Instagram",
+                "league/oauth2-linkedin": "Provides Social Authentication with LinkedIn",
+                "luchianenco/oauth2-amazon": "Provides Social Authentication with Amazon",
+                "robthree/twofactorauth": "Provides Google Authenticator functionality"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakeDC\\Users\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakeDC",
+                    "homepage": "http://www.cakedc.com",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/CakeDC/users/graphs/contributors"
+                }
+            ],
+            "description": "Users Plugin for CakePHP",
+            "homepage": "https://github.com/CakeDC/users",
+            "keywords": [
+                "Authentication",
+                "auth",
+                "cakedc",
+                "cakephp",
+                "oauth2"
+            ],
+            "time": "2019-10-07T17:20:24+00:00"
         },
         {
             "name": "cakephp/cakephp",
