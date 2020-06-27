@@ -17,6 +17,36 @@ class EmpleadosController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+    public function dashboard(){
+        $this->loadModel('Extrusoras');
+        $this->loadModel('Impresoras');
+        $this->loadModel('Cortadoras');
+
+        $extrusoras = $this->Extrusoras->find('all',[
+            'contain'=>[
+                'Ordenots'=>[
+                    'Ordenesdetrabajos'
+                ]
+            ]
+        ]);
+        $impresoras = $this->Impresoras->find('all',[
+            'contain'=>[
+                'Ordenots'=>[
+                    'Ordenesdetrabajos'
+                ]
+            ]
+        ]);
+        $cortadoras = $this->Cortadoras->find('all',[
+            'contain'=>[
+                'Ordenots'=>[
+                    'Ordenesdetrabajos'
+                ]
+            ]
+        ]);
+
+        $this->set(compact('extrusoras','impresoras','cortadoras'));
+
+    }
     public function index()
     {
         $empleados = $this->paginate($this->Empleados);

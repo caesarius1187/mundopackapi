@@ -35,7 +35,7 @@ class OrdenesdetrabajosTable extends Table
         parent::initialize($config);
 
         $this->setTable('ordenesdetrabajos');
-        $this->setDisplayField('id');
+        $this->setDisplayField('numero');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

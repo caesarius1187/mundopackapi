@@ -203,3 +203,4 @@ Type::build('timestamp')
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 $this->addPlugin(\CakeDC\Users\Plugin::class, ['routes' => true, 'bootstrap' => true]);
 Configure::write('Users.config', ['users']);
+require_once 'events.php';

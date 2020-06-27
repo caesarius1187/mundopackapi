@@ -39,6 +39,10 @@ class ExtrusorasTable extends Table
         $this->hasMany('Bobinasdeextrusions', [
             'foreignKey' => 'extrusora_id',
         ]);
+        
+        $this->hasMany('Ordenots', [
+            'foreignKey' => 'cortadora_id',
+        ]);
     }
 
     /**

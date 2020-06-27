@@ -39,6 +39,10 @@ class CortadorasTable extends Table
         $this->hasMany('Bobinasdeimpresions', [
             'foreignKey' => 'cortadora_id',
         ]);
+
+        $this->hasMany('Ordenots', [
+            'foreignKey' => 'cortadora_id',
+        ]);
     }
 
     /**

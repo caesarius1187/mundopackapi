@@ -39,6 +39,10 @@ class ImpresorasTable extends Table
         $this->hasMany('Bobinasdecortes', [
             'foreignKey' => 'impresora_id',
         ]);
+
+        $this->hasMany('Ordenots', [
+            'foreignKey' => 'cortadora_id',
+        ]);
     }
 
     /**

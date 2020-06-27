@@ -27,6 +27,47 @@ class OrdenesdetrabajosController extends AppController
         $this->set(compact('ordenesdetrabajos'));
     }
 
+    public function asignacion(){
+        $this->loadModel('Extrusoras');
+        $this->loadModel('Impresoras');
+        $this->loadModel('Cortadoras');
+        $this->loadModel('Ordenots');
+
+        $conditions=[
+            'conditions'=>[
+                'Ordenesdetrabajos.estado '=>'En Proceso'
+            ]
+        ];
+        $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
+        $this->set(compact('ordenesdetrabajos'));
+
+        
+
+        $extrusoras = $this->Extrusoras->find('all',[
+            'contain'=>[
+                'Ordenots'=>[
+                    'Ordenesdetrabajos'
+                ]
+            ]
+        ]);
+        $impresoras = $this->Impresoras->find('all',[
+            'contain'=>[
+                'Ordenots'=>[
+                    'Ordenesdetrabajos'
+                ]
+            ]
+        ]);
+        $cortadoras = $this->Cortadoras->find('all',[
+            'contain'=>[
+                'Ordenots'=>[
+                    'Ordenesdetrabajos'
+                ]
+            ]
+        ]);
+        $ordenot = $this->Ordenots->newEntity();
+        $this->set(compact('extrusoras','impresoras','cortadoras','ordenot'));
+    }
+
     /**
      * View method
      *

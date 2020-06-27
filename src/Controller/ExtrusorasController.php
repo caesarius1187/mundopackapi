@@ -34,10 +34,13 @@ class ExtrusorasController extends AppController
     public function view($id = null)
     {
         $extrusora = $this->Extrusoras->get($id, [
-            'contain' => ['Bobinasdeextrusions'],
+            'contain' => ['Bobinasdeextrusions','Ordenots'],
         ]);
 
-        $this->set('extrusora', $extrusora);
+        $this->set([
+            'extrusora' => $extrusora,
+            '_serialize' => ['extrusora']
+        ]);
     }
 
     /**
