@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "875ffbaad39db44f4aaea6a40efeccb3",
+    "content-hash": "6f848c5131db08adf94db17548701615",
     "packages": [
         {
             "name": "aura/intl",
@@ -413,6 +413,299 @@
             ],
             "description": "A composer installer for CakePHP 3.0+ plugins.",
             "time": "2019-11-12T10:21:19+00:00"
+        },
+        {
+            "name": "ciricihq/adminlte",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ciricihq/cake-adminlte.git",
+                "reference": "fbf1f7c516c08a9025476534f891d43371be37d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ciricihq/cake-adminlte/zipball/fbf1f7c516c08a9025476534f891d43371be37d6",
+                "reference": "fbf1f7c516c08a9025476534f891d43371be37d6",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.2",
+                "gourmet/knp-menu": "~0.4",
+                "php": ">=5.5.9",
+                "symfony/yaml": "~3.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "*",
+                "phpunit/phpunit": "*",
+                "squizlabs/php_codesniffer": "~2.6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Cirici\\AdminLTE\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "description": "AdminLTE theme for CakePHP",
+            "time": "2016-06-02T21:40:20+00:00"
+        },
+        {
+            "name": "components/jquery",
+            "version": "3.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "b33e8f0f9a1cb2ae390cf05d766a900b53d2125b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/b33e8f0f9a1cb2ae390cf05d766a900b53d2125b",
+                "reference": "b33e8f0f9a1cb2ae390cf05d766a900b53d2125b",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js",
+                        "jquery.slim.min.map"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JS Foundation and other contributors"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "time": "2020-05-05T13:21:02+00:00"
+        },
+        {
+            "name": "flickerleap/cakephp-adminlte-theme",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flickerleap/cakephp-adminlte-theme.git",
+                "reference": "08b5c5614e1bb9c4b93973cb12dab72e8850b5d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flickerleap/cakephp-adminlte-theme/zipball/08b5c5614e1bb9c4b93973cb12dab72e8850b5d1",
+                "reference": "08b5c5614e1bb9c4b93973cb12dab72e8850b5d1",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "AdminLTE\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Flicker Leap",
+                    "email": "info@flickerleap.com",
+                    "homepage": "https://flickerleap.com/",
+                    "role": "Author"
+                }
+            ],
+            "description": "CakePHP 3.x AdminLTE Theme.",
+            "homepage": "https://github.com/flickerleap/cakephp-adminlte-theme",
+            "keywords": [
+                "cakephp",
+                "plugin",
+                "templates"
+            ],
+            "time": "2017-08-08T07:25:40+00:00"
+        },
+        {
+            "name": "friendsofcake/bootstrap-ui",
+            "version": "1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
+                "reference": "fb8fe16b73a2e4d8ef06a7a53a39f830194a7b39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/fb8fe16b73a2e4d8ef06a7a53a39f830194a7b39",
+                "reference": "fb8fe16b73a2e4d8ef06a7a53a39f830194a7b39",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.5"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^3.1",
+                "cakephp/chronos": "^1.1",
+                "phpunit/phpunit": "^5.7.14|^6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "BootstrapUI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jad Bitar",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/friendsofcake/bootstrap-ui/graphs/contributors"
+                }
+            ],
+            "description": "Twitter Bootstrap support for CakePHP",
+            "homepage": "https://github.com/friendsofcake/bootstrap-ui",
+            "keywords": [
+                "bootstrap",
+                "cakephp",
+                "twitter"
+            ],
+            "time": "2020-04-12T09:56:27+00:00"
+        },
+        {
+            "name": "gourmet/knp-menu",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gourmet/knp-menu.git",
+                "reference": "81d7102ac18982653761c6097e8da0bcb7e4672a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gourmet/knp-menu/zipball/81d7102ac18982653761c6097e8da0bcb7e4672a",
+                "reference": "81d7102ac18982653761c6097e8da0bcb7e4672a",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "knplabs/knp-menu": "~2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Gourmet\\KnpMenu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jad Bitar",
+                    "homepage": "http://jadb.io",
+                    "role": "Author"
+                }
+            ],
+            "description": "KnpMenu for CakePHP 3",
+            "homepage": "http://github.com/gourmet/knp-menu",
+            "keywords": [
+                "cakephp",
+                "knp",
+                "menu"
+            ],
+            "time": "2015-07-21T17:11:50+00:00"
+        },
+        {
+            "name": "knplabs/knp-menu",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/KnpMenu.git",
+                "reference": "b6aade272c345b6fbd07fce5929a761cba0909b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/b6aade272c345b6fbd07fce5929a761cba0909b8",
+                "reference": "b6aade272c345b6fbd07fce5929a761cba0909b8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.40|>=2,<2.9"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/http-foundation": "~2.4|~3.0|^4.0",
+                "symfony/phpunit-bridge": "~3.3|^4.0",
+                "symfony/routing": "~2.3|~3.0|^4.0",
+                "twig/twig": "^1.40|^2.9"
+            },
+            "suggest": {
+                "twig/twig": "for the TwigRenderer and the integration with your templates"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Menu\\": "src/Knp/Menu"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs",
+                    "homepage": "https://knplabs.com"
+                },
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
+                }
+            ],
+            "description": "An object oriented menu library",
+            "homepage": "https://knplabs.com",
+            "keywords": [
+                "menu",
+                "tree"
+            ],
+            "time": "2019-09-02T10:16:14+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -1206,6 +1499,57 @@
                 }
             ],
             "time": "2020-05-11T07:51:54+00:00"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "v3.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "0b9c4a4007c44201dce9a6cc1a38407005c26c86"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/0b9c4a4007c44201dce9a6cc1a38407005c26c86",
+                "reference": "0b9c4a4007c44201dce9a6cc1a38407005c26c86",
+                "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "http://getbootstrap.com",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ],
+            "time": "2016-07-25T15:51:55+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
