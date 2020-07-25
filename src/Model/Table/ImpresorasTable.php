@@ -41,7 +41,8 @@ class ImpresorasTable extends Table
         ]);
 
         $this->hasMany('Ordenots', [
-            'foreignKey' => 'cortadora_id',
+            'foreignKey' => 'impresora_id',
+            'order' => 'Ordenots.prioridad',
         ]);
     }
 

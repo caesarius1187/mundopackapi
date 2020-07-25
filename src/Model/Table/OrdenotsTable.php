@@ -41,15 +41,12 @@ class OrdenotsTable extends Table
 
         $this->belongsTo('Extrusoras', [
             'foreignKey' => 'extrusora_id',
-            'joinType' => 'INNER',
         ]);
         $this->belongsTo('Impresoras', [
             'foreignKey' => 'impresora_id',
-            'joinType' => 'INNER',
         ]);
         $this->belongsTo('Cortadoras', [
             'foreignKey' => 'cortadora_id',
-            'joinType' => 'INNER',
         ]);
         $this->belongsTo('Ordenesdetrabajos', [
             'foreignKey' => 'ordenesdetrabajo_id',
@@ -68,6 +65,10 @@ class OrdenotsTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->integer('prioridad')
+            ->allowEmptyString('prioridad');
 
         return $validator;
     }
