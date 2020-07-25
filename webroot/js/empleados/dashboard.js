@@ -7,12 +7,33 @@ function loadOTExtrusora(extrusoraId){
         url: serverLayoutURL+'extrusoras/view/'+extrusoraId+'.json',
         data: '',
         success: function(data,textStatus,xhr){
-            alert(data.extrusora.id);            
+            $('#myModalMaquina').modal('toggle');
+            $('#myModalMaquina').find('.modal-title').html(data.extrusora.nombre);
+            $('#myModalMaquina').find('#tblPendientes tr').remove();
+            $(data.extrusora.ordenots).each(function(){
+                $('#myModalMaquina').find('#tblPendientes').append(
+                    $("<tr>").append(
+                        $("<td>").html("OT Numero "+this.ordenesdetrabajo.numero)
+                    )
+                    .append(
+                        $("<td>").append(
+                            $("<i>")
+                                .addClass('fa fa-search')
+                                .attr('aria-hidden',"true")
+                                .attr('onclick','openOrdendetrabajo('+this.ordenesdetrabajo.id+')')
+                        )
+                    )
+                );
+            });
+            
         },
         error: function(xhr,textStatus,error){
             alert(textStatus);
         }
     });
+}
+function openOrdendetrabajo(ordenid){
+    window.open(serverLayoutURL+'ordenesdetrabajos/view/'+ordenid,);
 }
 function loadOTImpresora(impresoraId){
     $.ajax({

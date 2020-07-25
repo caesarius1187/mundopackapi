@@ -42,6 +42,7 @@ class CortadorasTable extends Table
 
         $this->hasMany('Ordenots', [
             'foreignKey' => 'cortadora_id',
+            'order' => 'Ordenots.prioridad',
         ]);
     }
 

@@ -17,7 +17,7 @@
 </nav>
 <div class="ordenesdetrabajos view large-9 medium-8 columns content">
     <h3><?= h($ordenesdetrabajo->id) ?></h3>
-    <table class="vertical-table">
+    <table class=".table-bordered">
         <tr>
             <th scope="row"><?= __('Ordenesdepedido') ?></th>
             <td><?= $ordenesdetrabajo->has('ordenesdepedido') ? $this->Html->link($ordenesdetrabajo->ordenesdepedido->id, ['controller' => 'Ordenesdepedidos', 'action' => 'view', $ordenesdetrabajo->ordenesdepedido->id]) : '' ?></td>

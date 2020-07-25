@@ -41,7 +41,8 @@ class ExtrusorasTable extends Table
         ]);
         
         $this->hasMany('Ordenots', [
-            'foreignKey' => 'cortadora_id',
+            'foreignKey' => 'extrusora_id',
+            'order' => 'Ordenots.prioridad ASC',
         ]);
     }
 

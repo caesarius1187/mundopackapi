@@ -44,6 +44,11 @@ class OrdenesdetrabajosTable extends Table
             'foreignKey' => 'ordenesdepedido_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->hasMany('Ordenots', [
+            'foreignKey' => 'ordenesdetrabajo_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
