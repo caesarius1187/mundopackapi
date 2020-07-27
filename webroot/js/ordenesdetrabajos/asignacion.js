@@ -1,3 +1,9 @@
+var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  });
 $(document).ready(function() {
     $('#ordenOtAddForm').submit(function(){
         //serialize form data
@@ -13,41 +19,44 @@ $(document).ready(function() {
                 var extrusoraId =data.data[1].extrusora_id;
                 var impresoraId =data.data[1].impresora_id;
                 var cortadoraId =data.data[1].cortadora_id;
-                var myTable;
+                var myList;
                 if(extrusoraId!=0){
-                    myTable = $("#tblExtrusora"+extrusoraId);
+                    myList = $("#ulExtrusora"+extrusoraId);
                 }
                 if(impresoraId!=0){
-                    myTable = $("#tblImpresora"+impresoraId);
+                    myList = $("#ulImpresora"+impresoraId);
                 }
                 if(cortadoraId!=0){
-                    myTable = $("#tblCortadora"+cortadoraId);
+                    myList = $("#ulCortadora"+cortadoraId);
                 }
-                myTable
+                myList
                     .append(
-                        $("<tr>")
-                            .attr("id",'rowOrdenOt'+data.data[1].id)   
+                        $("<li>")
+                            .attr("id",'liOrdenOt'+data.data[1].id)   
+                            .html("OT "+$( "#ordenesdetrabajo-id option:selected" ).text())
                             .append(
-                                $("<td>").html($( "#ordenesdetrabajo-id option:selected" ).text())
-                            )
-                            .append(
-                                $("<td>")
+                                $("<a>")
+                                    .addClass("badge bg-secondary swalDefaultSuccess")  
+                                    .attr('onclick','levelUp('+data.data[1].id+')')
                                     .append(                     
-                                        $("<i>").addClass("fas fa-level-up-alt")                   
-                                        .attr('onclick','levelUp('+data.data[1].id+')')
+                                        $("<i>").addClass("fas fa-angle-up")                   
                                     )                           
                             )
                             .append(
-                                $("<td>").append(
-                                        $("<i>").addClass("fas fa-level-down-alt")
-                                        .attr('onclick','levelDown('+data.data[1].id+')')
-                                    )
+                                $("<a>")
+                                    .addClass("badge bg-secondary swalDefaultSuccess")  
+                                    .attr('onclick','levelDown('+data.data[1].id+')')
+                                    .append(                     
+                                        $("<i>").addClass("fas fa-angle-down")                   
+                                    ) 
                             )
                             .append(
-                                $("<td>").append(
-                                        $("<i>").addClass("fas fa-trash-alt")
-                                        .attr('onclick','deleteOrdOt('+data.data[1].id+')')
-                                    )
+                                $("<a>")
+                                    .addClass("badge bg-secondary swalDefaultSuccess")  
+                                    .attr('onclick','deleteOrdOt('+data.data[1].id+')')
+                                    .append(                     
+                                        $("<i>").addClass("fas fa-trash-alt")                   
+                                    ) 
                             )
                     )
                 $('#myModal').modal('toggle');
@@ -67,9 +76,16 @@ function levelUp(ordenOTId){
         data: '',
         success: function(data,textStatus,xhr){
             if(data.data.error!=0){
-                alert(data.data.respuesta);
+                Toast.fire({
+                  icon: 'error',
+                  title: data.data.respuesta
+                })
             }else{
-                var row = $("#rowOrdenOt"+ordenOTId);
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Se cambió prioridad con éxito.'
+                })
+                var row = $("#liOrdenOt"+ordenOTId);
                 row.insertBefore(row.prev());
             }
         },
@@ -85,9 +101,16 @@ function levelDown(ordenOTId){
         data: '',
         success: function(data,textStatus,xhr){
             if(data.data.error!=0){
-                alert(data.data.respuesta);
+                Toast.fire({
+                  icon: 'error',
+                  title: data.data.respuesta
+                })
             }else{
-                var row = $("#rowOrdenOt"+ordenOTId);
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Se cambió prioridad con éxito.'
+                })
+                var row = $("#liOrdenOt"+ordenOTId);
                 row.insertAfter(row.next());
             }
         },
@@ -103,9 +126,16 @@ function deleteOrdOt(ordenOTId){
         data: '',
         success: function(data,textStatus,xhr){
             if(data.data.error!=0){
-                alert(data.data.respuesta);
+                Toast.fire({
+                  icon: 'error',
+                  title: data.data.respuesta
+                })
             }else{
-                var row = $("#rowOrdenOt"+ordenOTId);
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Se elimino prioridad con éxito.'
+                })
+                var row = $("#liOrdenOt"+ordenOTId);
                 row.remove();
             }
         },

@@ -64,7 +64,7 @@ $this->layout= '';
     <div class="card-body login-card-body">
       <img src="img/logo-mundopack-fabrica.png" alt="Logo MP">
 
-      <form action="<?php echo $this->Url->build(array('controller' => 'users', 'action' => 'login')); ?>" method="post">
+      <form action="<?php echo $this->Url->build(array('plugin'=>'CakeDC/Users','controller' => 'users', 'action' => 'login')); ?>" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Usuario" required>
           <div class="input-group-append">

@@ -36,7 +36,7 @@ class ImpresorasTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Bobinasdecortes', [
+        $this->hasMany('Bobinasdeimpresions', [
             'foreignKey' => 'impresora_id',
         ]);
 
