@@ -36,12 +36,13 @@ class CortadorasTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Bobinasdeimpresions', [
+        $this->hasMany('Bobinasdecortes', [
             'foreignKey' => 'cortadora_id',
         ]);
 
         $this->hasMany('Ordenots', [
             'foreignKey' => 'cortadora_id',
+            'order' => 'Ordenots.prioridad',
         ]);
     }
 

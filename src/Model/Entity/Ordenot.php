@@ -7,10 +7,11 @@ use Cake\ORM\Entity;
  * Ordenot Entity
  *
  * @property int $id
- * @property int $extrusora_id
- * @property int $impresora_id
- * @property int $cortadora_id
+ * @property int|null $extrusora_id
+ * @property int|null $impresora_id
+ * @property int|null $cortadora_id
  * @property int $ordenesdetrabajo_id
+ * @property int|null $prioridad
  *
  * @property \App\Model\Entity\Extrusora $extrusora
  * @property \App\Model\Entity\Impresora $impresora
@@ -33,6 +34,7 @@ class Ordenot extends Entity
         'impresora_id' => true,
         'cortadora_id' => true,
         'ordenesdetrabajo_id' => true,
+        'prioridad' => true,
         'extrusora' => true,
         'impresora' => true,
         'cortadora' => true,

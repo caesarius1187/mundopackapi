@@ -34,7 +34,13 @@ class ImpresorasController extends AppController
     public function view($id = null)
     {
         $impresora = $this->Impresoras->get($id, [
-            'contain' => ['Bobinasdecortes','Ordenots'],
+            'contain' => [
+                'Bobinasdeimpresions',
+                'Ordenots'=>[
+                    'Ordenesdetrabajos',
+                    'sort'=>'Ordenots.prioridad'
+                ]
+            ],
         ]);
 
         $this->set([

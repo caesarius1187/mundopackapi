@@ -34,7 +34,13 @@ class CortadorasController extends AppController
     public function view($id = null)
     {
         $cortadora = $this->Cortadoras->get($id, [
-            'contain' => ['Bobinasdeimpresions','Ordenots'],
+            'contain' => [
+                'Bobinasdecortes',
+                'Ordenots'=>[
+                    'Ordenesdetrabajos',
+                    'sort'=>'Ordenots.prioridad'
+                ]
+            ],
         ]);
 
         $this->set([

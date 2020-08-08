@@ -45,7 +45,7 @@ class OrdenesdetrabajosController extends AppController
 
         $conditions=[
             'conditions'=>[
-                'Ordenesdetrabajos.estado '=>'En Proceso'
+                'Ordenesdetrabajos.estado IN ("En Proceso","Pausado")',
             ]
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
@@ -56,28 +56,146 @@ class OrdenesdetrabajosController extends AppController
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'
-                ]
-            ]
+                    'Ordenesdetrabajos',
+                    'sort'=>['Ordenots.prioridad']
+                ],
+            ],
         ]);
         $impresoras = $this->Impresoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'
+                    'Ordenesdetrabajos',
+                    'sort'=>['Ordenots.prioridad']
+
                 ]
             ]
         ]);
         $cortadoras = $this->Cortadoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'
+                    'Ordenesdetrabajos',
+                    'sort'=>['Ordenots.prioridad']
                 ]
             ]
         ]);
         $ordenot = $this->Ordenots->newEntity();
         $this->set(compact('extrusoras','impresoras','cortadoras','ordenot'));
     }
+    public function listaasignacion($tipomaquina,$maquinaid){
+        $this->loadModel('Ordenots');
+        //vamos a buscar las que ya estan en la maquina y no las vamos a permitir volver a agregar
+        
+        $listaconditions=[
+            'conditions'=>[
+               
+                'Ordenesdetrabajos.estado'=>"En Proceso"
+            ]
+        ];
+        switch ($tipomaquina) {
+            case 'extrusora':
+                $listaconditions['conditions'][] = 'Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.extrusadas';
+                $condirionsOrderOTs = ['conditions'=>['Ordenots.extrusora_id'=>$maquinaid]];
+                break;
+            case 'impresora':
+                $listaconditions['conditions'][] = 'Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.impresas';
+                $listaconditions['conditions']['Ordenesdetrabajos.impreso'] = true;
+                $condirionsOrderOTs = ['conditions'=>['Ordenots.impresora_id'=>$maquinaid]];
+                break;
+            case 'cortadora':
+                $listaconditions['conditions'][] = 'Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.cortadas';
+                $listaconditions['conditions']['Ordenesdetrabajos.cortado'] = true;
+                $condirionsOrderOTs = ['conditions'=>['Ordenots.cortadora_id'=>$maquinaid]];
+                break;            
+        }
+        $listOrdenOrdenesDeTrabajo = $this->Ordenots->find('all',$condirionsOrderOTs);
+        $ordenesyaagregadas = [];
+        foreach ($listOrdenOrdenesDeTrabajo as $key => $orderOt) {
+            $ordenesyaagregadas[] = $orderOt->ordenesdetrabajo_id; 
+        }
+        if(count($ordenesyaagregadas)>0){
+            $listaconditions['conditions']['Ordenesdetrabajos.id NOT IN'] = $ordenesyaagregadas ;    
+        }
+        $listOrdenes = $this->Ordenesdetrabajos->find('all',$listaconditions);
+        $this->set([
+            'listOrdenes' => $listOrdenes,
+            '_serialize' => ['listOrdenes']
+        ]);
 
+    }
+
+    public function playot($otid){
+        $this->loadModel('Ordenots');
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->get($otid, [
+            'contain' => [
+            ],
+        ]);
+        $ordenesdetrabajo->estado = 'En Proceso';
+        if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+            //si la or tiene ordenot asignadas las eliminamos
+            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
+            $data['respuesta'] .= "La OT fue retomada. Ya se puede ver en las listas de prioridades que se pueden agregar.";
+        }else{
+            $data['error'] = 1;
+            $data['respuesta'] .= "No se pudo retomar la OT seleccionada.";
+        }
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
+    public function pausarot($otid){
+        $this->loadModel('Ordenots');
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->get($otid, [
+            'contain' => [
+            ],
+        ]);
+        $ordenesdetrabajo->estado = 'Pausado';
+        if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+            //si la or tiene ordenot asignadas las eliminamos
+            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
+            $data['respuesta'] .= "La OT fue pausada y se la saco de las listas de prioridades de las maquinas.";
+        }else{
+            $data['error'] = 1;
+            $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
+        }
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
+
+    public function cancelarot($otid){
+        $this->loadModel('Ordenots');
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->get($otid, [
+            'contain' => [
+            ],
+        ]);
+        $ordenesdetrabajo->estado = 'Cancelado';
+        if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+            //si la or tiene ordenot asignadas las eliminamos
+            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
+            $data['respuesta'] .= "La OT fue cancelada y se la saco de las listas de prioridades de las maquinas.";
+        }else{
+            $data['error'] = 1;
+            $data['respuesta'] .= "No se pudo cancelar la OT seleccionada.";
+        }
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
     /**
      * View method
      *
