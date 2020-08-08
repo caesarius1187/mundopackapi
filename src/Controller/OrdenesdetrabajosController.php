@@ -27,6 +27,16 @@ class OrdenesdetrabajosController extends AppController
         $this->set(compact('ordenesdetrabajos'));
     }
 
+    public function index2()
+    {
+        $this->paginate = [
+            'contain' => ['Ordenesdepedidos'],
+        ];
+        $ordenesdetrabajos = $this->paginate($this->Ordenesdetrabajos);
+
+        $this->set(compact('ordenesdetrabajos'));
+    }
+
     public function asignacion(){
         $this->loadModel('Extrusoras');
         $this->loadModel('Impresoras');
@@ -41,7 +51,7 @@ class OrdenesdetrabajosController extends AppController
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
         $this->set(compact('ordenesdetrabajos'));
 
-        
+
 
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[

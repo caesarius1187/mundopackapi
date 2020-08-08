@@ -4,82 +4,118 @@
  * @var \App\Model\Entity\Ordenesdetrabajo[]|\Cake\Collection\CollectionInterface $ordenesdetrabajos
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Ordenesdetrabajo'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Ordenesdepedidos'), ['controller' => 'Ordenesdepedidos', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Ordenesdepedido'), ['controller' => 'Ordenesdepedidos', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="ordenesdetrabajos index large-9 medium-8 columns content">
-    <h3><?= __('Ordenesdetrabajos') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ordenesdepedido_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('cantidad') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('material') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('tipo') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('color') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('fuelle') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('medida') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('perf') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('impreso') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('preciounitario') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('observaciones') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('numero') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('cierre') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('cierremicrones') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('cierrescrap') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('cierrediferenciakg') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('concluciones') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($ordenesdetrabajos as $ordenesdetrabajo): ?>
-            <tr>
-                <td><?= $this->Number->format($ordenesdetrabajo->id) ?></td>
-                <td><?= $ordenesdetrabajo->has('ordenesdepedido') ? $this->Html->link($ordenesdetrabajo->ordenesdepedido->id, ['controller' => 'Ordenesdepedidos', 'action' => 'view', $ordenesdetrabajo->ordenesdepedido->id]) : '' ?></td>
-                <td><?= $this->Number->format($ordenesdetrabajo->cantidad) ?></td>
-                <td><?= h($ordenesdetrabajo->material) ?></td>
-                <td><?= h($ordenesdetrabajo->tipo) ?></td>
-                <td><?= h($ordenesdetrabajo->color) ?></td>
-                <td><?= h($ordenesdetrabajo->fuelle) ?></td>
-                <td><?= h($ordenesdetrabajo->medida) ?></td>
-                <td><?= h($ordenesdetrabajo->perf) ?></td>
-                <td><?= h($ordenesdetrabajo->impreso) ?></td>
-                <td><?= h($ordenesdetrabajo->preciounitario) ?></td>
-                <td><?= h($ordenesdetrabajo->observaciones) ?></td>
-                <td><?= h($ordenesdetrabajo->numero) ?></td>
-                <td><?= h($ordenesdetrabajo->cierre) ?></td>
-                <td><?= h($ordenesdetrabajo->cierremicrones) ?></td>
-                <td><?= h($ordenesdetrabajo->cierrescrap) ?></td>
-                <td><?= h($ordenesdetrabajo->cierrediferenciakg) ?></td>
-                <td><?= h($ordenesdetrabajo->concluciones) ?></td>
-                <td><?= h($ordenesdetrabajo->created) ?></td>
-                <td><?= h($ordenesdetrabajo->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $ordenesdetrabajo->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $ordenesdetrabajo->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $ordenesdetrabajo->id], ['confirm' => __('Are you sure you want to delete # {0}?', $ordenesdetrabajo->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Vista de OT's (línea de tiempo)</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active">Vista de OT's</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+
+    <!-- Timelime example  -->
+    <div class="row">
+      <div class="col-md-12">
+        <!-- The time line -->
+        <div class="timeline">
+          <!-- timeline time label -->
+          <div class="time-label">
+            <span class="bg-red">8 de Julio del 2020</span>
+          </div>
+          <!-- /.timeline-label -->
+
+          <!-- timeline item -->
+          <div>
+            <i class="fas fa-industry bg-blue"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fas fa-clock"></i> 13:05 Hs.</span>
+              <h3 class="timeline-header no-border"><a href="#">Operador 1</a> fabricó la Bobina 1 desde la Extrusora 2.</h3>
+            </div>
+          </div>
+          <!-- END timeline item -->
+
+          <!-- timeline item -->
+          <div>
+            <i class="fas fa-industry bg-blue"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fas fa-clock"></i> 14:20 Hs.</span>
+              <h3 class="timeline-header no-border"><a href="#">Operador 2</a> fabricó la Bobina 2 desde la Extrusora 3.</h3>
+            </div>
+          </div>
+          <!-- END timeline item -->
+
+          <!-- timeline item -->
+          <div>
+            <i class="fas fa-print bg-yellow"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fas fa-clock"></i> 15:05 Hs.</span>
+              <h3 class="timeline-header no-border"><a href="#" class="text-warning">Operador 4</a> imprimió la Bobina 1 desde la Impresora 2.</h3>
+            </div>
+          </div>
+          <!-- END timeline item -->
+
+          <!-- timeline time label -->
+          <div class="time-label">
+            <span class="bg-red">9 de Julio del 2020</span>
+          </div>
+          <!-- /.timeline-label -->
+
+          <!-- timeline item -->
+          <div>
+            <i class="fas fa-industry bg-blue"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fas fa-clock"></i> 10:15 Hs.</span>
+              <h3 class="timeline-header no-border"><a href="#">Operador 1</a> fabricó la Bobina 3 desde la Extrusora 2.</h3>
+            </div>
+          </div>
+          <!-- END timeline item -->
+
+          <!-- timeline item -->
+          <div>
+            <i class="fas fa-cut bg-green"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fas fa-clock"></i> 10:15 Hs.</span>
+              <h3 class="timeline-header no-border"><a href="#" class="text-success">Operador 1</a> cortó la Bobina 1 desde la Cortadora 2.</h3>
+            </div>
+          </div>
+          <!-- END timeline item -->
+
+          <!-- timeline item -->
+          <div>
+            <i class="fas fa-print bg-yellow"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fas fa-clock"></i> 11:25 Hs.</span>
+              <h3 class="timeline-header no-border"><a href="#" class="text-warning">Operador 4</a> imprimió la Bobina 2 desde la Impresora 2.</h3>
+            </div>
+          </div>
+          <!-- END timeline item -->
+
+          <!-- END timeline item -->
+          <div>
+            <i class="fas fa-handshake bg-gray"></i>
+          </div>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+  </div>
+  <!-- /.timeline -->
+
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
