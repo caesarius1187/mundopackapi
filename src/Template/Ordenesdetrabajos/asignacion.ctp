@@ -62,14 +62,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                 </tr>
               </thead>
               <tbody>
-                <?php 
-                foreach ($ordenesdetrabajos as $ordenesdetrabajo){ 
+                <?php
+                foreach ($ordenesdetrabajos as $ordenesdetrabajo){
                     ?>
                     <tr onclick="">
                         <td>
                             <label><?= $ordenesdetrabajo->numero ?></label>
                         </td>
-                        
+
                         <td><?= $ordenesdetrabajo->aextrusar?></td>
                         <td><?= $ordenesdetrabajo->extrusadas?></td>
                         <td><?= $ordenesdetrabajo->impreso?$ordenesdetrabajo->impresas:'-'?></td>
@@ -84,9 +84,9 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-block btn-default btn-xs"><i class="fas fa-ban"></i></button>';
                             echo '<button type="button" class="btn btn-block btn-default btn-xs"><i class="fas fa-search"></i></button>';
                         ?></td>
-                    </tr>  
+                    </tr>
                     <tr>
-                        
+
                         <?php
                         $porentaje = 0;
                         $cantidad = $ordenesdetrabajo->aextrusar;
@@ -97,7 +97,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         $echas += $ordenesdetrabajo->impresas;
                         $echas += $ordenesdetrabajo->cortadas;
 
-                        $porcentaje = $echas/$cantidad*100;
+                        // Solucion a error de división por cero
+                        $porcentaje = $cantidad==0?0:$echas/$cantidad*100;
                         $classProgress = '';
                         if($porcentaje>=30 && $porcentaje<60){
                           $classProgress = 'bg-warning';
@@ -131,18 +132,18 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                     <ul id="ulExtrusora<?= $extrusora->id ?>" class="nav flex-column">
                       <?php foreach ($extrusora->ordenots as $ordenot){ ?>
                           <li id="liOrdenOt<?= $ordenot->id ?>">
-                              OT <?= $ordenot->ordenesdetrabajo->numero?>                        
+                              OT <?= $ordenot->ordenesdetrabajo->numero?>
                               <a class="badge bg-secondary swalDefaultSuccess" onclick="levelUp(<?= $ordenot->id ?>)"><i class="fas fa-angle-up"></i></a>
                               <a class="badge bg-secondary" onclick="levelDown(<?= $ordenot->id ?>)"><i class="fas fa-angle-down"></i></a>
                               <a class="badge bg-secondary" onclick="deleteOrdOt(<?= $ordenot->id ?>)"><i class="fas fa-trash-alt"></i></a>
                           </li>
-                      <?php } ?>                      
+                      <?php } ?>
                     </ul>
                 </div>
                 <!-- /.info-box-content -->
               </div>
               <!-- /.info-box -->
-            </div>          
+            </div>
         <?php } ?>
       </div>
       <!-- Fin fila -->
@@ -158,21 +159,21 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   <ul id="ulImpresora<?= $impresora->id ?>" class="nav flex-column">
                     <?php foreach ($impresora->ordenots as $ordenot){ ?>
                         <li id="liOrdenOt<?= $ordenot->id ?>">
-                            OT <?= $ordenot->ordenesdetrabajo->numero?>                        
+                            OT <?= $ordenot->ordenesdetrabajo->numero?>
                             <a class="badge bg-secondary swalDefaultSuccess" onclick="levelUp(<?= $ordenot->id ?>)"><i class="fas fa-angle-up"></i></a>
                             <a class="badge bg-secondary" onclick="levelDown(<?= $ordenot->id ?>)"><i class="fas fa-angle-down"></i></a>
                             <a class="badge bg-secondary" onclick="deleteOrdOt(<?= $ordenot->id ?>)"><i class="fas fa-trash-alt"></i></a>
                         </li>
-                    <?php } ?>                      
+                    <?php } ?>
                   </ul>
               </div>
               <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
-          </div>          
-        <?php endforeach; ?>      
+          </div>
+        <?php endforeach; ?>
         <!-- /.info-box -->
-      </div> 
+      </div>
       <!-- Fin fila -->
 
       <div class="row">
@@ -186,21 +187,21 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   <ul id="ulCortadora<?= $cortadora->id ?>" class="nav flex-column">
                     <?php foreach ($cortadora->ordenots as $ordenot){ ?>
                         <li id="liOrdenOt<?= $ordenot->id ?>">
-                            OT <?= $ordenot->ordenesdetrabajo->numero?>                        
+                            OT <?= $ordenot->ordenesdetrabajo->numero?>
                             <a class="badge bg-secondary swalDefaultSuccess" onclick="levelUp(<?= $ordenot->id ?>)"><i class="fas fa-angle-up"></i></a>
                             <a class="badge bg-secondary" onclick="levelDown(<?= $ordenot->id ?>)"><i class="fas fa-angle-down"></i></a>
                             <a class="badge bg-secondary" onclick="deleteOrdOt(<?= $ordenot->id ?>)"><i class="fas fa-trash-alt"></i></a>
                         </li>
-                    <?php } ?>                      
+                    <?php } ?>
                   </ul>
               </div>
               <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
-          </div>          
-        <?php endforeach; ?>      
+          </div>
+        <?php endforeach; ?>
         <!-- /.info-box -->
-      </div> 
+      </div>
     </div>
 <div class="modal" id="myModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -242,167 +243,23 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
     <!-- /.info-box -->
   </div>
 
-  <div class="col-md-3 col-sm-6 col-12">
-    <div class="info-box bg-warning">
-      <span class="info-box-icon"><i class="fas fa-print"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-number">Impresora 2</span>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-                OT 3
-                <a class="badge bg-secondary swalDefaultSuccess"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 1
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 2
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 5
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-          </ul>
-
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-
-  <div class="col-md-3 col-sm-6 col-12">
-    <div class="info-box bg-warning">
-      <span class="info-box-icon"><i class="fas fa-print"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-number">Impresora 3</span>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-                OT 3
-                <a class="badge bg-secondary swalDefaultSuccess"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 1
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 2
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 5
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-          </ul>
-
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
 
 </div>
 
-<div class="row">
+<script>
+  $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
 
-  <div class="col-md-6 col-sm-6 col-12">
-    <div class="info-box bg-success">
-      <span class="info-box-icon"><i class="fas fa-cut"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-number">Cortadora 4</span>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-                OT 3
-                <a class="badge bg-secondary swalDefaultSuccess"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 1
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 2
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 5
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-          </ul>
-
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-
-  <div class="col-md-6 col-sm-6 col-12">
-    <div class="info-box bg-success">
-      <span class="info-box-icon"><i class="fas fa-cut"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-number">Cortadora 2</span>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-                OT 3
-                <a class="badge bg-secondary swalDefaultSuccess"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 1
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 2
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-            <li class="nav-item">
-                OT 5
-                <a class="badge bg-secondary"><i class="fas fa-angle-up"></i></a>
-                <a class="badge bg-secondary"><i class="fas fa-angle-down"></i></a>
-            </li>
-          </ul>
-
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-
-</div>
-
-
-      <script>
-        $(function() {
-          var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-          });
-
-          $('.swalDefaultSuccess').click(function() {
-            Toast.fire({
-              icon: 'success',
-              title: 'Se cambió prioridad con éxito.'
-            })
-          });
-        });
-      </script>
+    $('.swalDefaultSuccess').click(function() {
+      Toast.fire({
+        icon: 'success',
+        title: 'Se cambió prioridad con éxito.'
+      })
+    });
+  });
+</script>

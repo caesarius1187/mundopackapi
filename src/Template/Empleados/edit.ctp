@@ -4,36 +4,68 @@
  * @var \App\Model\Entity\Empleado $empleado
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $empleado->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $empleado->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Empleados'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Bobinasdecortes'), ['controller' => 'Bobinasdecortes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Bobinasdecorte'), ['controller' => 'Bobinasdecortes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Bobinasdeextrusions'), ['controller' => 'Bobinasdeextrusions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Bobinasdeextrusion'), ['controller' => 'Bobinasdeextrusions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Bobinasdeimpresions'), ['controller' => 'Bobinasdeimpresions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Bobinasdeimpresion'), ['controller' => 'Bobinasdeimpresions', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="empleados form large-9 medium-8 columns content">
-    <?= $this->Form->create($empleado) ?>
-    <fieldset>
-        <legend><?= __('Edit Empleado') ?></legend>
-        <?php
-            echo $this->Form->control('nombre');
-            echo $this->Form->control('legajo');
-            echo $this->Form->control('rol');
-            echo $this->Form->control('direccion');
-            echo $this->Form->control('celular');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <?= $this->Html->link(__('<i class="fas fa-reply"></i> Volver'), ['action' => 'view', $empleado->id], [
+          'escape' => false,
+          'class' => 'btn btn-warning btn-sm'
+          ]) ?>
+    </div>
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Editar empleado</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active">Editar empleado</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row justify-content-md-center">
+      <div class="col-6">
+        <!-- general form elements -->
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">EDITAR AL EMPLEADO</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <?= $this->Form->create($empleado) ?>
+            <div class="card-body">
+              <div class="form-group">
+                <?php echo $this->Form->control('nombre'); ?>
+              </div>
+              <div class="form-group">
+                <?php echo $this->Form->control('legajo'); ?>
+              </div>
+              <div class="form-group">
+                <?php echo $this->Form->control('rol'); ?>
+              </div>
+              <div class="form-group">
+                <?php echo $this->Form->control('direccion'); ?>
+              </div>
+              <div class="form-group">
+                <?php echo $this->Form->control('celular'); ?>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <?= $this->Form->button(__('<i class="fas fa-save"></i> GUARDAR'), [
+                'escape' => false,
+                'class' => 'btn btn-success float-right'
+                ]) ?>
+            </div>
+            <?= $this->Form->end() ?>
+        </div>
+        <!-- /.card -->
