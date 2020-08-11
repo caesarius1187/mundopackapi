@@ -101,7 +101,6 @@ class BobinasdeextrusionsController extends AppController
             $empleados = $this->Empleados->findById($bobinasdeextrusion->empleado_id);
             $respuesta['empleado'] = $empleados->first();
             //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
-
             
             $ordenesdetrabajo->extrusadas = $ordenesdetrabajo->extrusadas+1 ;
 
@@ -110,6 +109,47 @@ class BobinasdeextrusionsController extends AppController
             }else{
                 $respuesta['error'] = 2;
                 $respuesta['respuesta'] .= "No se pudo actualizar las bobinas estrusadas de la orden de pedido.";
+            }
+            //Si las extrusadas = aetxrusar entonces tengo que sacarla de las prioridades de las Extrusoras
+            if($ordenesdetrabajo->extrusadas==$ordenesdetrabajo->aextrusar){
+                /*
+                $this->request->allowMethod(['post', 'delete']);
+                $ordenot = $this->Ordenots->get($id);
+                //vamos a reducir en 1 las ordenes posteriores
+                $newPrioridad = $ordenot->prioridad;
+                //subimos a la que estaba abajo
+                $conditionsOrdenOts=[
+                    'conditions'=>[
+                        'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
+                        'Ordenots.impresora_id'=>$ordenot->impresora_id,
+                        'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
+                        'Ordenots.prioridad >='=>$newPrioridad
+                    ]
+                ];
+                $data=[
+                    'respuesta'=>'',
+                    'error'=>0,
+                ];
+                $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
+                foreach ($myOrderOts as $key => $myOrderOt) {
+                    $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
+                        'contain' => [
+                        ],
+                    ]);
+                    $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
+                    if ($this->Ordenots->save($secOrdenot)) {
+                        $subiOrden=true;
+                    }else{
+                        $data['error'] = 1;
+                        $data['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
+                    }
+                }
+                if ($this->Ordenots->delete($ordenot)) {
+                   
+                } else {
+                    $data['error'] =2 ;
+                    $data['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
+                }*/
             }
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
