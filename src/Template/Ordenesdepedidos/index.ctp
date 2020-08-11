@@ -13,7 +13,10 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item"><?=$this->Html->link(__('Inicio'), ['action' => 'index'], [
+                'escape' => false,
+                ]) ?>
+          </li>
           <li class="breadcrumb-item active">Ordenes de Pedido</li>
         </ol>
       </div><!-- /.col -->
@@ -37,7 +40,8 @@
               <table id="example" class="table table-bordered table-hover table-sm">
                   <thead>
                       <tr>
-                          <th scope="col"><?= $this->Paginator->sort('Id') ?></th>
+                          <th scope="col"><?= $this->Paginator->sort('Numero') ?></th>
+                          <th scope="col"><?= $this->Paginator->sort('Cliente') ?></th>
                           <th scope="col"><?= $this->Paginator->sort('Fecha') ?></th>
                           <th scope="col"><?= $this->Paginator->sort('Creado') ?></th>
                           <th scope="col"><?= $this->Paginator->sort('Modificado') ?></th>
@@ -47,7 +51,8 @@
                   <tbody>
                       <?php foreach ($ordenesdepedidos as $ordenesdepedido): ?>
                       <tr>
-                          <td><?= $this->Number->format($ordenesdepedido->id) ?></td>
+                          <td><?= $this->Number->format($ordenesdepedido->numero) ?></td>
+                          <td><?= h($ordenesdepedido->cliente->nombre) ?></td>
                           <td><?= h($ordenesdepedido->fecha) ?></td>
                           <td><?= h($ordenesdepedido->created) ?></td>
                           <td><?= h($ordenesdepedido->modified) ?></td>

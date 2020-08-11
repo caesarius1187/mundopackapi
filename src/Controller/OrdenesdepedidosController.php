@@ -19,7 +19,9 @@ class OrdenesdepedidosController extends AppController
      */
     public function index()
     {
-        $ordenesdepedidos = $this->paginate($this->Ordenesdepedidos);
+        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
+            'contain'=>['Clientes']
+        ]);
 
         $this->set(compact('ordenesdepedidos'));
     }
@@ -57,7 +59,19 @@ class OrdenesdepedidosController extends AppController
             }
             $this->Flash->error(__('The ordenesdepedido could not be saved. Please, try again.'));
         }
-        $this->set(compact('ordenesdepedido'));
+
+        $maxNumOrdenPedido = 0;
+        $orderopMax = $this->Ordenesdepedidos->find('all',[
+            'conditions'=>[                
+            ],
+            'fields' => array('maxprioridad' => 'MAX(Ordenesdepedidos.numero)'),
+        ]); 
+        foreach ($orderopMax as $key => $value) {
+            $maxNumOrdenPedido = $value->maxprioridad;
+        }
+        $maxNumOrdenPedido++;
+
+        $this->set(compact('ordenesdepedido','maxNumOrdenPedido'));
     }
 
     /**
