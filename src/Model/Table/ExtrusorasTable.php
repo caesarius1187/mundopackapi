@@ -33,7 +33,7 @@ class ExtrusorasTable extends Table
         parent::initialize($config);
 
         $this->setTable('extrusoras');
-        $this->setDisplayField('id');
+        $this->setDisplayField('nombre');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Bobinasdeextrusions', [

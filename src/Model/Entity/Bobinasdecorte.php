@@ -34,10 +34,13 @@ class Bobinasdecorte extends Entity
     protected $_accessible = [
         'empleado_id' => true,
         'impresora_id' => true,
+        'ordenesdetrabajo_id' => true,
+        'numero' => true,
         'fecha' => true,
         'horas' => true,
         'kilogramos' => true,
         'scrap' => true,
+        'observacion' => true,
         'created' => true,
         'modified' => true,
         'empleado' => true,

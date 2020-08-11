@@ -37,7 +37,7 @@ class EmpleadosTable extends Table
         parent::initialize($config);
 
         $this->setTable('empleados');
-        $this->setDisplayField('id');
+        $this->setDisplayField('nombre');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

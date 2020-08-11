@@ -33,7 +33,7 @@ class ImpresorasTable extends Table
         parent::initialize($config);
 
         $this->setTable('impresoras');
-        $this->setDisplayField('id');
+        $this->setDisplayField('nombre');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Bobinasdeimpresions', [

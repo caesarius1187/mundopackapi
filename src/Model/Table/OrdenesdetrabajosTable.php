@@ -49,6 +49,18 @@ class OrdenesdetrabajosTable extends Table
             'foreignKey' => 'ordenesdetrabajo_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasMany('Bobinasdeextrusions', [
+            'foreignKey' => 'ordenesdetrabajo_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Bobinasdeimpresions', [
+            'foreignKey' => 'ordenesdetrabajo_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Bobinasdecortes', [
+            'foreignKey' => 'ordenesdetrabajo_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
