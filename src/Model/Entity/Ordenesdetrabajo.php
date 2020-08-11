@@ -42,17 +42,21 @@ class Ordenesdetrabajo extends Entity
      */
     protected $_accessible = [
         'ordenesdepedido_id' => true,
+        'numero' => true,
         'cantidad' => true,
+        'aextrusar' => true,
+        'impreso' => true,
+        'impresas' => true,
+        'cortado' => true,
+        'cortadas' => true,
         'material' => true,
         'tipo' => true,
         'color' => true,
         'fuelle' => true,
         'medida' => true,
         'perf' => true,
-        'impreso' => true,
         'preciounitario' => true,
         'observaciones' => true,
-        'numero' => true,
         'cierre' => true,
         'cierremicrones' => true,
         'cierrescrap' => true,
@@ -60,6 +64,5 @@ class Ordenesdetrabajo extends Entity
         'concluciones' => true,
         'created' => true,
         'modified' => true,
-        'ordenesdepedido' => true,
     ];
 }

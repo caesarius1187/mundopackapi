@@ -47,19 +47,44 @@ class OrdenesdepedidosController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    public function addsingle(){
+        $respuesta=[];
+        $respuesta['respuesta'] = '';
+        $respuesta['error'] = 0;
+        $ordenesdepedido = $this->Ordenesdepedidos->newEntity();
+        $ordenesdepedido = $this->Ordenesdepedidos->patchEntity($ordenesdepedido, $this->request->getData());
+        $fecha = $this->request->getData()['fecha'];
+        $fechaconsultadesde = date('Y-m-d',strtotime($fecha));
+            $respuesta['ordenesdepedido0'] = $ordenesdepedido;
+        if($this->request->getData()['id']!=0){
+            $ordenesdepedido->id=$this->request->getData()['id'];
+        }
+        $ordenesdepedido->fecha = $fechaconsultadesde;
+        if ($this->Ordenesdepedidos->save($ordenesdepedido)) {
+            $respuesta['respuesta'] = 'La orden de pedido fue guardada';
+            $respuesta['ordenesdepedido'] = $ordenesdepedido;
+            $respuesta['request'] = $this->request->getData();
+            $respuesta['error'] = 0;
+            $OPerrors = $ordenesdepedido->errors();
+            $respuesta['errors'] = $OPerrors;
+        }else{
+            $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
+            $respuesta['error'] = 1;
+            $OPerrors = $ordenesdepedido->errors();
+            $respuesta['errors'] = $OPerrors;
+        }
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta']
+        ]);
+
+    }
+
     public function add()
     {
+        $this->loadModel('Clientes');
         $ordenesdepedido = $this->Ordenesdepedidos->newEntity();
-        if ($this->request->is('post')) {
-            $ordenesdepedido = $this->Ordenesdepedidos->patchEntity($ordenesdepedido, $this->request->getData());
-            if ($this->Ordenesdepedidos->save($ordenesdepedido)) {
-                $this->Flash->success(__('The ordenesdepedido has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The ordenesdepedido could not be saved. Please, try again.'));
-        }
-
+        
         $maxNumOrdenPedido = 0;
         $orderopMax = $this->Ordenesdepedidos->find('all',[
             'conditions'=>[                
@@ -71,7 +96,12 @@ class OrdenesdepedidosController extends AppController
         }
         $maxNumOrdenPedido++;
 
-        $this->set(compact('ordenesdepedido','maxNumOrdenPedido'));
+        $clientes = $this->Clientes->find('list',[
+            'conditions'=>[                
+            ],
+        ]); 
+
+        $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes'));
     }
 
     /**
