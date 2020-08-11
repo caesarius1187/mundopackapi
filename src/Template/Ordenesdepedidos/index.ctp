@@ -13,7 +13,10 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item"><?=$this->Html->link(__('Inicio'), ['action' => 'index'], [
+                'escape' => false,
+                ]) ?>
+          </li>
           <li class="breadcrumb-item active">Ordenes de Pedido</li>
         </ol>
       </div><!-- /.col -->
@@ -23,54 +26,56 @@
 <!-- /.content-header -->
 
 <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
 
-              <?= $this->Html->link(__('<i class="fas fa-plus"></i> Nueva orden de pedido'), ['action' => 'add'], [
-                'escape' => false,
-                'class' => 'btn btn-primary float-right'
-                ]) ?>
+          <?= $this->Html->link(__('<i class="fas fa-plus"></i> Nueva orden de pedido'), ['action' => 'add'], [
+            'escape' => false,
+            'class' => 'btn btn-primary float-right'
+            ]) ?>
 
-              <table id="example" class="table table-bordered table-hover table-sm">
-                  <thead>
-                      <tr>
-                          <th scope="col"><?= $this->Paginator->sort('Id') ?></th>
-                          <th scope="col"><?= $this->Paginator->sort('Fecha') ?></th>
-                          <th scope="col"><?= $this->Paginator->sort('Creado') ?></th>
-                          <th scope="col"><?= $this->Paginator->sort('Modificado') ?></th>
-                          <th scope="col" class="actions"><?= __('Acciones') ?></th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <?php foreach ($ordenesdepedidos as $ordenesdepedido): ?>
-                      <tr>
-                          <td><?= $this->Number->format($ordenesdepedido->id) ?></td>
-                          <td><?= h($ordenesdepedido->fecha) ?></td>
-                          <td><?= h($ordenesdepedido->created) ?></td>
-                          <td><?= h($ordenesdepedido->modified) ?></td>
-                          <td class="actions">
-                              <?= $this->Html->link(__('<i class="fas fa-search"></i>'), ['action' => 'view', $ordenesdepedido->id],[
-                                'escape' => false,
-                                'class' => 'btn btn-info btn-sm'
-                                ]) ?>
-                              <?= $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'edit', $ordenesdepedido->id],[
-                                'escape' => false,
-                                'class' => 'btn btn-success btn-sm'
-                                ]) ?>
-                              <?= $this->Form->postLink(__('<i class="fas fa-trash"></i>'), ['action' => 'delete', $ordenesdepedido->id], [
-                                'confirm' => __('¿Está seguro que desea eliminar la OT con ID#{0}?', $ordenesdepedido->id),
-                                'escape' => false,
-                                'class' => 'btn btn-danger btn-sm'
-                                ]) ?>
-                          </td>
-                      </tr>
-                      <?php endforeach; ?>
-                  </tbody>
-              </table>
-          </div>
+          <table id="example" class="table table-bordered table-hover table-sm">
+              <thead>
+                  <tr>
+                      <th scope="col"><?= $this->Paginator->sort('Numero') ?></th>
+                      <th scope="col"><?= $this->Paginator->sort('Cliente') ?></th>
+                      <th scope="col"><?= $this->Paginator->sort('Fecha') ?></th>
+                      <th scope="col"><?= $this->Paginator->sort('Creado') ?></th>
+                      <th scope="col"><?= $this->Paginator->sort('Modificado') ?></th>
+                      <th scope="col" class="actions"><?= __('Acciones') ?></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <?php foreach ($ordenesdepedidos as $ordenesdepedido): ?>
+                  <tr>
+                      <td><?= $this->Number->format($ordenesdepedido->numero) ?></td>
+                      <td><?= h($ordenesdepedido->cliente->nombre) ?></td>
+                      <td><?= h($ordenesdepedido->fecha) ?></td>
+                      <td><?= h($ordenesdepedido->created) ?></td>
+                      <td><?= h($ordenesdepedido->modified) ?></td>
+                      <td class="actions">
+                          <?= $this->Html->link(__('<i class="fas fa-search"></i>'), ['action' => 'view', $ordenesdepedido->id],[
+                            'escape' => false,
+                            'class' => 'btn btn-info btn-sm'
+                            ]) ?>
+                          <?= $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'edit', $ordenesdepedido->id],[
+                            'escape' => false,
+                            'class' => 'btn btn-success btn-sm'
+                            ]) ?>
+                          <?= $this->Form->postLink(__('<i class="fas fa-trash"></i>'), ['action' => 'delete', $ordenesdepedido->id], [
+                            'confirm' => __('¿Está seguro que desea eliminar la OT con ID#{0}?', $ordenesdepedido->id),
+                            'escape' => false,
+                            'class' => 'btn btn-danger btn-sm'
+                            ]) ?>
+                      </td>
+                  </tr>
+                  <?php endforeach; ?>
+              </tbody>
+          </table>
+      </div>
 
 <script>
   $(function () {

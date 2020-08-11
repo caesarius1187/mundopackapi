@@ -87,7 +87,6 @@ class OrdenesdetrabajosController extends AppController
         
         $listaconditions=[
             'conditions'=>[
-               
                 'Ordenesdetrabajos.estado'=>"En Proceso"
             ]
         ];
@@ -217,6 +216,46 @@ class OrdenesdetrabajosController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    public function addsingle(){
+        $respuesta=[];
+        $respuesta['respuesta'] = '';
+        $respuesta['error'] = 0;
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->newEntity();
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
+        $respuesta['ordenesdetrabajo0'] = $ordenesdetrabajo;
+        //vamos a crear el numero dinamicamente
+        $maxNumOrdenTrabajo = 0;
+        $orderopMax = $this->Ordenesdetrabajos->find('all',[
+            'conditions'=>[    
+                'Ordenesdetrabajos.ordenesdepedido_id'=>$ordenesdetrabajo->ordenesdepedido_id
+            ],
+            'fields' => array('maxprioridad' => 'MAX(Ordenesdetrabajos.numero)'),
+        ]); 
+        foreach ($orderopMax as $key => $value) {
+            $maxNumOrdenPedido = $value->maxprioridad;
+        }
+        $maxNumOrdenPedido++;
+        $ordenesdetrabajo->numero = $maxNumOrdenPedido;
+        if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+            $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
+            $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+            $respuesta['request'] = $this->request->getData();
+            $respuesta['error'] = 0;
+            $OTerrors = $ordenesdetrabajo->errors();
+            $respuesta['errors'] = $OTerrors;
+        }else{
+            $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
+            $respuesta['error'] = 1;
+            $OTerrors = $ordenesdetrabajo->errors();
+            $respuesta['errors'] = $OTerrors;
+        }
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta']
+        ]);
+
+    }
+
     public function add()
     {
         $ordenesdetrabajo = $this->Ordenesdetrabajos->newEntity();
