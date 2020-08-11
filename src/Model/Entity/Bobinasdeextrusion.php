@@ -35,9 +35,12 @@ class Bobinasdeextrusion extends Entity
     protected $_accessible = [
         'empleado_id' => true,
         'extrusora_id' => true,
+        'ordenesdetrabajo_id' => true,
+        'numero' => true,
         'fecha' => true,
         'horas' => true,
         'kilogramos' => true,
+        'observacion' => true,
         'scrap' => true,
         'created' => true,
         'modified' => true,

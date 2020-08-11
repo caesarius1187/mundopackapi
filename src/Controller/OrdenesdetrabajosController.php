@@ -20,7 +20,7 @@ class OrdenesdetrabajosController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Ordenesdepedidos'],
+            'contain' => ['Ordenesdepedidos','Bobinasdeextrusions','Bobinasdeimpresions','Bobinasdecortes'],
         ];
         $ordenesdetrabajos = $this->paginate($this->Ordenesdetrabajos);
 
@@ -203,12 +203,21 @@ class OrdenesdetrabajosController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
-    {
+    {   
+        $this->loadModel('Bobinasdeextrusions');
+        $this->loadModel('Bobinasdeimpresions');
+        $this->loadModel('Bobinasdecortes');
+        $this->loadModel('Empleados');
+        $this->loadModel('Extrusoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
-            'contain' => ['Ordenesdepedidos'],
+            'contain' => ['Ordenesdepedidos','Bobinasdeextrusions'=>['Empleados'],'Bobinasdeimpresions'=>['Empleados'],'Bobinasdecortes'=>['Empleados']],
         ]);
-
-        $this->set('ordenesdetrabajo', $ordenesdetrabajo);
+        $newbobinasdeextrusion = $this->Bobinasdeextrusions->newEntity();
+        $newbobinasdeimpresion = $this->Bobinasdeimpresions->newEntity();
+        $newbobinasdecorte = $this->Bobinasdecortes->newEntity();
+        $empleados = $this->Empleados->find('list', ['limit' => 200]);
+        $extrusoras = $this->Extrusoras->find('list', ['limit' => 200]);
+        $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras'));
     }
 
     /**

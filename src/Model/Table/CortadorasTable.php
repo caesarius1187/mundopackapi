@@ -33,7 +33,7 @@ class CortadorasTable extends Table
         parent::initialize($config);
 
         $this->setTable('cortadoras');
-        $this->setDisplayField('id');
+        $this->setDisplayField('nombre');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Bobinasdecortes', [

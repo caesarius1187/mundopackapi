@@ -48,21 +48,120 @@ class BobinasdeextrusionsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add(){
+        $this->loadModel('Empleados');
+        $this->loadModel('Ordenesdetrabajos');
+        $respuesta=[];
+        $respuesta['respuesta'] = '';
+        $respuesta['error'] = 0;
         $bobinasdeextrusion = $this->Bobinasdeextrusions->newEntity();
-        if ($this->request->is('post')) {
-            $bobinasdeextrusion = $this->Bobinasdeextrusions->patchEntity($bobinasdeextrusion, $this->request->getData());
-            if ($this->Bobinasdeextrusions->save($bobinasdeextrusion)) {
-                $this->Flash->success(__('The bobinasdeextrusion has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The bobinasdeextrusion could not be saved. Please, try again.'));
+        $bobinasdeextrusion = $this->Bobinasdeextrusions->patchEntity($bobinasdeextrusion, $this->request->getData());
+        //antes que nada vamos a consultar si puedo cargar una bobina de estrusion 
+        //aextrusar>estrusadas
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->get($bobinasdeextrusion->ordenesdetrabajo_id, [
+            'contain' => [
+            ],
+        ]);
+        if($ordenesdetrabajo->aextrusar==$ordenesdetrabajo->extrusadas){
+            //ya no se pueden agregar bobinas
+            $respuesta['respuesta'] = 'Ya se cargaron todas las bobinas de estrusion que se necesitaban('.$ordenesdetrabajo->aextrusar.') para esta Orden de Trabajo';
+            $respuesta['error'] = 1;
+             $this->set([
+                'respuesta' => $respuesta,
+                '_serialize' => ['respuesta']
+            ]);
+            return;
         }
-        $empleados = $this->Bobinasdeextrusions->Empleados->find('list', ['limit' => 200]);
-        $extrusoras = $this->Bobinasdeextrusions->Extrusoras->find('list', ['limit' => 200]);
-        $this->set(compact('bobinasdeextrusion', 'empleados', 'extrusoras'));
+
+        $fecha = $this->request->getData()['fecha'];
+        $fechaconsultadesde = date('Y-m-d',strtotime($fecha));
+        $respuesta['bobinasdeextrusion0'] = $bobinasdeextrusion;        
+        $bobinasdeextrusion->fecha = $fechaconsultadesde;
+        //vamos a cargar el numero de la bobina dinamicamente
+        $maxBobinaNumero = 0;
+        $bobinaNumeroMax = $this->Bobinasdeextrusions->find('all',[
+            'conditions'=>[    
+                'Bobinasdeextrusions.ordenesdetrabajo_id'=>$bobinasdeextrusion->ordenesdetrabajo_id
+            ],
+            'fields' => array('maxprioridad' => 'MAX(Bobinasdeextrusions.numero)'),
+        ]); 
+        foreach ($bobinaNumeroMax as $key => $value) {
+            $maxBobinaNumero = $value->maxprioridad;
+        }
+        $bobinasdeextrusion->numero = $maxBobinaNumero+1;
+
+        if ($this->Bobinasdeextrusions->save($bobinasdeextrusion)) {
+            $respuesta['respuesta'] = 'La bobina de estrusion fue guardada.';
+            $respuesta['bobinasdeextrusion'] = $bobinasdeextrusion;
+            $respuesta['request'] = $this->request->getData();
+            $respuesta['error'] = 0;
+            $OPerrors = $bobinasdeextrusion->errors();
+            $respuesta['errors'] = $OPerrors;
+            //vamos a agregar el empleado para que podamos mostrar el nombre
+            $empleados = $this->Empleados->findById($bobinasdeextrusion->empleado_id);
+            $respuesta['empleado'] = $empleados->first();
+            //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
+            
+            $ordenesdetrabajo->extrusadas = $ordenesdetrabajo->extrusadas+1 ;
+
+            if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                $respuesta['respuesta'] .= "Se actualizo las bobinas estrusadas de la orden de pedido.";
+            }else{
+                $respuesta['error'] = 2;
+                $respuesta['respuesta'] .= "No se pudo actualizar las bobinas estrusadas de la orden de pedido.";
+            }
+            //Si las extrusadas = aetxrusar entonces tengo que sacarla de las prioridades de las Extrusoras
+            if($ordenesdetrabajo->extrusadas==$ordenesdetrabajo->aextrusar){
+                /*
+                $this->request->allowMethod(['post', 'delete']);
+                $ordenot = $this->Ordenots->get($id);
+                //vamos a reducir en 1 las ordenes posteriores
+                $newPrioridad = $ordenot->prioridad;
+                //subimos a la que estaba abajo
+                $conditionsOrdenOts=[
+                    'conditions'=>[
+                        'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
+                        'Ordenots.impresora_id'=>$ordenot->impresora_id,
+                        'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
+                        'Ordenots.prioridad >='=>$newPrioridad
+                    ]
+                ];
+                $data=[
+                    'respuesta'=>'',
+                    'error'=>0,
+                ];
+                $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
+                foreach ($myOrderOts as $key => $myOrderOt) {
+                    $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
+                        'contain' => [
+                        ],
+                    ]);
+                    $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
+                    if ($this->Ordenots->save($secOrdenot)) {
+                        $subiOrden=true;
+                    }else{
+                        $data['error'] = 1;
+                        $data['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
+                    }
+                }
+                if ($this->Ordenots->delete($ordenot)) {
+                   
+                } else {
+                    $data['error'] =2 ;
+                    $data['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
+                }*/
+            }
+        }else{
+            $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
+            $respuesta['error'] = 1;
+            $OPerrors = $bobinasdeextrusion->errors();
+            $respuesta['errors'] = $OPerrors;
+        }
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta']
+        ]);
+
     }
 
     /**
