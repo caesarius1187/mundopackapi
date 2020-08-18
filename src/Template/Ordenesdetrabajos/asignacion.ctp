@@ -4,6 +4,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Empleado[]|\Cake\Collection\CollectionInterface $empleados
  */
+use Cake\Routing\Router;
+
 echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
 
 ?>
@@ -17,7 +19,10 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item"><?=$this->Html->link(__('Inicio'), ['action' => 'index'], [
+                      'escape' => false,
+                ]) ?>
+          </li>
           <li class="breadcrumb-item active">Asignación de OT's</li>
         </ol>
       </div><!-- /.col -->
@@ -67,7 +72,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                     ?>
                     <tr onclick="">
                         <td>
-                            <label><?= $ordenesdetrabajo->numero ?></label>
+                            <label><?= $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ?></label>
                         </td>
 
                         <td><?= $ordenesdetrabajo->aextrusar?></td>
@@ -82,8 +87,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-block btn-default btn-xs"><i class="fas fa-pause"></i></button>';
                             }
                             echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-block btn-default btn-xs"><i class="fas fa-ban"></i></button>';
-                            echo '<button type="button" class="btn btn-block btn-default btn-xs"><i class="fas fa-search"></i></button>';
-                        ?></td>
+                            $indexurl = 'location.href="'.Router::url(['controller'=>'ordenesdetrabajos', 'action'=>'view',$ordenesdetrabajo->id], true).'"';
+                        ?>
+                            <button type="button" class="btn btn-block btn-default btn-xs" onclick="'.$indexurl.'">
+                            <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
+                                  'escape' => false,
+                            ]) ?>
+                            </button>
+                        </td>
                     </tr>
                     <tr>
 
@@ -132,7 +143,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                     <ul id="ulExtrusora<?= $extrusora->id ?>" class="nav flex-column">
                       <?php foreach ($extrusora->ordenots as $ordenot){ ?>
                           <li id="liOrdenOt<?= $ordenot->id ?>">
-                              OT <?= $ordenot->ordenesdetrabajo->numero?>
+                              OT <?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero?>
                               <a class="badge bg-secondary swalDefaultSuccess" onclick="levelUp(<?= $ordenot->id ?>)"><i class="fas fa-angle-up"></i></a>
                               <a class="badge bg-secondary" onclick="levelDown(<?= $ordenot->id ?>)"><i class="fas fa-angle-down"></i></a>
                               <a class="badge bg-secondary" onclick="deleteOrdOt(<?= $ordenot->id ?>)"><i class="fas fa-trash-alt"></i></a>
@@ -159,7 +170,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   <ul id="ulImpresora<?= $impresora->id ?>" class="nav flex-column">
                     <?php foreach ($impresora->ordenots as $ordenot){ ?>
                         <li id="liOrdenOt<?= $ordenot->id ?>">
-                            OT <?= $ordenot->ordenesdetrabajo->numero?>
+                            OT <?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero?>
                             <a class="badge bg-secondary swalDefaultSuccess" onclick="levelUp(<?= $ordenot->id ?>)"><i class="fas fa-angle-up"></i></a>
                             <a class="badge bg-secondary" onclick="levelDown(<?= $ordenot->id ?>)"><i class="fas fa-angle-down"></i></a>
                             <a class="badge bg-secondary" onclick="deleteOrdOt(<?= $ordenot->id ?>)"><i class="fas fa-trash-alt"></i></a>
@@ -187,7 +198,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   <ul id="ulCortadora<?= $cortadora->id ?>" class="nav flex-column">
                     <?php foreach ($cortadora->ordenots as $ordenot){ ?>
                         <li id="liOrdenOt<?= $ordenot->id ?>">
-                            OT <?= $ordenot->ordenesdetrabajo->numero?>
+                            OT <?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero?>
                             <a class="badge bg-secondary swalDefaultSuccess" onclick="levelUp(<?= $ordenot->id ?>)"><i class="fas fa-angle-up"></i></a>
                             <a class="badge bg-secondary" onclick="levelDown(<?= $ordenot->id ?>)"><i class="fas fa-angle-down"></i></a>
                             <a class="badge bg-secondary" onclick="deleteOrdOt(<?= $ordenot->id ?>)"><i class="fas fa-trash-alt"></i></a>

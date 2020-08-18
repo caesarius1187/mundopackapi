@@ -34,6 +34,10 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                         <label><?= __('Bobinas a Estrusar:') ?></label>
                         <td><?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></td>
                     </div>
+                    <div class="col-sm-2">
+                        <label><?= __('Estrusadas:') ?></label>
+                        <td><?= $this->Number->format($ordenesdetrabajo->estrusadas) ?></td>
+                    </div>
                     <?php
                     if($ordenesdetrabajo->impreso){
                         ?>

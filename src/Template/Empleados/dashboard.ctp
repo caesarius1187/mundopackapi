@@ -30,7 +30,6 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
 <div class="row">
   <div class="col-lg-3 col-6">
   </div>
-
     <!-- small card -->
     <?php
     foreach ($extrusoras as $ke => $extrusora) {
@@ -42,7 +41,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
             <?php
             foreach ($extrusora->ordenots as $ko => $ordenot) {
               ?>
-                <p>OT N°<?= $ordenot->ordenesdetrabajo->numero ?></p>
+                <p>OT N°<?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero ?></p>
               <?php
             }
             ?>
@@ -78,7 +77,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           <?php
           foreach ($impresora->ordenots as $ko => $ordenot) {
             ?>
-              <p>OT N°<?= $ordenot->ordenesdetrabajo->numero ?></p>
+              <p>OT N°<?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero ?></p>
             <?php
           }
           ?>
@@ -113,7 +112,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           <?php
           foreach ($cortadora->ordenots as $ko => $ordenot) {
             ?>
-              <p>OT N°<?= $ordenot->ordenesdetrabajo->numero ?></p>
+              <p>OT N°<?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero ?></p>
             <?php
           }
           ?>

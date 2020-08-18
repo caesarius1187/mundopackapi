@@ -44,6 +44,7 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Ordenots');
 
         $conditions=[
+            'contain'=>['Ordenesdepedidos'],
             'conditions'=>[
                 'Ordenesdetrabajos.estado IN ("En Proceso","Pausado")',
             ]
@@ -56,7 +57,7 @@ class OrdenesdetrabajosController extends AppController
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'sort'=>['Ordenots.prioridad']
                 ],
             ],
@@ -64,7 +65,7 @@ class OrdenesdetrabajosController extends AppController
         $impresoras = $this->Impresoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'sort'=>['Ordenots.prioridad']
 
                 ]
@@ -73,7 +74,7 @@ class OrdenesdetrabajosController extends AppController
         $cortadoras = $this->Cortadoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'sort'=>['Ordenots.prioridad']
                 ]
             ]
@@ -86,22 +87,23 @@ class OrdenesdetrabajosController extends AppController
         //vamos a buscar las que ya estan en la maquina y no las vamos a permitir volver a agregar
         
         $listaconditions=[
+            'contain'=>['Ordenesdepedidos'],
             'conditions'=>[
                 'Ordenesdetrabajos.estado'=>"En Proceso"
             ]
         ];
         switch ($tipomaquina) {
             case 'extrusora':
-                $listaconditions['conditions'][] = 'Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.extrusadas';
+                $listaconditions['conditions']['OR'] = ['Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.extrusadas','Ordenesdetrabajos.extrusadas is null'];
                 $condirionsOrderOTs = ['conditions'=>['Ordenots.extrusora_id'=>$maquinaid]];
                 break;
             case 'impresora':
-                $listaconditions['conditions'][] = 'Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.impresas';
+                $listaconditions['conditions']['OR'] = ['Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.impresas','Ordenesdetrabajos.impresas is null'];
                 $listaconditions['conditions']['Ordenesdetrabajos.impreso'] = true;
                 $condirionsOrderOTs = ['conditions'=>['Ordenots.impresora_id'=>$maquinaid]];
                 break;
             case 'cortadora':
-                $listaconditions['conditions'][] = 'Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.cortadas';
+                $listaconditions['conditions']['OR'] = ['Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.cortadas','Ordenesdetrabajos.cortadas is null'];
                 $listaconditions['conditions']['Ordenesdetrabajos.cortado'] = true;
                 $condirionsOrderOTs = ['conditions'=>['Ordenots.cortadora_id'=>$maquinaid]];
                 break;            

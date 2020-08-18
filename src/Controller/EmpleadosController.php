@@ -25,7 +25,7 @@ class EmpleadosController extends AppController
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'conditions'=>[
                         'Ordenots.prioridad'=>1
                     ]
@@ -35,7 +35,7 @@ class EmpleadosController extends AppController
         $impresoras = $this->Impresoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'conditions'=>[
                         'Ordenots.prioridad'=>1
                     ]
@@ -45,7 +45,7 @@ class EmpleadosController extends AppController
         $cortadoras = $this->Cortadoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'conditions'=>[
                         'Ordenots.prioridad'=>1
                     ]

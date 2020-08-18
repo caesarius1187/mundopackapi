@@ -230,9 +230,9 @@ function loadFormPrioridad(maquina,maquinaNombre,maquinaId){
             $('#myModal').find('.modal-title').html("Agregar OT a la lista de prioridad de "+maquinaNombre);
             $("#ordenesdetrabajo-id").empty();
             $(data.listOrdenes).each(function(){
-                $("#ordenesdetrabajo-id").append('<option value="'+this.id+'">'+this.numero+'</option>');
+                $("#ordenesdetrabajo-id").append('<option value="'+this.id+'">'+this.ordenesdepedido.numero+'-'+this.numero+'</option>');
             }); 
-            $('#myModal').modal('toggle')
+            $('#myModal').modal('toggle');
         },
         error: function(xhr,textStatus,error){
             alert(textStatus);
