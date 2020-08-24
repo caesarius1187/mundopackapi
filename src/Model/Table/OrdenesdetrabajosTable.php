@@ -61,6 +61,10 @@ class OrdenesdetrabajosTable extends Table
             'foreignKey' => 'ordenesdetrabajo_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasMany('Materialesots', [
+            'foreignKey' => 'ordenesdetrabajo_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**

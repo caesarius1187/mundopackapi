@@ -38,7 +38,7 @@ class BobinasdeimpresionsTable extends Table
         parent::initialize($config);
 
         $this->setTable('bobinasdeimpresions');
-        $this->setDisplayField('id');
+        $this->setDisplayField('numero');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -47,14 +47,14 @@ class BobinasdeimpresionsTable extends Table
             'foreignKey' => 'empleado_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Cortadoras', [
-            'foreignKey' => 'cortadora_id',
+        $this->belongsTo('Impresoras', [
+            'foreignKey' => 'impresora_id',
             'joinType' => 'INNER',
-        ]);
-        $this->belongsTo('Bobinasdeimpresions', [
-            'foreignKey' => 'bobinasdeimpresion_id',
+        ]); 
+        $this->belongsTo('Bobinasdeextrusions', [
+            'foreignKey' => 'bobinasdeextrusion_id',
             'joinType' => 'INNER',
-        ]);
+        ]);        
         $this->hasMany('Bobinascorteorigens', [
             'foreignKey' => 'bobinascorteorigen_id',
         ]);
@@ -104,9 +104,6 @@ class BobinasdeimpresionsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['empleado_id'], 'Empleados'));
-        $rules->add($rules->existsIn(['cortadora_id'], 'Cortadoras'));
-        $rules->add($rules->existsIn(['bobinasdeextrusion_id'], 'Bobinasdeextrusions'));
-
         return $rules;
     }
 }

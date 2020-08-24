@@ -211,15 +211,35 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Bobinasdecortes');
         $this->loadModel('Empleados');
         $this->loadModel('Extrusoras');
+        $this->loadModel('Impresoras');
+        $this->loadModel('Cortadoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
-            'contain' => ['Ordenesdepedidos','Bobinasdeextrusions'=>['Empleados'],'Bobinasdeimpresions'=>['Empleados'],'Bobinasdecortes'=>['Empleados']],
+            'contain' => [
+                'Ordenesdepedidos',
+                'Bobinasdeextrusions'=>[
+                    'Extrusoras',
+                    'Empleados',
+                ],
+                'Bobinasdeimpresions'=>[
+                    'Impresoras',
+                    'Empleados',
+                    'Bobinasdeextrusions'
+                ],
+                'Bobinasdecortes'=>[
+                    'Cortadoras',
+                    'Empleados'
+                ],
+                'Materialesots'
+            ],
         ]);
         $newbobinasdeextrusion = $this->Bobinasdeextrusions->newEntity();
         $newbobinasdeimpresion = $this->Bobinasdeimpresions->newEntity();
         $newbobinasdecorte = $this->Bobinasdecortes->newEntity();
         $empleados = $this->Empleados->find('list', ['limit' => 200]);
         $extrusoras = $this->Extrusoras->find('list', ['limit' => 200]);
-        $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras'));
+        $impresoras = $this->Impresoras->find('list', ['limit' => 200]);
+        $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);
+        $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras','impresoras','cortadoras'));
     }
 
     /**
@@ -228,6 +248,7 @@ class OrdenesdetrabajosController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function addsingle(){
+        $this->loadModel('Materialesots');
         $respuesta=[];
         $respuesta['respuesta'] = '';
         $respuesta['error'] = 0;
@@ -247,7 +268,15 @@ class OrdenesdetrabajosController extends AppController
         }
         $maxNumOrdenPedido++;
         $ordenesdetrabajo->numero = $maxNumOrdenPedido;
-        if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+        $ordenesdetrabajo->medida = $ordenesdetrabajo->ancho."x".$ordenesdetrabajo->largo."x".$ordenesdetrabajo->espesor;
+        $result  = $this->Ordenesdetrabajos->save($ordenesdetrabajo);
+        if ($result) {
+            foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
+                $newmaterialOt = $this->Materialesots->newEntity();
+                $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
+                $newmaterialOt->ordenesdetrabajo_id = $result->id;
+                $this->Materialesots->save($newmaterialOt);
+            }
             $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
             $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
             $respuesta['request'] = $this->request->getData();

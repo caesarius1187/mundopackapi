@@ -38,7 +38,7 @@ class BobinasdeextrusionsTable extends Table
         parent::initialize($config);
 
         $this->setTable('bobinasdeextrusions');
-        $this->setDisplayField('id');
+        $this->setDisplayField('numero');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

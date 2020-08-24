@@ -100,8 +100,25 @@ class OrdenesdepedidosController extends AppController
             'conditions'=>[                
             ],
         ]); 
-
-        $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes'));
+        $materiales = [
+            'LINEAL'=>'LINEAL',
+            'BD GRUESO '=>'BD GRUESO ',
+            'BD FINO '=>'BD FINO ',
+            'BD RECI CARAMELO'=>'BD RECI CARAMELO',
+            'BD RECI VERDE'=>'BD RECI VERDE',
+            'BD RECI NEGRO'=>'BD RECI NEGRO',
+            'BD RECI COLOR'=>'BD RECI COLOR',
+            'AD VIRGEN'=>'AD VIRGEN',
+            'AD RECICLADO'=>'AD RECICLADO',
+            'LINEAL P/ HIELO'=>'LINEAL P/ HIELO',
+            'MASTER'=>'MASTER',
+            'UV'=>'UV',
+            'DESLIZANTE'=>'DESLIZANTE',
+            'ANTIBLOCK'=>'ANTIBLOCK',
+            'ANTIESTATICO'=>'ANTIESTATICO',
+            'CARBONATO O CARGA'=>'CARBONATO O CARGA',
+        ];
+        $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes','materiales'));
     }
 
     /**

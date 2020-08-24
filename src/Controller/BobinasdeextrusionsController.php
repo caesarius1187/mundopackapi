@@ -27,6 +27,54 @@ class BobinasdeextrusionsController extends AppController
         $this->set(compact('bobinasdeextrusions'));
     }
 
+    public function getlist($ordenesdetrabajoId)
+    {
+        $this->loadModel('Bobinasdeimpresions');
+        $this->loadModel('Bobinasdecortes');
+        //tenemos que buscar las bobinas de extrusion que ya se usaron en las impresiones y excluirlas
+        $bobinasdeimpresions  = $this->Bobinasdeimpresions->find('all', [
+            'conditions'=>[
+                'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+            ],
+            'limit' => 200
+        ]);
+        $bobinasdeextrusionYaUsadas = [];
+        $bobinasdeextrusionYaUsadas[0] = 0;
+        foreach ($bobinasdeimpresions as $key => $bobinasdeimpresion) {
+            $bobinasdeextrusionYaUsadas[] = $bobinasdeimpresion->bobinasdeextrusion_id;
+        }
+        //tenemos que buscar las bobinas de extrusion que ya se usaron en las cortes y excluirlas
+        $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
+            'contain'=>[
+                'Bobinascorteorigens',
+            ],
+            'conditions'=>[
+                'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+            ],
+            'limit' => 200
+        ]);
+        foreach ($bobinasdecortes as $key => $bobinasdecorte) {
+            foreach ($bobinasdecorte['Bobinascorteorigens'] as $key => $corteorigen) {
+                $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeextrusion_id;
+            }
+        }
+
+        $bobinasdeextrusions = $this->Bobinasdeextrusions->find('list', [
+            'conditions'=>[
+                'Bobinasdeextrusions.id NOT IN'=>$bobinasdeextrusionYaUsadas,
+                'Bobinasdeextrusions.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+            ],
+            'limit' => 200
+        ]);
+        $respuesta['data'] = $bobinasdeextrusions;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            'bobinasdeextrusions' => $bobinasdeextrusions,
+            '_serialize' => ['respuesta','bobinasdeextrusions']
+        ]);
+    }
+
     /**
      * View method
      *
@@ -52,6 +100,7 @@ class BobinasdeextrusionsController extends AppController
         $this->loadModel('Empleados');
         $this->loadModel('Ordenesdetrabajos');
         $this->loadModel('Ordenots');
+        $this->loadModel('Extrusoras');
         $respuesta=[];
         $respuesta['respuesta'] = '';
         $respuesta['error'] = 0;
@@ -101,6 +150,8 @@ class BobinasdeextrusionsController extends AppController
             //vamos a agregar el empleado para que podamos mostrar el nombre
             $empleados = $this->Empleados->findById($bobinasdeextrusion->empleado_id);
             $respuesta['empleado'] = $empleados->first();
+            $extrusoras = $this->Extrusoras->findById($bobinasdeextrusion->extrusora_id);
+            $respuesta['extrusora'] = $extrusoras->first();
             //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
             
             $ordenesdetrabajo->extrusadas = $ordenesdetrabajo->extrusadas+1 ;

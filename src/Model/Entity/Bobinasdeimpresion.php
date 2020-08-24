@@ -35,7 +35,7 @@ class Bobinasdeimpresion extends Entity
      */
     protected $_accessible = [
         'empleado_id' => true,
-        'cortadora_id' => true,
+        'impresora_id' => true,
         'bobinasdeextrusion_id' => true,
         'ordenesdetrabajo_id' => true,
         'numero' => true,

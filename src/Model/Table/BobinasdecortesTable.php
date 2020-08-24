@@ -37,7 +37,7 @@ class BobinasdecortesTable extends Table
         parent::initialize($config);
 
         $this->setTable('bobinasdecortes');
-        $this->setDisplayField('id');
+        $this->setDisplayField('numero');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -46,8 +46,8 @@ class BobinasdecortesTable extends Table
             'foreignKey' => 'empleado_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Impresoras', [
-            'foreignKey' => 'impresora_id',
+        $this->belongsTo('Cortadoras', [
+            'foreignKey' => 'cortadora_id',
             'joinType' => 'INNER',
         ]);
         $this->hasMany('Bobinascorteorigens', [

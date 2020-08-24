@@ -36,7 +36,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                     </div>
                     <div class="col-sm-2">
                         <label><?= __('Estrusadas:') ?></label>
-                        <td><?= $this->Number->format($ordenesdetrabajo->estrusadas) ?></td>
+                        <td><?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></td>
                     </div>
                     <?php
                     if($ordenesdetrabajo->impreso){
@@ -74,13 +74,20 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
          <div class="row mb-2">
             <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <label><?= __('Material:') ?></label>
-                        <td><?= h($ordenesdetrabajo->material) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Tipo:') ?></label>
-                        <td><?= h($ordenesdetrabajo->tipo) ?></td>
+                    <div class="col-sm-3">
+                        <label><?= __('Materiales:') ?></label>
+                        <ul>
+                        <?php                         
+                        foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
+                            ?>
+                            <li><?= h($materialesot->material) ?>
+                            <?= h($materialesot->tipo) ?>
+                            <?= h($materialesot->porcentaje."%") ?>
+                            </li>
+                            <?php
+                        }
+                        ?>
+                        </ul>
                     </div>
                     <div class="col-sm-2">
                         <label><?= __('Color:') ?></label>
@@ -183,8 +190,9 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                           <thead>
                             <tr>
                               <th>Numero</th>
+                              <th>Estrusora</th>
                               <th>Fecha</th>
-                              <th>Extrusor</th>
+                              <th>Estrusor</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
                               <th>Scrap cant.</th>
@@ -197,6 +205,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                 ?>
                                 <tr>
                                   <th><?=$bobinasdeextrusion->numero; ?></th>
+                                  <th><?=$bobinasdeextrusion->extrusora->nombre; ?></th>
                                   <th><?=$bobinasdeextrusion->fecha->i18nFormat('d-m-Y'); ?></th>
                                   <th><?=$bobinasdeextrusion->empleado->nombre; ?></th>
                                   <th><?=$bobinasdeextrusion->horas; ?></th>
@@ -221,14 +230,17 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                   <div class="col-12">
                     <div class="card">
                       <div class="card-header">
-                        <h3 class="card-title">Tareas realizadas en las impresoras:</h3>
+                        <h3 class="card-title">Bobinas cargadas en las impresoras:</h3>
+                        <button type="button" name="button" onclick="$('#modalAddBobinaImpresion').modal('show')" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> AGREGAR</button>
                       </div>
                       <!-- ./card-header -->
                       <div class="card-body">
-                        <table class="table table-bordered table-hover">
+                        <table id="tblBobinasdeImpresion" class="table table-bordered table-hover">
                           <thead>
                             <tr>
                               <th>Numero</th>
+                              <th>Impresora</th>
+                              <th>Bobina Extrusion N°</th>
                               <th>Fecha</th>
                               <th>Extrusor</th>
                               <th>Hs.</th>
@@ -239,10 +251,12 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                           </thead>
                           <tbody>
                             <?php
-                            foreach ($ordenesdetrabajo->bobinasdeimpresions as $kbe=> $bobinasdeimpresion) {
+                            foreach ($ordenesdetrabajo->bobinasdeimpresions as $kbi=> $bobinasdeimpresion) {
                                 ?>
                                 <tr>
                                   <th><?= $bobinasdeimpresion->numero; ?></th>
+                                  <th><?= $bobinasdeimpresion->impresora->nombre; ?></th>
+                                  <th><?= $bobinasdeimpresion->bobinasdeextrusion->numero; ?></th>
                                   <th><?= $bobinasdeimpresion->fecha->i18nFormat('d-m-Y'); ?></th>
                                   <th><?= $bobinasdeimpresion->empleado_id; ?></th>
                                   <th><?= $bobinasdeimpresion->horas; ?></th>
@@ -267,11 +281,12 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                   <div class="col-12">
                     <div class="card">
                       <div class="card-header">
-                        <h3 class="card-title">Tareas realizadas en las cortadoras:</h3>
+                        <h3 class="card-title">Bobinas cargadas en las cortadoras:</h3>
+                         <button type="button" name="button" onclick="$('#modalAddBobinaCorte').modal('show')" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> AGREGAR</button>
                       </div>
                       <!-- ./card-header -->
                       <div class="card-body">
-                        <table class="table table-bordered table-hover">
+                        <table id="tblBobinasdeCorte" class="table table-bordered table-hover">
                           <thead>
                             <tr>
                               <th>Fecha</th>
@@ -285,46 +300,22 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                             </tr>
                           </thead>
                           <tbody>
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
+                            <?php
+                            foreach ($ordenesdetrabajo->bobinasdecortes as $kbc=> $bobinasdecorte) {
+                                ?>
+                                <tr>
+                                  <th><?= $bobinasdecorte->numero; ?></th>
+                                  <th><?= $bobinasdecorte->bobinasdeextrusion->numero; ?></th>
+                                  <th><?= $bobinasdecorte->fecha->i18nFormat('d-m-Y'); ?></th>
+                                  <th><?= $bobinasdecorte->empleado_id; ?></th>
+                                  <th><?= $bobinasdecorte->horas; ?></th>
+                                  <th><?= $bobinasdecorte->kilogramos; ?></th>
+                                  <th><?= $bobinasdecorte->scrap; ?></th>
+                                  <th><?= $bobinasdecorte->observacion; ?></th>
+                                </tr>
+                                <?php
+                            }
+                            ?>
                           </tbody>
                         </table>
                       </div>
@@ -367,48 +358,202 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
             ]
         ]) ?>
         <div class="row">
-                <div class="col-sm-3">
-                    <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
-                    <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
-                </div>
-                <div class="col-sm-3">
-                    <?= $this->Form->control('extrusora_id', ['options' => $extrusoras]); ?>
-                </div>
-                <div class="col-sm-4">
-                    <?= $this->Form->control('fecha',[
-                      'type'=>'text',
-                      'required'=>true,
-                      'label'=>[
-                        'text'=>'Fecha',
-                        'style'=>'width:100%'
-                      ],
-                      'templates'=>[
-                        'inputContainer'=>'
-                          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            {{content}}
-                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                          </div>']
-                    ]); ?>
-                </div>
-                <div class="col-sm-2">
-                    <?= $this->Form->control('horas'); ?>
-                </div>
-                <div class="col-sm-2">
-                    <?= $this->Form->control('kilogramos'); ?>
-                </div>
-                <div class="col-sm-2">
-                    <?= $this->Form->control('scrap'); ?>
-                </div>
-                <div class="col-sm-4">
-                    <?= $this->Form->control('observacion'); ?>
-                </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
+                <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('extrusora_id', ['options' => $extrusoras]); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('fecha',[
+                  'type'=>'text',
+                  'required'=>true,
+                  'label'=>[
+                    'text'=>'Fecha',
+                    'style'=>'width:100%'
+                  ],
+                  'templates'=>[
+                    'inputContainer'=>'
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        {{content}}
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>']
+                ]); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('horas'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('kilogramos'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('scrap'); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('observacion'); ?>
+            </div>
         </div>
         <?= $this->Form->end() ?>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="$('#bobinaEstrusionAddForm').submit()">Agregar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+</div>
+
+<div class="modal" id="modalAddBobinaImpresion" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?= __('Agregar Bobina de Impresion') ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?= $this->Form->create($newbobinasdeimpresion,[
+            'id'=>'bobinaImpresionAddForm',
+            'url'=>[
+                'controller'=>'bobinasdeimpresions',
+                'action'=>'add',
+            ]
+        ]) ?>
+        <div class="row">
+            <div class="col-sm-3">
+                <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
+                <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('impresora_id', ['options' => $impresoras]); ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('bobinasdeextrusion_id', [
+                    'options' => [],
+                    'label' => 'Bobina de estrusion',
+                ]); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('fecha',[
+                  'type'=>'text',
+                  'required'=>true,
+                  'label'=>[
+                    'text'=>'Fecha',
+                    'style'=>'width:100%'
+                  ],
+                  'templates'=>[
+                    'inputContainer'=>'
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        {{content}}
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>']
+                ]); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('horas'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('kilogramos'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('scrap'); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('observacion'); ?>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="$('#bobinaImpresionAddForm').submit()">Agregar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+</div>
+
+<div class="modal" id="modalAddBobinaCorte" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?= __('Agregar Bobina de Impresion') ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?= $this->Form->create($newbobinasdecorte,[
+            'id'=>'bobinaCorteAddForm',
+            'url'=>[
+                'controller'=>'bobinasdecortes',
+                'action'=>'add',
+            ]
+        ]) ?>
+        <div class="row">
+            <div class="col-sm-3">
+                <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
+                <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('cortadora_id', ['options' => $cortadoras]); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('bobinasdeextrusion_id', [
+                    'options' => [],
+                    'multiple' => true,
+                    'label' => 'Bobina de estrusion',
+                ]); ?>
+                <?= $this->Form->control('bobinasdeimpresion_id', [
+                    'options' => [],
+                    'multiple' => true,
+                    'label' => 'Bobina de impresion',
+                ]); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('fecha',[
+                  'type'=>'text',
+                  'required'=>true,
+                  'label'=>[
+                    'text'=>'Fecha',
+                    'style'=>'width:100%'
+                  ],
+                  'templates'=>[
+                    'inputContainer'=>'
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        {{content}}
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>']
+                ]); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('horas'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('kilogramos'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('scrap'); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('observacion'); ?>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="$('#bobinaCorteAddForm').submit()">Agregar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
       <!-- /.info-box-content -->

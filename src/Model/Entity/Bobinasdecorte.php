@@ -33,7 +33,7 @@ class Bobinasdecorte extends Entity
      */
     protected $_accessible = [
         'empleado_id' => true,
-        'impresora_id' => true,
+        'cortadora_id' => true,
         'ordenesdetrabajo_id' => true,
         'numero' => true,
         'fecha' => true,
