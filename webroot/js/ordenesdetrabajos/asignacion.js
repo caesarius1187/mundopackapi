@@ -32,35 +32,35 @@ $(document).ready(function() {
                 myList
                     .append(
                         $("<li>")
-                            .attr("id",'liOrdenOt'+data.data[1].id)   
+                            .attr("id",'liOrdenOt'+data.data[1].id)
                             .html("OT "+$( "#ordenesdetrabajo-id option:selected" ).text())
                             .append(
                                 $("<a>")
-                                    .addClass("badge bg-secondary swalDefaultSuccess")  
+                                    .addClass("badge bg-secondary swalDefaultSuccess")
                                     .attr('onclick','levelUp('+data.data[1].id+')')
-                                    .append(                     
-                                        $("<i>").addClass("fas fa-angle-up")                   
-                                    )                           
+                                    .append(
+                                        $("<i>").addClass("fas fa-angle-up")
+                                    )
                             )
                             .append(
                                 $("<a>")
-                                    .addClass("badge bg-secondary swalDefaultSuccess")  
+                                    .addClass("badge bg-secondary swalDefaultSuccess")
                                     .attr('onclick','levelDown('+data.data[1].id+')')
-                                    .append(                     
-                                        $("<i>").addClass("fas fa-angle-down")                   
-                                    ) 
+                                    .append(
+                                        $("<i>").addClass("fas fa-angle-down")
+                                    )
                             )
                             .append(
                                 $("<a>")
-                                    .addClass("badge bg-secondary swalDefaultSuccess")  
+                                    .addClass("badge bg-secondary swalDefaultSuccess")
                                     .attr('onclick','deleteOrdOt('+data.data[1].id+')')
-                                    .append(                     
-                                        $("<i>").addClass("fas fa-trash-alt")                   
-                                    ) 
+                                    .append(
+                                        $("<i>").addClass("fas fa-trash-alt")
+                                    )
                             )
                     )
                 $('#myModal').modal('toggle');
-                
+
             },
             error: function(xhr,textStatus,error){
                 bootstrapAlert(textStatus);
@@ -189,7 +189,7 @@ function cancelarOT(oTId){
             if(data.data.error!=0){
                 alert(data.data.respuesta);
             }else{
-                alert(data.data.respuesta);                
+                alert(data.data.respuesta);
                 location.reload();
             }
         },
@@ -221,7 +221,7 @@ function loadFormPrioridad(maquina,maquinaNombre,maquinaId){
             corInputId.val(maquinaId);
         break;
     }
-    
+
     $.ajax({
         type: 'POST',
         url: serverLayoutURL+'ordenesdetrabajos/listaasignacion/'+maquina+"/"+maquinaId+'.json',

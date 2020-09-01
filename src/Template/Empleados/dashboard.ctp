@@ -36,8 +36,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
        ?>
       <div class="col-lg-2 col-6">
         <div class="small-box bg-info">
-          <div class="inner">
-            <h3><?= $extrusora->nombre ?></h3>
+          <div class="inner" style="height: 110px">
+            <h4><strong><?= $extrusora->nombre ?></strong></h4>
             <?php
             foreach ($extrusora->ordenots as $ko => $ordenot) {
               ?>
@@ -72,8 +72,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
      ?>
     <div class="col-lg-2 col-6">
       <div class="small-box bg-warning">
-        <div class="inner">
-          <h3><?= $impresora->nombre ?></h3>
+        <div class="inner" style="height: 110px">
+          <h4><strong><?= $impresora->nombre ?></strong></h4>
           <?php
           foreach ($impresora->ordenots as $ko => $ordenot) {
             ?>
@@ -83,7 +83,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           ?>
         </div>
         <div class="icon">
-          <i class="fas fa-industry"></i>
+          <i class="fas fa-print"></i>
         </div>
         <a href="#modal" class="small-box-footer" onclick="loadOTImpresora(<?= $impresora->id ?>)">
           Más info <i class="fas fa-arrow-circle-right"></i>
@@ -107,8 +107,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
      ?>
     <div class="col-lg-2 col-6">
       <div class="small-box bg-success">
-        <div class="inner">
-          <h3><?= $cortadora->nombre ?></h3>
+        <div class="inner" style="height: 110px">
+          <h4><strong><?= $cortadora->nombre ?></strong></h4>
           <?php
           foreach ($cortadora->ordenots as $ko => $ordenot) {
             ?>
@@ -118,7 +118,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           ?>
         </div>
         <div class="icon">
-          <i class="fas fa-industry"></i>
+          <i class="fas fa-cut"></i>
         </div>
         <a href="#modal" class="small-box-footer" onclick="loadOTCortadora(<?= $cortadora->id ?>)">
           Más info <i class="fas fa-arrow-circle-right"></i>

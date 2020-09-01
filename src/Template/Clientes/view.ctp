@@ -4,41 +4,63 @@
  * @var \App\Model\Entity\Cliente $cliente
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Cliente'), ['action' => 'edit', $cliente->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Cliente'), ['action' => 'delete', $cliente->id], ['confirm' => __('Are you sure you want to delete # {0}?', $cliente->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Clientes'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Cliente'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="clientes view large-9 medium-8 columns content">
-    <h3><?= h($cliente->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Nombre') ?></th>
-            <td><?= h($cliente->nombre) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Celular') ?></th>
-            <td><?= h($cliente->celular) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Direccion') ?></th>
-            <td><?= h($cliente->direccion) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($cliente->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($cliente->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($cliente->modified) ?></td>
-        </tr>
-    </table>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <?= $this->Html->link(__('<i class="fas fa-reply"></i> Volver'), ['action' => 'index'], [
+          'escape' => false,
+          'class' => 'btn btn-warning btn-sm'
+          ]) ?>
+      <?= $this->Html->link(__('<i class="fas fa-edit"></i> Editar'), ['action' => 'edit', $cliente->id], [
+          'escape' => false,
+          'class' => 'btn btn-info btn-sm',
+          'style' => 'margin-left: 5px'
+          ]) ?>
+    </div>
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Vista del cliente</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active">Vista del cliente</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row justify-content-md-center">
+      <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+              <h1 class="card-title">
+                <i class="fas fa-address-card"></i>
+                <?= h($cliente->nombre) ?>
+              </h1>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <dl class="row">
+                <dt class="col-sm-4 text-right">DIRECCIÓN:</dt>
+                <dd class="col-sm-8"><?= h($cliente->direccion) ?></dd>
+                <dt class="col-sm-4 text-right">CELULAR:</dt>
+                <dd class="col-sm-8"><?= h($cliente->celular) ?></dd>
+              </dl>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+    <!-- /.tab-pane -->
+  </div>
+  <!-- /.tab-content -->
+</div><!-- /.card-body -->

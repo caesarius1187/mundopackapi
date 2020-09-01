@@ -2,6 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\EscposImage;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 /**
  * Bobinasdeextrusions Controller
@@ -17,6 +20,29 @@ class BobinasdeextrusionsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
+    public function printticket(){
+      require_once(ROOT . DS . 'vendor' .  DS . "autoload.php");
+      $nombre_impresora = "Ticketera";
+      $connector = new WindowsPrintConnector($nombre_impresora);
+      $printer = new Printer($connector);
+      $printer->setJustification(Printer::JUSTIFY_CENTER);
+      try{
+      	$logo = EscposImage::load("img\bobina.png", false);
+       $printer->bitImage($logo);
+      }catch(Exception $e){/*No hacemos nada si hay error*/}
+      // date_default_timezone_set("America/Argentina/Salta");
+      $printer->text(date("Y-m-d H:i:s") . "\n");
+      $printer->feed(1);
+      $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+      $printer -> text("Texto de prueba.\n");
+      $printer -> cut();
+      $printer -> close();
+      $respuesta = 'imprimi';
+      $this->set([
+         'respuesta' => $respuesta,
+         '_serialize' => ['respuesta']
+      ]);
+    }
     public function index()
     {
         $this->paginate = [
@@ -106,7 +132,7 @@ class BobinasdeextrusionsController extends AppController
         $respuesta['error'] = 0;
         $bobinasdeextrusion = $this->Bobinasdeextrusions->newEntity();
         $bobinasdeextrusion = $this->Bobinasdeextrusions->patchEntity($bobinasdeextrusion, $this->request->getData());
-        //antes que nada vamos a consultar si puedo cargar una bobina de estrusion 
+        //antes que nada vamos a consultar si puedo cargar una bobina de estrusion
         //aextrusar>estrusadas
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($bobinasdeextrusion->ordenesdetrabajo_id, [
             'contain' => [
@@ -125,16 +151,16 @@ class BobinasdeextrusionsController extends AppController
 
         $fecha = $this->request->getData()['fecha'];
         $fechaconsultadesde = date('Y-m-d',strtotime($fecha));
-        $respuesta['bobinasdeextrusion0'] = $bobinasdeextrusion;        
+        $respuesta['bobinasdeextrusion0'] = $bobinasdeextrusion;
         $bobinasdeextrusion->fecha = $fechaconsultadesde;
         //vamos a cargar el numero de la bobina dinamicamente
         $maxBobinaNumero = 0;
         $bobinaNumeroMax = $this->Bobinasdeextrusions->find('all',[
-            'conditions'=>[    
+            'conditions'=>[
                 'Bobinasdeextrusions.ordenesdetrabajo_id'=>$bobinasdeextrusion->ordenesdetrabajo_id
             ],
             'fields' => array('maxprioridad' => 'MAX(Bobinasdeextrusions.numero)'),
-        ]); 
+        ]);
         foreach ($bobinaNumeroMax as $key => $value) {
             $maxBobinaNumero = $value->maxprioridad;
         }
@@ -153,7 +179,7 @@ class BobinasdeextrusionsController extends AppController
             $extrusoras = $this->Extrusoras->findById($bobinasdeextrusion->extrusora_id);
             $respuesta['extrusora'] = $extrusoras->first();
             //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
-            
+
             $ordenesdetrabajo->extrusadas = $ordenesdetrabajo->extrusadas+1 ;
 
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
@@ -209,6 +235,12 @@ class BobinasdeextrusionsController extends AppController
                         $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
                     }
                 }
+                if ($this->Ordenots->delete($ordenot)) {
+
+                } else {
+                    $data['error'] =2 ;
+                    $data['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
+                }*/
             }
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';

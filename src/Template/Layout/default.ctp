@@ -238,50 +238,7 @@ $cakeDescription = 'Mundo Pack';
                   ]
               );
               echo '</li>';
-
-              $classToItem = (($this->request->getParam('controller')=='Extrusoras')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
-              echo '<li class="nav-item">';
-              echo $this->Html->link(__('<i class="nav-icon fas fa-industry"></i>
-                  <p>
-                    Extrusoras
-                  </p>'),
-                  array ( 'plugin' => null, 'controller' => 'Extrusoras', 'action' => 'index', '_ext' => NULL),
-                  [
-                      'escape' => false,
-                      'class'=> $classToItem
-                  ]
-              );
-              echo '</li>';
-
-              $classToItem = (($this->request->getParam('controller')=='Impresoras')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
-              echo '<li class="nav-item">';
-              echo $this->Html->link(__('<i class="nav-icon fas fa-print"></i>
-                  <p>
-                    Impresoras
-                  </p>'),
-                  array ( 'plugin' => null, 'controller' => 'Impresoras', 'action' => 'index', '_ext' => NULL),
-                  [
-                      'escape' => false,
-                      'class'=> $classToItem
-                  ]
-              );
-              echo '</li>';
-
-              $classToItem = (($this->request->getParam('controller')=='Cortadoras')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
-              echo '<li class="nav-item">';
-              echo $this->Html->link(__('<i class="nav-icon fas fa-cut"></i>
-                  <p>
-                    Cortadoras
-                  </p>'),
-                  array ( 'plugin' => null, 'controller' => 'Cortadoras', 'action' => 'index', '_ext' => NULL),
-                  [
-                      'escape' => false,
-                      'class'=> $classToItem
-                  ]
-              );
-              echo '</li>';
-             ?>
-           </li>
+              ?>
          </ul>
 
               </div>
