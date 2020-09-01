@@ -26,6 +26,15 @@ class OrdenesdepedidosController extends AppController
         $this->set(compact('ordenesdepedidos'));
     }
 
+    public function search()
+    {
+        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
+            'contain'=>['Clientes','Ordenesdetrabajos']
+        ]);
+
+        $this->set(compact('ordenesdepedidos'));
+    }
+
     /**
      * View method
      *
@@ -36,7 +45,10 @@ class OrdenesdepedidosController extends AppController
     public function view($id = null)
     {
         $ordenesdepedido = $this->Ordenesdepedidos->get($id, [
-            'contain' => ['Ordenesdetrabajos'],
+            'contain' => [
+              'Clientes',
+              'Ordenesdetrabajos'
+            ],
         ]);
 
         $this->set('ordenesdepedido', $ordenesdepedido);
@@ -84,22 +96,22 @@ class OrdenesdepedidosController extends AppController
     {
         $this->loadModel('Clientes');
         $ordenesdepedido = $this->Ordenesdepedidos->newEntity();
-        
+
         $maxNumOrdenPedido = 0;
         $orderopMax = $this->Ordenesdepedidos->find('all',[
-            'conditions'=>[                
+            'conditions'=>[
             ],
             'fields' => array('maxprioridad' => 'MAX(Ordenesdepedidos.numero)'),
-        ]); 
+        ]);
         foreach ($orderopMax as $key => $value) {
             $maxNumOrdenPedido = $value->maxprioridad;
         }
         $maxNumOrdenPedido++;
 
         $clientes = $this->Clientes->find('list',[
-            'conditions'=>[                
+            'conditions'=>[
             ],
-        ]); 
+        ]);
 
         $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes'));
     }

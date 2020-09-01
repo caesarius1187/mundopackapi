@@ -3,6 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Bobinasdeextrusion[]|\Cake\Collection\CollectionInterface $bobinasdeextrusions
  */
+
+echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>false));
+
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
@@ -67,3 +70,5 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
+
+<button type="button" name="button" onclick="imprimir()">Imprimir</button>
