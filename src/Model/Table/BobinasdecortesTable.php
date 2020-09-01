@@ -51,7 +51,7 @@ class BobinasdecortesTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->hasMany('Bobinascorteorigens', [
-            'foreignKey' => 'bobinascorteorigen_id',
+            'foreignKey' => 'bobinasdecorte_id',
         ]);
     }
 
@@ -99,8 +99,6 @@ class BobinasdecortesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['empleado_id'], 'Empleados'));
-        $rules->add($rules->existsIn(['impresora_id'], 'Impresoras'));
-
         return $rules;
     }
 }

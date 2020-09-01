@@ -67,11 +67,52 @@ $(document).ready(function() {
         });
         return false;
     });
+    $('#bobinaCorteAddForm').submit(function(){
+        //serialize form data
+        var formData = $(this).serialize();
+        //get form action
+        var formUrl = $(this).attr('action')+".json";
+        $.ajax({
+            type: 'POST',
+            url: formUrl,
+            data: formData,
+            success: function(data,textStatus,xhr){
+                //alert(data.data[0]);
+                if(data.respuesta.error!=0){
+                Toast.fire({
+                      icon: 'error',
+                      title: data.respuesta.respuesta
+                    })
+                }else{
+                    Toast.fire({
+                      icon: 'success',
+                      title: data.respuesta.respuesta
+                    })
+                    var bobinadecorte = data.respuesta.bobinasdecorte;
+                    var empleado = data.respuesta.empleado;
+                    var bobinasorigens = data.respuesta.bobinasorigens;
+                    var cortadora = data.respuesta.cortadora;
+                    loadBobinaCorte(bobinadecorte,empleado,bobinasorigens,cortadora);
+                    $('#modalAddBobinaImpresion').modal('hide');
+                }
+            },
+            error: function(xhr,textStatus,error){
+                bootstrapAlert(textStatus);
+            }
+        });
+        return false;
+    });
     $('#modalAddBobinaImpresion').on('shown.bs.modal', function() { 
        getListaBobinasExtrusionParaImpresion();
     }) ;
     $('#modalAddBobinaCorte').on('shown.bs.modal', function() { 
-       getListaBobinasExtrusionParaCorte();
+        var tieneimpresion = $("#tieneimpresion").val(); 
+        if(tieneimpresion){
+            getListaBobinaImpresionParaCorte(); 
+        }else{
+            getListaBobinasExtrusionParaCorte();
+        }    
+       
     }) ;
 });
 function getListaBobinasExtrusionParaImpresion(){
@@ -136,26 +177,67 @@ function getListaBobinasExtrusionParaCorte(){
                 })
             }else{
                 var bobinasdeextrusions = response.respuesta.data;
-                if(bobinasdeextrusions.count()==0){
+                var hayBobinasDeExtrusion = false;
+                for (var p in bobinasdeextrusions) {
+                    if( bobinasdeextrusions.hasOwnProperty(p) ) {
+                        hayBobinasDeExtrusion = true;
+                        $("#modalAddBobinaCorte #bobinasdeextrusion-id").append('<option value="'+p+'">'+bobinasdeextrusions[p]+'</option>');
+                    } 
+                }         
+                if(hayBobinasDeExtrusion){
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Se cargo la lista de bobinas de extrusion.'
+                    })                   
+                }else{
                     Toast.fire({
                       icon: 'error',
                       title: "no hay bobinas de extrusion para usar"
                     });
-                    $('#modalAddBobinaCorte').modal('hide');
-                    return false;
                 }
-
+            }
+        },
+        error: function(xhr,textStatus,error){
+            alert(textStatus);
+        }
+    });
+}
+function getListaBobinaImpresionParaCorte(){
+    var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
+    //limpiamos la lista
+    $("#modalAddBobinaCorte #bobinasdeimpresion-id")
+        .find('option')
+        .remove();
+    $.ajax({
+        type: 'POST',
+        url: serverLayoutURL+'bobinasdeimpresions/getlist/'+ordenesdetrabajoId+'.json',
+        data: '',
+        success: function(response,textStatus,xhr){
+            if(response.respuesta.error!=0){
                 Toast.fire({
-                  icon: 'success',
-                  title: 'Se cargo la lista de bobinas de extrusion.'
+                  icon: 'error',
+                  title: data.data.respuesta
                 })
-               
-
-                for (var p in bobinasdeextrusions) {
-                    if( bobinasdeextrusions.hasOwnProperty(p) ) {
-                        $("#modalAddBobinaCorte #bobinasdeextrusion-id").append('<option value="'+p+'">'+bobinasdeextrusions[p]+'</option>');
+            }else{
+                var bobinasdeimpresions = response.respuesta.data;
+                var hayBobinasDeImpresion = false;
+                for (var p in bobinasdeimpresions) {
+                    if( bobinasdeimpresions.hasOwnProperty(p) ) {
+                        hayBobinasDeImpresion = true;
+                        $("#modalAddBobinaCorte #bobinasdeimpresion-id").append('<option value="'+p+'">'+bobinasdeimpresions[p]+'</option>');
                     } 
-                }         
+                }        
+                if(hayBobinasDeImpresion){
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Se cargo la lista de bobinas de impresion.'
+                    })                   
+                }else{
+                    Toast.fire({
+                      icon: 'error',
+                      title: "No hay bobinas de impresion para usar."
+                    });
+                }
             }
         },
         error: function(xhr,textStatus,error){
@@ -203,6 +285,52 @@ function loadBobinaEstrusion(bobinaestrusion, empleado,estrusora){
 }
 function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impresora){
     var tblBobinasdeEstrusion = $("#tblBobinasdeImpresion");
+    tblBobinasdeEstrusion.append(
+        $("<tr>")
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.numero)
+            )
+            .append(
+                $("<td>")
+                    .html(impresora.nombre)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinasdeestrusion.numero)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.fecha)
+            )
+            .append(
+                $("<td>")
+                    .html(empleado.nombre)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.horas)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.kilogramos)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.scrap)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.observacion)
+            )
+    )
+}
+function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, impresora){
+    var tblBobinasdeEstrusion = $("#tblBobinasdeImpresion");
+    var misBobinasOrigenes = "";
+    $(bobinasorigens).each(function(){
+        misBobinasOrigenes = this.id;
+    });
     tblBobinasdeEstrusion.append(
         $("<tr>")
             .append(

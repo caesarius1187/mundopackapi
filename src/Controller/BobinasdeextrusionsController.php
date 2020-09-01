@@ -54,7 +54,7 @@ class BobinasdeextrusionsController extends AppController
             'limit' => 200
         ]);
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
-            foreach ($bobinasdecorte['Bobinascorteorigens'] as $key => $corteorigen) {
+            foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
                 $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeextrusion_id;
             }
         }

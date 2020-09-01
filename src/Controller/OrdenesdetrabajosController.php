@@ -227,7 +227,11 @@ class OrdenesdetrabajosController extends AppController
                 ],
                 'Bobinasdecortes'=>[
                     'Cortadoras',
-                    'Empleados'
+                    'Empleados',
+                    'Bobinascorteorigens'=>[
+                        'Bobinasdeextrusions',
+                        'Bobinasdeimpresions',
+                    ]
                 ],
                 'Materialesots'
             ],

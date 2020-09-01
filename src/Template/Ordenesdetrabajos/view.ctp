@@ -58,6 +58,8 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                         <div class="col-sm-2">
                             <label><?= __('Cortadas:') ?></label>
                             <td><?= $this->Number->format($ordenesdetrabajo->cortadas) ?></td>
+                            <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
+                            <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
                         </div>
                         <?php
                     }else{
@@ -163,7 +165,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
             <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
               <li class="pt-2 px-3"><h3 class="card-title">Máquina</h3></li>
               <li class="nav-item">
-                <a class="nav-link active" id="custom-tabs-industry-tab" data-toggle="pill" href="#custom-tabs-industry" role="tab" aria-controls="custom-tabs-industry" aria-selected="true">EXTRUSORA</a>
+                <a class="nav-link active" id="custom-tabs-industry-tab" data-toggle="pill" href="#custom-tabs-industry" role="tab" aria-controls="custom-tabs-industry" aria-selected="true">ESTRUSORA</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="custom-tabs-print-tab" data-toggle="pill" href="#custom-tabs-print" role="tab" aria-controls="custom-tabs-print" aria-selected="false">IMPRESORA</a>
@@ -240,9 +242,9 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                             <tr>
                               <th>Numero</th>
                               <th>Impresora</th>
-                              <th>Bobina Extrusion N°</th>
+                              <th>Bobina Estrusion N°</th>
                               <th>Fecha</th>
-                              <th>Extrusor</th>
+                              <th>Estrusor</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
                               <th>Scrap cant.</th>
@@ -291,6 +293,13 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                             <tr>
                               <th>Fecha</th>
                               <th>Cortadora</th>
+                              <?php
+                              if($ordenesdetrabajo->impreso){
+                                echo  "<th>Bobina Imp N°</th>";
+                              }else{
+                                echo  "<th>Bobina Est N°</th>";
+                              }
+                              ?>
                               <th>Maq.</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
@@ -305,7 +314,19 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                 ?>
                                 <tr>
                                   <th><?= $bobinasdecorte->numero; ?></th>
-                                  <th><?= $bobinasdecorte->bobinasdeextrusion->numero; ?></th>
+                                  <th><?= $bobinasdecorte->cortadora->nombre; ?></th>
+                                  <th>
+                                  <?php
+                                  if($ordenesdetrabajo->impreso){
+                                    foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
+                                      echo $bobinaorigen->bobinasdeimpresion->numero;
+                                    }
+                                  }else{
+                                    foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
+                                      echo $bobinaorigen->bobinasdeextrusion->numero;
+                                    }
+                                  }
+                                  ?>
                                   <th><?= $bobinasdecorte->fecha->i18nFormat('d-m-Y'); ?></th>
                                   <th><?= $bobinasdecorte->empleado_id; ?></th>
                                   <th><?= $bobinasdecorte->horas; ?></th>
@@ -344,7 +365,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><?= __('Agregar Bobina de Extrusion') ?></h5>
+        <h5 class="modal-title"><?= __('Agregar Bobina de Estrusion') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -508,16 +529,21 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                 <?= $this->Form->control('cortadora_id', ['options' => $cortadoras]); ?>
             </div>
             <div class="col-sm-4">
-                <?= $this->Form->control('bobinasdeextrusion_id', [
-                    'options' => [],
-                    'multiple' => true,
-                    'label' => 'Bobina de estrusion',
-                ]); ?>
-                <?= $this->Form->control('bobinasdeimpresion_id', [
-                    'options' => [],
-                    'multiple' => true,
-                    'label' => 'Bobina de impresion',
-                ]); ?>
+              <?php
+                if($ordenesdetrabajo->impreso){
+                  echo $this->Form->control('bobinasdeimpresion_id', [
+                      'options' => [],
+                      'multiple' => true,
+                      'label' => 'Bobina de impresion',
+                  ]);  
+                }else{
+                  echo $this->Form->control('bobinasdeextrusion_id', [
+                      'options' => [],
+                      'multiple' => true,
+                      'label' => 'Bobina de estrusion',
+                  ]); 
+                }
+              ?>
             </div>
             <div class="col-sm-4">
                 <?= $this->Form->control('fecha',[

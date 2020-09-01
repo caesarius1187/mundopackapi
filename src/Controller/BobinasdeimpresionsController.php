@@ -26,7 +26,42 @@ class BobinasdeimpresionsController extends AppController
 
         $this->set(compact('bobinasdeimpresions'));
     }
+     public function getlist($ordenesdetrabajoId)
+    {
+        $this->loadModel('Bobinasdecortes');
+        //tenemos que buscar las bobinas de impresions que ya se usaron en las cortes y excluirlas
+        $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
+            'contain'=>[
+                'Bobinascorteorigens',
+            ],
+            'conditions'=>[
+                'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+            ],
+            'limit' => 200
+        ]);
+        $bobinasdeimpresionYaUsadas = [];
+        $bobinasdeimpresionYaUsadas[0] = 0;
+        foreach ($bobinasdecortes as $key => $bobinasdecorte) {
+            foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
+                $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeimpresion_id;
+            }
+        }
 
+        $bobinasdeimpresions = $this->Bobinasdeimpresions->find('list', [
+            'conditions'=>[
+                'Bobinasdeimpresions.id NOT IN'=>$bobinasdeimpresionYaUsadas,
+                'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+            ],
+            'limit' => 200
+        ]);
+        $respuesta['data'] = $bobinasdeimpresions;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            'bobinasdeimpresions' => $bobinasdeimpresions,
+            '_serialize' => ['respuesta','bobinasdeimpresions']
+        ]);
+    }
     /**
      * View method
      *
