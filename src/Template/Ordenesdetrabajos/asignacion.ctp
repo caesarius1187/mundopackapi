@@ -83,12 +83,12 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             if($ordenesdetrabajo->estado!='Pausado'){
                                 echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
                             }
-                            echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-block btn-default btn-xs"><i class="fas fa-ban"></i></button>';
-                            $indexurl = 'location.href="'.Router::url(['controller'=>'ordenesdetrabajos', 'action'=>'view',$ordenesdetrabajo->id], true).'"';
-                        ?>
-                            <button type="button" class="btn btn-block btn-default btn-xs" onclick="'.$indexurl.'">
+                            echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
+                                                    ?>
+                            <button type="button" class="btn btn-default btn-xs">
                             <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
                                   'escape' => false,
+                                  'target' => '_blank',
                             ]) ?>
                             </button>
                         </td>

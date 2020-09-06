@@ -132,26 +132,27 @@ function getListaBobinasExtrusionParaImpresion(){
                   title: data.data.respuesta
                 })
             }else{
-                if(bobinasdeextrusions.count()==0){
+                var bobinasdeextrusions = response.respuesta.data;
+                
+                var hayBobinasDeExtrusion = false;
+                for (var p in bobinasdeextrusions) {
+                    if( bobinasdeextrusions.hasOwnProperty(p) ) {
+                        $("#modalAddBobinaImpresion #bobinasdeextrusion-id").append('<option value="'+p+'">'+bobinasdeextrusions[p]+'</option>');
+                        hayBobinasDeExtrusion = true;
+                    } 
+                }       
+                if(hayBobinasDeExtrusion){
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Se cargo la lista de bobinas de extrusion.'
+                    })                   
+                }else{
                     Toast.fire({
                       icon: 'error',
                       title: "no hay bobinas de extrusion para usar"
                     });
-                    $('#modalAddBobinaImpresion').modal('hide');
-                    return false;
+                    $('#modalAddBobinaImpresion').modal('hide');                    
                 }
-
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Se cargo la lista de bobinas de extrusion.'
-                })
-                var bobinasdeextrusions = response.respuesta.data;
-
-                for (var p in bobinasdeextrusions) {
-                    if( bobinasdeextrusions.hasOwnProperty(p) ) {
-                        $("#modalAddBobinaImpresion #bobinasdeextrusion-id").append('<option value="'+p+'">'+bobinasdeextrusions[p]+'</option>');
-                    } 
-                }         
             }
         },
         error: function(xhr,textStatus,error){
@@ -194,6 +195,7 @@ function getListaBobinasExtrusionParaCorte(){
                       icon: 'error',
                       title: "no hay bobinas de extrusion para usar"
                     });
+                    $('#modalAddBobinaCorte').modal('hide');                    
                 }
             }
         },
@@ -237,6 +239,7 @@ function getListaBobinaImpresionParaCorte(){
                       icon: 'error',
                       title: "No hay bobinas de impresion para usar."
                     });
+                    $('#modalAddBobinaCorte').modal('hide');                    
                 }
             }
         },
@@ -325,29 +328,33 @@ function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impr
             )
     )
 }
-function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, impresora){
-    var tblBobinasdeEstrusion = $("#tblBobinasdeImpresion");
+function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
+    var tblBobinasdeEstrusion = $("#tblBobinasdeCorte");
     var misBobinasOrigenes = "";
+    var tieneimpresion = $("#tieneimpresion").val(); 
     $(bobinasorigens).each(function(){
-        misBobinasOrigenes = this.id;
+        if(tieneimpresion){
+            misBobinasOrigenes += this.bobinasdeimpresion.numero+"-";    
+        }
+        
     });
     tblBobinasdeEstrusion.append(
         $("<tr>")
             .append(
                 $("<td>")
-                    .html(bobinaimpresion.numero)
+                    .html(bobinadecorte.numero)
             )
             .append(
                 $("<td>")
-                    .html(impresora.nombre)
+                    .html(cortadora.nombre)
             )
             .append(
                 $("<td>")
-                    .html(bobinasdeestrusion.numero)
+                    .html(misBobinasOrigenes)
             )
             .append(
                 $("<td>")
-                    .html(bobinaimpresion.fecha)
+                    .html(bobinadecorte.fecha)
             )
             .append(
                 $("<td>")
@@ -355,19 +362,19 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, impresora){
             )
             .append(
                 $("<td>")
-                    .html(bobinaimpresion.horas)
+                    .html(bobinadecorte.horas)
             )
             .append(
                 $("<td>")
-                    .html(bobinaimpresion.kilogramos)
+                    .html(bobinadecorte.kilogramos)
             )
             .append(
                 $("<td>")
-                    .html(bobinaimpresion.scrap)
+                    .html(bobinadecorte.scrap)
             )
             .append(
                 $("<td>")
-                    .html(bobinaimpresion.observacion)
+                    .html(bobinadecorte.observacion)
             )
     )
 }

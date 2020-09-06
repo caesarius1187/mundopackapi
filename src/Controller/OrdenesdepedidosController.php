@@ -92,44 +92,34 @@ class OrdenesdepedidosController extends AppController
 
     }
 
-    public function add()
+    public function add($ordenPedidoId = null)
     {
         $this->loadModel('Clientes');
+        $this->loadModel('Ordenesdetrabajos');
         $ordenesdepedido = $this->Ordenesdepedidos->newEntity();
 
-        $maxNumOrdenPedido = 0;
-        $orderopMax = $this->Ordenesdepedidos->find('all',[
-            'conditions'=>[
-            ],
-            'fields' => array('maxprioridad' => 'MAX(Ordenesdepedidos.numero)'),
-        ]);
-        foreach ($orderopMax as $key => $value) {
-            $maxNumOrdenPedido = $value->maxprioridad;
-        }
-        $maxNumOrdenPedido++;
-
+        $maxNumOrdenPedido = 1;
+        
+        if($ordenPedidoId!=null){
+            $newordenesdepedidos =  $this->Ordenesdepedidos->get($ordenPedidoId,['contain'=>['Ordenesdetrabajos'=>['Materialesots']]]);
+            $ordenesdepedido = $newordenesdepedidos;
+            $maxNumOrdenPedido = $ordenesdepedido->numero;
+        }else{
+            $orderopMax = $this->Ordenesdepedidos->find('all',[
+                'conditions'=>[
+                ],
+                'fields' => array('maxprioridad' => 'MAX(Ordenesdepedidos.numero)'),
+            ]);
+            foreach ($orderopMax as $key => $value) {
+                $maxNumOrdenPedido = $value->maxprioridad;
+            }
+            $maxNumOrdenPedido++;
+        }     
         $clientes = $this->Clientes->find('list',[
             'conditions'=>[
             ],
         ]); 
-        $materiales = [
-            'LINEAL'=>'LINEAL',
-            'BD GRUESO '=>'BD GRUESO ',
-            'BD FINO '=>'BD FINO ',
-            'BD RECI CARAMELO'=>'BD RECI CARAMELO',
-            'BD RECI VERDE'=>'BD RECI VERDE',
-            'BD RECI NEGRO'=>'BD RECI NEGRO',
-            'BD RECI COLOR'=>'BD RECI COLOR',
-            'AD VIRGEN'=>'AD VIRGEN',
-            'AD RECICLADO'=>'AD RECICLADO',
-            'LINEAL P/ HIELO'=>'LINEAL P/ HIELO',
-            'MASTER'=>'MASTER',
-            'UV'=>'UV',
-            'DESLIZANTE'=>'DESLIZANTE',
-            'ANTIBLOCK'=>'ANTIBLOCK',
-            'ANTIESTATICO'=>'ANTIESTATICO',
-            'CARBONATO O CARGA'=>'CARBONATO O CARGA',
-        ];
+        $materiales = $this->Ordenesdetrabajos->materiales;
         $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes','materiales'));
     }
 

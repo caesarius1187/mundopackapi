@@ -43,10 +43,9 @@ class BobinasdeimpresionsController extends AppController
         $bobinasdeimpresionYaUsadas[0] = 0;
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
             foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
-                $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeimpresion_id;
+                $bobinasdeimpresionYaUsadas[] = $corteorigen->bobinasdeimpresion_id;
             }
         }
-
         $bobinasdeimpresions = $this->Bobinasdeimpresions->find('list', [
             'conditions'=>[
                 'Bobinasdeimpresions.id NOT IN'=>$bobinasdeimpresionYaUsadas,

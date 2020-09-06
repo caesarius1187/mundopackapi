@@ -42,7 +42,7 @@ class OrdenesdepedidosTable extends Table
 
         $this->hasMany('Ordenesdetrabajos', [
             'foreignKey' => 'ordenesdepedido_id',
-        ]);
+        ]);       
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',
             'joinType' => 'INNER',

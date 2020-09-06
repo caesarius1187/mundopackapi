@@ -109,8 +109,8 @@ class BobinasdecortesController extends AppController
             //vamos a sumar 1 en las bobinas cortadora de la orden de trabajo
             //TODO: pero vamos a sumar 1 por cada bobinascorteorigens
             $cantCortadas = 0;
-            $bobinasDeExtrusionCortadas = $this->request->getData()['bobinasdeextrusion_id'];
-            if(count($bobinasDeExtrusionCortadas>0)){
+            if(isset($this->request->getData()['bobinasdeextrusion_id'])){
+                $bobinasDeExtrusionCortadas = $this->request->getData()['bobinasdeextrusion_id'];
                 foreach ($bobinasDeExtrusionCortadas as $key => $bobinaextrusioncortada) {
                     $bobinacorteorigen = $this->Bobinascorteorigens->newEntity();
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
@@ -119,8 +119,8 @@ class BobinasdecortesController extends AppController
                     $cantCortadas++;
                 }
             }
-            $bobinasDeImpresionCortadas = $this->request->getData()['bobinasdeimpresion_id'];
-            if(count($bobinasDeImpresionCortadas)>0){
+            if(isset($this->request->getData()['bobinasdeimpresion_id'])){
+                $bobinasDeImpresionCortadas = $this->request->getData()['bobinasdeimpresion_id'];
                 foreach ($bobinasDeImpresionCortadas as $key => $bobinaimpresioncortada) {
                     $bobinacorteorigen = $this->Bobinascorteorigens->newEntity();
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
@@ -131,7 +131,7 @@ class BobinasdecortesController extends AppController
             }
             $respuesta['bobinasorigens'] = $this->Bobinascorteorigens->find('all',[
                 'contain'=>['Bobinasdeimpresions','Bobinasdeextrusions'],
-                'conditions'=>['Bobinascorteorigens.bobinasdecorte_id'=>$bobinasdecorte_id]
+                'conditions'=>['Bobinascorteorigens.bobinasdecorte_id'=>$bobinacorteorigen->bobinasdecorte_id]
             ]);
 
             $ordenesdetrabajo->cortadas = $ordenesdetrabajo->cortadas+$cantCortadas ;
@@ -147,7 +147,7 @@ class BobinasdecortesController extends AppController
                 //buscamos las OrdenOts de la OT que debemos eliminar
                  $conditionsOrdenOts=[
                     'conditions'=>[
-                        'Ordenots.ortadora_id <> 0',
+                        'Ordenots.cortadora_id <> 0',
                         'Ordenots.ordenesdetrabajo_id'=>$ordenesdetrabajo->id,
                     ]
                 ];                

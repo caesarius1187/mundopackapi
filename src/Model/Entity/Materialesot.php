@@ -25,6 +25,7 @@ class Materialesot extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'ordenesdetrabajo_id' => true,
         'material' => true,
         'porcentaje' => true,

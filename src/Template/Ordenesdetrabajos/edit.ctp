@@ -1,47 +1,196 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Ordenesdetrabajo $ordenesdetrabajo
- */
+echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $ordenesdetrabajo->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $ordenesdetrabajo->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Ordenesdetrabajos'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Ordenesdepedidos'), ['controller' => 'Ordenesdepedidos', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Ordenesdepedido'), ['controller' => 'Ordenesdepedidos', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="ordenesdetrabajos form large-9 medium-8 columns content">
-    <?= $this->Form->create($ordenesdetrabajo) ?>
-    <fieldset>
-        <legend><?= __('Edit Ordenesdetrabajo') ?></legend>
-        <?php
-            echo $this->Form->control('ordenesdepedido_id', ['options' => $ordenesdepedidos]);
-            echo $this->Form->control('cantidad');
-            echo $this->Form->control('material');
-            echo $this->Form->control('tipo');
-            echo $this->Form->control('color');
-            echo $this->Form->control('fuelle');
-            echo $this->Form->control('medida');
-            echo $this->Form->control('perf');
-            echo $this->Form->control('impreso');
-            echo $this->Form->control('preciounitario');
-            echo $this->Form->control('observaciones');
-            echo $this->Form->control('numero');
-            echo $this->Form->control('cierre', ['empty' => true]);
-            echo $this->Form->control('cierremicrones');
-            echo $this->Form->control('cierrescrap');
-            echo $this->Form->control('cierrediferenciakg');
-            echo $this->Form->control('concluciones');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">Modificar ORDEN DE TRABAJO</h3>
+    </div>
+      <!-- /.card-header -->
+    <div class="card-body">
+        <?= $this->Form->create($ordenesdetrabajo,[
+            'id'=>'OrdenesDeTrabajoEditForm',
+            'url'=>[
+              'controller'=>'ordenesdetrabajos',
+              'action'=>'edit',
+            ],
+        ]) ?>
+        <?= $this->Form->control('estado',[
+              'value'=>'En Proceso', 
+              'type'=>'hidden' 
+            ]); ?>
+        <?= $this->Form->control('id',[
+            'type'=>'hidden', 
+            'value'=>$ordenesdetrabajo->id
+        ]); ?>
+        <?= $this->Form->control('ordenesdepedido_id',[
+            'type'=>'hidden' ,
+            'value'=>$ordenesdetrabajo->ordenesdepedido_id
+          ]); ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table" id="tblMateriales">
+                    <thead>
+                      <tr>
+                        <th>Material</th>
+                        <th>Tipo</th>
+                        <th>Porcentaje</th>
+                        <th><button type="button" name="button" class="btn btn-success" onclick="loadMaterial()"><i class="fas fa-plus"></i></button></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tblMaterialesBody">
+                        <?php
+                        $cantMateriales = 0;
+                        foreach ($ordenesdetrabajo['materialesots'] as $key => $materialesot) {
+                            $cantMateriales++;
+                            ?>
+                            <tr>
+                              <td>
+                                <?= $this->Form->control('Materialesots.'.$key.'.id',[
+                                  'type'=>'hidden',
+                                  'value'=>$materialesot->id
+                                ]); ?>
+                                <?= $this->Form->control('Materialesots.'.$key.'.ordenesdetrabajo_id',[
+                                  'type'=>'hidden',
+                                  'value'=>$materialesot->ordenesdetrabajo_id
+                                ]); ?>
+                                <?= $this->Form->control('Materialesots.'.$key.'.material',[
+                                  'label'=>false,
+                                  'value'=>$materialesot->material,
+                                  'type'=>'select',
+                                  'options'=>[$materiales]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.'.$key.'.tipo',[
+                                  'label'=>false,
+                                  'value'=>$materialesot->tipo,
+                                  'type'=>'select',
+                                  'options'=>[
+                                    'Nuevo'=>'Nuevo',
+                                    'Reciclado'=>'Reciclado',
+                                  ]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.'.$key.'.porcentaje',[
+                                  'label'=>false,
+                                  'value'=>$materialesot->porcentaje,
+                                  'class'=>'porcentaje',
+                                ]); ?>
+                              </td>
+                            </tr>
+                            <?php
+                        }
+                        if($cantMateriales==0){
+                            $cantMateriales++;
+                            ?>
+                            <tr>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.id',[
+                                  'type'=>'hidden',
+                                ]); ?>
+                                <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
+                                  'type'=>'hidden',
+                                  'value'=>$ordenesdetrabajo->id
+                                ]); ?>
+                                <?= $this->Form->control('Materialesots.0.material',[
+                                  'label'=>false,
+                                  'type'=>'select',
+                                  'options'=>[$materiales]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.tipo',[
+                                  'label'=>false,
+                                  'type'=>'select',
+                                  'options'=>[
+                                    'Nuevo'=>'Nuevo',
+                                    'Reciclado'=>'Reciclado',
+                                  ]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.porcentaje',[
+                                  'label'=>false,
+                                  'class'=>'porcentaje',
+                                ]); ?>
+                              </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <?= $this->Form->control('cantMateriales',[
+                    'type'=>'hidden' ,
+                    'value'=>$cantMateriales
+                ]); ?>
+              <?= $this->Form->control('color',[ ]); ?>            
+            </div>
+            <div class="col-sm-3">
+              <?= $this->Form->control('fuelle',[
+                'type'=>'select',
+                'options'=>[
+                  '5cm'=>'5cm',
+                  '7,5cm'=>'7,5cm',
+                  '10cm'=>'10cm',
+                ]
+              ]); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+              <?= $this->Form->control('ancho',['class'=>'inputCalculoOT']); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('largo',['class'=>'inputCalculoOT']); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('espesor',['class'=>'inputCalculoOT']); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('cantidad',['class'=>'inputCalculoOT']); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('pesoxmil',[ ]); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('metrototal',[ ]); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('aextrusar',['class'=>'inputCalculoOT']); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('pesobob',[ ]); ?>
+            </div>
+            <div class="col-sm-1">
+              <?= $this->Form->control('metrobob',[ ]); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+              <?= $this->Form->control('perf',[ ]); ?>
+            </div>
+            <div class="col-sm-3">
+              <?= $this->Form->control('impreso',['type'=>'checkbox','label'=>' Imprimir' ]); ?>
+              <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
+            </div>
+            <div class="col-sm-2">
+              <?= $this->Form->control('preciounitario',[ ]); ?>
+            </div>
+            <div class="col-sm-5">
+              <?= $this->Form->control('observaciones',[ ]); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center" style="margin-top:15px">
+                <button type="submit" name="button" class="btn btn-success"><i class="fas fa-plus"></i> Modificar</button>
+            </div>
+        </div>
+        <?= $this->Form->end(); ?>
+    </div>
 </div>

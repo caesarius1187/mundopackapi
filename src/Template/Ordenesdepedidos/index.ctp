@@ -61,7 +61,7 @@
                             'escape' => false,
                             'class' => 'btn btn-info btn-sm'
                             ]) ?>
-                          <?= $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'edit', $ordenesdepedido->id],[
+                          <?= $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'add', $ordenesdepedido->id],[
                             'escape' => false,
                             'class' => 'btn btn-success btn-sm'
                             ]) ?>

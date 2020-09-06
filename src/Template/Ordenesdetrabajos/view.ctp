@@ -319,11 +319,11 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                   <?php
                                   if($ordenesdetrabajo->impreso){
                                     foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
-                                      echo $bobinaorigen->bobinasdeimpresion->numero;
+                                      echo $bobinaorigen->bobinasdeimpresion->numero."-";
                                     }
                                   }else{
                                     foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
-                                      echo $bobinaorigen->bobinasdeextrusion->numero;
+                                      echo $bobinaorigen->bobinasdeextrusion->numero."-";
                                     }
                                   }
                                   ?>
@@ -534,12 +534,14 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                   echo $this->Form->control('bobinasdeimpresion_id', [
                       'options' => [],
                       'multiple' => true,
+                      'required' => true,
                       'label' => 'Bobina de impresion',
                   ]);  
                 }else{
                   echo $this->Form->control('bobinasdeextrusion_id', [
                       'options' => [],
                       'multiple' => true,
+                      'required' => true,
                       'label' => 'Bobina de estrusion',
                   ]); 
                 }
