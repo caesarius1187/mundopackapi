@@ -237,13 +237,7 @@ class BobinasdeextrusionsController extends AppController
                         $respuesta['error'] =2 ;
                         $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
                     }
-                }
-                if ($this->Ordenots->delete($ordenot)) {
-
-                } else {
-                    $data['error'] =2 ;
-                    $data['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
-                }
+                }               
             }
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';

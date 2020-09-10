@@ -136,8 +136,6 @@ class OrdenesdetrabajosController extends AppController
         ]);
         $ordenesdetrabajo->estado = 'En Proceso';
         if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-            //si la or tiene ordenot asignadas las eliminamos
-            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
             $data['respuesta'] .= "La OT fue retomada. Ya se puede ver en las listas de prioridades que se pueden agregar.";
         }else{
             $data['error'] = 1;
@@ -325,20 +323,53 @@ class OrdenesdetrabajosController extends AppController
      */
     public function edit($id = null)
     {
+        $this->loadModel('Materialesots');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
-            'contain' => [],
+            'contain' => ['Materialesots'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $this->Flash->success(__('The ordenesdetrabajo has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $respuesta['respuesta'] = 'La orden de pedido fue guardada';
+                foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
+                    if($materialesot['id']!=0){
+                        $newmaterialOt = $this->Materialesots->get($materialesot['id'], [
+                            'contain' => [],
+                        ]);    
+                        $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
+                    }else{
+                        $newmaterialOt = $this->Materialesots->newEntity();    
+                    }
+                    $newmaterialOt->id = $materialesot['id'];
+                    $newmaterialOt->ordenesdetrabajo_id = $materialesot['ordenesdetrabajo_id'];
+                    $newmaterialOt->material = $materialesot['material'];
+                    $newmaterialOt->tipo = $materialesot['tipo'];
+                    $newmaterialOt->porcentaje = $materialesot['porcentaje'];
+                    $savedMaterial = $this->Materialesots->save($newmaterialOt);
+                }
+                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+                $respuesta['request'] = $this->request->getData();
+                $respuesta['error'] = 0;
+                $OPerrors = $ordenesdetrabajo->errors();
+                $respuesta['errors'] = $OPerrors;
+            }else{
+                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+                $respuesta['request'] = $this->request->getData();
+                $respuesta['error'] = 1;
+                $OPerrors = $ordenesdetrabajo->errors();
+                $respuesta['errors'] = $OPerrors;
             }
-            $this->Flash->error(__('The ordenesdetrabajo could not be saved. Please, try again.'));
+            $this->set([
+                'respuesta' => $respuesta,
+                '_serialize' => ['respuesta']
+            ]);
+            return;
         }
+
         $ordenesdepedidos = $this->Ordenesdetrabajos->Ordenesdepedidos->find('list', ['limit' => 200]);
-        $this->set(compact('ordenesdetrabajo', 'ordenesdepedidos'));
+        $materiales = $this->Ordenesdetrabajos->materiales;
+
+        $this->set(compact('ordenesdetrabajo', 'ordenesdepedidos','materiales'));
     }
 
     /**

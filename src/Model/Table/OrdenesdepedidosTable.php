@@ -35,14 +35,14 @@ class OrdenesdepedidosTable extends Table
         parent::initialize($config);
 
         $this->setTable('ordenesdepedidos');
-        $this->setDisplayField('id');
+        $this->setDisplayField('numero');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Ordenesdetrabajos', [
             'foreignKey' => 'ordenesdepedido_id',
-        ]);
+        ]);       
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',
             'joinType' => 'INNER',

@@ -145,10 +145,7 @@ function cargarOTenTbl(ordenesdetrabajo){
             )
             .append(
                 $("<td>").html(ordenesdetrabajo.material)
-            )
-            .append(
-                $("<td>").html(ordenesdetrabajo.tipo)
-            )
+            )            
             .append(
                 $("<td>").html(ordenesdetrabajo.color)
             )

@@ -48,6 +48,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
             ]) ?>
             <div class="row">
               <div class="col-md-5">
+                <?= $this->Form->control('id'); ?>
                 <?= $this->Form->control('cliente_id'); ?>
                 <?= $this->Form->control('numero',[
                   'type'=>'hidden',
@@ -91,12 +92,16 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
             </div>
             <div class="row">
               <div class="col-sm-12 text-center" style="margin-top:15px">
-                <button type="submit" name="button" class="btn btn-success"><i class="fas fa-plus"></i> AGREGAR</button>
+                <button type="submit" name="button" class="btn btn-success"><i class="fas fa-plus"></i><?= ($ordenesdepedido->id==0)?'AGREGAR':'Modificar'?></button>
               </div>
             </div>
             <?= $this->Form->end(); ?>
-            
-            <div class="card card-secondary" style="display: none;">
+            <?php
+            if($ordenesdepedido->id==0){
+              $display='display:';
+            }
+            ?>
+            <div class="card card-secondary" style="<?= ($ordenesdepedido->id==0)?'display: none':''?>;">
               <div class="card-header">
                 <h3 class="card-title">AGREGAR ORDEN DE TRABAJO</h3>
               </div>
@@ -114,7 +119,8 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                           'type'=>'hidden' 
                         ]); ?>
                 <?= $this->Form->control('ordenesdepedido_id',[
-                        'type'=>'hidden' 
+                        'type'=>'hidden' ,
+                        'value'=>$ordenesdepedido->id
                       ]); ?>
                   <div class="row">
                     <div class="col-sm-12">
@@ -128,35 +134,35 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                           </tr>
                         </thead>
                         <tbody id="tblMaterialesBody">
-                          <tr>
-                            <td>
-                              <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
-                                'type'=>'hidden'
-                              ]); ?>
-                              <?= $this->Form->control('Materialesots.0.material',[
-                                'label'=>false,
-                                'type'=>'select',
-                                'options'=>[$materiales]
-                              ]); ?>
-                            </td>
-                            <td>
-                              <?= $this->Form->control('Materialesots.0.tipo',[
-                                'label'=>false,
-                                'type'=>'select',
-                                'options'=>[
-                                  'Nuevo'=>'Nuevo',
-                                  'Reciclado'=>'Reciclado',
-                                ]
-                              ]); ?>
-                            </td>
-                            <td>
-                              <?= $this->Form->control('Materialesots.0.porcentaje',[
-                                'label'=>false,
-                                'class'=>'porcentaje',
-                                'value'=>'100',                                
-                              ]); ?>
-                            </td>
-                          </tr>
+                            <tr>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
+                                  'type'=>'hidden',                            
+                                ]); ?>
+                                <?= $this->Form->control('Materialesots.0.material',[
+                                  'label'=>false,
+                                  'type'=>'select',
+                                  'options'=>[$materiales]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.tipo',[
+                                  'label'=>false,
+                                  'type'=>'select',
+                                  'options'=>[
+                                    'Nuevo'=>'Nuevo',
+                                    'Reciclado'=>'Reciclado',
+                                  ]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.porcentaje',[
+                                  'label'=>false,
+                                  'class'=>'porcentaje',
+                                  'value'=>'100',                                
+                                ]); ?>
+                              </td>
+                            </tr>
                         </tbody>
                       </table>
                     </div>
@@ -260,9 +266,8 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                         <tr>
                           <th>Numero</th>
                           <th>Cant.</th>
-                          <th>A Extrusar</th>
+                          <th>A Estrusar</th>
                           <th>Material</th>
-                          <th>Tipo</th>
                           <th>Color</th>
                           <th>Fuelle</th>
                           <th>Medida</th>
@@ -271,9 +276,62 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                           <th>Cor.</th>
                           <th>Precio U.</th>
                           <th>Obs.</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
-                      <tbody>                          
+                      <tbody>       
+                      <?php
+                        foreach ($ordenesdepedido['ordenesdetrabajos'] as $key => $ordendetrabajo) {
+                            ?>
+                            <tr>
+                              <td><?= $ordendetrabajo->numero?></td>
+                              <td><?= $ordendetrabajo->cantidad?></td>
+                              <td><?= $ordendetrabajo->aextrusar?></td>
+                              <?php 
+                              $materialtext = "";
+                              foreach ($ordendetrabajo['materialesots'] as $key => $material) {
+                                 $materialtext .= $material['material'].":".$material['tipo']." al ".$material['porcentaje']."% /";
+                              }
+                              ?>
+                              <td title="<?= $materialtext ?>">
+                                <label style=" display:block; width: 150px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                  <?= $materialtext ?>
+                                </label>
+                              </td>
+                              <td><?= $ordendetrabajo->color?></td>
+                              <td><?= $ordendetrabajo->fuelle?></td>
+                              <td><?= $ordendetrabajo->medida?></td>
+                              <td><?= $ordendetrabajo->perf?></td>
+                              <td><?= $ordendetrabajo->impreso?'SI':'NO'?></td>
+                              <td><?= $ordendetrabajo->cortado?'SI':'NO'?></td>
+                              <td><?= $ordendetrabajo->preciounitario?></td>
+                              <td><?= $ordendetrabajo->observaciones?></td>
+                              <td>
+                              <?=$this->Html->link('<i class="fas fa-search"></i>', 
+                                  [
+                                    'controller' => 'ordenesdetrabajos',
+                                    'action' => 'view',
+                                    $ordendetrabajo->id
+                                  ], 
+                                  [
+                                    'escape' => false,
+                                    'class' => "btn btn-info btn-sm",
+                                ]) ?>
+                              <?=$this->Html->link('<i class="fas fa-edit"></i>', 
+                                  [
+                                    'controller' => 'ordenesdetrabajos',
+                                    'action' => 'edit',
+                                    $ordendetrabajo->id
+                                  ], 
+                                  [
+                                    'escape' => false,
+                                    'class' => "btn btn-success btn-sm",
+                                ]) ?>
+                              </td>
+                            </tr>
+                            <?php
+                        }
+                      ?>                   
                       </tbody>
                     </table>
                   </div>
@@ -283,11 +341,11 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
               </div>
             </div>
             <!-- /.row -->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-12 text-center">
                 <button type="button" name="button" class="btn btn-secondary"><i class="fas fa-save"></i> GUARDAR</button>
               </div>
-            </div>
+            </div> -->
         </div>
       </div>
     </div>

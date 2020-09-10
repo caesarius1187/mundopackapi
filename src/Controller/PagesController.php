@@ -27,8 +27,7 @@ use Cake\View\Exception\MissingTemplateException;
  * @link https://book.cakephp.org/3.0/en/controllers/pages-controller.html
  */
 class PagesController extends AppController
-{
-
+{  
     /**
      * Displays a view
      *
@@ -40,6 +39,12 @@ class PagesController extends AppController
      */
     public function display(...$path)
     {
+        $session = $this->request->getSession(); // less than 3.5
+        $user_data = $session->read('Auth.User');
+        if(!empty($user_data)){
+            return $this->redirect('/empleados/dashboard');
+        }
+
         $count = count($path);
         if (!$count) {
             return $this->redirect('/');

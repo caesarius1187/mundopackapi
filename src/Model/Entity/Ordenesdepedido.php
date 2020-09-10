@@ -29,6 +29,7 @@ class Ordenesdepedido extends Entity
         'created' => true,
         'modified' => true,
         'ordenesdetrabajos' => true,
+        'estado' => true,
         'cliente_id' => true,
         'numero' => true,
         'metodocomunicacion' => true,

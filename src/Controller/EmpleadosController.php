@@ -25,7 +25,9 @@ class EmpleadosController extends AppController
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
+                    'Ordenesdetrabajos'=>[
+                        'Ordenesdepedidos'
+                    ],
                     'conditions'=>[
                         'Ordenots.prioridad'=>1
                     ]
@@ -72,11 +74,52 @@ class EmpleadosController extends AppController
      */
     public function view($id = null)
     {
-        $empleado = $this->Empleados->get($id, [
-            'contain' => ['Bobinasdecortes', 'Bobinasdeextrusions', 'Bobinasdeimpresions'],
-        ]);
+        $empleadoconsulta = $this->Empleados->newEntity();
+        if ($this->request->is('post')) {
+            $fechaDesde = date('Y-m-d',strtotime($this->request->getData()['fechadesde']));
+            $fechaHasta = date('Y-m-d',strtotime($this->request->getData()['fechahasta']));
+            $empleado = $this->Empleados->get($id, [
+                'contain' => [
+                    'Bobinasdecortes'=>[
+                        'Cortadoras',
+                        'conditions'=>[
+                            'Bobinasdecortes.created >='=>$fechaDesde,
+                            'Bobinasdecortes.created <='=>$fechaHasta,
+                        ],
+                    ], 
+                    'Bobinasdeextrusions'=>[
+                        'Extrusoras',
+                        'conditions'=>[
+                            'Bobinasdeextrusions.created >='=>$fechaDesde,
+                            'Bobinasdeextrusions.created <='=>$fechaHasta,
+                        ],
+                    ], 
+                    'Bobinasdeimpresions'=>[
+                        'Impresoras',
+                        'conditions'=>[
+                            'Bobinasdeimpresions.created >='=>$fechaDesde,
+                            'Bobinasdeimpresions.created <='=>$fechaHasta,
+                        ],
+                    ]
+                ],
+            ]);
+        }else{
+            $empleado = $this->Empleados->get($id, [
+                'contain' => [
+                    'Bobinasdecortes'=>[
+                        'Cortadoras'
+                    ], 
+                    'Bobinasdeextrusions'=>[
+                        'Extrusoras'
+                    ], 
+                    'Bobinasdeimpresions'=>[
+                        'Impresoras'
+                    ]
+                ],
+            ]);
+        }
 
-        $this->set('empleado', $empleado);
+        $this->set(compact('empleado','empleadoconsulta'));
     }
 
     /**
