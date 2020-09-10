@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Ordenesdetrabajo $ordenesdetrabajo
  */
 echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
+echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>false));
 ?>
 
 <!-- Content Header (Page header) -->
@@ -79,7 +80,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                     <div class="col-sm-3">
                         <label><?= __('Materiales:') ?></label>
                         <ul>
-                        <?php                         
+                        <?php
                         foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
                             ?>
                             <li><?= h($materialesot->material) ?>
@@ -199,6 +200,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                               <th>Kg.</th>
                               <th>Scrap cant.</th>
                               <th>Observación</th>
+                              <th>RUB</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -214,6 +216,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                   <th><?=$bobinasdeextrusion->kilogramos; ?></th>
                                   <th><?=$bobinasdeextrusion->scrap; ?></th>
                                   <th><?=$bobinasdeextrusion->observacion; ?></th>
+                                  <th class="text-center"><button type="button" name="button" onclick="imprimir(<?=$bobinasdeextrusion->id ?>)" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></button></th>
                                 </tr>
                                 <?php
                             }
@@ -535,13 +538,13 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                       'options' => [],
                       'multiple' => true,
                       'label' => 'Bobina de impresion',
-                  ]);  
+                  ]);
                 }else{
                   echo $this->Form->control('bobinasdeextrusion_id', [
                       'options' => [],
                       'multiple' => true,
                       'label' => 'Bobina de estrusion',
-                  ]); 
+                  ]);
                 }
               ?>
             </div>

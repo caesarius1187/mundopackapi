@@ -1,7 +1,7 @@
-function imprimir(){
+function imprimir(id){
   $.ajax({
       type: 'POST',
-      url: serverLayoutURL+'bobinasdeextrusions/printticket.json',
+      url: serverLayoutURL+'bobinasdeextrusions/printticket/'+id+'.json',
       data: '',
       success: function(data,textStatus,xhr){
           if(data.data.error!=0){

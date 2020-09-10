@@ -20,7 +20,10 @@ class BobinasdeextrusionsController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-    public function printticket(){
+    public function printticket($id = null){
+      $bobinasdeextrusion = $this->Bobinasdeextrusions->get($id, [
+          'contain' => ['Empleados', 'Extrusoras', 'Bobinascorteorigens', 'Bobinasdeimpresions'],
+      ]);
       require_once(ROOT . DS . 'vendor' .  DS . "autoload.php");
       $nombre_impresora = "Ticketera";
       $connector = new WindowsPrintConnector($nombre_impresora);
@@ -28,13 +31,13 @@ class BobinasdeextrusionsController extends AppController
       $printer->setJustification(Printer::JUSTIFY_CENTER);
       try{
       	$logo = EscposImage::load("img\bobina.png", false);
-       $printer->bitImage($logo);
+       //$printer->bitImage($logo);
       }catch(Exception $e){/*No hacemos nada si hay error*/}
       // date_default_timezone_set("America/Argentina/Salta");
       $printer->text(date("Y-m-d H:i:s") . "\n");
       $printer->feed(1);
       $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-      $printer -> text("Texto de prueba.\n");
+      $printer -> text($bobinasdeextrusion->numero."\n");
       $printer -> cut();
       $printer -> close();
       $respuesta = 'imprimi';
@@ -196,7 +199,7 @@ class BobinasdeextrusionsController extends AppController
                         'Ordenots.extrusora_id <> 0',
                         'Ordenots.ordenesdetrabajo_id'=>$ordenesdetrabajo->id,
                     ]
-                ];                
+                ];
                 $myOrderOtsTosDelete = $this->Ordenots->find('all',$conditionsOrdenOts);
                 $respuesta['myOrderOtsTosDelete'] = $myOrderOtsTosDelete;
                 foreach ($myOrderOtsTosDelete as $key => $myOrderOtToDelete) {
@@ -227,9 +230,9 @@ class BobinasdeextrusionsController extends AppController
                             $respuesta['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
                         }
                     }
-                    
+
                     if ($this->Ordenots->delete($myOrderOtToDelete)) {
-                       
+
                     } else {
                         $respuesta['error'] =2 ;
                         $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
@@ -240,7 +243,7 @@ class BobinasdeextrusionsController extends AppController
                 } else {
                     $data['error'] =2 ;
                     $data['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
-                }*/
+                }
             }
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';

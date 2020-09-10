@@ -52,7 +52,7 @@ class BobinasdeextrusionsTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->hasMany('Bobinascorteorigens', [
-            'foreignKey' => 'bobinascorteorigen_id',
+            'foreignKey' => 'bobinasdeextrusion_id',
         ]);
         $this->hasMany('Bobinasdeimpresions', [
             'foreignKey' => 'bobinasdeextrusion_id',
