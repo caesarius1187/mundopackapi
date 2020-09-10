@@ -85,6 +85,14 @@ return [
             'action' => '*',
         ],
         [
+            'role' => 'operador',
+            'prefix' => '*',
+            'extension' => '*',
+            'plugin' => '*',
+            'controller' => '*',
+            'action' => '*',
+        ],
+        [
             'role' => 'user',
             'prefix' => '*',
             'extension' => '*',

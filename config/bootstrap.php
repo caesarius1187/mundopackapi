@@ -204,5 +204,4 @@ Type::build('timestamp')
 $this->addPlugin(\CakeDC\Users\Plugin::class, ['routes' => true, 'bootstrap' => true]);
 Configure::write('Users.config', ['users']);
 require_once 'events.php';
-
 $this->addPlugin('AdminLTE');

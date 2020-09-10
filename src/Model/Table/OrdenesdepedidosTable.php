@@ -35,7 +35,7 @@ class OrdenesdepedidosTable extends Table
         parent::initialize($config);
 
         $this->setTable('ordenesdepedidos');
-        $this->setDisplayField('id');
+        $this->setDisplayField('numero');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');

@@ -20,7 +20,40 @@ class OrdenesdepedidosController extends AppController
     public function index()
     {
         $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
-            'contain'=>['Clientes']
+            'conditions'=>[
+                'Ordenesdepedidos.id <> '=> 1
+            ],
+            'contain'=>[
+                'Clientes'
+            ]
+        ]);
+
+        $this->set(compact('ordenesdepedidos'));
+    }
+
+    public function informe($opid = null)
+    {
+        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[      
+            'conditions'=>[
+                'Ordenesdepedidos.id'=>$opid,
+            ],     
+            'contain'=>[
+                'Clientes',
+                'Ordenesdetrabajos'=>[
+                    'Bobinasdeextrusions'=>[
+                        'Extrusoras',
+                        'Empleados'
+                    ],
+                    'Bobinasdeimpresions'=>[
+                        'Impresoras',
+                        'Empleados'
+                    ],
+                    'Bobinasdecortes'=>[
+                        'Cortadoras',
+                        'Empleados'
+                    ],
+                ],
+            ]
         ]);
 
         $this->set(compact('ordenesdepedidos'));
@@ -147,23 +180,120 @@ class OrdenesdepedidosController extends AppController
         $this->set(compact('ordenesdepedido'));
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Ordenesdepedido id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $ordenesdepedido = $this->Ordenesdepedidos->get($id);
-        if ($this->Ordenesdepedidos->delete($ordenesdepedido)) {
-            $this->Flash->success(__('The ordenesdepedido has been deleted.'));
-        } else {
-            $this->Flash->error(__('The ordenesdepedido could not be deleted. Please, try again.'));
+    public function playop($opid){
+        $this->loadModel('Ordenots');
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+       $ordenesdepedido = $this->Ordenesdepedidos->get($opid, [
+            'contain' => [
+            ],
+        ]);
+        $ordenesdepedido->estado = 'Pausado';
+        $ordenesdepedido->estado = 'En Proceso';
+        if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+            $data['respuesta'] .= "La OT fue retomada. Ya se puede ver en las listas de prioridades que se pueden agregar.";
+        }else{
+            $data['error'] = 1;
+            $data['respuesta'] .= "No se pudo retomar la OT seleccionada.";
         }
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
+    public function pausarop($opid){
+        $this->loadModel('Ordenesdetrabajos');
+        $this->loadModel('Ordenots');
 
-        return $this->redirect(['action' => 'index']);
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $ordenesdepedido = $this->Ordenesdepedidos->get($opid, [
+            'contain' => [
+            ],
+        ]);
+        $ordenesdepedido->estado = 'Pausado';
+        if ($this->Ordenesdepedidos->save($ordenesdepedido)) {
+            $data['respuesta'] .= "La OP fue pausada y se saco de las listas de prioridades de las maquinas a sus OT's.";
+            $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',[
+                'contain' => [
+                ],
+                'conditions' => [
+                    'Ordenesdetrabajos.ordenesdepedido_id'=>$opid
+                ]
+            ]);
+            foreach ($ordenesdetrabajos as $otkey => $valot) {
+                 $ordenesdetrabajo = $this->Ordenesdetrabajos->get($valot->id, [
+                        'contain' => [
+                    ],
+                ]);
+                $ordenesdetrabajo->estado = 'Pausado';
+                if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                    //si la or tiene ordenot asignadas las eliminamos
+                    $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $valot->id]);                
+                }else{
+                    $data['error'] = 1;
+                    $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
+                }
+            }
+        }else{
+            $data['error'] = 1;
+            $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
+        }
+            
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
+
+    public function cancelarop($opid){
+         $this->loadModel('Ordenesdetrabajos');
+        $this->loadModel('Ordenots');
+
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $ordenesdepedido = $this->Ordenesdepedidos->get($opid, [
+            'contain' => [
+            ],
+        ]);
+        $ordenesdepedido->estado = 'Cancelado';
+        if ($this->Ordenesdepedidos->save($ordenesdepedido)) {
+            $data['respuesta'] .= "La OP fue pausada y se saco de las listas de prioridades de las maquinas a sus OT's.";
+            $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',[
+                'contain' => [
+                ],
+                'conditions' => [
+                    'Ordenesdetrabajos.ordenesdepedido_id'=>$opid
+                ]
+            ]);
+            foreach ($ordenesdetrabajos as $otkey => $valot) {
+                 $ordenesdetrabajo = $this->Ordenesdetrabajos->get($valot->id, [
+                        'contain' => [
+                    ],
+                ]);
+                $ordenesdetrabajo->estado = 'Cancelado';
+                if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                    //si la or tiene ordenot asignadas las eliminamos
+                    $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $valot->id]);                
+                }else{
+                    $data['error'] = 1;
+                    $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
+                }
+            }
+        }else{
+            $data['error'] = 1;
+            $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
+        }
+            
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
     }
 }

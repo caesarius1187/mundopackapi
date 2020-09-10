@@ -77,14 +77,15 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <td><?= $ordenesdetrabajo->impreso?$ordenesdetrabajo->impresas:'-'?></td>
                         <td><?= $ordenesdetrabajo->cortado?$ordenesdetrabajo->cortadas:'-'?></td>
                         <td><?php
-                            if($ordenesdetrabajo->estado!='En Proceso'){
-                                echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
+                            if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
+                              echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
                             }
-                            if($ordenesdetrabajo->estado!='Pausado'){
-                                echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
+                            if($ordenesdetrabajo->estado=='En Proceso'){
+                              echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
                             }
-                            echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
-                                                    ?>
+                            if($ordenesdetrabajo->estado=='En Proceso'){
+                              echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
+                            }?>
                             <button type="button" class="btn btn-default btn-xs">
                             <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
                                   'escape' => false,

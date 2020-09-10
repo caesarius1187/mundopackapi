@@ -116,9 +116,16 @@ $cakeDescription = 'Mundo Pack';
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <span class="badge badge-danger">Cerrar sesión</span>
-        </a>
+        <?=$this->Html->link('<span class="badge badge-danger">Cerrar sesión</span>', [
+          'plugin'=>'CakeDC/Users',
+          'controller'=>'users',
+          'action' => 'logout'
+        ], [
+          'escape' => false,
+          'class' => "nav-link",
+          "data-slide"=>true,
+          "role"=>"button",
+        ]); ?>
       </li>
     </ul>
   </nav>
@@ -145,7 +152,11 @@ $cakeDescription = 'Mundo Pack';
               'class' => 'img-circle elevation-2']);?>
         </div>
         <div class="info">
-          <a href="#" class="d-block">Augusto Guerrero</a>
+          <?php
+          $session = $this->request->getSession(); 
+          $user_data = $session->read('Auth.User');
+          ?>
+          <a href="#" class="d-block"><?= $user_data['first_name']." ".$user_data['last_name'] ?></a>
         </div>
       </div>
 
@@ -182,20 +193,48 @@ $cakeDescription = 'Mundo Pack';
                   ]
               );
               echo '</li>';
-
-              $classToItem = (($this->request->getParam('controller')=='Ordenesdetrabajos')&&($this->request->getParam('action')=='asignacion'))?'nav-link active':'nav-link';
-              echo '<li class="nav-item">';
-              echo $this->Html->link(__('<i class="nav-icon fas fa-hand-pointer"></i>
-                  <p>
-                    Asignacion OTs
-                  </p>'),
-                  array ( 'plugin' => null, 'controller' => 'ordenesdetrabajos', 'action' => 'asignacion', '_ext' => NULL),
-                  [
-                      'escape' => false,
-                      'class'=> $classToItem
-                  ]
-              );
-              echo '</li>';
+              if($user_data['role']=='administativo'||$user_data['role']=='superuser'){
+                $classToItem = (($this->request->getParam('controller')=='Ordenesdetrabajos')&&($this->request->getParam('action')=='asignacion'))?'nav-link active':'nav-link';
+                echo '<li class="nav-item">';
+                echo $this->Html->link(__('<i class="nav-icon fas fa-hand-pointer"></i>
+                    <p>
+                      Asignacion OTs
+                    </p>'),
+                    array ( 'plugin' => null, 'controller' => 'ordenesdetrabajos', 'action' => 'asignacion', '_ext' => NULL),
+                    [
+                        'escape' => false,
+                        'class'=> $classToItem
+                    ]
+                );
+                echo '</li>';
+                $classToItem = (($this->request->getParam('controller')=='Clientes')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
+                echo '<li class="nav-item">';
+                echo $this->Html->link(__('<i class="nav-icon fas fa-child"></i>
+                    <p>
+                      Clientes
+                    </p>'),
+                    array ( 'plugin' => null, 'controller' => 'Clientes', 'action' => 'index', '_ext' => NULL),
+                    [
+                        'escape' => false,
+                        'class'=> $classToItem
+                    ]
+                );
+                echo '</li>';
+                $classToItem = (($this->request->getParam('controller')=='Empleados')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
+                echo '<li class="nav-item">';
+                echo $this->Html->link(__('<i class="nav-icon fas fa-address-card"></i>
+                    <p>
+                      Empleados
+                    </p>'),
+                    array ( 'plugin' => null, 'controller' => 'Empleados', 'action' => 'index', '_ext' => NULL),
+                    [
+                        'escape' => false,
+                        'class'=> $classToItem
+                    ]
+                );
+                echo '</li>';
+              }
+              
 
               $classToItem = (($this->request->getParam('controller')=='Ordenesdepedidos')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
               echo '<li class="nav-item">';
@@ -211,33 +250,9 @@ $cakeDescription = 'Mundo Pack';
               );
               echo '</li>';
 
-              $classToItem = (($this->request->getParam('controller')=='Clientes')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
-              echo '<li class="nav-item">';
-              echo $this->Html->link(__('<i class="nav-icon fas fa-child"></i>
-                  <p>
-                    Clientes
-                  </p>'),
-                  array ( 'plugin' => null, 'controller' => 'Clientes', 'action' => 'index', '_ext' => NULL),
-                  [
-                      'escape' => false,
-                      'class'=> $classToItem
-                  ]
-              );
-              echo '</li>';
+              
 
-              $classToItem = (($this->request->getParam('controller')=='Empleados')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
-              echo '<li class="nav-item">';
-              echo $this->Html->link(__('<i class="nav-icon fas fa-address-card"></i>
-                  <p>
-                    Empleados
-                  </p>'),
-                  array ( 'plugin' => null, 'controller' => 'Empleados', 'action' => 'index', '_ext' => NULL),
-                  [
-                      'escape' => false,
-                      'class'=> $classToItem
-                  ]
-              );
-              echo '</li>';
+              
               ?>
          </ul>
 

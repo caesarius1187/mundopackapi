@@ -136,8 +136,6 @@ class OrdenesdetrabajosController extends AppController
         ]);
         $ordenesdetrabajo->estado = 'En Proceso';
         if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-            //si la or tiene ordenot asignadas las eliminamos
-            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
             $data['respuesta'] .= "La OT fue retomada. Ya se puede ver en las listas de prioridades que se pueden agregar.";
         }else{
             $data['error'] = 1;

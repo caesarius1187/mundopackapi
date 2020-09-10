@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Ordenesdepedido[]|\Cake\Collection\CollectionInterface $ordenesdepedidos
  */
+echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
+
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -31,18 +33,23 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-
-          <?= $this->Html->link(__('<i class="fas fa-plus"></i> Nueva orden de pedido'), ['action' => 'add'], [
-            'escape' => false,
-            'class' => 'btn btn-primary float-right'
-            ]) ?>
-
+          <?php
+          $session = $this->request->getSession(); // less than 3.5
+          $user_data = $session->read('Auth.User');
+          if($user_data['role']=='superuser'){
+              echo $this->Html->link(__('<i class="fas fa-plus"></i> Nueva orden de pedido'), ['action' => 'add'], [
+              'escape' => false,
+              'class' => 'btn btn-primary float-right'
+              ]);
+          }  
+          ?>
           <table id="example" class="table table-bordered table-hover table-sm">
               <thead>
                   <tr>
                       <th scope="col"><?= $this->Paginator->sort('Numero') ?></th>
                       <th scope="col"><?= $this->Paginator->sort('Cliente') ?></th>
                       <th scope="col"><?= $this->Paginator->sort('Fecha') ?></th>
+                      <th scope="col"><?= $this->Paginator->sort('Estado') ?></th>
                       <th scope="col"><?= $this->Paginator->sort('Creado') ?></th>
                       <th scope="col"><?= $this->Paginator->sort('Modificado') ?></th>
                       <th scope="col" class="actions"><?= __('Acciones') ?></th>
@@ -54,6 +61,21 @@
                       <td><?= $this->Number->format($ordenesdepedido->numero) ?></td>
                       <td><?= h($ordenesdepedido->cliente->nombre) ?></td>
                       <td><?= h($ordenesdepedido->fecha) ?></td>
+                      <td>
+                        <?= h($ordenesdepedido->estado) ?>
+                        <?php
+                        if($user_data['role']=='superuser'){
+                          if($ordenesdepedido->estado=='Pausado'||$ordenesdepedido->estado=='Cancelado'){
+                            echo '<button type="button" onclick="playOP('.$ordenesdepedido->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
+                          }
+                          if($ordenesdepedido->estado=='En Proceso'){
+                            echo '<button type="button" onclick="pausarOP('.$ordenesdepedido->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
+                          }
+                          if($ordenesdepedido->estado=='En Proceso'){
+                            echo '<button type="button" onclick="cancelarOP('.$ordenesdepedido->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
+                          }
+                        }?>
+                      </td>
                       <td><?= h($ordenesdepedido->created) ?></td>
                       <td><?= h($ordenesdepedido->modified) ?></td>
                       <td class="actions">
@@ -61,15 +83,18 @@
                             'escape' => false,
                             'class' => 'btn btn-info btn-sm'
                             ]) ?>
-                          <?= $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'add', $ordenesdepedido->id],[
-                            'escape' => false,
-                            'class' => 'btn btn-success btn-sm'
-                            ]) ?>
-                          <?= $this->Form->postLink(__('<i class="fas fa-trash"></i>'), ['action' => 'delete', $ordenesdepedido->id], [
-                            'confirm' => __('¿Está seguro que desea eliminar la OT con ID#{0}?', $ordenesdepedido->id),
-                            'escape' => false,
-                            'class' => 'btn btn-danger btn-sm'
-                            ]) ?>
+                          <?php  
+                          if($user_data['role']=='superuser'){
+                            echo $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'add', $ordenesdepedido->id],[
+                              'escape' => false,
+                              'class' => 'btn btn-success btn-sm'
+                              ]);
+                            echo $this->Form->postLink(__('<i class="fas fa-trash"></i>'), ['action' => 'delete', $ordenesdepedido->id], [
+                              'confirm' => __('¿Está seguro que desea eliminar la OT con ID#{0}?', $ordenesdepedido->id),
+                              'escape' => false,
+                              'class' => 'btn btn-danger btn-sm'
+                              ]);
+                          } ?>
                       </td>
                   </tr>
                   <?php endforeach; ?>
