@@ -39,9 +39,23 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           <div class="inner" style="height: 110px">
             <h4><strong><?= $extrusora->nombre ?></strong></h4>
             <?php
+            $ordenOtMenorPrioridad=[];
+            $menorPrioridad = 1000;
             foreach ($extrusora->ordenots as $ko => $ordenot) {
+              //vamos a buscar la ordrenot con menor prioridad
+              if($ordenot->prioridad<$menorPrioridad){
+                $menorPrioridad = $ordenot->prioridad;
+                $ordenOtMenorPrioridad = $ordenot;
+              }              
+            }
+            if(count($ordenOtMenorPrioridad)!=0){
               ?>
-                <p>OT N°<?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero ?></p>
+              <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
+                    'escape' => false,
+                    'target' => '_blank',
+                    'style' => ['color:black'],
+              ]) ?>
+                
               <?php
             }
             ?>
@@ -75,12 +89,26 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         <div class="inner" style="height: 110px">
           <h4><strong><?= $impresora->nombre ?></strong></h4>
           <?php
-          foreach ($impresora->ordenots as $ko => $ordenot) {
+            $ordenOtMenorPrioridad=[];
+            $menorPrioridad = 1000;
+            foreach ($impresora->ordenots as $ko => $ordenot) {
+              //vamos a buscar la ordrenot con menor prioridad
+              if($ordenot->prioridad<$menorPrioridad){
+                $menorPrioridad = $ordenot->prioridad;
+                $ordenOtMenorPrioridad = $ordenot;
+              }              
+            }
+            if(count($ordenOtMenorPrioridad)!=0){
+              ?>
+              <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
+                    'escape' => false,
+                    'target' => '_blank',
+                    'style' => ['color:black'],
+              ]) ?>
+                
+              <?php
+            }
             ?>
-              <p>OT N°<?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero ?></p>
-            <?php
-          }
-          ?>
         </div>
         <div class="icon">
           <i class="fas fa-print"></i>
@@ -110,12 +138,26 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         <div class="inner" style="height: 110px">
           <h4><strong><?= $cortadora->nombre ?></strong></h4>
           <?php
-          foreach ($cortadora->ordenots as $ko => $ordenot) {
+            $ordenOtMenorPrioridad=[];
+            $menorPrioridad = 1000;
+            foreach ($cortadora->ordenots as $ko => $ordenot) {
+              //vamos a buscar la ordrenot con menor prioridad
+              if($ordenot->prioridad<$menorPrioridad){
+                $menorPrioridad = $ordenot->prioridad;
+                $ordenOtMenorPrioridad = $ordenot;
+              }              
+            }
+            if(count($ordenOtMenorPrioridad)!=0){
+              ?>
+              <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
+                    'escape' => false,
+                    'target' => '_blank',
+                    'style' => ['color:black'],
+              ]) ?>
+                
+              <?php
+            }
             ?>
-              <p>OT N°<?= $ordenot->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenot->ordenesdetrabajo->numero ?></p>
-            <?php
-          }
-          ?>
         </div>
         <div class="icon">
           <i class="fas fa-cut"></i>

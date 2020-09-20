@@ -40,6 +40,7 @@ class Bobinasdeextrusion extends Entity
         'fecha' => true,
         'horas' => true,
         'kilogramos' => true,
+        'metros' => true,
         'observacion' => true,
         'scrap' => true,
         'created' => true,

@@ -198,6 +198,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Estrusor</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
+                              <th>Mts.</th>
                               <th>Scrap cant.</th>
                               <th>Observación</th>
                               <th>RUB</th>
@@ -214,6 +215,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <th><?=$bobinasdeextrusion->empleado->nombre; ?></th>
                                   <th><?=$bobinasdeextrusion->horas; ?></th>
                                   <th><?=$bobinasdeextrusion->kilogramos; ?></th>
+                                  <th><?=$bobinasdeextrusion->metros; ?></th>
                                   <th><?=$bobinasdeextrusion->scrap; ?></th>
                                   <th><?=$bobinasdeextrusion->observacion; ?></th>
                                   <th class="text-center"><button type="button" name="button" onclick="imprimir(<?=$bobinasdeextrusion->id ?>)" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></button></th>
@@ -247,9 +249,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Impresora</th>
                               <th>Bobina Estrusion N°</th>
                               <th>Fecha</th>
-                              <th>Estrusor</th>
+                              <th>Impresor</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
+                              <th>Mts.</th>
                               <th>Scrap cant.</th>
                               <th>Observación</th>
                             </tr>
@@ -263,9 +266,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <th><?= $bobinasdeimpresion->impresora->nombre; ?></th>
                                   <th><?= $bobinasdeimpresion->bobinasdeextrusion->numero; ?></th>
                                   <th><?= $bobinasdeimpresion->fecha->i18nFormat('d-m-Y'); ?></th>
-                                  <th><?= $bobinasdeimpresion->empleado_id; ?></th>
+                                  <th><?= $bobinasdeimpresion->empleado->nombre; ?></th>
                                   <th><?= $bobinasdeimpresion->horas; ?></th>
                                   <th><?= $bobinasdeimpresion->kilogramos; ?></th>
+                                  <th><?= $bobinasdeimpresion->metros; ?></th>
                                   <th><?= $bobinasdeimpresion->scrap; ?></th>
                                   <th><?= $bobinasdeimpresion->observacion; ?></th>
                                 </tr>
@@ -303,10 +307,11 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                 echo  "<th>Bobina Est N°</th>";
                               }
                               ?>
-                              <th>Maq.</th>
+                              <th>Fecha</th>
+                              <th>Cortador</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
-                              <th>Bob. cant.</th>
+                              <th>Mts.</th>
                               <th>Scrap cant.</th>
                               <th>Observación</th>
                             </tr>
@@ -331,9 +336,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   }
                                   ?>
                                   <th><?= $bobinasdecorte->fecha->i18nFormat('d-m-Y'); ?></th>
-                                  <th><?= $bobinasdecorte->empleado_id; ?></th>
+                                  <th><?= $bobinasdecorte->empleado->nombre; ?></th>
                                   <th><?= $bobinasdecorte->horas; ?></th>
                                   <th><?= $bobinasdecorte->kilogramos; ?></th>
+                                  <th><?= $bobinasdecorte->metros; ?></th>
                                   <th><?= $bobinasdecorte->scrap; ?></th>
                                   <th><?= $bobinasdecorte->observacion; ?></th>
                                 </tr>
@@ -388,30 +394,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             </div>
             <div class="col-sm-3">
                 <?= $this->Form->control('extrusora_id', ['options' => $extrusoras]); ?>
-            </div>
-            <div class="col-sm-4">
-                <?= $this->Form->control('fecha',[
-                  'type'=>'text',
-                  'required'=>true,
-                  'label'=>[
-                    'text'=>'Fecha',
-                    'style'=>'width:100%'
-                  ],
-                  'templates'=>[
-                    'inputContainer'=>'
-                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        {{content}}
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                      </div>']
-                ]); ?>
-            </div>
+            </div>            
             <div class="col-sm-2">
                 <?= $this->Form->control('horas'); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('kilogramos'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('metros'); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>
@@ -462,30 +453,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     'options' => [],
                     'label' => 'Bobina de estrusion',
                 ]); ?>
-            </div>
-            <div class="col-sm-4">
-                <?= $this->Form->control('fecha',[
-                  'type'=>'text',
-                  'required'=>true,
-                  'label'=>[
-                    'text'=>'Fecha',
-                    'style'=>'width:100%'
-                  ],
-                  'templates'=>[
-                    'inputContainer'=>'
-                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        {{content}}
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                      </div>']
-                ]); ?>
-            </div>
+            </div>            
             <div class="col-sm-2">
                 <?= $this->Form->control('horas'); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('kilogramos'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('metros'); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>
@@ -549,30 +525,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                   ]);
                 }
               ?>
-            </div>
-            <div class="col-sm-4">
-                <?= $this->Form->control('fecha',[
-                  'type'=>'text',
-                  'required'=>true,
-                  'label'=>[
-                    'text'=>'Fecha',
-                    'style'=>'width:100%'
-                  ],
-                  'templates'=>[
-                    'inputContainer'=>'
-                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        {{content}}
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                      </div>']
-                ]); ?>
-            </div>
+            </div>            
             <div class="col-sm-2">
                 <?= $this->Form->control('horas'); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('kilogramos'); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('metros'); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>

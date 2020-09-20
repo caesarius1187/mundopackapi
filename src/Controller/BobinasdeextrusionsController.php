@@ -151,11 +151,9 @@ class BobinasdeextrusionsController extends AppController
             ]);
             return;
         }
-
-        $fecha = $this->request->getData()['fecha'];
-        $fechaconsultadesde = date('Y-m-d',strtotime($fecha));
+        date_default_timezone_set('America/Argentina/Salta');
+        $bobinasdeextrusion->fecha = date('Y-m-d H:i:s');
         $respuesta['bobinasdeextrusion0'] = $bobinasdeextrusion;
-        $bobinasdeextrusion->fecha = $fechaconsultadesde;
         //vamos a cargar el numero de la bobina dinamicamente
         $maxBobinaNumero = 0;
         $bobinaNumeroMax = $this->Bobinasdeextrusions->find('all',[
@@ -168,6 +166,7 @@ class BobinasdeextrusionsController extends AppController
             $maxBobinaNumero = $value->maxprioridad;
         }
         $bobinasdeextrusion->numero = $maxBobinaNumero+1;
+        
 
         if ($this->Bobinasdeextrusions->save($bobinasdeextrusion)) {
             $respuesta['respuesta'] = 'La bobina de estrusion fue guardada.';

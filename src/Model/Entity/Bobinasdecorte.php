@@ -39,6 +39,7 @@ class Bobinasdecorte extends Entity
         'fecha' => true,
         'horas' => true,
         'kilogramos' => true,
+        'metros' => true,
         'scrap' => true,
         'observacion' => true,
         'created' => true,

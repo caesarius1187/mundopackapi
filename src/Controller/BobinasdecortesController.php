@@ -77,10 +77,9 @@ class BobinasdecortesController extends AppController
             return;
         }
 
-        $fecha = $this->request->getData()['fecha'];
-        $fechaconsultadesde = date('Y-m-d',strtotime($fecha));
+        date_default_timezone_set('America/Argentina/Salta');
+        $bobinasdecorte->fecha = date('Y-m-d H:i:s');
         $respuesta['bobinasdecorte0'] = $bobinasdecorte;        
-        $bobinasdecorte->fecha = $fechaconsultadesde;
         //vamos a cargar el numero de la bobina dinamicamente
         $maxBobinaNumero = 0;
         $bobinaNumeroMax = $this->Bobinasdecortes->find('all',[
