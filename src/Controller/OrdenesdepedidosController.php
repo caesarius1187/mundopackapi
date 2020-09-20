@@ -33,10 +33,10 @@ class OrdenesdepedidosController extends AppController
 
     public function informe($opid = null)
     {
-        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[      
+        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
             'conditions'=>[
                 'Ordenesdepedidos.id'=>$opid,
-            ],     
+            ],
             'contain'=>[
                 'Clientes',
                 'Ordenesdetrabajos'=>[
@@ -52,6 +52,7 @@ class OrdenesdepedidosController extends AppController
                         'Cortadoras',
                         'Empleados'
                     ],
+                    'Materialesots'
                 ],
             ]
         ]);
@@ -132,7 +133,7 @@ class OrdenesdepedidosController extends AppController
         $ordenesdepedido = $this->Ordenesdepedidos->newEntity();
 
         $maxNumOrdenPedido = 1;
-        
+
         if($ordenPedidoId!=null){
             $newordenesdepedidos =  $this->Ordenesdepedidos->get($ordenPedidoId,['contain'=>['Ordenesdetrabajos'=>['Materialesots']]]);
             $ordenesdepedido = $newordenesdepedidos;
@@ -147,11 +148,11 @@ class OrdenesdepedidosController extends AppController
                 $maxNumOrdenPedido = $value->maxprioridad;
             }
             $maxNumOrdenPedido++;
-        }     
+        }
         $clientes = $this->Clientes->find('list',[
             'conditions'=>[
             ],
-        ]); 
+        ]);
         $materiales = $this->Ordenesdetrabajos->materiales;
         $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes','materiales'));
     }
@@ -233,7 +234,7 @@ class OrdenesdepedidosController extends AppController
                 $ordenesdetrabajo->estado = 'Pausado';
                 if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                     //si la or tiene ordenot asignadas las eliminamos
-                    $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $valot->id]);                
+                    $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $valot->id]);
                 }else{
                     $data['error'] = 1;
                     $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
@@ -243,7 +244,7 @@ class OrdenesdepedidosController extends AppController
             $data['error'] = 1;
             $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
         }
-            
+
         $this->set([
             'data' => $data,
             '_serialize' => ['data']
@@ -280,7 +281,7 @@ class OrdenesdepedidosController extends AppController
                 $ordenesdetrabajo->estado = 'Cancelado';
                 if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                     //si la or tiene ordenot asignadas las eliminamos
-                    $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $valot->id]);                
+                    $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $valot->id]);
                 }else{
                     $data['error'] = 1;
                     $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
@@ -290,7 +291,7 @@ class OrdenesdepedidosController extends AppController
             $data['error'] = 1;
             $data['respuesta'] .= "No se pudo pausar la OT seleccionada.";
         }
-            
+
         $this->set([
             'data' => $data,
             '_serialize' => ['data']

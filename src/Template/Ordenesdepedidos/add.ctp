@@ -91,8 +91,8 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12 text-center" style="margin-top:15px">
-                <button type="submit" name="button" class="btn btn-success"><i class="fas fa-plus"></i><?= ($ordenesdepedido->id==0)?'AGREGAR':'Modificar'?></button>
+              <div class="col-sm-12 text-center" style="margin-bottom:15px">
+                <button type="submit" name="button" class="btn btn-success"><i class="fas fa-plus"></i><?= ($ordenesdepedido->id==0)?' AGREGAR':'Modificar'?></button>
               </div>
             </div>
             <?= $this->Form->end(); ?>
@@ -104,6 +104,11 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
             <div class="card card-secondary" style="<?= ($ordenesdepedido->id==0)?'display: none':''?>;">
               <div class="card-header">
                 <h3 class="card-title">AGREGAR ORDEN DE TRABAJO</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -115,8 +120,8 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     ],
                   ]) ?>
                   <?= $this->Form->control('estado',[
-                          'value'=>'En Proceso', 
-                          'type'=>'hidden' 
+                          'value'=>'En Proceso',
+                          'type'=>'hidden'
                         ]); ?>
                 <?= $this->Form->control('ordenesdepedido_id',[
                         'type'=>'hidden' ,
@@ -137,7 +142,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                             <tr>
                               <td>
                                 <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
-                                  'type'=>'hidden',                            
+                                  'type'=>'hidden',
                                 ]); ?>
                                 <?= $this->Form->control('Materialesots.0.material',[
                                   'label'=>false,
@@ -159,7 +164,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                                 <?= $this->Form->control('Materialesots.0.porcentaje',[
                                   'label'=>false,
                                   'class'=>'porcentaje',
-                                  'value'=>'100',                                
+                                  'value'=>'100',
                                 ]); ?>
                               </td>
                             </tr>
@@ -170,7 +175,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                   <div class="row">
                     <div class="col-sm-2">
                       <?= $this->Form->control('color',[ ]); ?>
-                      
+
                     </div>
                     <div class="col-sm-3">
                       <?= $this->Form->control('fuelle',[
@@ -213,12 +218,12 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     </div>
                   </div>
                   <div class="row">
-                    
+
                     <div class="col-sm-2">
                       <?= $this->Form->control('perf',[ ]); ?>
                     </div>
                     <div class="col-sm-3">
-                      <?= $this->Form->control('impreso',['type'=>'checkbox','label'=>' Imprimir' ]); ?>
+                      <?= $this->Form->control('impreso',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Imprimir' ]); ?>
                       <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
                     </div>
                     <div class="col-sm-2">
@@ -279,15 +284,15 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                           <th>Acciones</th>
                         </tr>
                       </thead>
-                      <tbody>       
+                      <tbody>
                       <?php
-                        foreach ($ordenesdepedido['ordenesdetrabajos'] as $key => $ordendetrabajo) {
+                        foreach ($ordenesdepedido as $key => $ordendetrabajo) {
                             ?>
                             <tr>
                               <td><?= $ordendetrabajo->numero?></td>
                               <td><?= $ordendetrabajo->cantidad?></td>
                               <td><?= $ordendetrabajo->aextrusar?></td>
-                              <?php 
+                              <?php
                               $materialtext = "";
                               foreach ($ordendetrabajo['materialesots'] as $key => $material) {
                                  $materialtext .= $material['material'].":".$material['tipo']." al ".$material['porcentaje']."% /";
@@ -307,22 +312,22 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                               <td><?= $ordendetrabajo->preciounitario?></td>
                               <td><?= $ordendetrabajo->observaciones?></td>
                               <td>
-                              <?=$this->Html->link('<i class="fas fa-search"></i>', 
+                              <?=$this->Html->link('<i class="fas fa-search"></i>',
                                   [
                                     'controller' => 'ordenesdetrabajos',
                                     'action' => 'view',
                                     $ordendetrabajo->id
-                                  ], 
+                                  ],
                                   [
                                     'escape' => false,
                                     'class' => "btn btn-info btn-sm",
                                 ]) ?>
-                              <?=$this->Html->link('<i class="fas fa-edit"></i>', 
+                              <?=$this->Html->link('<i class="fas fa-edit"></i>',
                                   [
                                     'controller' => 'ordenesdetrabajos',
                                     'action' => 'edit',
                                     $ordendetrabajo->id
-                                  ], 
+                                  ],
                                   [
                                     'escape' => false,
                                     'class' => "btn btn-success btn-sm",
@@ -331,7 +336,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                             </tr>
                             <?php
                         }
-                      ?>                   
+                      ?>
                       </tbody>
                     </table>
                   </div>
@@ -351,13 +356,3 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
     </div>
   </div>
 </section>
-
-<script type="text/javascript">
-$(function () {
-  $('#reservationdate').datetimepicker({
-        format: 'L',
-        locale: 'es'
-    });
-  $('.select2').select2()
-});
-</script>

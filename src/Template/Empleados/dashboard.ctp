@@ -185,17 +185,22 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
       </div>
       <div class="modal-body">
         <div class="card-body p-0">
-          <table class="table table-sm" id="tblPendientes">
+          <table class="table table-sm" >
             <thead>
               <tr>
-                <th style="width: 10px">#</th>
-                <th>OT's pendientes</th>
-                <th>Progreso</th>
-                <th style="width: 40px">Porc.</th>
-                <th style="width: 10px">Ver</th>
+                <th>#OT</th>
+                <th>Cant.</th>
+                <th>Ext.</th>
+                <th>Imp.</th>
+                <th>Cort.</th>
+                <th style="width: 100px">Progreso</th>
+                <th>Porc.</th>
+                <th>Acción</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tblPendientes">
+
+              <!-- Ejemplo -->
               <tr>
                 <td>1.</td>
                 <td>Orden de Trab. N° 1</td>
@@ -207,39 +212,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
                 <td><span class="badge bg-danger">55%</span></td>
                 <td><button type="button" class="btn btn-block btn-default btn-xs"><i class="fas fa-search"></i></button></td>
               </tr>
-              <tr>
-                <td>2.</td>
-                <td>Orden de Trab. N° 5</td>
-                <td>
-                  <div class="progress progress-xs">
-                    <div class="progress-bar bg-warning" style="width: 70%"></div>
-                  </div>
-                </td>
-                <td><span class="badge bg-warning">70%</span></td>
-                <td><button type="button" class="btn btn-block btn-default btn-xs"><i class="fas fa-search"></i></button></td>
-              </tr>
-              <tr>
-                <td>3.</td>
-                <td>Orden de Trab. N° 10</td>
-                <td>
-                  <div class="progress progress-xs progress-striped active">
-                    <div class="progress-bar bg-primary" style="width: 30%"></div>
-                  </div>
-                </td>
-                <td><span class="badge bg-primary">30%</span></td>
-                <td><button type="button" class="btn btn-block btn-default btn-xs"><i class="fas fa-search"></i></button></td>
-              </tr>
-              <tr>
-                <td>4.</td>
-                <td>Orden de Trab. N° 7</td>
-                <td>
-                  <div class="progress progress-xs progress-striped active">
-                    <div class="progress-bar bg-success" style="width: 90%"></div>
-                  </div>
-                </td>
-                <td><span class="badge bg-success">90%</span></td>
-                <td><button type="button" class="btn btn-block btn-default btn-xs"><i class="fas fa-search"></i></button></td>
-              </tr>
+
             </tbody>
           </table>
         </div>
