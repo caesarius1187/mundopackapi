@@ -12,7 +12,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Pedido Numero <?= $ordenesdetrabajo->ordenesdepedido->numero ?> - Orden de Trabajo N°<?= $ordenesdetrabajo->numero ?></h1>
+                <h1 class="m-0 text-dark">Pedido N° <?= $ordenesdetrabajo->ordenesdepedido->numero ?> - Orden de Trabajo N°<?= $ordenesdetrabajo->numero ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -24,41 +24,42 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
               </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <div class="row mb-2">
-            <div class="col-sm-12">
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
                 <div class="row">
                     <div class="col-sm-2">
-                        <label><?= __('Cantidad:') ?></label>
-                        <td><?= $this->Number->format($ordenesdetrabajo->cantidad) ?></td>
+                      <h3>Datos de OT:</h3>
                     </div>
                     <div class="col-sm-2">
-                        <label><?= __('Bobinas a Estrusar:') ?></label>
-                        <td><?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></td>
+                        <h5><span class="badge badge-info"><?= __('Cantidad: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cantidad) ?></h5>
                     </div>
                     <div class="col-sm-2">
-                        <label><?= __('Estrusadas:') ?></label>
-                        <td><?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></td>
+                        <h5><span class="badge badge-info"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
+                    </div>
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
                     </div>
                     <?php
                     if($ordenesdetrabajo->impreso){
                         ?>
                         <div class="col-sm-2">
-                            <label><?= __('Impresas:') ?></label>
-                            <td><?= $this->Number->format($ordenesdetrabajo->impresas) ?></td>
+                            <h5><span class="badge badge-info"><?= __('Impresas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->impresas) ?></h5>
                         </div>
                         <?php
                     }else{
                         ?>
                         <div class="col-sm-2">
-                            <label><?= __('NO se imprime') ?></label>
+                            <h5><span class="badge badge-info"><?= __('NO se imprime') ?></span></h5>
                         </div>
                         <?php
                     }
                     if($ordenesdetrabajo->cortado){
                         ?>
                         <div class="col-sm-2">
-                            <label><?= __('Cortadas:') ?></label>
-                            <td><?= $this->Number->format($ordenesdetrabajo->cortadas) ?></td>
+                            <h5><span class="badge badge-info"><?= __('Cortadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cortadas) ?></h5>
                             <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
                             <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
                         </div>
@@ -66,19 +67,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     }else{
                         ?>
                         <div class="col-sm-2">
-                            <label><?= __('NO se corta') ?></label>
+                            <h5><span class="badge badge-info"><?= __('NO se corta') ?></span></h5>
                         </div>
                         <?php
                     }
                     ?>
                 </div>
-            </div>
-        </div>
-         <div class="row mb-2">
-            <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <label><?= __('Materiales:') ?></label>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Materiales: ') ?></span>
                         <ul>
                         <?php
                         foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
@@ -91,64 +88,53 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                         }
                         ?>
                         </ul>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Color:') ?></label>
-                        <td><?= h($ordenesdetrabajo->color) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Fuelle:') ?></label>
-                        <td><?= h($ordenesdetrabajo->fuelle) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Medida:') ?></label>
-                        <td><?= h($ordenesdetrabajo->medida) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Perf:') ?></label>
-                        <td><?= h($ordenesdetrabajo->perf) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Impreso:') ?></label>
-                        <td><?= h($ordenesdetrabajo->impreso) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Preciounitario:') ?></label>
-                        <td><?= h($ordenesdetrabajo->preciounitario) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Observaciones:') ?></label>
-                        <td><?= h($ordenesdetrabajo->observaciones) ?></td>
-                    </div>
+                    </h5>
+                  </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Color: ') ?></span> <?= h($ordenesdetrabajo->color) ?></h5>
+                  </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Fuelle: ') ?></span> <?= h($ordenesdetrabajo->fuelle) ?></h5>
+                  </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Medidas: ') ?></span> <?= h($ordenesdetrabajo->medida) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Perforación: ') ?></span> <?= h($ordenesdetrabajo->perf) ?></h5>
+                  </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">
-                        <label><?= __('Cierre micrones:') ?></label>
-                        <td><?= h($ordenesdetrabajo->cierremicrones) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Cierre scrap:') ?></label>
-                        <td><?= h($ordenesdetrabajo->cierrescrap) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Cierre diferencia kg:') ?></label>
-                        <td><?= h($ordenesdetrabajo->cierrediferenciakg) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Concluciones:') ?></label>
-                        <td><?= h($ordenesdetrabajo->concluciones) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Cantidad:') ?></label>
-                        <td><?= $this->Number->format($ordenesdetrabajo->cantidad) ?></td>
-                    </div>
-                    <div class="col-sm-2">
-                        <label><?= __('Cierre:') ?></label>
-                        <td><?= h($ordenesdetrabajo->cierre) ?></td>
-                    </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Tipo impr. : ') ?></span> <?= h($ordenesdetrabajo->impreso) ?></h5>
+                  </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Precio unitario: ') ?></span> <?= h($ordenesdetrabajo->preciounitario) ?></h5>
+                  </div>
+                  <div class="col-sm-4">
+                      <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
+                  </div>
+                  <div class="col-sm-4">
+                      <h5><span class="badge badge-info"><?= __('Conclusiones: ') ?></span> <?= h($ordenesdetrabajo->concluciones) ?></h5>
+                  </div>
                 </div>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
+                <div class="row">
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Cierre micrones: ') ?></span> <?= h($ordenesdetrabajo->cierremicrones) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Cierre scrap: ') ?></span> <?= h($ordenesdetrabajo->cierrescrap) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Cierre diferencia (Kg.): ') ?></span> <?= h($ordenesdetrabajo->cierrediferenciakg) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Cierre: ') ?></span> <?= h($ordenesdetrabajo->cierre) ?></h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
@@ -208,15 +194,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                             foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
                                 ?>
                                 <tr>
-                                  <th><?=$bobinasdeextrusion->numero; ?></th>
-                                  <th><?=$bobinasdeextrusion->extrusora->nombre; ?></th>
-                                  <th><?=$bobinasdeextrusion->fecha->i18nFormat('d-m-Y'); ?></th>
-                                  <th><?=$bobinasdeextrusion->empleado->nombre; ?></th>
-                                  <th><?=$bobinasdeextrusion->horas; ?></th>
-                                  <th><?=$bobinasdeextrusion->kilogramos; ?></th>
-                                  <th><?=$bobinasdeextrusion->scrap; ?></th>
-                                  <th><?=$bobinasdeextrusion->observacion; ?></th>
-                                  <th class="text-center"><button type="button" name="button" onclick="imprimir(<?=$bobinasdeextrusion->id ?>)" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></button></th>
+                                  <td><?=$bobinasdeextrusion->numero; ?></td>
+                                  <td><?=$bobinasdeextrusion->extrusora->nombre; ?></td>
+                                  <td><?=$bobinasdeextrusion->fecha->i18nFormat('d-m-Y'); ?></td>
+                                  <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
+                                  <td><?=$bobinasdeextrusion->horas; ?></td>
+                                  <td><?=$bobinasdeextrusion->kilogramos; ?></td>
+                                  <td><?=$bobinasdeextrusion->scrap; ?></td>
+                                  <td><?=$bobinasdeextrusion->observacion; ?></td>
+                                  <td class="text-center"><button type="button" name="button" onclick="imprimir(<?=$bobinasdeextrusion->id ?>)" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></button></td>
                                 </tr>
                                 <?php
                             }

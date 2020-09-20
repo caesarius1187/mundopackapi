@@ -22,7 +22,13 @@ class BobinasdeextrusionsController extends AppController
      */
     public function printticket($id = null){
       $bobinasdeextrusion = $this->Bobinasdeextrusions->get($id, [
-          'contain' => ['Empleados', 'Extrusoras', 'Bobinascorteorigens', 'Bobinasdeimpresions'],
+          'contain' => [
+            'Empleados',
+            'Extrusoras',
+            'Bobinascorteorigens',
+            'Bobinasdeimpresions',
+            'Ordenesdetrabajos' => ['Ordenesdepedidos'=>'Clientes']
+          ],
       ]);
       require_once(ROOT . DS . 'vendor' .  DS . "autoload.php");
       $nombre_impresora = "Ticketera";
@@ -31,13 +37,41 @@ class BobinasdeextrusionsController extends AppController
       $printer->setJustification(Printer::JUSTIFY_CENTER);
       try{
       	$logo = EscposImage::load("img\bobina.png", false);
-       //$printer->bitImage($logo);
+       $printer->bitImage($logo);
       }catch(Exception $e){/*No hacemos nada si hay error*/}
-      // date_default_timezone_set("America/Argentina/Salta");
-      $printer->text(date("Y-m-d H:i:s") . "\n");
+      date_default_timezone_set("America/Argentina/Salta");
       $printer->feed(1);
-      $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+      $printer->text(date("Y-m-d H:i:s") . "\n");
+      $printer->feed(2);
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("CLIENTE: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      $printer -> text($bobinasdeextrusion->ordenesdetrabajo->ordenesdepedido->cliente->nombre."\n");
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("FECHA: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      $printer -> text($bobinasdeextrusion->fecha."\n");
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("O.T. N°: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      $printer -> text("P".$bobinasdeextrusion->ordenesdetrabajo->ordenesdepedido->numero." - ".$bobinasdeextrusion->ordenesdetrabajo->numero."\n");
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("Máquina N°: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
       $printer -> text($bobinasdeextrusion->numero."\n");
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("Medida: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      $printer -> text($bobinasdeextrusion->ordenesdetrabajo->medida."\n");
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("Bobina: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      $printer -> text($bobinasdeextrusion->numero."\n");
+      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      $printer -> text("Kilogramos: ");
+      $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      $printer -> text($bobinasdeextrusion->kilogramos."\n");
+      $printer->feed(2);
       $printer -> cut();
       $printer -> close();
       $respuesta = 'imprimi';
@@ -237,7 +271,7 @@ class BobinasdeextrusionsController extends AppController
                         $respuesta['error'] =2 ;
                         $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
                     }
-                }               
+                }
             }
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';

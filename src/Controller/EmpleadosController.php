@@ -83,22 +83,22 @@ class EmpleadosController extends AppController
                     'Bobinasdecortes'=>[
                         'Cortadoras',
                         'conditions'=>[
-                            'Bobinasdecortes.created >='=>$fechaDesde,
-                            'Bobinasdecortes.created <='=>$fechaHasta,
+                            'Bobinasdecortes.fecha >='=>$fechaDesde,
+                            'Bobinasdecortes.fecha <='=>$fechaHasta,
                         ],
-                    ], 
+                    ],
                     'Bobinasdeextrusions'=>[
                         'Extrusoras',
                         'conditions'=>[
-                            'Bobinasdeextrusions.created >='=>$fechaDesde,
-                            'Bobinasdeextrusions.created <='=>$fechaHasta,
+                            'Bobinasdeextrusions.fecha >='=>$fechaDesde,
+                            'Bobinasdeextrusions.fecha <='=>$fechaHasta,
                         ],
-                    ], 
+                    ],
                     'Bobinasdeimpresions'=>[
                         'Impresoras',
                         'conditions'=>[
-                            'Bobinasdeimpresions.created >='=>$fechaDesde,
-                            'Bobinasdeimpresions.created <='=>$fechaHasta,
+                            'Bobinasdeimpresions.fecha >='=>$fechaDesde,
+                            'Bobinasdeimpresions.fecha <='=>$fechaHasta,
                         ],
                     ]
                 ],
@@ -108,10 +108,10 @@ class EmpleadosController extends AppController
                 'contain' => [
                     'Bobinasdecortes'=>[
                         'Cortadoras'
-                    ], 
+                    ],
                     'Bobinasdeextrusions'=>[
                         'Extrusoras'
-                    ], 
+                    ],
                     'Bobinasdeimpresions'=>[
                         'Impresoras'
                     ]

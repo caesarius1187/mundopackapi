@@ -4,7 +4,13 @@ var Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000
   });
-$(document).ready(function() {    
+$(document).ready(function() {
+    $('#reservationdate').datetimepicker({
+          //minDate: new Date(),
+          format: 'L',
+          locale: 'es'
+      });
+    $('.select2').select2()
     $('#OrdenesDePedidoAddForm').submit(function(){
         //serialize form data
         var formData = $(this).serialize();
@@ -35,7 +41,7 @@ $(document).ready(function() {
 
                     $(".card-secondary").show();
                 }
-                
+
             },
             error: function(xhr,textStatus,error){
                 bootstrapAlert(textStatus);
@@ -145,7 +151,7 @@ function cargarOTenTbl(ordenesdetrabajo){
             )
             .append(
                 $("<td>").html(ordenesdetrabajo.material)
-            )            
+            )
             .append(
                 $("<td>").html(ordenesdetrabajo.color)
             )

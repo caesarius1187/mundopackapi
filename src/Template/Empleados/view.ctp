@@ -66,26 +66,55 @@ echo $this->Html->script('empleados/view',array('inline'=>false));
         </div>
       </div>
 
-      <h5 class="mt-4 mb-2">Tareas realizadas:</h5>
-      <?= $this->Form->create($empleadoconsulta,[
-        'id'=>'empleadoConsultaForm'
-      ]) ?>
-      <div class="card-body">
-        <div class="form-group">
-          <?php echo $this->Form->control('fechadesde'); ?>
+      <div class="row">
+        <h5>Tareas realizadas:</h5>
+      </div>
+
+      <div class="row" style="margin: 0 0 15px 150px">
+        <?= $this->Form->create($empleadoconsulta,[
+          'id'=>'empleadoConsultaForm',
+          'class'=>'form-inline'
+        ]) ?>
+
+        <div class="col-1">Desde:</div>
+        <div class="form-group col-4">
+          <?= $this->Form->control('fechadesde',[
+            'type'=>'text',
+            'required'=>true,
+            'templates'=>[
+              'inputContainer'=>'
+                <div class="input-group date" id="desde" data-target-input="nearest">
+                  {{content}}
+                  <div class="input-group-append" data-target="#desde" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>']
+          ]); ?>
         </div>
-        <div class="form-group">
-          <?php echo $this->Form->control('fechahasta'); ?>
-        </div>      
+        <div class="col-1">Hasta:</div>
+        <div class="form-group col-4">
+          <?= $this->Form->control('fechahasta',[
+            'type'=>'text',
+            'required'=>true,
+            'templates'=>[
+              'inputContainer'=>'
+                <div class="input-group date" id="hasta" data-target-input="nearest">
+                  {{content}}
+                  <div class="input-group-append" data-target="#hasta" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>']
+          ]); ?>
+        </div>
+        <div class="form-group col-2">
+          <?= $this->Form->button(__('<i class="fas fa-search"></i> Consultar'), [
+            'escape' => false,
+            'class' => 'btn btn-success float-right'
+            ]) ?>
+        </div>
+        <?= $this->Form->end() ?>
       </div>
-      <!-- /.card-body -->
-      <div class="card-footer">
-        <?= $this->Form->button(__('<i class="fas fa-save"></i> Consultar'), [
-          'escape' => false,
-          'class' => 'btn btn-success float-right'
-          ]) ?>
-      </div>
-      <?= $this->Form->end() ?>
+
       <div class="row">
         <div class="col-12">
           <!-- Custom Tabs -->
@@ -102,91 +131,97 @@ echo $this->Html->script('empleados/view',array('inline'=>false));
               <div class="tab-content">
                 <div class="tab-pane" id="tab_3">
                   <div class="related">
-                      <h4><?= __('Bobinas de cortes') ?></h4>
+                      <h4><?= __('Bobinas de cortes:') ?></h4>
                       <?php if (!empty($empleado->bobinasdecortes)): ?>
-                      <table cellpadding="0" cellspacing="0">
-                          <tr>
-                              <th scope="col"><?= __('Cortadora') ?></th>
-                              <th scope="col"><?= __('Fecha') ?></th>
-                              <th scope="col"><?= __('Horas') ?></th>
-                              <th scope="col"><?= __('Kilogramos') ?></th>
-                              <th scope="col"><?= __('Scrap') ?></th>
-                              <th scope="col"><?= __('Created') ?></th>
-                              <th scope="col"><?= __('Modified') ?></th>
-                          </tr>
-                          <?php foreach ($empleado->bobinasdecortes as $bobinasdecorte): ?>
-                          <tr>
-                              <td><?= h($bobinasdecorte->cortadora->nombre) ?></td>
-                              <td><?= date('d-m-Y',strtotime($bobinasdecorte->fecha)) ?></td>
-                              <td><?= h($bobinasdecorte->horas) ?></td>
-                              <td><?= h($bobinasdecorte->kilogramos) ?></td>
-                              <td><?= h($bobinasdecorte->scrap) ?></td>
-                              <td><?= h($bobinasdecorte->created) ?></td>
-                              <td><?= h($bobinasdecorte->modified) ?></td>
-                          </tr>
+                        <div class="card-body">
+                          <table id="tblBobinasdeEstrusion" class="table table-bordered table-hover">
+                            <tr>
+                                <th scope="col"><?= __('Cortadora') ?></th>
+                                <th scope="col"><?= __('Fecha') ?></th>
+                                <th scope="col"><?= __('Horas') ?></th>
+                                <th scope="col"><?= __('Kilogramos') ?></th>
+                                <th scope="col"><?= __('Scrap') ?></th>
+                                <th scope="col"><?= __('Creado') ?></th>
+                                <th scope="col"><?= __('Modificado') ?></th>
+                            </tr>
+                            <?php foreach ($empleado->bobinasdecortes as $bobinasdecorte): ?>
+                            <tr>
+                                <td><?= h($bobinasdecorte->cortadora->nombre) ?></td>
+                                <td><?= date('d-m-Y',strtotime($bobinasdecorte->fecha)) ?></td>
+                                <td><?= h($bobinasdecorte->horas) ?></td>
+                                <td><?= h($bobinasdecorte->kilogramos) ?></td>
+                                <td><?= h($bobinasdecorte->scrap) ?></td>
+                                <td><?= h($bobinasdecorte->created) ?></td>
+                                <td><?= h($bobinasdecorte->modified) ?></td>
+                            </tr>
                           <?php endforeach; ?>
-                      </table>
+                        </table>
                       <?php endif; ?>
+                    </div>
                   </div>
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane active" id="tab_1">
                   <div class="related">
-                      <h4><?= __('Bobinas de estrusion') ?></h4>
+                      <h4><?= __('Bobinas de extrusión:') ?></h4>
                       <?php if (!empty($empleado->bobinasdeextrusions)): ?>
-                      <table cellpadding="0" cellspacing="0">
-                          <tr>
-                              <th scope="col"><?= __('Extrusora') ?></th>
-                              <th scope="col"><?= __('Fecha') ?></th>
-                              <th scope="col"><?= __('Horas') ?></th>
-                              <th scope="col"><?= __('Kilogramos') ?></th>
-                              <th scope="col"><?= __('Scrap') ?></th>
-                              <th scope="col"><?= __('Created') ?></th>
-                              <th scope="col"><?= __('Modified') ?></th>
-                          </tr>
-                          <?php foreach ($empleado->bobinasdeextrusions as $bobinasdeextrusion): ?>
-                          <tr>
-                              <td><?= h($bobinasdeextrusion->extrusora->nombre) ?></td>
-                              <td><?= date('d-m-Y',strtotime($bobinasdeextrusion->fecha)) ?></td>
-                              <td><?= h($bobinasdeextrusion->horas) ?></td>
-                              <td><?= h($bobinasdeextrusion->kilogramos) ?></td>
-                              <td><?= h($bobinasdeextrusion->scrap) ?></td>
-                              <td><?= h($bobinasdeextrusion->created) ?></td>
-                              <td><?= h($bobinasdeextrusion->modified) ?></td>
-                          </tr>
-                          <?php endforeach; ?>
-                      </table>
+                        <div class="card-body">
+                          <table id="tblBobinasdeEstrusion" class="table table-bordered table-hover">
+                            <tr>
+                                <th scope="col"><?= __('Extrusora') ?></th>
+                                <th scope="col"><?= __('Fecha') ?></th>
+                                <th scope="col"><?= __('Horas') ?></th>
+                                <th scope="col"><?= __('Kilogramos') ?></th>
+                                <th scope="col"><?= __('Scrap') ?></th>
+                                <th scope="col"><?= __('Creado') ?></th>
+                                <th scope="col"><?= __('Modificado') ?></th>
+                            </tr>
+                            <?php foreach ($empleado->bobinasdeextrusions as $bobinasdeextrusion): ?>
+                            <tr>
+                                <td><?= h($bobinasdeextrusion->extrusora->nombre) ?></td>
+                                <td><?= date('d-m-Y',strtotime($bobinasdeextrusion->fecha)) ?></td>
+                                <td><?= h($bobinasdeextrusion->horas) ?></td>
+                                <td><?= h($bobinasdeextrusion->kilogramos) ?></td>
+                                <td><?= h($bobinasdeextrusion->scrap) ?></td>
+                                <td><?= h($bobinasdeextrusion->created) ?></td>
+                                <td><?= h($bobinasdeextrusion->modified) ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                          </table>
                       <?php endif; ?>
+                    </div>
                   </div>
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_2">
                   <div class="related">
-                      <h4><?= __('Bobinas de impresion') ?></h4>
+                      <h4><?= __('Bobinas de impresión:') ?></h4>
                       <?php if (!empty($empleado->bobinasdeimpresions)): ?>
-                      <table cellpadding="0" cellspacing="0">
-                          <tr>
-                              <th scope="col"><?= __('Impresora') ?></th>
-                              <th scope="col"><?= __('Fecha') ?></th>
-                              <th scope="col"><?= __('Horas') ?></th>
-                              <th scope="col"><?= __('Kilogramos') ?></th>
-                              <th scope="col"><?= __('Scrap') ?></th>
-                              <th scope="col"><?= __('Created') ?></th>
-                              <th scope="col"><?= __('Modified') ?></th>
-                          </tr>
-                          <?php foreach ($empleado->bobinasdeimpresions as $bobinasdeimpresions): ?>
-                          <tr>
-                              <td><?= h($bobinasdeimpresions->impresora->nombre) ?></td>
-                              <td><?= date('d-m-Y',strtotime($bobinasdeimpresions->fecha)) ?></td>
-                              <td><?= h($bobinasdeimpresions->horas) ?></td>
-                              <td><?= h($bobinasdeimpresions->kilogramos) ?></td>
-                              <td><?= h($bobinasdeimpresions->scrap) ?></td>
-                              <td><?= h($bobinasdeimpresions->created) ?></td>
-                              <td><?= h($bobinasdeimpresions->modified) ?></td>
-                          </tr>
-                          <?php endforeach; ?>
-                      </table>
+                        <div class="card-body">
+                          <table id="tblBobinasdeEstrusion" class="table table-bordered table-hover">
+                            <tr>
+                                <th scope="col"><?= __('Impresora') ?></th>
+                                <th scope="col"><?= __('Fecha') ?></th>
+                                <th scope="col"><?= __('Horas') ?></th>
+                                <th scope="col"><?= __('Kilogramos') ?></th>
+                                <th scope="col"><?= __('Scrap') ?></th>
+                                <th scope="col"><?= __('Creado') ?></th>
+                                <th scope="col"><?= __('Modificado') ?></th>
+                            </tr>
+                            <?php foreach ($empleado->bobinasdeimpresions as $bobinasdeimpresions): ?>
+                            <tr>
+                                <td><?= h($bobinasdeimpresions->impresora->nombre) ?></td>
+                                <td><?= date('d-m-Y',strtotime($bobinasdeimpresions->fecha)) ?></td>
+                                <td><?= h($bobinasdeimpresions->horas) ?></td>
+                                <td><?= h($bobinasdeimpresions->kilogramos) ?></td>
+                                <td><?= h($bobinasdeimpresions->scrap) ?></td>
+                                <td><?= h($bobinasdeimpresions->created) ?></td>
+                                <td><?= h($bobinasdeimpresions->modified) ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </table>
                       <?php endif; ?>
+                    </div>
                   </div>
                 </div>
                 <!-- /.tab-pane -->

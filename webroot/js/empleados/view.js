@@ -1,4 +1,14 @@
 $(document).ready(function() {
+  $('#desde').datetimepicker({
+        //minDate: new Date(),
+        format: 'DD-MM-YYYY',
+        locale: 'es'
+    });
+    $('#hasta').datetimepicker({
+          //minDate: new Date(),
+          format: 'DD-MM-YYYY',
+          locale: 'es'
+      });
     /*$('#empleadoConsultaForm').submit(function(){
         //serialize form data
         var formData = $(this).serialize();
@@ -9,7 +19,7 @@ $(document).ready(function() {
             url: formUrl,
             data: formData,
             success: function(data,textStatus,xhr){
-               
+
             },
             error: function(xhr,textStatus,error){
                 bootstrapAlert(textStatus);

@@ -45,6 +45,8 @@ $cakeDescription = 'Mundo Pack';
                           '/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css',
                           // Toast
                           '/plugins/toastr/toastr.min.css',
+                          //icheck
+                          '/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
                           'adminlte.min.css'
     ]) ?>
 
@@ -72,7 +74,7 @@ $cakeDescription = 'Mundo Pack';
                               '/plugins/sweetalert2/sweetalert2.min.js',
                               // Toast
                               '/plugins/toastr/toastr.min.js',
-
+                              'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js',
                               'adminlte.js',
                               'pages/dashboard.js',
                               'demo.js'
@@ -153,7 +155,7 @@ $cakeDescription = 'Mundo Pack';
         </div>
         <div class="info">
           <?php
-          $session = $this->request->getSession(); 
+          $session = $this->request->getSession();
           $user_data = $session->read('Auth.User');
           ?>
           <a href="#" class="d-block"><?= $user_data['first_name']." ".$user_data['last_name'] ?></a>
@@ -234,7 +236,7 @@ $cakeDescription = 'Mundo Pack';
                 );
                 echo '</li>';
               }
-              
+
 
               $classToItem = (($this->request->getParam('controller')=='Ordenesdepedidos')&&($this->request->getParam('action')=='index'))?'nav-link active':'nav-link';
               echo '<li class="nav-item">';
@@ -250,9 +252,9 @@ $cakeDescription = 'Mundo Pack';
               );
               echo '</li>';
 
-              
 
-              
+
+
               ?>
          </ul>
 
