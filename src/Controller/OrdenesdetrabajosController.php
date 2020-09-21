@@ -330,7 +330,7 @@ class OrdenesdetrabajosController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $respuesta['respuesta'] = 'La orden de pedido fue guardada';
+                $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
                 foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
                     if($materialesot['id']!=0){
                         $newmaterialOt = $this->Materialesots->get($materialesot['id'], [
@@ -370,6 +370,33 @@ class OrdenesdetrabajosController extends AppController
         $materiales = $this->Ordenesdetrabajos->materiales;
 
         $this->set(compact('ordenesdetrabajo', 'ordenesdepedidos','materiales'));
+    }
+
+     public function cerrar($id = null)
+    {
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
+            date_default_timezone_set('America/Argentina/Salta');
+            $ordenesdetrabajo->cierre = date('Y-m-d H:i:s');
+            $ordenesdetrabajo->estado = 'Terminado';
+            if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
+                $respuesta['error'] = 0;
+            }else{
+                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+                $respuesta['request'] = $this->request->getData();
+                $respuesta['error'] = 1;
+                $OPerrors = $ordenesdetrabajo->errors();
+                $respuesta['errors'] = $OPerrors;
+            }
+            $this->set([
+                'respuesta' => $respuesta,
+                '_serialize' => ['respuesta']
+            ]);
+            return;
+        }
     }
 
     /**
