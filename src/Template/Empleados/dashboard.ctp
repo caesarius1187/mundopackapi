@@ -39,23 +39,23 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           <div class="inner" style="height: 110px">
             <h4><strong><?= $extrusora->nombre ?></strong></h4>
             <?php
-            $ordenOtMenorPrioridad=[];
+            $ordenOtMenorPrioridad=null;
             $menorPrioridad = 1000;
             foreach ($extrusora->ordenots as $ko => $ordenot) {
               //vamos a buscar la ordrenot con menor prioridad
               if($ordenot->prioridad<$menorPrioridad){
                 $menorPrioridad = $ordenot->prioridad;
                 $ordenOtMenorPrioridad = $ordenot;
-              }              
+              }
             }
-            if(count($ordenOtMenorPrioridad)!=0){
+            if($ordenOtMenorPrioridad){
               ?>
               <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
                     'escape' => false,
                     'target' => '_blank',
                     'style' => ['color:black'],
               ]) ?>
-                
+
               <?php
             }
             ?>
@@ -89,23 +89,23 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         <div class="inner" style="height: 110px">
           <h4><strong><?= $impresora->nombre ?></strong></h4>
           <?php
-            $ordenOtMenorPrioridad=[];
+            $ordenOtMenorPrioridad=null;
             $menorPrioridad = 1000;
             foreach ($impresora->ordenots as $ko => $ordenot) {
               //vamos a buscar la ordrenot con menor prioridad
               if($ordenot->prioridad<$menorPrioridad){
                 $menorPrioridad = $ordenot->prioridad;
                 $ordenOtMenorPrioridad = $ordenot;
-              }              
+              }
             }
-            if(count($ordenOtMenorPrioridad)!=0){
+            if($ordenOtMenorPrioridad){
               ?>
               <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
                     'escape' => false,
                     'target' => '_blank',
                     'style' => ['color:black'],
               ]) ?>
-                
+
               <?php
             }
             ?>
@@ -138,23 +138,23 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         <div class="inner" style="height: 110px">
           <h4><strong><?= $cortadora->nombre ?></strong></h4>
           <?php
-            $ordenOtMenorPrioridad=[];
+            $ordenOtMenorPrioridad=null;
             $menorPrioridad = 1000;
             foreach ($cortadora->ordenots as $ko => $ordenot) {
               //vamos a buscar la ordrenot con menor prioridad
               if($ordenot->prioridad<$menorPrioridad){
                 $menorPrioridad = $ordenot->prioridad;
                 $ordenOtMenorPrioridad = $ordenot;
-              }              
+              }
             }
-            if(count($ordenOtMenorPrioridad)!=0){
+            if($ordenOtMenorPrioridad){
               ?>
               <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
                     'escape' => false,
                     'target' => '_blank',
                     'style' => ['color:black'],
               ]) ?>
-                
+
               <?php
             }
             ?>
@@ -175,7 +175,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
 </div>
 
 <div class="modal fade" id="myModalMaquina">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title"><i class="fas fa-industry"></i> EXTRUSORA 1</h1>
@@ -188,14 +188,14 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           <table class="table table-sm" >
             <thead>
               <tr>
-                <th>#OT</th>
-                <th>Cant.</th>
-                <th>Ext.</th>
-                <th>Imp.</th>
-                <th>Cort.</th>
-                <th style="width: 100px">Progreso</th>
-                <th>Porc.</th>
-                <th>Acción</th>
+                <th style="text-align:center">#OT</th>
+                <th style="text-align:center">Cantidad</th>
+                <th style="text-align:center">Extrusadas</th>
+                <th style="text-align:center">Impresas</th>
+                <th style="text-align:center">Cortadas</th>
+                <th style="width: 180px">Progreso</th>
+                <th>Porcentaje</th>
+                <th style="text-align:center">Acción</th>
               </tr>
             </thead>
             <tbody id="tblPendientes">

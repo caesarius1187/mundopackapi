@@ -66,6 +66,11 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
         <?php foreach ($ordenesdepedidos as $ordenesdepedido): ?>
         <div class="card">
           <div class="card-body">
+            <div class="row d-print-none">
+              <div class="col-md-12" style="text-align:center">
+                <button onclick="window.print();" type="button" name="imprimir" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir informe</button>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-2">
                 <dt class="text-center">N°:</dt>

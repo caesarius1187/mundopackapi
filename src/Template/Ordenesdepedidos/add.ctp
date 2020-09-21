@@ -346,6 +346,22 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
               </div>
             </div>
             <!-- /.row -->
+            <div class="row">
+              <div class="col-md-12" style="text-align:center">
+                <?php
+                echo $this->Html->link(__('<i class="fas fa-save"></i>
+                    <p>
+                      Finalizar pedido
+                    </p>'),
+                    array ( 'plugin' => null, 'controller' => 'ordenesdetrabajo', 'action' => 'asignacion', '_ext' => NULL),
+                    [
+                        'escape' => false,
+                        'class'=> 'btn btn-primary'
+                    ]
+                );
+                 ?>
+              </div>
+            </div>
             <!-- <div class="row">
               <div class="col-12 text-center">
                 <button type="button" name="button" class="btn btn-secondary"><i class="fas fa-save"></i> GUARDAR</button>

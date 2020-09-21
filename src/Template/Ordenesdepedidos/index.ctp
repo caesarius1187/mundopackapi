@@ -41,7 +41,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
               'escape' => false,
               'class' => 'btn btn-primary float-right'
               ]);
-          }  
+          }
           ?>
           <table id="example" class="table table-bordered table-hover table-sm">
               <thead>
@@ -83,8 +83,12 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                             'escape' => false,
                             'class' => 'btn btn-info btn-sm'
                             ]) ?>
-                          <?php  
+                          <?php
                           if($user_data['role']=='superuser'){
+                            echo $this->Html->link(__('<i class="fas fa-book"></i>'), ['action' => 'informe', $ordenesdepedido->id],[
+                              'escape' => false,
+                              'class' => 'btn btn-warning btn-sm'
+                              ]);
                             echo $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'add', $ordenesdepedido->id],[
                               'escape' => false,
                               'class' => 'btn btn-success btn-sm'

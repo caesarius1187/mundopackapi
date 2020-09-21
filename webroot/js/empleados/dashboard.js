@@ -40,7 +40,7 @@ function loadOTExtrusora(extrusoraId){
                 $('#myModalMaquina').find('#tblPendientes').append(
                     $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html("OT "+this.ordenesdetrabajo.numero)
+                            $("<td class='text-center'>").html("P"+this.ordenesdetrabajo.ordenesdepedido.numero+"-"+this.ordenesdetrabajo.numero)
                         )
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.aextrusar)

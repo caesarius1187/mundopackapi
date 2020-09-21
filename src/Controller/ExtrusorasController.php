@@ -35,9 +35,8 @@ class ExtrusorasController extends AppController
     {
         $extrusora = $this->Extrusoras->get($id, [
             'contain' => [
-                'Bobinasdeextrusions',
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
+                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'sort'=>'Ordenots.prioridad ASC'
                 ]
             ],
