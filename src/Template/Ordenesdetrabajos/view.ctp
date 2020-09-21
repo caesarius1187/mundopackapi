@@ -128,9 +128,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <h5><span class="badge badge-info"><?= __('Cierre diferencia (Kg.): ') ?></span> <?= h($ordenesdetrabajo->cierrediferenciakg) ?></h5>
                   </div>
                   <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Cierre: ') ?></span> <?= h($ordenesdetrabajo->cierre) ?></h5>
-                  </div>
+                      <h5><span class="badge badge-info"><?= __('Cierre: ') ?></span> <?= date('d-m-Y H:i',strtotime($ordenesdetrabajo->cierre)) ?></h5>
+                  </div>                  
                 </div>
+                <button type="button" name="button" onclick="$('#modalCerrarOT').modal('show')" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> Cerrar OT</button>
               </div>
             </div>
           </div>
@@ -539,3 +540,51 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
     <!-- /.info-box -->
   </div>
 </div>
+
+<div class="modal" id="modalCerrarOT" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?= __('Agregar Bobina de Impresion') ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?= $this->Form->create($ordenesdetrabajo,[
+            'id'=>'cerrarOrdenDeTrabajo',
+            'url'=>[
+                'action'=>'cerrar',
+            ]
+        ]) ?>
+        <div class="row">
+            <div class="col-sm-3">
+                <?= $this->Form->control('id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
+                <?= $this->Form->control('observaciones'); ?>
+            </div>
+
+            <div class="col-sm-3">
+                <?= $this->Form->control('cierremicrones',['label'=>'Micrones']) ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('cierrescrap',['label'=>'Scrap al cierre']); ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('cierrediferenciakg',['label'=>'Diferencia Kg']); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('concluciones'); ?>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="$('#cerrarOrdenDeTrabajo').submit()">Guardar Cierre</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+</div>
+

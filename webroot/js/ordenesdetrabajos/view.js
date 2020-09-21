@@ -114,6 +114,36 @@ $(document).ready(function() {
         }    
        
     }) ;
+    $('#cerrarOrdenDeTrabajo').submit(function(){
+        //serialize form data
+        var formData = $(this).serialize();
+        //get form action
+        var formUrl = $(this).attr('action')+".json";
+        $.ajax({
+            type: 'POST',
+            url: formUrl,
+            data: formData,
+            success: function(data,textStatus,xhr){
+                //alert(data.data[0]);
+                if(data.respuesta.error!=0){
+                    Toast.fire({
+                      icon: 'error',
+                      title: data.respuesta.respuesta
+                    })
+                }else{
+                    Toast.fire({
+                      icon: 'success',
+                      title: data.respuesta.respuesta
+                    })                    
+                }
+
+            },
+            error: function(xhr,textStatus,error){
+                bootstrapAlert(textStatus);
+            }
+        });
+        return false;
+    });
 });
 function getListaBobinasExtrusionParaImpresion(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
