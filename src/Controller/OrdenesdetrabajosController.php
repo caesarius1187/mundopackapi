@@ -44,20 +44,29 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Ordenots');
 
         $conditions=[
-            'contain'=>['Ordenesdepedidos'],
+            'contain'=>[
+                'Ordenesdepedidos'=>[
+                    'Clientes'
+                ],
+                'Materialesots'
+            ],
             'conditions'=>[
                 'Ordenesdetrabajos.estado IN ("En Proceso","Pausado")',
+                'Ordenesdetrabajos.id NOT IN (SELECT ordenesdetrabajo_id FROM Ordenots)'
             ]
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
         $this->set(compact('ordenesdetrabajos'));
 
-
-
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
+                    'Ordenesdetrabajos'=>[
+                        'Ordenesdepedidos'=>[
+                            'Clientes'
+                        ],
+                        'Materialesots'
+                    ],
                     'sort'=>['Ordenots.prioridad']
                 ],
             ],
@@ -65,7 +74,12 @@ class OrdenesdetrabajosController extends AppController
         $impresoras = $this->Impresoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
+                    'Ordenesdetrabajos'=>[
+                        'Ordenesdepedidos'=>[
+                            'Clientes'
+                        ],
+                        'Materialesots'
+                    ],
                     'sort'=>['Ordenots.prioridad']
 
                 ]
@@ -74,13 +88,21 @@ class OrdenesdetrabajosController extends AppController
         $cortadoras = $this->Cortadoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
+                    'Ordenesdetrabajos'=>[
+                        'Ordenesdepedidos'=>[
+                            'Clientes'
+                        ],
+                        'Materialesots'
+                    ],
                     'sort'=>['Ordenots.prioridad']
                 ]
             ]
         ]);
         $ordenot = $this->Ordenots->newEntity();
-        $this->set(compact('extrusoras','impresoras','cortadoras','ordenot'));
+        $listextrusoras = $this->Extrusoras->find('list', ['limit' => 200]);
+        $listimpresoras = $this->Impresoras->find('list', ['limit' => 200]);
+        $listcortadoras = $this->Cortadoras->find('list', ['limit' => 200]);
+        $this->set(compact('extrusoras','impresoras','cortadoras','ordenot','listextrusoras','listimpresoras','listcortadoras'));
     }
     public function listaasignacion($tipomaquina,$maquinaid){
         $this->loadModel('Ordenots');

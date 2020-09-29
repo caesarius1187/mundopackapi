@@ -16,51 +16,8 @@ $(document).ready(function() {
             data: formData,
             success: function(data,textStatus,xhr){
                 //alert(data.data[0]);
-                var extrusoraId =data.data[1].extrusora_id;
-                var impresoraId =data.data[1].impresora_id;
-                var cortadoraId =data.data[1].cortadora_id;
-                var myList;
-                if(extrusoraId!=0){
-                    myList = $("#ulExtrusora"+extrusoraId);
-                }
-                if(impresoraId!=0){
-                    myList = $("#ulImpresora"+impresoraId);
-                }
-                if(cortadoraId!=0){
-                    myList = $("#ulCortadora"+cortadoraId);
-                }
-                myList
-                    .append(
-                        $("<li>")
-                            .attr("id",'liOrdenOt'+data.data[1].id)
-                            .html("OT "+$( "#ordenesdetrabajo-id option:selected" ).text())
-                            .append(
-                                $("<a>")
-                                    .addClass("badge bg-secondary swalDefaultSuccess")
-                                    .attr('onclick','levelUp('+data.data[1].id+')')
-                                    .append(
-                                        $("<i>").addClass("fas fa-angle-up")
-                                    )
-                            )
-                            .append(
-                                $("<a>")
-                                    .addClass("badge bg-secondary swalDefaultSuccess")
-                                    .attr('onclick','levelDown('+data.data[1].id+')')
-                                    .append(
-                                        $("<i>").addClass("fas fa-angle-down")
-                                    )
-                            )
-                            .append(
-                                $("<a>")
-                                    .addClass("badge bg-secondary swalDefaultSuccess")
-                                    .attr('onclick','deleteOrdOt('+data.data[1].id+')')
-                                    .append(
-                                        $("<i>").addClass("fas fa-trash-alt")
-                                    )
-                            )
-                    )
+                location.reload();
                 $('#myModal').modal('toggle');
-
             },
             error: function(xhr,textStatus,error){
                 bootstrapAlert(textStatus);
@@ -68,82 +25,10 @@ $(document).ready(function() {
         });
         return false;
     });
+    $(".tabbedDiv").hide();
+    $(".programacionPendientes").show();
 });
-function levelUp(ordenOTId){
-    $.ajax({
-        type: 'POST',
-        url: serverLayoutURL+'ordenots/levelup/'+ordenOTId+'.json',
-        data: '',
-        success: function(data,textStatus,xhr){
-            if(data.data.error!=0){
-                Toast.fire({
-                  icon: 'error',
-                  title: data.data.respuesta
-                })
-            }else{
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Se cambió prioridad con éxito.'
-                })
-                var row = $("#liOrdenOt"+ordenOTId);
-                row.insertBefore(row.prev());
-            }
-        },
-        error: function(xhr,textStatus,error){
-            alert(textStatus);
-        }
-    });
-}
-function levelDown(ordenOTId){
-    $.ajax({
-        type: 'POST',
-        url: serverLayoutURL+'ordenots/leveldown/'+ordenOTId+'.json',
-        data: '',
-        success: function(data,textStatus,xhr){
-            if(data.data.error!=0){
-                Toast.fire({
-                  icon: 'error',
-                  title: data.data.respuesta
-                })
-            }else{
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Se cambió prioridad con éxito.'
-                })
-                var row = $("#liOrdenOt"+ordenOTId);
-                row.insertAfter(row.next());
-            }
-        },
-        error: function(xhr,textStatus,error){
-            alert(textStatus);
-        }
-    });
-}
-function deleteOrdOt(ordenOTId){
-    $.ajax({
-        type: 'POST',
-        url: serverLayoutURL+'ordenots/delete/'+ordenOTId+'.json',
-        data: '',
-        success: function(data,textStatus,xhr){
-            if(data.data.error!=0){
-                Toast.fire({
-                  icon: 'error',
-                  title: data.data.respuesta
-                })
-            }else{
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Se elimino prioridad con éxito.'
-                })
-                var row = $("#liOrdenOt"+ordenOTId);
-                row.remove();
-            }
-        },
-        error: function(xhr,textStatus,error){
-            alert(textStatus);
-        }
-    });
-}
+
 function playOT(oTId){
     $.ajax({
         type: 'POST',
@@ -198,44 +83,30 @@ function cancelarOT(oTId){
         }
     });
 }
-function loadFormPrioridad(maquina,maquinaNombre,maquinaId){
-    var controller = "";
-    var Title = "";
-    var extInputId = $("#extrusora-id");
-    var impInputId = $("#impresora-id");
-    var corInputId = $("#cortadora-id");
-    extInputId.val(0);
-    impInputId.val(0);
-    corInputId.val(0);
-    switch(maquina){
-        case 'extrusora':
-            controller = 'extrusoras';
-            extInputId.val(maquinaId);
-        break;
-        case 'impresora':
-            controller = 'impresoras';
-            impInputId.val(maquinaId);
-        break;
-        case 'cortadora':
-            controller = 'cortadoras';
-            corInputId.val(maquinaId);
-        break;
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: serverLayoutURL+'ordenesdetrabajos/listaasignacion/'+maquina+"/"+maquinaId+'.json',
-        data: '',
-        success: function(data,textStatus,xhr){
-            $('#myModal').find('.modal-title').html("Agregar OT a la lista de prioridad de "+maquinaNombre);
-            $("#ordenesdetrabajo-id").empty();
-            $(data.listOrdenes).each(function(){
-                $("#ordenesdetrabajo-id").append('<option value="'+this.id+'">'+this.ordenesdepedido.numero+'-'+this.numero+'</option>');
-            }); 
-            $('#myModal').modal('toggle');
-        },
-        error: function(xhr,textStatus,error){
-            alert(textStatus);
-        }
-    });
+function loadTab(clickedTab){
+    $(".nav-link").removeClass("active");
+    $(clickedTab).addClass("active");
+    var target = $(clickedTab).attr("target");
+    $(".tabbedDiv").hide();
+    $("."+target).show();
+}
+function programarOT(OTId,numeroOT,nombrecliente){
+    $('#myModal').find('.modal-title').html("Programar OT Numero: "+numeroOT+" del Cliente: "+nombrecliente);
+    $("#ordenesdetrabajo-id").val(OTId);
+    $('#myModal').modal('toggle');
+}
+function editarProgramacionOt(ordenOTId,oTId,numeroOT,nombrecliente,estrusoraId,inicioEstrusion,impresoraId,inicioImpresion,cortadoraId,inicioCorte){
+    $('#myModal').find('.modal-title').html("Programar OT Numero: "+numeroOT+" del Cliente: "+nombrecliente);
+    $("#id").val(ordenOTId);
+    $("#ordenesdetrabajo-id").val(oTId);
+    //set Estrusora
+    $("#extrusora_id").val(estrusoraId);
+    $("#fechainicioextrusora").val(inicioEstrusion);
+    //set Impresora
+    $("#impresora-id").val(impresoraId);
+    $("#fechainicioimpresora").val(inicioImpresion);
+    //set Corte
+    $("#cortadora-id").val(cortadoraId);
+    $("#fechainiciocortadora").val(inicioCorte);
+    $('#myModal').modal('toggle');
 }

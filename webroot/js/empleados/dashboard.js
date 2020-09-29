@@ -36,9 +36,7 @@ function loadOTExtrusora(extrusoraId){
                 if(porcentaje>=60){
                   classProgress = 'bg-success';
                 }
-
-                $('#myModalMaquina').find('#tblPendientes').append(
-                    $("<tr>")
+                var tr = $("<tr>")
                         .append(
                             $("<td class='text-center'>").html("P"+this.ordenesdetrabajo.ordenesdepedido.numero+"-"+this.ordenesdetrabajo.numero)
                         )
@@ -85,7 +83,50 @@ function loadOTExtrusora(extrusoraId){
                                         .attr('onclick','openOrdendetrabajo('+this.ordenesdetrabajo.id+')')
                                 )
                               )
-                        )
+                        );
+                for (var i = 0; i < 20; i++) {
+                    var date = new Date();
+                    date.setDate(date.getDate() + i);
+                    var dd = date.getDate();
+                    var mm = date.getDate();
+                    var yyyy = date.getDate();
+                    var dateToAnalyze = yyyy+'-'+mm+'-'+dd;
+
+                    var tdclass = ""
+                    var contenido = ""
+                    var ini = this.ordenesdetrabajo.fecha;
+                    /*$fin = date('d-m-Y',strtotime($fecha." +1 Months "));
+                    $iniEstrusion = date('d-m-Y',strtotime($ordenot->fechainicioextrusora));
+                    $iniImpresion = date('d-m-Y',strtotime($ordenot->fechainicioimpresora));
+                    $iniCorte = date('d-m-Y',strtotime($ordenot->fechainiciocortadora));*/
+                    if(dateToAnalyze==ini){
+                      tdclass = "table-warning";
+                      contenido = "Ini";
+                    }
+                    /*if($dateToAnalyze==$fin){
+                      $class = "table-success";
+                      $contenido = "Ini";
+                    }
+                    if($dateToAnalyze==$iniEstrusion){
+                      $class = "table-danger";
+                      $contenido = "Est";
+                    }
+                    if($dateToAnalyze==$iniImpresion){
+                      $class = "table-primary";
+                      $contenido = "Imp";
+                    }
+                    if($dateToAnalyze==$iniCorte){
+                      $class = "table-info";
+                      $contenido = "Cor";
+                    }*/
+                    $(tr).append(
+                        $("<td>")
+                            .addClass(tdclass)
+                            .html(contenido)
+                    )
+                }
+                $('#myModalMaquina').find('#tblPendientes').append(
+                    tr
                 )
             });
 

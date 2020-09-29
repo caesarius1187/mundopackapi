@@ -175,7 +175,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
 </div>
 
 <div class="modal fade" id="myModalMaquina">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title"><i class="fas fa-industry"></i> EXTRUSORA 1</h1>
@@ -184,7 +184,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         </button>
       </div>
       <div class="modal-body">
-        <div class="card-body p-0">
+        <div class="card-body p-0" style="overflow-x: auto;">
           <table class="table table-sm" >
             <thead>
               <tr>

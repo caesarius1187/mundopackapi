@@ -52,8 +52,14 @@ class OrdenotsController extends AppController
     {
         $ordenot = $this->Ordenots->newEntity();
         $respuesta = "";
-
-        $ordenot = $this->Ordenots->patchEntity($ordenot, $this->request->getData());
+        if($this->request->getData()['id']!=0){
+            $ordenot = $this->Ordenots->get($this->request->getData()['id'], [
+                'contain' => [],
+            ]);
+            $ordenot = $this->Ordenots->patchEntity($ordenot, $this->request->getData());
+        }else{
+            $ordenot = $this->Ordenots->patchEntity($ordenot, $this->request->getData());
+        }
         //vamos a poner la prioridad mas alta +1
         $maxprioridad = 0;
         $orderotMax = $this->Ordenots->find('all',[
@@ -68,12 +74,27 @@ class OrdenotsController extends AppController
             $maxprioridad = $value->maxprioridad;
         }
         $ordenot->prioridad = $maxprioridad+1;
+        if($ordenot->fechainicioextrusora!=''){
+            $fechainicioestrusion = $ordenot->fechainicioextrusora;
+            $fechainicioestrusion = date('Y-m-d',strtotime($fechainicioestrusion));
+            $ordenot->fechainicioextrusora = $fechainicioestrusion;    
+        }
+        if($ordenot->fechainicioimpresora!=''){
+            $fechainicioimpresora = $ordenot->fechainicioimpresora;
+            $fechainicioimpresora = date('Y-m-d',strtotime($fechainicioimpresora));
+            $ordenot->fechainicioimpresora = $fechainicioimpresora;    
+        }
+        if($ordenot->fechainiciocortadora!=''){
+            $fechainiciocortadora = $ordenot->fechainiciocortadora;
+            $fechainiciocortadora = date('Y-m-d',strtotime($fechainiciocortadora));
+            $ordenot->fechainiciocortadora = $fechainiciocortadora;    
+        }
+       
         if ($this->Ordenots->save($ordenot)) {
             $respuesta = 'Se ha asignado esta orden para esta maquina.';
         }else{
             $respuesta = 'ERROR no se pudo asignar la orden en la lista de prioridades de la maquina';
         }
-       
         $data = [$respuesta,$ordenot];
         $this->set([
             'data' => $data,

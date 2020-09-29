@@ -353,7 +353,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     <p>
                       Finalizar pedido
                     </p>'),
-                    array ( 'plugin' => null, 'controller' => 'ordenesdetrabajo', 'action' => 'asignacion', '_ext' => NULL),
+                    array ( 'plugin' => null, 'controller' => 'ordenesdetrabajos', 'action' => 'asignacion', '_ext' => NULL),
                     [
                         'escape' => false,
                         'class'=> 'btn btn-primary'

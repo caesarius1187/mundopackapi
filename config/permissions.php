@@ -100,6 +100,14 @@ return [
             'controller' => '*',
             'action' => '*',
         ],
+        [
+            'role' => 'administativo',
+            'prefix' => '*',
+            'extension' => '*',
+            'plugin' => '*',
+            'controller' => '*',
+            'action' => '*',
+        ],
         //specific actions allowed for the all roles in Users plugin
         [
             'role' => '*',

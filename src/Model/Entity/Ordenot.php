@@ -31,8 +31,11 @@ class Ordenot extends Entity
      */
     protected $_accessible = [
         'extrusora_id' => true,
+        'fechainicioextrusora' => true,
         'impresora_id' => true,
+        'fechainicioimpresora' => true,
         'cortadora_id' => true,
+        'fechainiciocortadora' => true,
         'ordenesdetrabajo_id' => true,
         'prioridad' => true,
         'extrusora' => true,
