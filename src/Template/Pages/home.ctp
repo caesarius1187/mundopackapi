@@ -77,105 +77,30 @@ $this->layout= '';
         <div class="card-body login-card-body">
           <img src="img/logo-mundopack-fabrica.png" alt="Logo MP">
             <div class="users form">
-                <?= $this->Flash->render('auth') ?>
-                <?= $this->Form->create() ?>
                 <fieldset>
-                    <?php
-                      $session = $this->request->getSession(); // less than 3.5
-                      // $session = $this->request->getSession(); // 3.5 or more
-                      $user_data = $session->read('Auth.User');
-                      if(!empty($user_data)){
-                          ?>
-                            <p>Usuario: 
-                              <?php
-                              echo $user_data['first_name']." ".$user_data['last_name'];
-                              ?>
-                            </p>
-                            <?=$this->Html->link(__('Entrar'), ['controller'=>'empleados','action' => 'dashboard'], [
-                              'escape' => false,
-                            ]); 
-                      }else{
-                          echo "<legend>".__d('CakeDC/Users', 'Por Favor ingrese usuario y contraseña')."</legend>";
-                      }   
-                  ?>
-                    
-                    <div class="input-group mb-3">
-                        <?= $this->Form->control('username', [
-                            'label' => false,
-                            'placeholder'=>'Usuario', 
-                            'required' => true, 
-                            'class' => 'form-control',
-                            'templates' => [
-                                'inputContainer' => '<div>{{content}}</div>'
-                            ],
-                        ]) ?>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <?= $this->Form->control('password', [
-                            'label' => false,
-                            'placeholder'=>'Contraseña', 
-                            'required' => true, 
-                            'class' => 'form-control',
-                            'templates' => [
-                                'inputContainer' => '<div>{{content}}</div>'
-                            ],
-                        ]) ?>
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <span class="fas fa-lock"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <?php
-                    if (Configure::read('Users.reCaptcha.login')) {
-                        echo $this->User->addReCaptcha();
-                    }
-                    if (Configure::read('Users.RememberMe.active')) {
-                        echo $this->Form->control(Configure::read('Users.Key.Data.rememberMe'), [
-                            'type' => 'checkbox',
-                            'label' => __d('CakeDC/Users', 'Recordarme'),
-                            'checked' => Configure::read('Users.RememberMe.checked')
-                        ]);
-                    }
-                    ?>
                     <div class="row">
+                        <div class="col-2"></div>
                         <div class="col-8">
                           <div class="icheck-primary">
-                            <?php
-                            $registrationActive = Configure::read('Users.Registration.active');
-                            if ($registrationActive) {
-                                echo $this->Html->link(__d('CakeDC/Users', 'Registrarme'), ['action' => 'register']);
-                            }                            
+                            <?php                          
+                            echo $this->Html->link('<span class="">Iniciar sesión</span>', [
+                                'controller' => 'login'
+                              ], [
+                                'escape' => false,
+                                'class' => "btn btn-primary btn-block",
+                                "data-slide"=>true,
+                                "role"=>"button",
+                              ]); 
                             ?>
                           </div>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <?= $this->Form->button(__d('CakeDC/Users', 'INGRESAR'),['class'=>'btn btn-primary btn-block']); ?>
-                            <?= $this->Form->end() ?>
-                        </div>
+                        <div class="col-2"></div>
+                        
                         <!-- /.col -->
                     </div>
                     
-                </fieldset>
-                <?php 
-                if (Configure::read('Users.Email.required')) {
-                    if ($registrationActive) {
-                        echo ' | ';
-                    }
-                    echo $this->Html->link(__d('CakeDC/Users', 'Recuperar mi clave'), ['action' => 'requestResetPassword']);
-                }
-                ?>
+                </fieldset>               
             </div>
-          <form action="<?php echo $this->Url->build(array('plugin'=>'CakeDC/Users','controller' => 'users', 'action' => 'login')); ?>" method="post">          
-           
-          </form>
-          
         </div>
         <!-- /.login-card-body -->
       </div>

@@ -36,7 +36,13 @@ class CortadorasController extends AppController
         $cortadora = $this->Cortadoras->get($id, [
             'contain' => [
                 'Ordenots'=>[
+                    'conditions'=>[
+                        'Ordenots.fechainiciocortadora <='=>date('Y-m-d')
+                    ],
                     'Ordenesdetrabajos'=>[
+                        'conditions'=>[
+                            'Ordenesdetrabajos.estado'=>'En Proceso'
+                        ],
                         'Ordenesdepedidos'=>[
                             'Clientes'
                         ]

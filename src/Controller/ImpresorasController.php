@@ -36,7 +36,13 @@ class ImpresorasController extends AppController
         $impresora = $this->Impresoras->get($id, [
             'contain' => [
                 'Ordenots'=>[
+                    'conditions'=>[
+                        'Ordenots.fechainicioimpresora <='=>date('Y-m-d')
+                    ],
                     'Ordenesdetrabajos'=>[
+                        'conditions'=>[
+                            'Ordenesdetrabajos.estado'=>'En Proceso'
+                        ],
                         'Ordenesdepedidos'=>[
                             'Clientes'
                         ]

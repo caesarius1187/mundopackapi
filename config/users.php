@@ -127,6 +127,16 @@ $config = [
     ],
     // default configuration used to auto-load the Auth Component, override to change the way Auth works
     'Auth' => [
+        'loginRedirect' =>[// After login
+            'plugin' =>null,
+            'controller' =>'Empleados',
+            'action' =>'dashboard',
+        ],
+        'logoutRedirect' =>[// After logout
+            'plugin' =>null,
+            'controller' =>'Pages', // redirect to the top page
+            'action' =>'display', 'home',
+        ],
         'loginAction' => [
             'plugin' => 'CakeDC/Users',
             'controller' => 'Users',
