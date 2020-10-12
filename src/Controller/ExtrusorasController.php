@@ -36,7 +36,17 @@ class ExtrusorasController extends AppController
         $extrusora = $this->Extrusoras->get($id, [
             'contain' => [
                 'Ordenots'=>[
-                    'Ordenesdetrabajos'=>['Ordenesdepedidos'],
+                    'conditions'=>[
+                        'Ordenots.fechainicioextrusora <='=>date('Y-m-d')
+                    ],
+                    'Ordenesdetrabajos'=>[
+                        'conditions'=>[
+                            'Ordenesdetrabajos.estado'=>'En Proceso'
+                        ],
+                        'Ordenesdepedidos'=>[
+                            'Clientes'
+                        ]
+                    ],
                     'sort'=>'Ordenots.prioridad ASC'
                 ]
             ],

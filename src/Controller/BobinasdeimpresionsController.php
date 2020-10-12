@@ -151,7 +151,8 @@ class BobinasdeimpresionsController extends AppController
                 $respuesta['respuesta'] .= "No se pudo actualizar las bobinas impresas de la orden de pedido.";
             }
             //Si las impresas = aetxrusar entonces tengo que sacarla de las prioridades de las Impresoras
-            if($ordenesdetrabajo->impresas==$ordenesdetrabajo->aextrusar){
+            //no vamos a hacer esto ya por que cambio el sistema de prioridades y se ajusta por fecha
+            /*if($ordenesdetrabajo->impresas==$ordenesdetrabajo->aextrusar){
                 //buscamos las OrdenOts de la OT que debemos eliminar
                  $conditionsOrdenOts=[
                     'conditions'=>[
@@ -197,7 +198,7 @@ class BobinasdeimpresionsController extends AppController
                         $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
                     }
                 }
-            }
+            }*/
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
             $respuesta['error'] = 1;

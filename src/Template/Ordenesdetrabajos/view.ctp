@@ -136,6 +136,45 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             </div>
           </div>
         </div>
+        <div class="row mb-2">
+          <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Planificacion </h1>
+          </div><!-- /.col -->           
+        </div><!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Extrusora</th>
+                      <th>Inicio Extrusion</th>
+                      <th>Impresora</th>
+                      <th>Inicio Impresion</th>
+                      <th>Cortadora</th>
+                      <th>Inicio Corte</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    foreach ($ordenesdetrabajo->ordenots as $ordenot) {
+                      ?>
+                      <td><?= $ordenot->extrusora->nombre?></td>
+                      <td><?= $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):''; ?></td>
+                      <td><?= $ordenot->impresora->nombre?></td>
+                      <td><?= $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):''; ?></td>
+                      <td><?= $ordenot->cortadora->nombre?></td>
+                      <td><?= $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):''; ?></td>
+                      <?php
+                    }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
@@ -188,6 +227,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Mts.</th>
                               <th>Scrap cant.</th>
                               <th>Observación</th>
+                              <th>Terminacion</th>
                               <th>RUB</th>
                             </tr>
                           </thead>
@@ -205,6 +245,31 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <th><?=$bobinasdeextrusion->metros; ?></th>
                                   <th><?=$bobinasdeextrusion->scrap; ?></th>
                                   <th><?=$bobinasdeextrusion->observacion; ?></th>
+                                  <th>
+                                    <?php
+                                    //si la terminacion es parcial vamos a agregar un icono que diga si tiene una complementaria o no
+                                    $TitleChildrens="";
+                                    $classIcon="fas fa-exclamation";
+                                    $classButton="btn-warning";
+                                    $button="";
+                                    if($bobinasdeextrusion->terminacion=='Parcial'){
+                                      foreach ($bobinasdeextrusion->children as $key => $childrenBobina) {
+                                          $TitleChildrens .= "Bobina complementaria: ".$childrenBobina->numero;
+                                          $classButton="btn-success";
+                                          $classIcon = "fas fa-check";
+                                      }
+                                      if(count($bobinasdeextrusion->children)==0){
+                                        $TitleChildrens="No tiene bobina complementaria";
+                                        $classIcon="fas fa-exclamation";
+                                        $classButton="btn-warning";
+                                      }
+                                      $button = '<button title="'.$TitleChildrens.'" type="button" name="button" class="btn '.$classButton.' btn-sm"><i class="'.$classIcon.'"></i></button>';
+                                    }
+                                    
+                                    ?>
+                                    <?=$bobinasdeextrusion->terminacion.$button; ?>
+                                      
+                                    </th>
                                   <th class="text-center"><button type="button" name="button" onclick="imprimir(<?=$bobinasdeextrusion->id ?>)" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></button></th>
                                 </tr>
                                 <?php
@@ -370,8 +435,8 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
         <?= $this->Form->create($newbobinasdeextrusion,[
             'id'=>'bobinaEstrusionAddForm',
             'url'=>[
-                'controller'=>'bobinasdeextrusions',
-                'action'=>'add',
+              'controller'=>'bobinasdeextrusions',
+              'action'=>'add',
             ]
         ]) ?>
         <div class="row">
@@ -385,6 +450,26 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-2">
                 <?= $this->Form->control('horas'); ?>
             </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <?= $this->Form->control('terminacion',[
+                  'options'=>[
+                    'Completa'=>'Completa',
+                    'Parcial'=>'Parcial',
+                    'Complementaria'=>'Complementaria',
+                  ]
+                ]); ?>
+            </div>
+            <div class="col-sm-2">
+                <?= $this->Form->control('bobinasdeextrusion_id',[
+                  'options'=>[],
+                  'disabled'=>true,
+                ]); ?>
+            </div>
+        </div>
+         <div class="row">
             <div class="col-sm-2">
                 <?= $this->Form->control('kilogramos'); ?>
             </div>
@@ -394,6 +479,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>
             </div>
+            
             <div class="col-sm-4">
                 <?= $this->Form->control('observacion'); ?>
             </div>

@@ -36,41 +36,52 @@ function loadOTExtrusora(extrusoraId){
                 if(porcentaje>=60){
                   classProgress = 'bg-success';
                 }
+                var fechaInicio = getDateArray(this.ordenesdetrabajo.ordenesdepedido.fecha);
+                var formatedFechaInicio = fechaInicio[2]+"-"+fechaInicio[1]+"-"+fechaInicio[0];
+                var fechaFin = new Date(fechaInicio[0]+"-"+fechaInicio[1]+"-"+fechaInicio[2]);
+                fechaFin.setDate(fechaFin.getDate() + 30);
+                var fechaFinArray = getDateArrayFromDateObject(fechaFin);
+                var formatedFechaFin = fechaFinArray[0]+"-"+fechaFinArray[1]+"-"+fechaFinArray[2];
+
+                var fechaInicioTrabajo = getDateArray(this.fechainicioextrusora);
+                var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
+
                 var tr = $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html("P"+this.ordenesdetrabajo.ordenesdepedido.numero+"-"+this.ordenesdetrabajo.numero)
+                            $("<td class='text-center'>").html(this.prioridad)
                         )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.aextrusar)
+                            $("<td class='text-center'>").html(formatedFechaInicio)
                         )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.extrusadas)
+                            $("<td class='text-center'>").html(formatedFechaFin)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.ordenesdepedido.cliente.nombre)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.ordenesdepedido.numero+"-"+this.ordenesdetrabajo.numero)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.medida)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cantidad)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html("materiales")
                         )
                          .append(
-                            $("<td class='text-center'>").html(impresas)
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.impreso?'SI':'NO')
                         )
                         .append(
-                            $("<td class='text-center'>").html(cortadas)
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cortado?'SI':'NO')
                         )
                         .append(
-                          $("<td class='align-middle'>")
-                            .append(
-                                $("<div>")
-                                    .addClass('progress progress-xs')
-                                    .append(
-                                        $("<div>")
-                                            .addClass('progress-bar '+classProgress)
-                                            .css('width',porcentaje+'%')
-                                    )
-                            )
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
                         .append(
-                          $("<td>")
-                              .append(
-                                  $("<span>")
-                                      .addClass('badge bg-danger')
-                                      .html(porcentaje+"%")
-                              )
+                            $("<td class='text-center'>").html(formatedFechaInicioTrabajo)
                         )
                         .append(
                             $("<td class='text-center'>")
@@ -84,50 +95,14 @@ function loadOTExtrusora(extrusoraId){
                                 )
                               )
                         );
-                for (var i = 0; i < 20; i++) {
-                    var date = new Date();
-                    date.setDate(date.getDate() + i);
-                    var dd = date.getDate();
-                    var mm = date.getDate();
-                    var yyyy = date.getDate();
-                    var dateToAnalyze = yyyy+'-'+mm+'-'+dd;
-
-                    var tdclass = ""
-                    var contenido = ""
-                    var ini = this.ordenesdetrabajo.fecha;
-                    /*$fin = date('d-m-Y',strtotime($fecha." +1 Months "));
-                    $iniEstrusion = date('d-m-Y',strtotime($ordenot->fechainicioextrusora));
-                    $iniImpresion = date('d-m-Y',strtotime($ordenot->fechainicioimpresora));
-                    $iniCorte = date('d-m-Y',strtotime($ordenot->fechainiciocortadora));*/
-                    if(dateToAnalyze==ini){
-                      tdclass = "table-warning";
-                      contenido = "Ini";
-                    }
-                    /*if($dateToAnalyze==$fin){
-                      $class = "table-success";
-                      $contenido = "Ini";
-                    }
-                    if($dateToAnalyze==$iniEstrusion){
-                      $class = "table-danger";
-                      $contenido = "Est";
-                    }
-                    if($dateToAnalyze==$iniImpresion){
-                      $class = "table-primary";
-                      $contenido = "Imp";
-                    }
-                    if($dateToAnalyze==$iniCorte){
-                      $class = "table-info";
-                      $contenido = "Cor";
-                    }*/
-                    $(tr).append(
-                        $("<td>")
-                            .addClass(tdclass)
-                            .html(contenido)
-                    )
-                }
-                $('#myModalMaquina').find('#tblPendientes').append(
-                    tr
-                )
+                $('#myModalMaquina').find('#tblPendientes')
+                    .removeClass('bg-info')
+                    .removeClass('bg-warning')
+                    .removeClass('bg-success')
+                    .addClass('bg-info')
+                    .append(
+                        tr
+                    );
             });
 
         },
@@ -136,9 +111,7 @@ function loadOTExtrusora(extrusoraId){
         }
     });
 }
-function openOrdendetrabajo(ordenid){
-    window.open(serverLayoutURL+'ordenesdetrabajos/view/'+ordenid,);
-}
+
 function loadOTImpresora(impresoraId){
     $.ajax({
         type: 'POST',
@@ -146,7 +119,7 @@ function loadOTImpresora(impresoraId){
         data: '',
         success: function(data,textStatus,xhr){
             $('#myModalMaquina').modal('toggle');
-            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-print"></i>'+data.impresora.nombre);
+            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-industry"></i>'+data.impresora.nombre);
             $('#myModalMaquina').find('#tblPendientes tr').remove();
             $(data.impresora.ordenots).each(function(){
                 var porentaje = 0;
@@ -174,43 +147,52 @@ function loadOTImpresora(impresoraId){
                 if(porcentaje>=60){
                   classProgress = 'bg-success';
                 }
+                var fechaInicio = getDateArray(this.ordenesdetrabajo.ordenesdepedido.fecha);
+                var formatedFechaInicio = fechaInicio[2]+"-"+fechaInicio[1]+"-"+fechaInicio[0];
+                var fechaFin = new Date(fechaInicio[0]+"-"+fechaInicio[1]+"-"+fechaInicio[2]);
+                fechaFin.setDate(fechaFin.getDate() + 30);
+                var fechaFinArray = getDateArrayFromDateObject(fechaFin);
+                var formatedFechaFin = fechaFinArray[0]+"-"+fechaFinArray[1]+"-"+fechaFinArray[2];
 
-                $('#myModalMaquina').find('#tblPendientes').append(
-                    $("<tr>")
+                var fechaInicioTrabajo = getDateArray(this.fechainicioimpresora);
+                var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
+
+                var tr = $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html("OT "+this.ordenesdetrabajo.numero)
+                            $("<td class='text-center'>").html(this.prioridad)
                         )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.aextrusar)
+                            $("<td class='text-center'>").html(formatedFechaInicio)
                         )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.extrusadas)
+                            $("<td class='text-center'>").html(formatedFechaFin)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.ordenesdepedido.cliente.nombre)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.ordenesdepedido.numero+"-"+this.ordenesdetrabajo.numero)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.medida)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cantidad)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html("materiales")
                         )
                          .append(
-                            $("<td class='text-center'>").html(impresas)
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.impreso?'SI':'NO')
                         )
                         .append(
-                            $("<td class='text-center'>").html(cortadas)
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cortado?'SI':'NO')
                         )
                         .append(
-                          $("<td class='align-middle'>")
-                            .append(
-                                $("<div>")
-                                    .addClass('progress progress-xs')
-                                    .append(
-                                        $("<div>")
-                                            .addClass('progress-bar '+classProgress)
-                                            .css('width',porcentaje+'%')
-                                    )
-                            )
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
                         .append(
-                          $("<td>")
-                              .append(
-                                  $("<span>")
-                                      .addClass('badge bg-danger')
-                                      .html(porcentaje+"%")
-                              )
+                            $("<td class='text-center'>").html(formatedFechaInicioTrabajo)
                         )
                         .append(
                             $("<td class='text-center'>")
@@ -223,8 +205,15 @@ function loadOTImpresora(impresoraId){
                                         .attr('onclick','openOrdendetrabajo('+this.ordenesdetrabajo.id+')')
                                 )
                               )
-                        )
-                )
+                        );
+                $('#myModalMaquina').find('#tblPendientes')
+                    .removeClass('bg-info')
+                    .removeClass('bg-warning')
+                    .removeClass('bg-success')
+                    .addClass('bg-warning')
+                    .append(
+                        tr
+                    );
             });
 
         },
@@ -240,7 +229,7 @@ function loadOTCortadora(cortadoraId){
         data: '',
         success: function(data,textStatus,xhr){
             $('#myModalMaquina').modal('toggle');
-            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-cut"></i> '+data.cortadora.nombre);
+            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-industry"></i>'+data.cortadora.nombre);
             $('#myModalMaquina').find('#tblPendientes tr').remove();
             $(data.cortadora.ordenots).each(function(){
                 var porentaje = 0;
@@ -268,43 +257,52 @@ function loadOTCortadora(cortadoraId){
                 if(porcentaje>=60){
                   classProgress = 'bg-success';
                 }
+                var fechaInicio = getDateArray(this.ordenesdetrabajo.ordenesdepedido.fecha);
+                var formatedFechaInicio = fechaInicio[2]+"-"+fechaInicio[1]+"-"+fechaInicio[0];
+                var fechaFin = new Date(fechaInicio[0]+"-"+fechaInicio[1]+"-"+fechaInicio[2]);
+                fechaFin.setDate(fechaFin.getDate() + 30);
+                var fechaFinArray = getDateArrayFromDateObject(fechaFin);
+                var formatedFechaFin = fechaFinArray[0]+"-"+fechaFinArray[1]+"-"+fechaFinArray[2];
 
-                $('#myModalMaquina').find('#tblPendientes').append(
-                    $("<tr>")
+                var fechaInicioTrabajo = getDateArray(this.fechainicioimpresora);
+                var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
+
+                var tr = $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html("OT "+this.ordenesdetrabajo.numero)
+                            $("<td class='text-center'>").html(this.prioridad)
                         )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.aextrusar)
+                            $("<td class='text-center'>").html(formatedFechaInicio)
                         )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.extrusadas)
+                            $("<td class='text-center'>").html(formatedFechaFin)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.ordenesdepedido.cliente.nombre)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.ordenesdepedido.numero+"-"+this.ordenesdetrabajo.numero)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.medida)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cantidad)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html("materiales")
                         )
                          .append(
-                            $("<td class='text-center'>").html(impresas)
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.impreso?'SI':'NO')
                         )
                         .append(
-                            $("<td class='text-center'>").html(cortadas)
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cortado?'SI':'NO')
                         )
                         .append(
-                          $("<td class='align-middle'>")
-                            .append(
-                                $("<div>")
-                                    .addClass('progress progress-xs')
-                                    .append(
-                                        $("<div>")
-                                            .addClass('progress-bar '+classProgress)
-                                            .css('width',porcentaje+'%')
-                                    )
-                            )
+                            $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
                         .append(
-                          $("<td>")
-                              .append(
-                                  $("<span>")
-                                      .addClass('badge bg-danger')
-                                      .html(porcentaje+"%")
-                              )
+                            $("<td class='text-center'>").html(formatedFechaInicioTrabajo)
                         )
                         .append(
                             $("<td class='text-center'>")
@@ -317,8 +315,15 @@ function loadOTCortadora(cortadoraId){
                                         .attr('onclick','openOrdendetrabajo('+this.ordenesdetrabajo.id+')')
                                 )
                               )
-                        )
-                )
+                        );
+                $('#myModalMaquina').find('#tblPendientes')
+                    .removeClass('bg-info')
+                    .removeClass('bg-warning')
+                    .removeClass('bg-success')
+                    .addClass('bg-success')
+                    .append(
+                        tr
+                    );
             });
 
         },
@@ -326,4 +331,28 @@ function loadOTCortadora(cortadoraId){
             alert(textStatus);
         }
     });
+}
+function openOrdendetrabajo(ordenid){
+    window.open(serverLayoutURL+'ordenesdetrabajos/view/'+ordenid,);
+}
+
+function getDateArray(fecha){
+    var arrayFecha = fecha.split('T');
+    arrayFecha = arrayFecha[0].split('-');
+    return arrayFecha;
+}
+function getDateArrayFromDateObject(fecha){
+    var arrayFecha = [];
+    arrayFecha[2]=fecha.getFullYear();
+    if(fecha.getMonth()<10){
+        arrayFecha[1]="0"+fecha.getDate();
+    }else{
+        arrayFecha[1]=fecha.getDate();
+    }
+    if(fecha.getDate()<10){
+        arrayFecha[0]="0"+fecha.getDate();
+    }else{
+        arrayFecha[0]=fecha.getDate();
+    }
+    return arrayFecha;
 }

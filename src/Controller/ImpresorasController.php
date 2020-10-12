@@ -35,10 +35,13 @@ class ImpresorasController extends AppController
     {
         $impresora = $this->Impresoras->get($id, [
             'contain' => [
-                'Bobinasdeimpresions',
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
-                    'sort'=>'Ordenots.prioridad'
+                    'Ordenesdetrabajos'=>[
+                        'Ordenesdepedidos'=>[
+                            'Clientes'
+                        ]
+                    ],
+                    'sort'=>'Ordenots.prioridad ASC'
                 ]
             ],
         ]);

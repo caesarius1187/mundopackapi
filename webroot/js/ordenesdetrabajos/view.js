@@ -144,7 +144,63 @@ $(document).ready(function() {
         });
         return false;
     });
+    $("#terminacion").on('change',function(){
+        getBobinasExtrusionsParciales();
+    });
 });
+function getBobinasExtrusionsParciales(){
+    var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
+    if($("#terminacion").val()=='Complementaria'){
+        $.ajax({
+            type: 'POST',
+            url: serverLayoutURL+'bobinasdeextrusions/getparciales/'+ordenesdetrabajoId+'.json',
+            data: '',
+            success: function(response,textStatus,xhr){
+                if(response.respuesta.error!=0){
+                    Toast.fire({
+                      icon: 'error',
+                      title: data.data.respuesta
+                    })
+                }else{
+                    var bobinasdeextrusionsparciales = response.respuesta.data;
+                    
+                    var hayBobinasDeExtrusion = false;
+                    for (var p in bobinasdeextrusionsparciales) {
+                        if( bobinasdeextrusionsparciales.hasOwnProperty(p) ) {
+                            $("#modalAddBobinaEstrusion #bobinasdeextrusion-id").append(
+                                '<option value="'+p+'">'+bobinasdeextrusionsparciales[p]+'</option>'
+                            );
+                            hayBobinasDeExtrusion = true;
+                        } 
+                    }       
+                    if(hayBobinasDeExtrusion){
+                        Toast.fire({
+                          icon: 'success',
+                          title: 'Se cargo la lista de bobinas de extrusion parciales.'
+                        });                   
+                        $("#bobinasdeextrusion-id").attr('disabled',false);
+                    }else{
+                        Toast.fire({
+                          icon: 'error',
+                          title: "no hay bobinas de extrusion parciales para usar."
+                        });
+                        $("#terminacion").val('Completa');
+                        $("#bobinasdeextrusion-id").find('option')
+                                                   .remove();
+                        $("#bobinasdeextrusion-id").attr('disabled',true);
+                    }
+                }
+            },
+            error: function(xhr,textStatus,error){
+                alert(textStatus);
+            }
+        });
+    }else{
+        $("#bobinasdeextrusion-id").find('option')
+                                   .remove();
+        $("#bobinasdeextrusion-id").attr('disabled',true);
+    }
+}
 function getListaBobinasExtrusionParaImpresion(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
     //limpiamos la lista
@@ -308,11 +364,32 @@ function loadBobinaEstrusion(bobinaestrusion, empleado,estrusora){
             )
             .append(
                 $("<td>")
+                    .html(bobinaestrusion.metros)
+            )
+            .append(
+                $("<td>")
                     .html(bobinaestrusion.scrap)
             )
             .append(
                 $("<td>")
                     .html(bobinaestrusion.observacion)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaestrusion.terminacion)
+            )
+            .append(
+                $("<td>")
+                    .append(
+                        $("<button>")
+                            .attr('type','button')
+                            .attr('name','button')
+                            .attr('onclick',"imprimir("+bobinaestrusion.id+")")
+                            .addClass("btn btn-warning btn-sm")
+                            .append(
+                                $("<i>").addClass("fas fa-print")
+                            )
+                    )
             )
     )
 }

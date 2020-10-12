@@ -188,13 +188,18 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
           <table class="table table-sm" >
             <thead>
               <tr>
-                <th style="text-align:center">#OT</th>
-                <th style="text-align:center">Cantidad</th>
-                <th style="text-align:center">Extrusadas</th>
-                <th style="text-align:center">Impresas</th>
-                <th style="text-align:center">Cortadas</th>
-                <th style="width: 180px">Progreso</th>
-                <th>Porcentaje</th>
+                <th>Prioridad</th>
+                <th>Ini</th>
+                <th>Fin</th>
+                <th>Cli</th>
+                <th>OT</th>
+                <th>Medidas</th>
+                <th>Cant.</th>
+                <th>Materiales</th>
+                <th>Imp.</th>
+                <th>Cort.</th>
+                <th>Obs.</th>
+                <th>Inicio Trabajo</th>
                 <th style="text-align:center">Acción</th>
               </tr>
             </thead>

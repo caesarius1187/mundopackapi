@@ -131,7 +131,8 @@ function cancelarOT(oTId){
     });
 }
 function programarOT(OTId,numeroOT,nombrecliente){
-    $('#myModal').find('.modal-title').html("Programar OT N° "+numeroOT+" del cliente \""+nombrecliente+"\":");
+    $('#myModal').find('.modal-title').html("Programar OT Numero: "+numeroOT+" del Cliente: "+nombrecliente);
+    $("#id").val(0);
     $("#ordenesdetrabajo-id").val(OTId);
     $('#myModal').modal('toggle');
 }
