@@ -235,8 +235,15 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Cortadoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
             'contain' => [
+                'Ordenots'=>[
+                    'Extrusoras',
+                    'Impresoras',
+                    'Cortadoras'
+                ],
                 'Ordenesdepedidos',
                 'Bobinasdeextrusions'=>[
+                    'Parent',
+                    'Children',
                     'Extrusoras',
                     'Empleados',
                 ],
@@ -262,7 +269,7 @@ class OrdenesdetrabajosController extends AppController
         $empleados = $this->Empleados->find('list', ['limit' => 200]);
         $extrusoras = $this->Extrusoras->find('list', ['limit' => 200]);
         $impresoras = $this->Impresoras->find('list', ['limit' => 200]);
-        $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);
+        $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);        
         $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras','impresoras','cortadoras'));
     }
 

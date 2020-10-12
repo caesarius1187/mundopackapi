@@ -55,6 +55,18 @@ class BobinasdeextrusionsTable extends Table
             'foreignKey' => 'ordenesdetrabajo_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->hasMany('Children',[            
+               'className'=>'Bobinasdeextrusions',
+               'foreignKey'=>'bobinasdeextrusion_id'
+            ]
+          );
+        $this->belongsTo('Parent',[
+               'className'=>'Bobinasdeextrusions',
+               'foreignKey'=>'bobinasdeextrusion_id'
+            ]
+          );
+
         $this->hasMany('Bobinascorteorigens', [
             'foreignKey' => 'bobinasdeextrusion_id',
         ]);

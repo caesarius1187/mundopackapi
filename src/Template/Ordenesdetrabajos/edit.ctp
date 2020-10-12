@@ -139,7 +139,20 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
                   '7,5cm'=>'7,5cm',
                   '10cm'=>'10cm',
                 ]
+              ]); ?>              
+            </div>
+            <div class="col-sm-3">
+              <?= $this->Form->control('tipofuelle',[
+                'label'=>'Tipo Fuelle',
+                'type'=>'select',
+                'options'=>[
+                  'abierto'=>'abierto',
+                  'doblado'=>'doblado',
+                ]
               ]); ?>
+            </div>
+            <div class="col-sm-3">
+              <?= $this->Form->control('tratado',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Tratado' ]); ?>
             </div>
         </div>
         <div class="row">
@@ -172,13 +185,48 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2">
-              <?= $this->Form->control('perf',[ ]); ?>
-            </div>
-            <div class="col-sm-3">
-              <?= $this->Form->control('impreso',['type'=>'checkbox','label'=>' Imprimir' ]); ?>
-              <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
-            </div>
+          <div class="col-sm-2">
+            <?= $this->Form->control('perf',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Perforado' ]); ?>
+          </div>
+          <div class="col-sm-2">
+            <?= $this->Form->control('manija',[
+                'type'=>'select',
+                'options'=>[
+                  'no'=>'no',
+                  'camiseta'=>'camiseta',
+                  'rinon'=>'rinon',
+                ]
+              ]) ; ?>
+          </div>
+          <div class="col-sm-2">
+            <?= $this->Form->control('impreso',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Imprimir' ]); ?>
+            <?= $this->Form->control('tipoimpresion',[
+                'type'=>'select',
+                'options'=>[
+                  'sin corte'=>'sin corte',
+                  'fondo'=>'fondo',
+                  'lateral'=>'lateral',
+                  'troquelado'=>'troquelado',
+                ]
+              ]); ?>
+          </div>
+          <div class="col-sm-2">
+            <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
+            <?= $this->Form->control('tipocorte',[
+              'class'=>'inputCalculoOT',
+              'type'=>'select',
+              'options'=>[
+                'sin corte'=>'sin corte',
+                'fondo'=>'fondo',
+                'lateral 1l'=>'lateral 1l',
+                'lateral 2l'=>'lateral 2l',
+                'troquelado'=>'troquelado',
+              ]
+            ]); ?>
+          </div>
+          
+        </div>
+        <div class="row">
             <div class="col-sm-2">
               <?= $this->Form->control('preciounitario',[ ]); ?>
             </div>

@@ -187,6 +187,19 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                         ]
                       ]); ?>
                     </div>
+                    <div class="col-sm-3">
+                      <?= $this->Form->control('tipofuelle',[
+                        'label'=>'Tipo Fuelle',
+                        'type'=>'select',
+                        'options'=>[
+                          'abierto'=>'abierto',
+                          'doblado'=>'doblado',
+                        ]
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3">
+                      <?= $this->Form->control('tratado',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Tratado' ]); ?>
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-1">
@@ -202,7 +215,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                       <?= $this->Form->control('cantidad',['class'=>'inputCalculoOT']); ?>
                     </div>
                     <div class="col-sm-1">
-                      <?= $this->Form->control('pesoxmil',[ ]); ?>
+                      <?= $this->Form->control('pesoxmil',['class'=>'inputCalculoOT']); ?>
                     </div>
                     <div class="col-sm-1">
                       <?= $this->Form->control('metrototal',[ ]); ?>
@@ -220,12 +233,47 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                   <div class="row">
 
                     <div class="col-sm-2">
-                      <?= $this->Form->control('perf',[ ]); ?>
+                      <?= $this->Form->control('perf',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Perforado' ]); ?>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
+                      <?= $this->Form->control('manija',[
+                          'type'=>'select',
+                          'options'=>[
+                            'no'=>'no',
+                            'camiseta'=>'camiseta',
+                            'rinon'=>'rinon',
+                          ]
+                        ]) ; ?>
+                    </div>
+                    <div class="col-sm-2">
                       <?= $this->Form->control('impreso',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Imprimir' ]); ?>
-                      <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
+                      <?= $this->Form->control('tipoimpresion',[
+                          'type'=>'select',
+                          'options'=>[
+                            'sin corte'=>'sin corte',
+                            'fondo'=>'fondo',
+                            'lateral'=>'lateral',
+                            'troquelado'=>'troquelado',
+                          ]
+                        ]); ?>
                     </div>
+                     <div class="col-sm-2">
+                      <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
+                      <?= $this->Form->control('tipocorte',[
+                        'class'=>'inputCalculoOT',
+                        'type'=>'select',
+                        'options'=>[
+                          'sin corte'=>'sin corte',
+                          'fondo'=>'fondo',
+                          'lateral 1l'=>'lateral 1l',
+                          'lateral 2l'=>'lateral 2l',
+                          'troquelado'=>'troquelado',
+                        ]
+                      ]); ?>
+                    </div>
+                    
+                  </div>
+                  <div class="row">
                     <div class="col-sm-2">
                       <?= $this->Form->control('preciounitario',[ ]); ?>
                     </div>
@@ -233,7 +281,6 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                       <?= $this->Form->control('observaciones',[ ]); ?>
                     </div>
                   </div>
-
                   <div class="row">
                     <div class="col-sm-12 text-center" style="margin-top:15px">
                       <button type="button" name="button" class="btn btn-primary"><i class="fas fa-search"></i> BUSCAR</button>
@@ -286,7 +333,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                       </thead>
                       <tbody>
                       <?php
-                        foreach ($ordenesdepedido as $key => $ordendetrabajo) {
+                        foreach ($ordenesdepedido->ordenesdetrabajos as $key => $ordendetrabajo) {
                             ?>
                             <tr>
                               <td><?= $ordendetrabajo->numero?></td>

@@ -229,7 +229,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               <td>
                                   <label><?= $ordenot->ordenesdetrabajo->medida ?></label>
                               </td>
-                              <td><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
+                              <td><?= $ordenot->ordenesdetrabajo->cantidad?></td>
                               <td>
                               <?php
                               $pesoxmil = $ordenot->ordenesdetrabajo->pesoxmil;
@@ -349,7 +349,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               <td>
                                   <label><?= $ordenot->ordenesdetrabajo->medida ?></label>
                               </td>
-                              <td><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
+                              <td><?= $ordenot->ordenesdetrabajo->cantidad?></td>
                               <td>
                               <?php
                               $pesoxmil = $ordenot->ordenesdetrabajo->pesoxmil;
@@ -469,7 +469,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               <td>
                                   <label><?= $ordenot->ordenesdetrabajo->medida ?></label>
                               </td>
-                              <td><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
+                              <td><?= $ordenot->ordenesdetrabajo->cantidad?></td>
                               <td>
                               <?php
                               $pesoxmil = $ordenot->ordenesdetrabajo->pesoxmil;

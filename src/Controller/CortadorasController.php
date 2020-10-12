@@ -35,10 +35,13 @@ class CortadorasController extends AppController
     {
         $cortadora = $this->Cortadoras->get($id, [
             'contain' => [
-                'Bobinasdecortes',
                 'Ordenots'=>[
-                    'Ordenesdetrabajos',
-                    'sort'=>'Ordenots.prioridad'
+                    'Ordenesdetrabajos'=>[
+                        'Ordenesdepedidos'=>[
+                            'Clientes'
+                        ]
+                    ],
+                    'sort'=>'Ordenots.prioridad ASC'
                 ]
             ],
         ]);

@@ -91,7 +91,13 @@ $(document).ready(function() {
         return false;
     });
     $(".inputCalculoOT").on('change',function(){
-        calcularOT();
+        var tipocorte = $("#tipocorte").val();    
+        if(tipocorte=='lateral 2l'){
+            calcularOTInverso();
+        }else{
+            calcularOT();
+        }
+        
     });
 });
 var cantMateriales = 0;
@@ -126,7 +132,33 @@ function calcularOT(){
     var aextrusar = $("#aextrusar").val()*1;
 
     var pesoxmil = ancho*largo*espesor*0.000184*cantidad/1000;
+    var tipocorte = $("#tipocorte").val();
+    if(tipocorte=='lateral 2l'){
+        pesoxmil = pesoxmil/2;
+    }
     $("#pesoxmil").val(pesoxmil.toFixed(2));
+    var metrototal = pesoxmil/(ancho*espesor*0.000184)*10;
+    $("#metrototal").val(metrototal.toFixed(2));
+    if(aextrusar!=0){
+        var pesobob = pesoxmil/aextrusar;
+        $("#pesobob").val(pesobob.toFixed(2));
+        var metrobob = metrototal/aextrusar;
+        $("#metrobob").val(metrobob.toFixed(2));
+    }
+}
+function calcularOTInverso(){
+    var ancho = $("#ancho").val();
+    //var largo = $("#largo").val();
+    var espesor = $("#espesor").val();
+    var cantidad = $("#cantidad").val();
+    var aextrusar = $("#aextrusar").val()*1;    
+    var pesoxmil = $("#pesoxmil").val();
+
+
+    var largoalamenosuno = ancho*espesor*0.000184*cantidad/1000/pesoxmil;
+    var largo = pesoxmil*1000/(ancho*espesor*0.000184*cantidad)
+    $("#largo").val(largo.toFixed(2));
+    pesoxmil = pesoxmil/2;
     var metrototal = pesoxmil/(ancho*espesor*0.000184)*10;
     $("#metrototal").val(metrototal.toFixed(2));
     if(aextrusar!=0){
