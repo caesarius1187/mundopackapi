@@ -5,6 +5,53 @@ var Toast = Swal.mixin({
     timer: 3000
   });
 $(document).ready(function() {
+    $('#fechainicioextrusora').datetimepicker({
+        //minDate: new Date(),
+        format: 'DD-MM-YYYY',
+        locale: 'es'
+    });
+    $('#fechainicioimpresora').datetimepicker({
+        //minDate: new Date(),
+        format: 'DD-MM-YYYY',
+        locale: 'es'
+    });
+    $('#fechainiciocortadora').datetimepicker({
+        //minDate: new Date(),
+        format: 'DD-MM-YYYY',
+        locale: 'es'
+    });
+    $("#tblOrdenesDeTrabajo").DataTable( {
+    "scrollX": true,
+    "language": {
+        "sProcessing":     "Procesando...",
+        "sLengthMenu":     "Mostrar _MENU_ registros",
+        "sZeroRecords":    "No se encontraron resultados",
+        "sEmptyTable":     "Ningún dato disponible en esta tabla =(",
+        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":    "",
+        "sSearch":         "Buscar: ",
+        "sUrl":            "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":     "Último",
+            "sNext":     "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad"
+        }
+    },
+    "autoWidth": true
+    } );
     $('#ordenOtAddForm').submit(function(){
         //serialize form data
         var formData = $(this).serialize();
@@ -83,20 +130,13 @@ function cancelarOT(oTId){
         }
     });
 }
-function loadTab(clickedTab){
-    $(".nav-link").removeClass("active");
-    $(clickedTab).addClass("active");
-    var target = $(clickedTab).attr("target");
-    $(".tabbedDiv").hide();
-    $("."+target).show();
-}
 function programarOT(OTId,numeroOT,nombrecliente){
-    $('#myModal').find('.modal-title').html("Programar OT Numero: "+numeroOT+" del Cliente: "+nombrecliente);
+    $('#myModal').find('.modal-title').html("Programar OT N° "+numeroOT+" del cliente \""+nombrecliente+"\":");
     $("#ordenesdetrabajo-id").val(OTId);
     $('#myModal').modal('toggle');
 }
 function editarProgramacionOt(ordenOTId,oTId,numeroOT,nombrecliente,estrusoraId,inicioEstrusion,impresoraId,inicioImpresion,cortadoraId,inicioCorte){
-    $('#myModal').find('.modal-title').html("Programar OT Numero: "+numeroOT+" del Cliente: "+nombrecliente);
+    $('#myModal').find('.modal-title').html("Programar OT N° "+numeroOT+" del cliente \""+nombrecliente+"\":");
     $("#id").val(ordenOTId);
     $("#ordenesdetrabajo-id").val(oTId);
     //set Estrusora
