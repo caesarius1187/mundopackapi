@@ -9,6 +9,21 @@ use Cake\Routing\Router;
 echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
 
 ?>
+<style>
+  .table tr td {
+    cursor: move;
+  }
+  .placeholder {
+    background-color: #edf2f7;
+    border: 2px dashed #cbd5e0;
+  }
+  .selected
+  {
+    background: rgba(255, 255, 255, .5);
+    border-style: daseh solid;
+    opacity: 0.5;
+  }
+</style>
 <!-- Content Header (Page header) -->
 <div class="content-header">
   <div class="container-fluid">
@@ -152,35 +167,33 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
               <div class="tab-pane fade" id="programacionExtrusoras" role="tabpanel" aria-labelledby="programacionExtrusorasTab">
                 <h4>Listado de OT's programas para extrudar:</h4>
                 <div class="card-body table-responsive p-0">
-                  <table id="tblExtrusora" class="table table-sm text-nowrap text-center">
-                    <tbody>
-                      <?php foreach ($extrusoras as $extrusora){ ?>
-                        <tr>
-                          <th colspan="31" class="bg-info text-left">
-                            <span style="text-transform:uppercase;"><?= $extrusora->nombre ?></span>
-                          </th>
-                        </tr>
+                  <?php foreach ($extrusoras as $extrusora){ ?>
+                    <div style="width:100%" class="bg-info text-left">
+                      <span style="text-transform:uppercase;font-weight:bold;;padding-left:25px;"><?= $extrusora->nombre ?></span>
+                    </div>
+                    <table id="tblExtrusora" class="table table-sm text-nowrap text-center">
+                      <tbody>
                         <tr class="thead-light">
-                          <th>Acción</th>
-                          <th>Ini</th>
-                          <th>Fin</th>
-                          <th>Cli</th>
-                          <th>OT</th>
-                          <th>Medidas</th>
-                          <th>Cant.</th>
-                          <th>Materiales</th>
-                          <th>Imp.</th>
-                          <th>Cort.</th>
-                          <th>Obs.</th>
+                          <head>
+                            <th>Orden</th>
+                            <th>Acción</th>
+                            <th>Ini</th>
+                            <th>Fin</th>
+                            <th>Cli</th>
+                            <th>OT</th>
+                            <th>Medidas</th>
+                            <th>Cant.</th>
+                            <th>Materiales</th>
+                            <th>Imp.</th>
+                            <th>Cort.</th>
+                            <th>Obs.</th>
+                          </head>
                           <?php
                           //vamos a crear un header de 30 dias a partir de hoy
                           for($i=0; $i<20; $i++){
                             ?><th><?= date('d-m',strtotime("+".$i." days")) ?></th><?php
                           }
                           ?>
-                        </tr>
-                        <tr>
-                          <td colspan="31" class="text-left text-secondary py-0"><small>Colocar debajo las OT's según sus prioridades.</small></td>
                         </tr>
                         <?php foreach ($extrusora->ordenots as $ordenot){
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
@@ -191,6 +204,9 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           $inicioCorte = $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):'';
                           ?>
                           <tr id="trOrdenOt<?= $ordenot->id ?>">
+                            <td>
+                              <!-- Aquí va el orden -->
+                            </td>
                             <td>
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
                             </td>
@@ -256,10 +272,13 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           </tr>
                       <?php
                         }
-                      }
-                      ?>
+                        ?>
                       </tbody>
                     </table>
+                    <?php
+                  }
+                  ?>
+
                 </div>
               </div>
 
