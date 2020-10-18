@@ -441,7 +441,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
         ]) ?>
         <div class="row">
             <div class="col-sm-3">
-                <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
+                <?= $this->Form->control('empleado_id', [
+                  'empty' => ['' => 'Seleccione Empleado'],
+                  'options' => $empleados
+                ]); ?>
                 <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
             </div>
             <div class="col-sm-3">
@@ -515,7 +518,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
         ]) ?>
         <div class="row">
             <div class="col-sm-3">
-                <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
+                <?= $this->Form->control('empleado_id', [
+                  'empty' => ['' => 'Seleccione Empleado'],
+                  'options' => $empleados
+                ]); ?>
                 <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
             </div>
             <div class="col-sm-3">
@@ -574,7 +580,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
         ]) ?>
         <div class="row">
             <div class="col-sm-3">
-                <?= $this->Form->control('empleado_id', ['options' => $empleados]); ?>
+                <?= $this->Form->control('empleado_id', [
+                  'empty' => ['' => 'Seleccione Empleado'],
+                  'options' => $empleados
+                ]); ?>
                 <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
             </div>
             <div class="col-sm-3">

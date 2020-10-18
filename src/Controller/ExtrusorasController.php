@@ -37,7 +37,7 @@ class ExtrusorasController extends AppController
             'contain' => [
                 'Ordenots'=>[
                     'conditions'=>[
-                        'Ordenots.fechainicioextrusora <='=>date('Y-m-d')
+                        //'Ordenots.fechainicioextrusora <='=>date('Y-m-d')
                     ],
                     'Ordenesdetrabajos'=>[
                         'conditions'=>[

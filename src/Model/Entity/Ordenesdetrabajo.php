@@ -64,7 +64,7 @@ class Ordenesdetrabajo extends Entity
         'tratado' => true,
         'tipocorte' => true,
         'tipoimpresion' => true,
-        'tipofuelle' => true,
+        'lamina' => true,
         'manija' => true,
         'perf' => true,
         'preciounitario' => true,

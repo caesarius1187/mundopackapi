@@ -102,17 +102,21 @@ $(document).ready(function() {
         });
         return false;
     });
+    $("#modalAddBobinaEstrusion").on('shown.bs.modal', function() {
+        $("#modalAddBobinaEstrusion").find("#empleado-id").val('');
+    });
     $('#modalAddBobinaImpresion').on('shown.bs.modal', function() { 
+        $("#modalAddBobinaImpresion").find("#empleado-id").val('');
        getListaBobinasExtrusionParaImpresion();
     }) ;
     $('#modalAddBobinaCorte').on('shown.bs.modal', function() { 
+        $("#modalAddBobinaCorte").find("#empleado-id").val('');
         var tieneimpresion = $("#tieneimpresion").val(); 
         if(tieneimpresion){
             getListaBobinaImpresionParaCorte(); 
         }else{
             getListaBobinasExtrusionParaCorte();
         }    
-       
     }) ;
     $('#cerrarOrdenDeTrabajo').submit(function(){
         //serialize form data

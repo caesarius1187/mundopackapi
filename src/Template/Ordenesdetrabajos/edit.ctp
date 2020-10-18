@@ -124,67 +124,67 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2">
-                <?= $this->Form->control('cantMateriales',[
-                    'type'=>'hidden' ,
-                    'value'=>$cantMateriales
-                ]); ?>
-              <?= $this->Form->control('color',[ ]); ?>            
-            </div>
-            <div class="col-sm-3">
-              <?= $this->Form->control('fuelle',[
-                'type'=>'select',
-                'options'=>[
-                  '5cm'=>'5cm',
-                  '7,5cm'=>'7,5cm',
-                  '10cm'=>'10cm',
-                ]
-              ]); ?>              
-            </div>
-            <div class="col-sm-3">
-              <?= $this->Form->control('tipofuelle',[
-                'label'=>'Tipo Fuelle',
-                'type'=>'select',
-                'options'=>[
-                  'abierto'=>'abierto',
-                  'doblado'=>'doblado',
-                ]
-              ]); ?>
-            </div>
-            <div class="col-sm-3">
-              <?= $this->Form->control('tratado',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Tratado' ]); ?>
-            </div>
+          <div class="col-sm-2">
+            <?= $this->Form->control('color',[ ]); ?>
+          </div>
+          <div class="col-sm-3">
+            <?= $this->Form->control('fuelle',[
+              'type'=>'select',
+              'options'=>[
+                'No'=>'No',
+                '5cm'=>'5cm',
+                '7,5cm'=>'7,5cm',
+                '10cm'=>'10cm',
+                '12.5cm'=>'12.5cm',
+              ]
+            ]); ?>
+          </div>
+          <div class="col-sm-3">
+            <?= $this->Form->control('lamina',[
+              'label'=>'Lamina',
+              'type'=>'select',
+              'options'=>[
+                'No'=>'No',
+                'abierto 1 lado'=>'abierto 1 lado',
+                'abierto 2 lados'=>'abierto 2 lados',
+              ]
+            ]); ?>
+          </div>
+          <div class="col-sm-3">
+            <?= $this->Form->control('tratado',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Tratado' ]); ?>
+          </div>
         </div>
         <div class="row">
-            <div class="col-sm-1">
-              <?= $this->Form->control('ancho',['class'=>'inputCalculoOT']); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('largo',['class'=>'inputCalculoOT']); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('espesor',['class'=>'inputCalculoOT']); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('cantidad',['class'=>'inputCalculoOT']); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('pesoxmil',[ ]); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('metrototal',[ ]); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('aextrusar',['class'=>'inputCalculoOT']); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('pesobob',[ ]); ?>
-            </div>
-            <div class="col-sm-1">
-              <?= $this->Form->control('metrobob',[ ]); ?>
-            </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('ancho',['class'=>'inputCalculoOT']); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('largo',['class'=>'inputCalculoOT']); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('espesor',['class'=>'inputCalculoOT']); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('cantidad',['class'=>'inputCalculoOT']); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('pesoxmil',['class'=>'inputCalculoOT']); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('metrototal',[ ]); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('aextrusar',['class'=>'inputCalculoOT']); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('pesobob',[ ]); ?>
+          </div>
+          <div class="col-sm-1">
+            <?= $this->Form->control('metrobob',[ ]); ?>
+          </div>
         </div>
         <div class="row">
+
           <div class="col-sm-2">
             <?= $this->Form->control('perf',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Perforado' ]); ?>
           </div>
@@ -201,38 +201,37 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
           <div class="col-sm-2">
             <?= $this->Form->control('impreso',['type'=>'checkbox','class'=>'icheck-primary','label'=>' Imprimir' ]); ?>
             <?= $this->Form->control('tipoimpresion',[
+                'label'=>'Tipo Impresion',
                 'type'=>'select',
                 'options'=>[
-                  'sin corte'=>'sin corte',
-                  'fondo'=>'fondo',
-                  'lateral'=>'lateral',
-                  'troquelado'=>'troquelado',
+                  'sin impresion'=>'sin impresion',
+                  'centrado'=>'centrado',
+                  'corrido'=>'corrido',
                 ]
               ]); ?>
           </div>
           <div class="col-sm-2">
             <?= $this->Form->control('cortado',[ 'type'=>'checkbox','label'=>' Cortar' ]); ?>
             <?= $this->Form->control('tipocorte',[
+                'label'=>'Tipo Corte',
               'class'=>'inputCalculoOT',
               'type'=>'select',
               'options'=>[
                 'sin corte'=>'sin corte',
                 'fondo'=>'fondo',
-                'lateral 1l'=>'lateral 1l',
-                'lateral 2l'=>'lateral 2l',
+                'lateral'=>'lateral',
                 'troquelado'=>'troquelado',
               ]
             ]); ?>
           </div>
-          
         </div>
         <div class="row">
-            <div class="col-sm-2">
-              <?= $this->Form->control('preciounitario',[ ]); ?>
-            </div>
-            <div class="col-sm-5">
-              <?= $this->Form->control('observaciones',[ ]); ?>
-            </div>
+          <div class="col-sm-2">
+            <?= $this->Form->control('preciounitario',[ ]); ?>
+          </div>
+          <div class="col-sm-5">
+            <?= $this->Form->control('observaciones',[ ]); ?>
+          </div>
         </div>
         <div class="row">
             <div class="col-sm-12 text-center" style="margin-top:15px">

@@ -209,14 +209,23 @@ function cargarOTenTbl(ordenesdetrabajo){
                 $("<td>").html(ordenesdetrabajo.observaciones)
             )
             .append(
-                $("<td>").append(
-                    $("<a>").append(
-                        $("<i>").addClass('fas fa-search')
+                $("<td>")
+                    .append(
+                        $("<a>").append(
+                            $("<i>").addClass('fas fa-search')
+                        )
+                        .attr('href',serverLayoutURL+'ordenesdetrabajos/view/'+ordenesdetrabajo.id)
+                        .attr('escape',false)
+                        .addClass('btn btn-info btn-sm')
                     )
-                    .attr('href',serverLayoutURL+'ordenesdetrabajos/view/'+ordenesdetrabajo.id)
-                    .attr('escape',false)
-                    .addClass('btn btn-info btn-sm')
-                )
+                    .append(
+                        $("<a>").append(
+                            $("<i>").addClass('fas fa-edit')
+                        )
+                        .attr('href',serverLayoutURL+'ordenesdetrabajos/edit/'+ordenesdetrabajo.id)
+                        .attr('escape',false)
+                        .addClass('btn btn-info btn-sm')
+                    )
             )
     )
 }

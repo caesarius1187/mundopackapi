@@ -37,7 +37,7 @@ class ImpresorasController extends AppController
             'contain' => [
                 'Ordenots'=>[
                     'conditions'=>[
-                        'Ordenots.fechainicioimpresora <='=>date('Y-m-d')
+                        //'Ordenots.fechainicioimpresora <='=>date('Y-m-d')
                     ],
                     'Ordenesdetrabajos'=>[
                         'conditions'=>[

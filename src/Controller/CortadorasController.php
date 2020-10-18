@@ -37,7 +37,7 @@ class CortadorasController extends AppController
             'contain' => [
                 'Ordenots'=>[
                     'conditions'=>[
-                        'Ordenots.fechainiciocortadora <='=>date('Y-m-d')
+                        //'Ordenots.fechainiciocortadora <='=>date('Y-m-d')
                     ],
                     'Ordenesdetrabajos'=>[
                         'conditions'=>[
