@@ -5,6 +5,20 @@ var Toast = Swal.mixin({
     timer: 3000
   });
 $(document).ready(function() {
+    $('tbody').sortable({
+      items: 'tr:not(tr:first-child)',
+      placeholder: 'placeholder',
+      cursor: 'move',
+      axis: 'y',
+      dropOnEmpty: false,
+      start: function (e, ui) {
+        ui.item.addClass("selected");
+      },
+      stop: function (e, ui) {
+        ui.item.removeClass("selected");
+      }
+    });
+
     $('#fechainicioextrusora').datetimepicker({
         //minDate: new Date(),
         format: 'DD-MM-YYYY',
