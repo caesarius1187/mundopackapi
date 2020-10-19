@@ -101,6 +101,27 @@ class OrdenotsController extends AppController
             '_serialize' => ['data']
         ]);
     }
+    public function modificarprioridad($ordenotId,$prioridad){
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $ordenot = $this->Ordenots->get($ordenotId, [
+            'contain' => [
+            ],
+        ]);
+        $ordenot->prioridad = $prioridad;
+        if ($this->Ordenots->save($ordenot)) {
+            $data['respuesta'] .= "Prioridad Modificada.";
+        }else{
+            $data['error'] = 2;
+            $data['respuesta'] .= "No se pudo cambiar la prioridad de la orden seleccionada.";
+        }
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
     public function levelup($ordenotId){
         $data=[
             'respuesta'=>'',
@@ -263,35 +284,10 @@ class OrdenotsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $ordenot = $this->Ordenots->get($id);
-        //vamos a reducir en 1 las ordenes posteriores
-        $newPrioridad = $ordenot->prioridad;
-        //subimos a la que estaba abajo
-        $conditionsOrdenOts=[
-            'conditions'=>[
-                'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
-                'Ordenots.impresora_id'=>$ordenot->impresora_id,
-                'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
-                'Ordenots.prioridad >='=>$newPrioridad
-            ]
-        ];
         $data=[
             'respuesta'=>'',
             'error'=>0,
         ];
-        $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
-        foreach ($myOrderOts as $key => $myOrderOt) {
-            $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
-                'contain' => [
-                ],
-            ]);
-            $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
-            if ($this->Ordenots->save($secOrdenot)) {
-                $subiOrden=true;
-            }else{
-                $data['error'] = 1;
-                $data['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
-            }
-        }
         if ($this->Ordenots->delete($ordenot)) {
            
         } else {

@@ -36,7 +36,24 @@ class OrdenesdetrabajosController extends AppController
 
         $this->set(compact('ordenesdetrabajos'));
     }
-
+    public function buscarporcliente($clienteID){
+        $conditions=[
+            'contain'=>[
+                'Ordenesdepedidos'=>[
+                    'Clientes'
+                ]                
+            ],
+            'conditions'=>[
+                'Ordenesdetrabajos.ordenesdepedido_id IN (SELECT id FROM Ordenesdepedidos WHERE Ordenesdepedidos.cliente_id = '.$clienteID.')',
+            ]
+        ];
+        $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
+        $this->set([
+            'error' => 0,
+            'ordenesdetrabajos' => $ordenesdetrabajos,
+            '_serialize' => ['ordenesdetrabajos','error']
+        ]);
+    }
     public function asignacion(){
         $this->loadModel('Extrusoras');
         $this->loadModel('Impresoras');
@@ -57,6 +74,20 @@ class OrdenesdetrabajosController extends AppController
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
         $this->set(compact('ordenesdetrabajos'));
+
+        $conditionsTerminadas=[
+            'contain'=>[
+                'Ordenesdepedidos'=>[
+                    'Clientes'
+                ],
+                'Materialesots'
+            ],
+            'conditions'=>[
+                'Ordenesdetrabajos.estado NOT IN ("En Proceso","Pausado")',
+            ]
+        ];
+        $ordenesdetrabajosTerminadas = $this->Ordenesdetrabajos->find('all',$conditionsTerminadas);
+        $this->set(compact('ordenesdetrabajosTerminadas'));
 
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
@@ -235,12 +266,15 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Cortadoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
             'contain' => [
+                
                 'Ordenots'=>[
                     'Extrusoras',
                     'Impresoras',
                     'Cortadoras'
                 ],
-                'Ordenesdepedidos',
+                'Ordenesdepedidos'=>[
+                    'Clientes',
+                ],
                 'Bobinasdeextrusions'=>[
                     'Parent',
                     'Children',

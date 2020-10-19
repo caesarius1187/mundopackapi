@@ -30,66 +30,19 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="card">
               <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-2">
-                      <h3>Datos de OT:</h3>
-                    </div>
-                    <div class="col-sm-2">
-                        <h5><span class="badge badge-info"><?= __('Cantidad: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cantidad) ?></h5>
-                    </div>
-                    <div class="col-sm-2">
-                        <h5><span class="badge badge-info"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
-                    </div>
-                    <div class="col-sm-2">
-                        <h5><span class="badge badge-info"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
-                    </div>
-                    <?php
-                    if($ordenesdetrabajo->impreso){
-                        ?>
-                        <div class="col-sm-2">
-                            <h5><span class="badge badge-info"><?= __('Impresas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->impresas) ?></h5>
-                        </div>
-                        <?php
-                    }else{
-                        ?>
-                        <div class="col-sm-2">
-                            <h5><span class="badge badge-info"><?= __('NO se imprime') ?></span></h5>
-                        </div>
-                        <?php
-                    }
-                    if($ordenesdetrabajo->cortado){
-                        ?>
-                        <div class="col-sm-2">
-                            <h5><span class="badge badge-info"><?= __('Cortadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cortadas) ?></h5>
-                            <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
-                            <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
-                        </div>
-                        <?php
-                    }else{
-                        ?>
-                        <div class="col-sm-2">
-                            <h5><span class="badge badge-info"><?= __('NO se corta') ?></span></h5>
-                        </div>
-                        <?php
-                    }
-                    ?>
+                  <div class="col-sm-2">
+                    <h3>Datos de OT:</h3>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Materiales: ') ?></span>
-                        <ul>
-                        <?php
-                        foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
-                            ?>
-                            <li><?= h($materialesot->material) ?>
-                            <?= h($materialesot->tipo) ?>
-                            <?= h($materialesot->porcentaje."%") ?>
-                            </li>
-                            <?php
-                        }
-                        ?>
-                        </ul>
-                    </h5>
+                    <h5><span class="badge badge-info">Cliente:</span><?= $ordenesdetrabajo->ordenesdepedido->cliente->nombre ?></h5>
                   </div>
+                  <div class="col-sm-3">
+                    <h5><span class="badge badge-info">Fecha Pedido:</span><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></h5>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Color: ') ?></span> <?= h($ordenesdetrabajo->color) ?></h5>
                   </div>
@@ -97,39 +50,129 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <h5><span class="badge badge-info"><?= __('Fuelle: ') ?></span> <?= h($ordenesdetrabajo->fuelle) ?></h5>
                   </div>
                   <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Lamina: ') ?></span> <?= h($ordenesdetrabajo->lamina) ?></h5>
+                  </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Tratado: ') ?></span> <?= h($ordenesdetrabajo->tratado?'SI':'NO') ?></h5>
+                  </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Manija: ') ?></span> <?= h($ordenesdetrabajo->manija) ?></h5>
+                    </div>
+                  <div class="col-sm-2">
+                      <h5><span class="badge badge-info"><?= __('Perforación: ') ?></span> <?= h($ordenesdetrabajo->perf?'SI':'NO') ?></h5>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Medidas: ') ?></span> <?= h($ordenesdetrabajo->medida) ?></h5>
-                  </div>
-                  <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Perforación: ') ?></span> <?= h($ordenesdetrabajo->perf) ?></h5>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-2">
-                      <h5><span class="badge badge-info"><?= __('Tipo impr. : ') ?></span> <?= h($ordenesdetrabajo->impreso) ?></h5>
-                  </div>
-                  <div class="col-sm-2">
+                    </div>
+                    
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Cantidad: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cantidad) ?></h5>
+                    </div>
+                    
+                    <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Precio unitario: ') ?></span> <?= h($ordenesdetrabajo->preciounitario) ?></h5>
-                  </div>
-                  <div class="col-sm-4">
-                      <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
-                  </div>
-                  <div class="col-sm-4">
-                      <h5><span class="badge badge-info"><?= __('Conclusiones: ') ?></span> <?= h($ordenesdetrabajo->concluciones) ?></h5>
-                  </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
+                    </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Cierre micrones: ') ?></span> <?= h($ordenesdetrabajo->cierremicrones) ?></h5>
+                    <div class="card">
+                      <div class="card-body">
+                        <h5><span class="badge badge-info"><?= __('Materiales: ') ?></span>
+                          <ul>
+                          <?php
+                          foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
+                              ?>
+                              <li><?= h($materialesot->material) ?>
+                              <?= h($materialesot->tipo) ?>
+                              <?= h($materialesot->porcentaje."%") ?>
+                              <?= ($materialesot->porcentaje*$ordenesdetrabajo->pesoxmil/100)."KG" ?>
+                              </li>
+                              <?php
+                          }
+                          ?>
+                          </ul>
+                        </h5>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Cierre scrap: ') ?></span> <?= h($ordenesdetrabajo->cierrescrap) ?></h5>
+                    <div class="card">
+                      <div class="card-body">
+                        <h5><span class="badge badge-info"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
+                        <h5><span class="badge badge-info"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Cierre diferencia (Kg.): ') ?></span> <?= h($ordenesdetrabajo->cierrediferenciakg) ?></h5>
+                  <?php
+                  if($ordenesdetrabajo->impreso){
+                      ?>
+                      <div class="col-sm-3">
+                        <div class="card">
+                          <div class="card-body">
+                                <h5><span class="badge badge-info"><?= __('Impresas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->impresas) ?></h5>
+                                <h5><span class="badge badge-info"><?= __('Tipo Impresion: ') ?></span> <?= $ordenesdetrabajo->tipoimpresion ?></h5>
+                          </div>
+                        </div>
+                      </div>
+                      <?php
+                  }else{
+                      ?>
+                      <div class="col-sm-3">
+                          <h5><span class="badge badge-info"><?= __('NO se imprime') ?></span></h5>
+                      </div>
+                      <?php
+                  }
+                  if($ordenesdetrabajo->cortado){
+                      ?>
+                      <div class="col-sm-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5><span class="badge badge-info"><?= __('Cortadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cortadas) ?></h5>
+                            <h5><span class="badge badge-info"><?= __('Tipo Corte: ') ?></span> <?= $ordenesdetrabajo->tipocorte ?></h5>
+                            <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
+                            <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
+                          </div>
+                        </div>
+                      </div>
+                      <?php
+                  }else{
+                      ?>
+                      <div class="col-sm-3">
+                          <h5><span class="badge badge-info"><?= __('NO se corta') ?></span></h5>
+                      </div>
+                      <?php
+                  }
+                  ?>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h5><span class="badge badge-info"><?= __('Cierre micrones: ') ?></span> <?= h($ordenesdetrabajo->cierremicrones) ?></h5>
+                          </div>
+                          <div class="col-sm-3">
+                              <h5><span class="badge badge-info"><?= __('Cierre scrap: ') ?></span> <?= h($ordenesdetrabajo->cierrescrap) ?></h5>
+                          </div>
+                          <div class="col-sm-3">
+                              <h5><span class="badge badge-info"><?= __('Cierre diferencia (Kg.): ') ?></span> <?= h($ordenesdetrabajo->cierrediferenciakg) ?></h5>
+                          </div>
+                          <div class="col-sm-3">
+                              <h5><span class="badge badge-info"><?= __('Cierre: ') ?></span> <?= $ordenesdetrabajo->cierre?date('d-m-Y H:i',strtotime($ordenesdetrabajo->cierre)):'' ?></h5>
+                          </div>    
+                          <div class="col-sm-4">
+                              <h5><span class="badge badge-info"><?= __('Conclusiones: ') ?></span> <?= h($ordenesdetrabajo->concluciones) ?></h5>
+                          </div>
+                        </div>              
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-sm-3">
-                      <h5><span class="badge badge-info"><?= __('Cierre: ') ?></span> <?= date('d-m-Y H:i',strtotime($ordenesdetrabajo->cierre)) ?></h5>
-                  </div>                  
                 </div>
                 <button type="button" name="button" onclick="$('#modalCerrarOT').modal('show')" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> Cerrar OT</button>
               </div>

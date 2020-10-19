@@ -101,6 +101,86 @@ $(document).ready(function() {
     });
 });
 var cantMateriales = 0;
+function buscarOt(){
+    var clienteId = $("#cliente-id").val();
+    $.ajax({
+        type: 'POST',
+        url: serverLayoutURL+'ordenesdetrabajos/buscarporcliente/'+clienteId+'.json',
+        data: '',
+        success: function(data,textStatus,xhr){
+            if(data.error!=0){
+                alert(data.respuesta);
+                location.reload();
+            }else{
+                Toast.fire({
+                  icon: 'success',
+                  title: "Se encontraron las siguientes Ordenes de trabajo del cliente seleccionado"
+                })
+                $('#myModalMaquina')
+                    .find('#tblOrdenesAntiguas')
+                    .find('tr').remove();
+                $(data.ordenesdetrabajos).each(function(){
+                    var fechaInicio = getDateArray(this.ordenesdepedido.fecha);
+                    var formatedFechaInicio = fechaInicio[2]+"-"+fechaInicio[1]+"-"+fechaInicio[0];
+
+                    var tr = $("<tr>")
+                        .append(
+                            $("<td class='text-center'>").html(formatedFechaInicio)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdepedido.cliente.nombre)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.ordenesdepedido.numero+"-"+this.numero)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.medida)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.cantidad)
+                        )
+                        .append(
+                            $("<td class='text-center'>").html("materiales")
+                        )
+                         .append(
+                            $("<td class='text-center'>").html(this.impreso?'SI':'NO')
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.cortado?'SI':'NO')
+                        )
+                        .append(
+                            $("<td class='text-center'>").html(this.observaciones)
+                        )                    
+                        .append(
+                            $("<td class='text-center'>")
+                              .append(
+                                $("<button type='button' class='btn btn-default btn-xs'>")
+                                .append(
+                                    $("<i>")
+                                        .addClass('fa fa-search')
+                                        .attr('aria-hidden',"true")
+                                        .attr('onclick','cargarOrdendetrabajo('+this.id+')')
+                                )
+                              )
+                        );
+
+                    $('#myModalMaquina')
+                        .find('#tblOrdenesAntiguas')
+                            .append(tr);
+                });
+                $('#myModalMaquina').modal('show');
+            }
+        },
+        error: function(xhr,textStatus,error){
+            alert(textStatus);
+        }
+    });
+}
+function getDateArray(fecha){
+    var arrayFecha = fecha.split('T');
+    arrayFecha = arrayFecha[0].split('-');
+    return arrayFecha;
+}
 function loadMaterial(){
     var $tableBody = $('#tblMateriales').find("tbody"),
     $trLast = $tableBody.find("tr:last"),

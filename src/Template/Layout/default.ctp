@@ -76,7 +76,6 @@ $cakeDescription = 'Mundo Pack';
                               '/plugins/toastr/toastr.min.js',
                               'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js',
                               'adminlte.js',
-                              'pages/dashboard.js',
                               'demo.js'
                               ]) ?>
 

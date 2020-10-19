@@ -282,9 +282,8 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                   </div>
                   <div class="row">
                     <div class="col-sm-12 text-center" style="margin-top:15px">
-                      <button type="button" name="button" class="btn btn-primary"><i class="fas fa-search"></i> BUSCAR</button>
+                      <button type="button" name="button" class="btn btn-primary" onclick="buscarOt()"><i class="fas fa-search"></i> BUSCAR</button>
                       <button type="submit" name="button" class="btn btn-success"><i class="fas fa-plus"></i> AGREGAR</button>
-                      <button type="button" name="button" class="btn btn-danger"><i class="fas fa-trash"></i> QUITAR</button>
                     </div>
                   </div>
 
@@ -421,3 +420,44 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
   </div>
 </section>
 
+<div class="modal fade" id="myModalMaquina">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title"><i class="fas fa-industry"></i> EXTRUSORA 1</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body p-0" style="overflow-x: auto;">
+          <table class="table table-sm" >
+            <thead>
+              <tr>
+                <th>Ini</th>
+                <th>Cli</th>
+                <th>OT</th>
+                <th>Medidas</th>
+                <th>Cant.</th>
+                <th>Materiales</th>
+                <th>Imp.</th>
+                <th>Cort.</th>
+                <th>Obs.</th>
+                <th style="text-align:center">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tblOrdenesAntiguas">
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <div class="modal-footer right-content-between">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">SALIR</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
