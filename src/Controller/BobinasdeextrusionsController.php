@@ -105,7 +105,8 @@ class BobinasdeextrusionsController extends AppController
         $bobinasdeextrusionYaUsadas[0] = 0;
         foreach ($bobinasdeimpresions as $key => $bobinasdeimpresion) {
             $bobinasdeextrusionYaUsadas[] = $bobinasdeimpresion->bobinasdeextrusion_id;
-        }
+        }        
+        $bobinasyausadasenimpresion=$bobinasdeextrusionYaUsadas;
         //tenemos que buscar las bobinas de extrusion que ya se usaron en las cortes y excluirlas
         $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
             'contain'=>[
@@ -118,23 +119,26 @@ class BobinasdeextrusionsController extends AppController
         ]);
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
             foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
+              if($corteorigen->bobinasdeextrusion_id){
                 $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeextrusion_id;
+              }
             }
         }
-
-        $bobinasdeextrusions = $this->Bobinasdeextrusions->find('list', [
+        $bobinasdeextrusionsConditions=[
             'conditions'=>[
                 'Bobinasdeextrusions.id NOT IN'=>$bobinasdeextrusionYaUsadas,
                 'Bobinasdeextrusions.ordenesdetrabajo_id'=>$ordenesdetrabajoId
             ],
             'limit' => 200
-        ]);
+        ];
+        $bobinasdeextrusions = $this->Bobinasdeextrusions->find('list',$bobinasdeextrusionsConditions );
         $respuesta['data'] = $bobinasdeextrusions;
         $respuesta['error'] = 0;
         $this->set([
+            'bobinasdeextrusionsConditions' => $bobinasdeextrusionsConditions,
             'respuesta' => $respuesta,
             'bobinasdeextrusions' => $bobinasdeextrusions,
-            '_serialize' => ['respuesta','bobinasdeextrusions']
+            '_serialize' => ['respuesta','bobinasdeextrusions','bobinasdeextrusionsConditions']
         ]);
     }
 

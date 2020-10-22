@@ -69,7 +69,7 @@ class OrdenesdetrabajosController extends AppController
             ],
             'conditions'=>[
                 'Ordenesdetrabajos.estado IN ("En Proceso","Pausado")',
-                'Ordenesdetrabajos.id NOT IN (SELECT ordenesdetrabajo_id FROM Ordenots)'
+                'Ordenesdetrabajos.id NOT IN (SELECT ordenesdetrabajo_id FROM ordenots)'
             ]
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);

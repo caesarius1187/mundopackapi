@@ -6,6 +6,14 @@ var Toast = Swal.mixin({
   });
 $(document).ready(function() {
     $('#bobinaEstrusionAddForm').submit(function(){
+        var empleadoId = $('#bobinaEstrusionAddForm').find("#empleado-id").val();
+        if(!empleadoId){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe seleccionar un empleado."
+            })
+            return false;
+        }
         //serialize form data
         var formData = $(this).serialize();
         //get form action
@@ -17,7 +25,7 @@ $(document).ready(function() {
             success: function(data,textStatus,xhr){
                 //alert(data.data[0]);
                 if(data.respuesta.error!=0){
-                Toast.fire({
+                    Toast.fire({
                       icon: 'error',
                       title: data.respuesta.respuesta
                     })
@@ -37,6 +45,14 @@ $(document).ready(function() {
         return false;
     });
     $('#bobinaImpresionAddForm').submit(function(){
+        var empleadoId = $('#bobinaImpresionAddForm').find("#empleado-id").val();
+        if(!empleadoId){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe seleccionar un empleado."
+            })
+            return false;
+        }
         //serialize form data
         var formData = $(this).serialize();
         //get form action
@@ -68,6 +84,14 @@ $(document).ready(function() {
         return false;
     });
     $('#bobinaCorteAddForm').submit(function(){
+        var empleadoId = $('#bobinaCorteAddForm').find("#empleado-id").val();
+        if(!empleadoId){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe seleccionar un empleado."
+            })
+            return false;
+        }
         //serialize form data
         var formData = $(this).serialize();
         //get form action
@@ -431,6 +455,10 @@ function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impr
             )
             .append(
                 $("<td>")
+                    .html(bobinaimpresion.metros)
+            )
+            .append(
+                $("<td>")
                     .html(bobinaimpresion.scrap)
             )
             .append(
@@ -440,7 +468,7 @@ function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impr
     )
 }
 function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
-    var tblBobinasdeEstrusion = $("#tblBobinasdeCorte");
+    var tblBobinasdeCorte = $("#tblBobinasdeCorte");
     var misBobinasOrigenes = "";
     var tieneimpresion = $("#tieneimpresion").val(); 
     $(bobinasorigens).each(function(){
@@ -449,7 +477,7 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
         }
         
     });
-    tblBobinasdeEstrusion.append(
+    tblBobinasdeCorte.append(
         $("<tr>")
             .append(
                 $("<td>")
@@ -481,7 +509,19 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
             )
             .append(
                 $("<td>")
+                    .html(bobinadecorte.metros)
+            )
+            .append(
+                $("<td>")
                     .html(bobinadecorte.scrap)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinadecorte.scrapsacabocado)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinadecorte.cantidad)
             )
             .append(
                 $("<td>")

@@ -41,6 +41,8 @@ class Bobinasdecorte extends Entity
         'kilogramos' => true,
         'metros' => true,
         'scrap' => true,
+        'scrapsacabocado' => true,
+        'cantidad' => true,
         'observacion' => true,
         'created' => true,
         'modified' => true,

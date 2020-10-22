@@ -52,7 +52,6 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
               ?>
               <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
                     'escape' => false,
-                    'target' => '_blank',
                     'style' => ['color:black'],
               ]) ?>
 
@@ -102,8 +101,6 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
               ?>
               <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
                     'escape' => false,
-                    'target' => '_blank',
-                    'style' => ['color:black'],
               ]) ?>
 
               <?php
@@ -151,7 +148,6 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
               ?>
               <?=$this->Html->link('<p>OT N° '.$ordenOtMenorPrioridad->ordenesdetrabajo->ordenesdepedido->numero."-".$ordenOtMenorPrioridad->ordenesdetrabajo->numero.'</p>', ['controller'=>'ordenesdetrabajos','action' => 'view',$ordenOtMenorPrioridad->ordenesdetrabajo->id], [
                     'escape' => false,
-                    'target' => '_blank',
                     'style' => ['color:black'],
               ]) ?>
 

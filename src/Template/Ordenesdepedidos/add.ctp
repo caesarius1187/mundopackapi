@@ -127,51 +127,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                         'type'=>'hidden' ,
                         'value'=>$ordenesdepedido->id
                       ]); ?>
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table class="table" id="tblMateriales">
-                        <thead>
-                          <tr>
-                            <th>Material</th>
-                            <th>Tipo</th>
-                            <th>Porcentaje</th>
-                            <th><button type="button" name="button" class="btn btn-success" onclick="loadMaterial()"><i class="fas fa-plus"></i></button></th>
-                          </tr>
-                        </thead>
-                        <tbody id="tblMaterialesBody">
-                            <tr>
-                              <td>
-                                <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
-                                  'type'=>'hidden',
-                                ]); ?>
-                                <?= $this->Form->control('Materialesots.0.material',[
-                                  'label'=>false,
-                                  'type'=>'select',
-                                  'options'=>[$materiales]
-                                ]); ?>
-                              </td>
-                              <td>
-                                <?= $this->Form->control('Materialesots.0.tipo',[
-                                  'label'=>false,
-                                  'type'=>'select',
-                                  'options'=>[
-                                    'Nuevo'=>'Nuevo',
-                                    'Reciclado'=>'Reciclado',
-                                  ]
-                                ]); ?>
-                              </td>
-                              <td>
-                                <?= $this->Form->control('Materialesots.0.porcentaje',[
-                                  'label'=>false,
-                                  'class'=>'porcentaje',
-                                  'value'=>'100',
-                                ]); ?>
-                              </td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                  
                   <div class="row">
                     <div class="col-sm-2">
                       <?= $this->Form->control('color',[ ]); ?>
@@ -270,6 +226,51 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                           'troquelado'=>'troquelado',
                         ]
                       ]); ?>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table" id="tblMateriales">
+                        <thead>
+                          <tr>
+                            <th>Material</th>
+                            <th>Tipo</th>
+                            <th>Porcentaje</th>
+                            <th><button type="button" name="button" class="btn btn-success" onclick="loadMaterial()"><i class="fas fa-plus"></i></button></th>
+                          </tr>
+                        </thead>
+                        <tbody id="tblMaterialesBody">
+                            <tr>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
+                                  'type'=>'hidden',
+                                ]); ?>
+                                <?= $this->Form->control('Materialesots.0.material',[
+                                  'label'=>false,
+                                  'type'=>'select',
+                                  'options'=>[$materiales]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.tipo',[
+                                  'label'=>false,
+                                  'type'=>'select',
+                                  'options'=>[
+                                    'Nuevo'=>'Nuevo',
+                                    'Reciclado'=>'Reciclado',
+                                  ]
+                                ]); ?>
+                              </td>
+                              <td>
+                                <?= $this->Form->control('Materialesots.0.porcentaje',[
+                                  'label'=>false,
+                                  'class'=>'porcentaje',
+                                  'value'=>'100',
+                                ]); ?>
+                              </td>
+                            </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                   <div class="row">
