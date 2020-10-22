@@ -98,7 +98,7 @@ class OrdenesdetrabajosController extends AppController
                         ],
                         'Materialesots'
                     ],
-                    'sort'=>['Ordenots.prioridad']
+                    'sort'=>['Ordenots.prioridadextrusion']
                 ],
             ],
         ]);
@@ -111,7 +111,7 @@ class OrdenesdetrabajosController extends AppController
                         ],
                         'Materialesots'
                     ],
-                    'sort'=>['Ordenots.prioridad']
+                    'sort'=>['Ordenots.prioridadimpresion']
 
                 ]
             ]
@@ -125,7 +125,7 @@ class OrdenesdetrabajosController extends AppController
                         ],
                         'Materialesots'
                     ],
-                    'sort'=>['Ordenots.prioridad']
+                    'sort'=>['Ordenots.prioridadcorte']
                 ]
             ]
         ]);
@@ -138,7 +138,7 @@ class OrdenesdetrabajosController extends AppController
     public function listaasignacion($tipomaquina,$maquinaid){
         $this->loadModel('Ordenots');
         //vamos a buscar las que ya estan en la maquina y no las vamos a permitir volver a agregar
-        
+
         $listaconditions=[
             'contain'=>['Ordenesdepedidos'],
             'conditions'=>[
@@ -159,15 +159,15 @@ class OrdenesdetrabajosController extends AppController
                 $listaconditions['conditions']['OR'] = ['Ordenesdetrabajos.aextrusar > Ordenesdetrabajos.cortadas','Ordenesdetrabajos.cortadas is null'];
                 $listaconditions['conditions']['Ordenesdetrabajos.cortado'] = true;
                 $condirionsOrderOTs = ['conditions'=>['Ordenots.cortadora_id'=>$maquinaid]];
-                break;            
+                break;
         }
         $listOrdenOrdenesDeTrabajo = $this->Ordenots->find('all',$condirionsOrderOTs);
         $ordenesyaagregadas = [];
         foreach ($listOrdenOrdenesDeTrabajo as $key => $orderOt) {
-            $ordenesyaagregadas[] = $orderOt->ordenesdetrabajo_id; 
+            $ordenesyaagregadas[] = $orderOt->ordenesdetrabajo_id;
         }
         if(count($ordenesyaagregadas)>0){
-            $listaconditions['conditions']['Ordenesdetrabajos.id NOT IN'] = $ordenesyaagregadas ;    
+            $listaconditions['conditions']['Ordenesdetrabajos.id NOT IN'] = $ordenesyaagregadas ;
         }
         $listOrdenes = $this->Ordenesdetrabajos->find('all',$listaconditions);
         $this->set([
@@ -256,7 +256,7 @@ class OrdenesdetrabajosController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
-    {   
+    {
         $this->loadModel('Bobinasdeextrusions');
         $this->loadModel('Bobinasdeimpresions');
         $this->loadModel('Bobinasdecortes');
@@ -303,7 +303,7 @@ class OrdenesdetrabajosController extends AppController
         $empleados = $this->Empleados->find('list', ['limit' => 200]);
         $extrusoras = $this->Extrusoras->find('list', ['limit' => 200]);
         $impresoras = $this->Impresoras->find('list', ['limit' => 200]);
-        $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);        
+        $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);
         $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras','impresoras','cortadoras'));
     }
 
@@ -323,11 +323,11 @@ class OrdenesdetrabajosController extends AppController
         //vamos a crear el numero dinamicamente
         $maxNumOrdenTrabajo = 0;
         $orderopMax = $this->Ordenesdetrabajos->find('all',[
-            'conditions'=>[    
+            'conditions'=>[
                 'Ordenesdetrabajos.ordenesdepedido_id'=>$ordenesdetrabajo->ordenesdepedido_id
             ],
             'fields' => array('maxprioridad' => 'MAX(Ordenesdetrabajos.numero)'),
-        ]); 
+        ]);
         foreach ($orderopMax as $key => $value) {
             $maxNumOrdenPedido = $value->maxprioridad;
         }
@@ -398,10 +398,10 @@ class OrdenesdetrabajosController extends AppController
                     if($materialesot['id']!=0){
                         $newmaterialOt = $this->Materialesots->get($materialesot['id'], [
                             'contain' => [],
-                        ]);    
+                        ]);
                         $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
                     }else{
-                        $newmaterialOt = $this->Materialesots->newEntity();    
+                        $newmaterialOt = $this->Materialesots->newEntity();
                     }
                     $newmaterialOt->id = $materialesot['id'];
                     $newmaterialOt->ordenesdetrabajo_id = $materialesot['ordenesdetrabajo_id'];

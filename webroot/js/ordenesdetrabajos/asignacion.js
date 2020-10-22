@@ -14,6 +14,65 @@ $(document).ready(function() {
       start: function (e, ui) {
         ui.item.addClass("selected");
       },
+      update: function (e, ui) {
+        var contTable = $(this).closest('table').attr('id');
+        console.log(contTable);
+        var newOrders = [];
+        $(this).children().each(function (index) {
+          newOrders.push([index,String($(this).attr('id')).substr(10)]);
+        });
+        console.log(newOrders);
+        switch (contTable[3]) {
+           case 'E':
+             $.ajax({
+               type: 'POST',
+               url: serverLayoutURL+'ordenots/reorderE.json',
+               data:{'data':newOrders},
+               success: function (response) {
+                 $(newOrders).each(function(indice, elemento){
+                   $("#trOrdenOtE"+elemento[1]).find("td:first").html(elemento[0]);
+                 });
+               },
+               error: function () {
+                 alert('error');
+               }
+             });
+            break;
+            case 'I':
+              $.ajax({
+                type: 'POST',
+                url: serverLayoutURL+'ordenots/reorderI.json',
+                data:{'data':newOrders},
+                success: function (response) {
+                  $(newOrders).each(function(indice, elemento){
+                    $("#trOrdenOtI"+elemento[1]).find("td:first").html(elemento[0]);
+                  });
+                },
+                error: function () {
+                  alert('error');
+                }
+              });
+             break;
+             case 'C':
+               $.ajax({
+                 type: 'POST',
+                 url: serverLayoutURL+'ordenots/reorderC.json',
+                 data:{'data':newOrders},
+                 success: function (response) {
+                   $(newOrders).each(function(indice, elemento){
+                     $("#trOrdenOtC"+elemento[1]).find("td:first").html(elemento[0]);
+                   });
+                 },
+                 error: function () {
+                   alert('error');
+                 }
+               });
+              break;
+              default:
+                console.log(contTable[3]);
+        }
+
+       },
       stop: function (e, ui) {
         ui.item.removeClass("selected");
       }
@@ -55,8 +114,6 @@ $(document).ready(function() {
         });
         return false;
     });
-    $(".tabbedDiv").hide();
-    $(".programacionPendientes").show();
     $("#tblOrdenesDeTrabajo").DataTable( {
         "scrollX": true,
         "language": {
@@ -90,51 +147,6 @@ $(document).ready(function() {
         "autoWidth": true
     } );
 });
-function modificarPrioridad(inputPrioridad){
-    /*
-    *1- enviar modificacion de prioridad de la ot
-    *2- reordenar fila dentro de la tabla
-    */
-    var prioridad = $(inputPrioridad).val();
-    var ordenotId = $(inputPrioridad).attr('ordenotId');
-    $.ajax({
-        type: 'POST',
-        url: serverLayoutURL+'ordenots/modificarprioridad/'+ordenotId+'/'+prioridad+'.json',
-        data: '',
-        success: function(data,textStatus,xhr){
-            if(data.data.error!=0){
-                alert(data.data.respuesta);
-                location.reload();
-            }else{
-                Toast.fire({
-                  icon: 'success',
-                  title: data.data.respuesta
-                })
-                //vamos a mover la row
-                var row = $(inputPrioridad).parents("tr:first");
-                $(row).attr('prioridadOT',prioridad);
-                var table = $(row).parents("table");
-                var inserte = false;
-                $(table).find('tbody').find('tr').each(function(){
-                    if(!inserte){
-                        var rowPrioridad = $(this).attr('prioridadOT')*1;
-                        if(rowPrioridad>prioridad){
-                            row.insertBefore(this);
-                            inserte = true;
-                        }
-                    }
-                })
-                if(!inserte){
-                    var lastRow = table.find('tr:last');
-                    row.insertAfter(lastRow);
-                }
-            }
-        },
-        error: function(xhr,textStatus,error){
-            alert(textStatus);
-        }
-    });
-}
 function borrarProgramacion(){
     var ordenotId = $("#id").val();
     if(ordenotId==0){
@@ -168,7 +180,6 @@ function borrarProgramacion(){
             }
         });
     }
-    
 }
 function playOT(oTId){
     $.ajax({

@@ -47,7 +47,7 @@ class ExtrusorasController extends AppController
                             'Clientes'
                         ]
                     ],
-                    'sort'=>'Ordenots.prioridad ASC'
+                    'sort'=>'Ordenots.prioridadextrusion ASC'
                 ]
             ],
         ]);

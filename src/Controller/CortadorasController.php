@@ -47,7 +47,7 @@ class CortadorasController extends AppController
                             'Clientes'
                         ]
                     ],
-                    'sort'=>'Ordenots.prioridad ASC'
+                    'sort'=>'Ordenots.prioridadcorte ASC'
                 ]
             ],
         ]);

@@ -47,7 +47,7 @@ class ImpresorasController extends AppController
                             'Clientes'
                         ]
                     ],
-                    'sort'=>'Ordenots.prioridad ASC'
+                    'sort'=>'Ordenots.prioridadimpresion ASC'
                 ]
             ],
         ]);

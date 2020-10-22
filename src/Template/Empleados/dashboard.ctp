@@ -43,8 +43,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
             $menorPrioridad = 1000;
             foreach ($extrusora->ordenots as $ko => $ordenot) {
               //vamos a buscar la ordrenot con menor prioridad
-              if($ordenot->prioridad<$menorPrioridad){
-                $menorPrioridad = $ordenot->prioridad;
+              if($ordenot->prioridadextrusion<$menorPrioridad){
+                $menorPrioridad = $ordenot->prioridadextrusion;
                 $ordenOtMenorPrioridad = $ordenot;
               }
             }
@@ -92,8 +92,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
             $menorPrioridad = 1000;
             foreach ($impresora->ordenots as $ko => $ordenot) {
               //vamos a buscar la ordrenot con menor prioridad
-              if($ordenot->prioridad<$menorPrioridad){
-                $menorPrioridad = $ordenot->prioridad;
+              if($ordenot->prioridadimpresion<$menorPrioridad){
+                $menorPrioridad = $ordenot->prioridadimpresion;
                 $ordenOtMenorPrioridad = $ordenot;
               }
             }
@@ -139,8 +139,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
             $menorPrioridad = 1000;
             foreach ($cortadora->ordenots as $ko => $ordenot) {
               //vamos a buscar la ordrenot con menor prioridad
-              if($ordenot->prioridad<$menorPrioridad){
-                $menorPrioridad = $ordenot->prioridad;
+              if($ordenot->prioridadcorte<$menorPrioridad){
+                $menorPrioridad = $ordenot->prioridadcorte;
                 $ordenOtMenorPrioridad = $ordenot;
               }
             }
@@ -183,11 +183,11 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         <div class="card-body p-0" style="overflow-x: auto;">
           <table class="table table-sm" >
             <thead>
-              <tr>
+              <tr id="tblHeader">
                 <th>Prioridad</th>
-                <th>Ini</th>
+                <th>Inicio</th>
                 <th>Fin</th>
-                <th>Cli</th>
+                <th>Cliente</th>
                 <th>OT</th>
                 <th>Medidas</th>
                 <th>Cant.</th>
@@ -200,7 +200,6 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
               </tr>
             </thead>
             <tbody id="tblPendientes">
-
               <!-- Ejemplo -->
               <tr>
                 <td>1.</td>

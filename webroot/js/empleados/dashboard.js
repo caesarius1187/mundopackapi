@@ -48,7 +48,7 @@ function loadOTExtrusora(extrusoraId){
 
                 var tr = $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html(this.prioridad)
+                            $("<td class='text-center'>").html(this.prioridadextrusion)
                         )
                         .append(
                             $("<td class='text-center'>").html(formatedFechaInicio)
@@ -95,14 +95,16 @@ function loadOTExtrusora(extrusoraId){
                                 )
                               )
                         );
+                $('#myModalMaquina').find('#tblHeader')
+                  .removeClass('bg-info')
+                  .removeClass('bg-warning')
+                  .removeClass('bg-success')
+                  .addClass('bg-info')
+
                 $('#myModalMaquina').find('#tblPendientes')
-                    .removeClass('bg-info')
-                    .removeClass('bg-warning')
-                    .removeClass('bg-success')
-                    .addClass('bg-info')
-                    .append(
-                        tr
-                    );
+                  .append(
+                      tr
+                  );
             });
 
         },
@@ -159,7 +161,7 @@ function loadOTImpresora(impresoraId){
 
                 var tr = $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html(this.prioridad)
+                            $("<td class='text-center'>").html(this.prioridadimpresion)
                         )
                         .append(
                             $("<td class='text-center'>").html(formatedFechaInicio)
@@ -206,14 +208,16 @@ function loadOTImpresora(impresoraId){
                                 )
                               )
                         );
-                $('#myModalMaquina').find('#tblPendientes')
-                    .removeClass('bg-info')
-                    .removeClass('bg-warning')
-                    .removeClass('bg-success')
-                    .addClass('bg-warning')
-                    .append(
-                        tr
-                    );
+                        $('#myModalMaquina').find('#tblHeader')
+                          .removeClass('bg-info')
+                          .removeClass('bg-warning')
+                          .removeClass('bg-success')
+                          .addClass('bg-warning')
+
+                        $('#myModalMaquina').find('#tblPendientes')
+                          .append(
+                              tr
+                          );
             });
 
         },
@@ -269,7 +273,7 @@ function loadOTCortadora(cortadoraId){
 
                 var tr = $("<tr>")
                         .append(
-                            $("<td class='text-center'>").html(this.prioridad)
+                            $("<td class='text-center'>").html(this.prioridadcorte)
                         )
                         .append(
                             $("<td class='text-center'>").html(formatedFechaInicio)
@@ -316,14 +320,16 @@ function loadOTCortadora(cortadoraId){
                                 )
                               )
                         );
-                $('#myModalMaquina').find('#tblPendientes')
-                    .removeClass('bg-info')
-                    .removeClass('bg-warning')
-                    .removeClass('bg-success')
-                    .addClass('bg-success')
-                    .append(
-                        tr
-                    );
+                        $('#myModalMaquina').find('#tblHeader')
+                          .removeClass('bg-info')
+                          .removeClass('bg-warning')
+                          .removeClass('bg-success')
+                          .addClass('bg-success')
+
+                        $('#myModalMaquina').find('#tblPendientes')
+                          .append(
+                              tr
+                          );
             });
 
         },
