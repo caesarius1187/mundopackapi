@@ -187,11 +187,11 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
         <div class="card-body p-0" style="overflow-x: auto;">
           <table class="table table-sm" >
             <thead>
-              <tr>
+              <tr id="tblHeader">
                 <th>Prioridad</th>
-                <th>Ini</th>
+                <th>Inicio</th>
                 <th>Fin</th>
-                <th>Cli</th>
+                <th>Cliente</th>
                 <th>OT</th>
                 <th>Medidas</th>
                 <th>Cant.</th>
@@ -204,7 +204,6 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
               </tr>
             </thead>
             <tbody id="tblPendientes">
-
               <!-- Ejemplo -->
               <tr>
                 <td>1.</td>

@@ -61,35 +61,56 @@ class OrdenotsController extends AppController
             $ordenot = $this->Ordenots->patchEntity($ordenot, $this->request->getData());
         }
         //vamos a poner la prioridad mas alta +1
-        $maxprioridad = 0;
+        $maxprioridadextrusora = 0;
         $orderotMax = $this->Ordenots->find('all',[
             'conditions'=>[
-                'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
-                'Ordenots.impresora_id'=>$ordenot->impresora_id,
+                'Ordenots.extrusora_id'=>$ordenot->extrusora_id
+            ],
+            'fields' => array('maxprioridadextrusora' => 'MAX(Ordenots.prioridadextrusion)'),
+        ]);
+        foreach ($orderotMax as $key => $value) {
+          $maxprioridadextrusora = $value['maxprioridadextrusora'];
+        }
+        $ordenot->prioridadextrusion = $maxprioridadextrusora+1;
+        //vamos a poner la prioridad mas alta +1
+        $maxprioridadimpresion = 0;
+        $orderotMax = $this->Ordenots->find('all',[
+            'conditions'=>[
+                'Ordenots.impresora_id'=>$ordenot->impresora_id
+            ],
+            'fields' => array('maxprioridadimpresion' => 'MAX(Ordenots.prioridadimpresion)'),
+        ]);
+        foreach ($orderotMax as $key => $value) {
+            $maxprioridadimpresion = $value['$maxprioridadimpresion'];
+        }
+        $ordenot->prioridadimpresion = $maxprioridadimpresion+1;
+        //vamos a poner la prioridad mas alta +1
+        $maxprioridadcorte = 0;
+        $orderotMax = $this->Ordenots->find('all',[
+            'conditions'=>[
                 'Ordenots.cortadora_id'=>$ordenot->cortadora_id
             ],
-            'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridad)'),
-        ]); 
+            'fields' => array('maxprioridadcorte' => 'MAX(Ordenots.prioridadcorte)'),
+        ]);
         foreach ($orderotMax as $key => $value) {
-            $maxprioridad = $value->maxprioridad;
+            $maxprioridadcorte = $value['$maxprioridadcorte'];
         }
-        $ordenot->prioridad = $maxprioridad+1;
+        $ordenot->prioridadcorte = $maxprioridadcorte+1;
         if($ordenot->fechainicioextrusora!=''){
             $fechainicioestrusion = $ordenot->fechainicioextrusora;
             $fechainicioestrusion = date('Y-m-d',strtotime($fechainicioestrusion));
-            $ordenot->fechainicioextrusora = $fechainicioestrusion;    
+            $ordenot->fechainicioextrusora = $fechainicioestrusion;
         }
         if($ordenot->fechainicioimpresora!=''){
             $fechainicioimpresora = $ordenot->fechainicioimpresora;
             $fechainicioimpresora = date('Y-m-d',strtotime($fechainicioimpresora));
-            $ordenot->fechainicioimpresora = $fechainicioimpresora;    
+            $ordenot->fechainicioimpresora = $fechainicioimpresora;
         }
         if($ordenot->fechainiciocortadora!=''){
             $fechainiciocortadora = $ordenot->fechainiciocortadora;
             $fechainiciocortadora = date('Y-m-d',strtotime($fechainiciocortadora));
-            $ordenot->fechainiciocortadora = $fechainiciocortadora;    
+            $ordenot->fechainiciocortadora = $fechainiciocortadora;
         }
-       
         if ($this->Ordenots->save($ordenot)) {
             $respuesta = 'Se ha asignado esta orden para esta maquina.';
         }else{
@@ -101,126 +122,75 @@ class OrdenotsController extends AppController
             '_serialize' => ['data']
         ]);
     }
-    public function levelup($ordenotId){
-        $data=[
-            'respuesta'=>'',
-            'error'=>0,
-        ];
-        $ordenot = $this->Ordenots->get($ordenotId, [
-            'contain' => [
-            ],
-        ]);
-        //si la prioridad es 1 no se hace nada
-        if($ordenot->prioridad==1){
-            $data=[
-                'respuesta'=>'Esta Orden ya tiene prioridad 1. No se modifico.',
-                'error'=>1,
-            ];
-            $this->set([
-                'data' => $data,
-                '_serialize' => ['data']
-            ]);
-            return;
-        }
-        $newPrioridad = $ordenot->prioridad*1 - 1;
-       
-        //bajamos a la que estaba en ese lugar
-        $conditionsOrdenOts=[
-            'conditions'=>[
-                'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
-                'Ordenots.impresora_id'=>$ordenot->impresora_id,
-                'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
-                'Ordenots.prioridad'=>$newPrioridad
-            ]
-        ];
-        $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
-        foreach ($myOrderOts as $key => $myOrderOt) {
-            $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
-                'contain' => [
-                ],
-            ]);
-            $secOrdenot->prioridad = $secOrdenot->prioridad + 1 ;
-            if ($this->Ordenots->save($secOrdenot)) {
 
-            }else{
-                $data['error'] = 3;
-                $data['respuesta'] .= "No se pudo cambiar la prioridad de la orden predecesora.";
-            }
+    public function reorderE() {
+      $this->request->allowMethod('ajax');
+
+      $listPriority = $this->request->getData()['data'];
+
+      $this->set('_serialize', $listPriority);
+
+      foreach ($listPriority as $value) {
+        if($value[1]!=''){
+          $ordenot = $this->Ordenots->get($value[1]);
+          $ordenot->prioridadextrusion = $value[0];
+          $this->Ordenots->save($ordenot);
         }
-        $ordenot->prioridad = $ordenot->prioridad-1 ;
-        if ($this->Ordenots->save($ordenot)) {
-            $data['respuesta'] .= "si guarde.";
-        }else{
-            $data['error'] = 2;
-            $data['respuesta'] .= "No se pudo cambiar la prioridad de la orden seleccionada.";
-        }
-        $this->set([
-            'data' => $data,
-            '_serialize' => ['data']
-        ]);
+      }
+      $data=[
+          'respuesta'=>'',
+          'error'=>0,
+      ];
+      $this->set([
+          'data' => $data,
+          '_serialize' => ['data']
+      ]);
     }
-    public function leveldown($ordenotId){
-        $data=[
-            'respuesta'=>'',
-            'error'=>0,
-        ];
-        //buscamos la selecicionada
-        $ordenot = $this->Ordenots->get($ordenotId, [
-            'contain' => [
-            ],
-        ]);
-        $newPrioridad = $ordenot->prioridad+1;
-        //subimos a la que estaba abajo
-        $conditionsOrdenOts=[
-            'conditions'=>[
-                'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
-                'Ordenots.impresora_id'=>$ordenot->impresora_id,
-                'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
-                'Ordenots.prioridad'=>$newPrioridad
-            ]
-        ];
-        $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
-        $subiOrden=false;
-        foreach ($myOrderOts as $key => $myOrderOt) {
-            $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
-                'contain' => [
-                ],
-            ]);
-            $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
-            if ($this->Ordenots->save($secOrdenot)) {
-                $subiOrden=true;
-            }else{
-                $data['error'] = 3;
-                $data['respuesta'] .= "No se pudo cambiar la prioridad de la orden predecesora.";
-            }
-        }
-        if(!$subiOrden){
-            $data=[
-                'respuesta'=>'Esta Orden ya estaba al ultimo. No se modifico.',
-                'error'=>1,
-            ];
-            $this->set([
-                'data' => $data,
-                '_serialize' => ['data']
-            ]);
-            return;
-        }
+    public function reorderI() {
+      $this->request->allowMethod('ajax');
 
-        //bajamos la seleccionada
-        
-        
-        $ordenot->prioridad = $newPrioridad ;
-        if ($this->Ordenots->save($ordenot)) {
+      $listPriority = $this->request->getData()['data'];
 
-        }else{
-            $data['error'] = 2;
-            $data['respuesta'] .= "No se pudo cambiar la prioridad de la orden seleccionada.";
+      $this->set('_serialize', $listPriority);
+
+      foreach ($listPriority as $value) {
+        if($value[1]!=''){
+          $ordenot = $this->Ordenots->get($value[1]);
+          $ordenot->prioridadimpresion = $value[0];
+          $this->Ordenots->save($ordenot);
         }
+      }
+      $data=[
+          'respuesta'=>'',
+          'error'=>0,
+      ];
+      $this->set([
+          'data' => $data,
+          '_serialize' => ['data']
+      ]);
+    }
+    public function reorderC() {
+      $this->request->allowMethod('ajax');
 
-        $this->set([
-            'data' => $data,
-            '_serialize' => ['data']
-        ]);
+      $listPriority = $this->request->getData()['data'];
+
+      $this->set('_serialize', $listPriority);
+
+      foreach ($listPriority as $value) {
+        if($value[1]!=''){
+          $ordenot = $this->Ordenots->get($value[1]);
+          $ordenot->prioridadcorte = $value[0];
+          $this->Ordenots->save($ordenot);
+        }
+      }
+      $data=[
+          'respuesta'=>'',
+          'error'=>0,
+      ];
+      $this->set([
+          'data' => $data,
+          '_serialize' => ['data']
+      ]);
     }
     /**
      * Edit method
@@ -264,14 +234,14 @@ class OrdenotsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $ordenot = $this->Ordenots->get($id);
         //vamos a reducir en 1 las ordenes posteriores
-        $newPrioridad = $ordenot->prioridad;
+        $newPrioridadExtrusion = $ordenot->prioridadextrusion;
+        $newPrioridadImpresion = $ordenot->prioridadimpresion;
+        $newPrioridadCorte = $ordenot->prioridadcorte;
         //subimos a la que estaba abajo
         $conditionsOrdenOts=[
             'conditions'=>[
                 'Ordenots.extrusora_id'=>$ordenot->extrusora_id,
-                'Ordenots.impresora_id'=>$ordenot->impresora_id,
-                'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
-                'Ordenots.prioridad >='=>$newPrioridad
+                'Ordenots.prioridadextrusion >='=>$newPrioridadExtrusion
             ]
         ];
         $data=[
@@ -284,7 +254,57 @@ class OrdenotsController extends AppController
                 'contain' => [
                 ],
             ]);
-            $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
+            $secOrdenot->prioridadextrusion = $secOrdenot->prioridadextrusion - 1 ;
+            if ($this->Ordenots->save($secOrdenot)) {
+                $subiOrden=true;
+            }else{
+                $data['error'] = 1;
+                $data['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
+            }
+        }
+        //subimos a la que estaba abajo
+        $conditionsOrdenOts=[
+            'conditions'=>[
+                'Ordenots.impresora_id'=>$ordenot->impresora_id,
+                'Ordenots.prioridadimpresion >='=>$newPrioridadImpresion
+            ]
+        ];
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
+        foreach ($myOrderOts as $key => $myOrderOt) {
+            $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
+                'contain' => [
+                ],
+            ]);
+            $secOrdenot->prioridadimpresion = $secOrdenot->prioridadimpresion - 1 ;
+            if ($this->Ordenots->save($secOrdenot)) {
+                $subiOrden=true;
+            }else{
+                $data['error'] = 1;
+                $data['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
+            }
+        }
+        //subimos a la que estaba abajo
+        $conditionsOrdenOts=[
+            'conditions'=>[
+                'Ordenots.cortadora_id'=>$ordenot->cortadora_id,
+                'Ordenots.prioridadcorte >='=>$newPrioridadCorte
+            ]
+        ];
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $myOrderOts = $this->Ordenots->find('all',$conditionsOrdenOts);
+        foreach ($myOrderOts as $key => $myOrderOt) {
+            $secOrdenot = $this->Ordenots->get($myOrderOt->id , [
+                'contain' => [
+                ],
+            ]);
+            $secOrdenot->prioridadcorte = $secOrdenot->prioridadcorte - 1 ;
             if ($this->Ordenots->save($secOrdenot)) {
                 $subiOrden=true;
             }else{
@@ -293,7 +313,7 @@ class OrdenotsController extends AppController
             }
         }
         if ($this->Ordenots->delete($ordenot)) {
-           
+
         } else {
             $data['error'] =2 ;
             $data['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";

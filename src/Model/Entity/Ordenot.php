@@ -11,7 +11,9 @@ use Cake\ORM\Entity;
  * @property int|null $impresora_id
  * @property int|null $cortadora_id
  * @property int $ordenesdetrabajo_id
- * @property int|null $prioridad
+ * @property int|null $prioridadextrusion
+* @property int|null $prioridadimpresion
+* @property int|null $prioridadcorte
  *
  * @property \App\Model\Entity\Extrusora $extrusora
  * @property \App\Model\Entity\Impresora $impresora
@@ -37,7 +39,9 @@ class Ordenot extends Entity
         'cortadora_id' => true,
         'fechainiciocortadora' => true,
         'ordenesdetrabajo_id' => true,
-        'prioridad' => true,
+        'prioridadextrusion' => true,
+        'prioridadimpresion' => true,
+        'prioridadcorte' => true,
         'extrusora' => true,
         'impresora' => true,
         'cortadora' => true,

@@ -95,14 +95,16 @@ function loadOTExtrusora(extrusoraId){
                                 )
                               )
                         );
+                $('#myModalMaquina').find('#tblHeader')
+                  .removeClass('bg-info')
+                  .removeClass('bg-warning')
+                  .removeClass('bg-success')
+                  .addClass('bg-info')
+
                 $('#myModalMaquina').find('#tblPendientes')
-                    .removeClass('bg-info')
-                    .removeClass('bg-warning')
-                    .removeClass('bg-success')
-                    .addClass('bg-info')
-                    .append(
-                        tr
-                    );
+                  .append(
+                      tr
+                  );
             });
 
         },
@@ -206,14 +208,16 @@ function loadOTImpresora(impresoraId){
                                 )
                               )
                         );
-                $('#myModalMaquina').find('#tblPendientes')
-                    .removeClass('bg-info')
-                    .removeClass('bg-warning')
-                    .removeClass('bg-success')
-                    .addClass('bg-warning')
-                    .append(
-                        tr
-                    );
+                        $('#myModalMaquina').find('#tblHeader')
+                          .removeClass('bg-info')
+                          .removeClass('bg-warning')
+                          .removeClass('bg-success')
+                          .addClass('bg-warning')
+
+                        $('#myModalMaquina').find('#tblPendientes')
+                          .append(
+                              tr
+                          );
             });
 
         },
@@ -316,14 +320,16 @@ function loadOTCortadora(cortadoraId){
                                 )
                               )
                         );
-                $('#myModalMaquina').find('#tblPendientes')
-                    .removeClass('bg-info')
-                    .removeClass('bg-warning')
-                    .removeClass('bg-success')
-                    .addClass('bg-success')
-                    .append(
-                        tr
-                    );
+                        $('#myModalMaquina').find('#tblHeader')
+                          .removeClass('bg-info')
+                          .removeClass('bg-warning')
+                          .removeClass('bg-success')
+                          .addClass('bg-success')
+
+                        $('#myModalMaquina').find('#tblPendientes')
+                          .append(
+                              tr
+                          );
             });
 
         },

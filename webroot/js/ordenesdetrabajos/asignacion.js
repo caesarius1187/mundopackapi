@@ -14,6 +14,65 @@ $(document).ready(function() {
       start: function (e, ui) {
         ui.item.addClass("selected");
       },
+      update: function (e, ui) {
+        var contTable = $(this).closest('table').attr('id');
+        console.log(contTable);
+        var newOrders = [];
+        $(this).children().each(function (index) {
+          newOrders.push([index,String($(this).attr('id')).substr(10)]);
+        });
+        console.log(newOrders);
+        switch (contTable[3]) {
+           case 'E':
+             $.ajax({
+               type: 'POST',
+               url: serverLayoutURL+'ordenots/reorderE.json',
+               data:{'data':newOrders},
+               success: function (response) {
+                 $(newOrders).each(function(indice, elemento){
+                   $("#trOrdenOtE"+elemento[1]).find("td:first").html(elemento[0]);
+                 });
+               },
+               error: function () {
+                 alert('error');
+               }
+             });
+            break;
+            case 'I':
+              $.ajax({
+                type: 'POST',
+                url: serverLayoutURL+'ordenots/reorderI.json',
+                data:{'data':newOrders},
+                success: function (response) {
+                  $(newOrders).each(function(indice, elemento){
+                    $("#trOrdenOtI"+elemento[1]).find("td:first").html(elemento[0]);
+                  });
+                },
+                error: function () {
+                  alert('error');
+                }
+              });
+             break;
+             case 'C':
+               $.ajax({
+                 type: 'POST',
+                 url: serverLayoutURL+'ordenots/reorderC.json',
+                 data:{'data':newOrders},
+                 success: function (response) {
+                   $(newOrders).each(function(indice, elemento){
+                     $("#trOrdenOtC"+elemento[1]).find("td:first").html(elemento[0]);
+                   });
+                 },
+                 error: function () {
+                   alert('error');
+                 }
+               });
+              break;
+              default:
+                console.log(contTable[3]);
+        }
+
+       },
       stop: function (e, ui) {
         ui.item.removeClass("selected");
       }

@@ -67,8 +67,16 @@ class OrdenotsTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->integer('prioridad')
-            ->allowEmptyString('prioridad');
+            ->integer('prioridadextrusion')
+            ->allowEmptyString('prioridadextrusion');
+
+        $validator
+            ->integer('prioridadimpresion')
+            ->allowEmptyString('prioridadimpresion');
+
+        $validator
+            ->integer('prioridadcorte')
+            ->allowEmptyString('prioridadcorte');
 
         return $validator;
     }
