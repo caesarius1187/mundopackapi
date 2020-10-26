@@ -169,10 +169,10 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     <div class="col-sm-1">
                       <?= $this->Form->control('espesor',['class'=>'inputCalculoOT']); ?>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                       <?= $this->Form->control('cantidad',['class'=>'inputCalculoOT']); ?>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                       <?= $this->Form->control('pesoxmil',['class'=>'inputCalculoOT']); ?>
                     </div>
                     <div class="col-sm-1">
@@ -181,7 +181,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     <div class="col-sm-1">
                       <?= $this->Form->control('aextrusar',['class'=>'inputCalculoOT']); ?>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                       <?= $this->Form->control('pesobob',[ ]); ?>
                     </div>
                     <div class="col-sm-1">
@@ -277,7 +277,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     <div class="col-sm-2">
                       <?= $this->Form->control('preciounitario',[ ]); ?>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-12">
                       <?= $this->Form->control('observaciones',[ ]); ?>
                     </div>
                   </div>
@@ -317,7 +317,7 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                         <tr>
                           <th>Numero</th>
                           <th>Cant.</th>
-                          <th>A Estrusar</th>
+                          <th>A Extrusar</th>
                           <th>Material</th>
                           <th>Color</th>
                           <th>Fuelle</th>

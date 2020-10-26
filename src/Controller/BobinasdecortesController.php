@@ -136,10 +136,10 @@ class BobinasdecortesController extends AppController
             $ordenesdetrabajo->cortadas = $ordenesdetrabajo->cortadas+$cantCortadas ;
 
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $respuesta['respuesta'] .= "Se actualizo las bobinas estrusadas de la orden de pedido.";
+                $respuesta['respuesta'] .= "Se actualizo las bobinas extrusadas de la orden de pedido.";
             }else{
                 $respuesta['error'] = 2;
-                $respuesta['respuesta'] .= "No se pudo actualizar las bobinas estrusadas de la orden de pedido.";
+                $respuesta['respuesta'] .= "No se pudo actualizar las bobinas extrusadas de la orden de pedido.";
             }
             //Si las extrusadas = aetxrusar entonces tengo que sacarla de las prioridades de las Extrusoras
             //no vamos a hacer esto ya por que cambio el sistema de prioridades y se ajusta por fecha

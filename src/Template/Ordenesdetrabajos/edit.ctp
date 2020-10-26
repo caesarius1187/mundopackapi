@@ -118,6 +118,7 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
                             </tr>
                             <?php
                         }
+                        echo $this->Form->control('cantmateriales',['type'=>'hidden','value'=>$cantMateriales ]); 
                         ?>
                     </tbody>
                 </table>
@@ -164,10 +165,10 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
           <div class="col-sm-1">
             <?= $this->Form->control('espesor',['class'=>'inputCalculoOT']); ?>
           </div>
-          <div class="col-sm-1">
+          <div class="col-sm-2">
             <?= $this->Form->control('cantidad',['class'=>'inputCalculoOT']); ?>
           </div>
-          <div class="col-sm-1">
+          <div class="col-sm-2">
             <?= $this->Form->control('pesoxmil',['class'=>'inputCalculoOT']); ?>
           </div>
           <div class="col-sm-1">
@@ -176,7 +177,7 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
           <div class="col-sm-1">
             <?= $this->Form->control('aextrusar',['class'=>'inputCalculoOT']); ?>
           </div>
-          <div class="col-sm-1">
+          <div class="col-sm-2">
             <?= $this->Form->control('pesobob',[ ]); ?>
           </div>
           <div class="col-sm-1">
@@ -229,7 +230,7 @@ echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
           <div class="col-sm-2">
             <?= $this->Form->control('preciounitario',[ ]); ?>
           </div>
-          <div class="col-sm-5">
+          <div class="col-sm-12">
             <?= $this->Form->control('observaciones',[ ]); ?>
           </div>
         </div>

@@ -235,7 +235,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
               <li class="pt-2 px-3"><h3 class="card-title">Máquina</h3></li>
               <li class="nav-item">
-                <a class="nav-link active" id="custom-tabs-industry-tab" data-toggle="pill" href="#custom-tabs-industry" role="tab" aria-controls="custom-tabs-industry" aria-selected="true">ESTRUSORA</a>
+                <a class="nav-link active" id="custom-tabs-industry-tab" data-toggle="pill" href="#custom-tabs-industry" role="tab" aria-controls="custom-tabs-industry" aria-selected="true">EXTRUSORA</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="custom-tabs-print-tab" data-toggle="pill" href="#custom-tabs-print" role="tab" aria-controls="custom-tabs-print" aria-selected="false">IMPRESORA</a>
@@ -262,9 +262,9 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                           <thead>
                             <tr>
                               <th>Numero</th>
-                              <th>Estrusora</th>
+                              <th>Extrusora</th>
                               <th>Fecha</th>
-                              <th>Estrusor</th>
+                              <th>Extrusor</th>
                               <th>Hs.</th>
                               <th>Kg.</th>
                               <th>Mts.</th>
@@ -342,7 +342,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                             <tr>
                               <th>Numero</th>
                               <th>Impresora</th>
-                              <th>Bobina Estrusion N°</th>
+                              <th>Bobina Extrusion N°</th>
                               <th>Fecha</th>
                               <th>Impresor</th>
                               <th>Hs.</th>
@@ -473,7 +473,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><?= __('Agregar Bobina de Estrusion') ?></h5>
+        <h5 class="modal-title"><?= __('Agregar Bobina de Extrusion') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -579,7 +579,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-3">
                 <?= $this->Form->control('bobinasdeextrusion_id', [
                     'options' => [],
-                    'label' => 'Bobina de estrusion',
+                    'label' => 'Bobina de extrusion',
                 ]); ?>
             </div>            
             <div class="col-sm-2">
@@ -653,7 +653,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       'options' => [],
                       'multiple' => true,
                       'required' => true,
-                      'label' => 'Bobina de estrusion',
+                      'label' => 'Bobina de extrusion',
                   ]);
                 }
               ?>
@@ -665,13 +665,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                 <?= $this->Form->control('kilogramos'); ?>
             </div>
             <div class="col-sm-2">
-                <?= $this->Form->control('metros'); ?>
-            </div>
-            <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>
             </div>
-            <div class="col-sm-2">
-                <?= $this->Form->control('scrapsacabocado'); ?>
+            <div class="col-sm-4">
+                <?= $this->Form->control('scrapsacabocado',['label'=>'Scrap Sacabocado']); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('cantidad'); ?>

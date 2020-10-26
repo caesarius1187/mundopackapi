@@ -239,9 +239,9 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                   <thead>
                                     <tr>
                                       <th scope="col">Numero</th>
-                                      <th scope="col">Estrusora</th>
+                                      <th scope="col">Extrusora</th>
                                       <th scope="col">Fecha</th>
-                                      <th scope="col">Estrusor</th>
+                                      <th scope="col">Extrusor</th>
                                       <th scope="col">Hs.</th>
                                       <th scope="col">Kg.</th>
                                       <th scope="col">Scrap cant.</th>

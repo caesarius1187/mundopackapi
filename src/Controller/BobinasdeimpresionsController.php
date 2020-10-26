@@ -127,7 +127,7 @@ class BobinasdeimpresionsController extends AppController
         $bobinasdeimpresion->numero = $maxBobinaNumero+1;
 
         if ($this->Bobinasdeimpresions->save($bobinasdeimpresion)) {
-            $respuesta['respuesta'] = 'La bobina de estrusion fue guardada.';
+            $respuesta['respuesta'] = 'La bobina de extrusion fue guardada.';
             $respuesta['bobinasdeimpresion'] = $bobinasdeimpresion;
             $respuesta['request'] = $this->request->getData();
             $respuesta['error'] = 0;

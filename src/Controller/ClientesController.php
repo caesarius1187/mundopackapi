@@ -60,15 +60,13 @@ class ClientesController extends AppController
         if ($this->request->is('post')) {
             $cliente = $this->Clientes->patchEntity($cliente, $this->request->getData());
             if ($this->Clientes->save($cliente)) {
-                $res['respuesta'] .= 'The cliente has been saved.';
+                $this->Flash->success(__('El cliente ha sido guardado.'));
             }else{
-                $res['respuesta'] .= 'The cliente could not be saved. Please, try again.';
+                $this->Flash->success(__('Error al guardar el cliente. Por favor intente de nuevo mas tarde.'));
             }
-            $res['cliente']=$cliente;
+
         }
-        $this->set(compact('cliente'));
-        $this->set(compact('res'));
-        $this->set('_serialize', ['res']);
+        return $this->redirect(['action' => 'index']);
     }
     /**
      * Edit method

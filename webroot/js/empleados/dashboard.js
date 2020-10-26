@@ -339,7 +339,7 @@ function loadOTCortadora(cortadoraId){
     });
 }
 function openOrdendetrabajo(ordenid){
-    window.open(serverLayoutURL+'ordenesdetrabajos/view/'+ordenid,);
+    window.open(serverLayoutURL+'ordenesdetrabajos/view/'+ordenid,"_self");
 }
 
 function getDateArray(fecha){

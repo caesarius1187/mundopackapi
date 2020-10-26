@@ -201,7 +201,7 @@ class BobinasdeextrusionsController extends AppController
         //se permitiran cargar las bobinas parciales sin sumar ni afectar esto
         if($ordenesdetrabajo->aextrusar==$ordenesdetrabajo->extrusadas && $bobinasdeextrusion->terminacion!='Parcial'){
             //ya no se pueden agregar bobinas
-            $respuesta['respuesta'] = 'Ya se cargaron todas las bobinas de estrusion que se necesitaban('.$ordenesdetrabajo->aextrusar.') para esta Orden de Trabajo';
+            $respuesta['respuesta'] = 'Ya se cargaron todas las bobinas de extrusion que se necesitaban('.$ordenesdetrabajo->aextrusar.') para esta Orden de Trabajo';
             $respuesta['error'] = 1;
              $this->set([
                 'respuesta' => $respuesta,
@@ -243,10 +243,10 @@ class BobinasdeextrusionsController extends AppController
             if($bobinasdeextrusion->terminacion!='Parcial'){
               $ordenesdetrabajo->extrusadas = $ordenesdetrabajo->extrusadas+1 ;
               if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                  $respuesta['respuesta'] .= "Se actualizo las bobinas estrusadas de la orden de pedido.";
+                  $respuesta['respuesta'] .= "Se actualizo las bobinas extrusadas de la orden de pedido.";
               }else{
                   $respuesta['error'] = 2;
-                  $respuesta['respuesta'] .= "No se pudo actualizar las bobinas estrusadas de la orden de pedido.";
+                  $respuesta['respuesta'] .= "No se pudo actualizar las bobinas extrusadas de la orden de pedido.";
               }
               //Si las extrusadas = aetxrusar entonces tengo que sacarla de las prioridades de las Extrusoras
               //no vamos a hacer esto ya por que cambio el sistema de prioridades y se ajusta por fecha

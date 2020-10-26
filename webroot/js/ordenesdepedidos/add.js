@@ -12,41 +12,44 @@ $(document).ready(function() {
       });
     $('.select2').select2()
     $('#OrdenesDePedidoAddForm').submit(function(){
-        //serialize form data
-        var formData = $(this).serialize();
-        //get form action
-        var formUrl = $(this).attr('action')+".json";
-        $.ajax({
-            type: 'POST',
-            url: formUrl,
-            data: formData,
-            success: function(data,textStatus,xhr){
-                //alert(data.data[0]);
-                if(data.respuesta.error!=0){
-                    Toast.fire({
-                      icon: 'error',
-                      title: data.respuesta.respuesta
-                    })
-                }else{
-                    Toast.fire({
-                      icon: 'success',
-                      title: data.respuesta.respuesta
-                    })
-                    var id = data.respuesta.ordenesdepedido.id;
-                    $('#OrdenesDePedidoAddForm #id').val(id);
-                    $('#OrdenesDePedidoAddForm .btn').html('<i class="fas fa-edit"></i>Modificar');
+        var r = confirm("Esta seguro que quiere guardar la Orden de Pedido?");
+        if(r){
+            //serialize form data
+            var formData = $(this).serialize();
+            //get form action
+            var formUrl = $(this).attr('action')+".json";
+            $.ajax({
+                type: 'POST',
+                url: formUrl,
+                data: formData,
+                success: function(data,textStatus,xhr){
+                    //alert(data.data[0]);
+                    if(data.respuesta.error!=0){
+                        Toast.fire({
+                          icon: 'error',
+                          title: data.respuesta.respuesta
+                        })
+                    }else{
+                        Toast.fire({
+                          icon: 'success',
+                          title: data.respuesta.respuesta
+                        })
+                        var id = data.respuesta.ordenesdepedido.id;
+                        $('#OrdenesDePedidoAddForm #id').val(id);
+                        $('#OrdenesDePedidoAddForm .btn').html('<i class="fas fa-edit"></i>Modificar');
 
-                    $('#OrdenesDeTrabajoAddForm #ordenesdepedido-id').val(id);
-                    $('#OrdenesDeTrabajoAddForm .btn').show();
+                        $('#OrdenesDeTrabajoAddForm #ordenesdepedido-id').val(id);
+                        $('#OrdenesDeTrabajoAddForm .btn').show();
 
-                    $(".card-secondary").show();
+                        $(".card-secondary").show();
+                    }
+
+                },
+                error: function(xhr,textStatus,error){
+                    bootstrapAlert(textStatus);
                 }
-
-            },
-            error: function(xhr,textStatus,error){
-                bootstrapAlert(textStatus);
-            }
-        });
+            });
+        }
         return false;
     });
     $('#OrdenesDeTrabajoAddForm').submit(function(){
@@ -62,32 +65,35 @@ $(document).ready(function() {
             })
             return false;
         }
-        //serialize form data
-        var formData = $(this).serialize();
-        //get form action
-        var formUrl = $(this).attr('action')+".json";
-        $.ajax({
-            type: 'POST',
-            url: formUrl,
-            data: formData,
-            success: function(data,textStatus,xhr){
-                if(data.respuesta.error!=0){
-                    Toast.fire({
-                      icon: 'error',
-                      title: data.respuesta.respuesta
-                    })
-                }else{
-                    Toast.fire({
-                      icon: 'success',
-                      title: data.respuesta.respuesta
-                    })
+        var r = confirm("Esta seguro que quiere guardar la Orden de Trabajo?");
+        if(r){
+            //serialize form data
+            var formData = $(this).serialize();
+            //get form action
+            var formUrl = $(this).attr('action')+".json";
+            $.ajax({
+                type: 'POST',
+                url: formUrl,
+                data: formData,
+                success: function(data,textStatus,xhr){
+                    if(data.respuesta.error!=0){
+                        Toast.fire({
+                          icon: 'error',
+                          title: data.respuesta.respuesta
+                        })
+                    }else{
+                        Toast.fire({
+                          icon: 'success',
+                          title: data.respuesta.respuesta
+                        })
+                    }
+                    cargarOTenTbl(data.respuesta.ordenesdetrabajo);
+                },
+                error: function(xhr,textStatus,error){
+                    bootstrapAlert(textStatus);
                 }
-                cargarOTenTbl(data.respuesta.ordenesdetrabajo);
-            },
-            error: function(xhr,textStatus,error){
-                bootstrapAlert(textStatus);
-            }
-        });
+            });
+        }
         return false;
     });
     $(".inputCalculoOT").on('change',function(){

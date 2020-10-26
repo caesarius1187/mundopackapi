@@ -60,7 +60,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                   <tr>
                       <td><?= $this->Number->format($ordenesdepedido->numero) ?></td>
                       <td><?= h($ordenesdepedido->cliente->nombre) ?></td>
-                      <td><?= h($ordenesdepedido->fecha) ?></td>
+                      <td><?= date('d-m-Y',strtotime($ordenesdepedido->fecha)) ?></td>
                       <td>
                         <?= h($ordenesdepedido->estado) ?>
                         <?php

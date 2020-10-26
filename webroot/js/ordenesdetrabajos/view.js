@@ -117,7 +117,7 @@ $(document).ready(function() {
                     var bobinasorigens = data.respuesta.bobinasorigens;
                     var cortadora = data.respuesta.cortadora;
                     loadBobinaCorte(bobinadecorte,empleado,bobinasorigens,cortadora);
-                    $('#modalAddBobinaImpresion').modal('hide');
+                    $('#modalAddBobinaCorte').modal('hide');
                 }
             },
             error: function(xhr,textStatus,error){
