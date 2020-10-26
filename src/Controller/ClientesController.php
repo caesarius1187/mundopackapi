@@ -64,9 +64,9 @@ class ClientesController extends AppController
             }else{
                 $this->Flash->success(__('Error al guardar el cliente. Por favor intente de nuevo mas tarde.'));
             }
-
+            return $this->redirect(['action' => 'index']);
         }
-        return $this->redirect(['action' => 'index']);
+        
     }
     /**
      * Edit method
