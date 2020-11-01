@@ -100,8 +100,9 @@ class OrdenesdepedidosController extends AppController
         $ordenesdepedido = $this->Ordenesdepedidos->newEntity();
         $ordenesdepedido = $this->Ordenesdepedidos->patchEntity($ordenesdepedido, $this->request->getData());
         $fecha = $this->request->getData()['fecha'];
-        $fechaconsultadesde = date('Y-m-d',strtotime($fecha));
-            $respuesta['ordenesdepedido0'] = $ordenesdepedido;
+        // strtotime no sirve con dd/mm/yyyy ñaño
+        $fechaconsultadesde = date('Y-m-d',strtotime(str_replace('/', '-',$fecha)));
+        $respuesta['ordenesdepedido0'] = $ordenesdepedido;
         if($this->request->getData()['id']!=0){
             $ordenesdepedido->id=$this->request->getData()['id'];
         }

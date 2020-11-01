@@ -97,13 +97,13 @@ $(document).ready(function() {
         return false;
     });
     $(".inputCalculoOT").on('change',function(){
-        var tipocorte = $("#tipocorte").val();    
+        var tipocorte = $("#tipocorte").val();
         if(tipocorte=='lateral 2l'){
             calcularOTInverso();
         }else{
             calcularOT();
         }
-        
+
     });
 });
 var cantMateriales = 0;
@@ -156,7 +156,7 @@ function buscarOt(){
                         )
                         .append(
                             $("<td class='text-center'>").html(this.observaciones)
-                        )                    
+                        )
                         .append(
                             $("<td class='text-center'>")
                               .append(
@@ -237,7 +237,7 @@ function calcularOTInverso(){
     //var largo = $("#largo").val();
     var espesor = $("#espesor").val();
     var cantidad = $("#cantidad").val();
-    var aextrusar = $("#aextrusar").val()*1;    
+    var aextrusar = $("#aextrusar").val()*1;
     var pesoxmil = $("#pesoxmil").val();
 
 

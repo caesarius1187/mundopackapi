@@ -82,7 +82,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       <tr>
                         <th>Acción</th>
                         <th>Ingreso</th>
-                        <th>Terminacion</th>
+                        <th>Terminación</th>
                         <th>Cliente</th>
                         <th>OT</th>
                         <th>Medidas</th>
@@ -356,7 +356,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               <?= $ordenot->prioridadextrusion ?></td>
                             </td>
                             <td style="width:50px">
-                              <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>                            
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
                               <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
@@ -460,8 +460,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                           </tr>
-                        </head>                      
-                                               
+                        </head>
+
                         <?php foreach ($impresora->ordenots as $ordenot){
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
                           $numeroOT =  $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero;
@@ -537,7 +537,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               ?><th class="<?= $class ?>"><?= $contenido ?></th><?php
                             }
                             ?>
-                          </tr> 
+                          </tr>
                       <?php
                         }
                       ?>
@@ -664,7 +664,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       }
                     ?>
                 </div>
-              </div>            
+              </div>
 
               <div class="tab-pane fade" id="programacionFinalizadas" role="tabpanel" aria-labelledby="programacionFinalizadasTab">
                 <h4>Listado de OT's finalizadas:</h4>
@@ -673,7 +673,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                     <thead>
                       <tr>
                         <th>Ingreso</th>
-                        <th>Terminacion</th>
+                        <th>Terminación</th>
                         <th>Cliente</th>
                         <th>OT</th>
                         <th>Medidas</th>

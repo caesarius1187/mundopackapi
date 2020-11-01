@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Cliente $cliente
  */
+
+ echo $this->Html->script('clientes/add',array('inline'=>false));
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -43,13 +45,27 @@
           <?= $this->Form->create($cliente) ?>
             <div class="card-body">
               <div class="form-group">
-                <?php echo $this->Form->control('nombre'); ?>
+                <?php echo $this->Form->control('nombre',['label'=>['text'=>'Nombre:']]); ?>
               </div>
               <div class="form-group">
-                <?php echo $this->Form->control('direccion'); ?>
+                <?php echo $this->Form->control('direccion',['label'=>['text'=>'Dirección:']]); ?>
               </div>
               <div class="form-group">
-                <?php echo $this->Form->control('celular'); ?>
+                <?php echo $this->Form->control('celular',['label'=>['text'=>'Celular:']]); ?>
+              </div>
+              <div class="form-group">
+                <?php echo $this->Form->control('tipofactura',[
+                  'label'=>['text'=>'Tipo de Factura:'],
+                  'type'=>'select',
+                  'options'=>[
+                    'Nota de Pedido'=>'Nota de Pedido',
+                    'Factura A'=>'Factura A',
+                    'Factura B'=>'Factura B',
+                  ]
+                ]); ?>
+              </div>
+              <div class="form-group">
+                <?php echo $this->Form->control('cuit',['label'=>['text'=>'CUIT:']]); ?>
               </div>
             </div>
             <!-- /.card-body -->

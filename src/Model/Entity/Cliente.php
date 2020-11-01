@@ -10,6 +10,8 @@ use Cake\ORM\Entity;
  * @property string|null $nombre
  * @property string|null $celular
  * @property string|null $direccion
+ * @property string|null $tipofactura
+ * @property string|null $cuit
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  */
@@ -28,6 +30,8 @@ class Cliente extends Entity
         'nombre' => true,
         'celular' => true,
         'direccion' => true,
+        'tipofactura' => true,
+        'cuit' => true,
         'created' => true,
         'modified' => true,
     ];

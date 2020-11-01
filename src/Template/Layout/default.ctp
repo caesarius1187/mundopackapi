@@ -63,6 +63,8 @@ $cakeDescription = 'Mundo Pack';
                               '/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js',
                               '/plugins/summernote/summernote-bs4.min.js',
                               '/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js',
+                              // Mask
+                              'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js',
                               // DataTable
                               '/plugins/datatables/jquery.dataTables.min.js',
                               '/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
@@ -173,7 +175,7 @@ $cakeDescription = 'Mundo Pack';
               echo '<li class="nav-item">';
               echo $this->Html->link(__('<i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
-                    Dashboard
+                    Producción
                   </p>'),
                   array ( 'plugin' => null, 'controller' => 'empleados', 'action' => 'dashboard', '_ext' => NULL),
                   [

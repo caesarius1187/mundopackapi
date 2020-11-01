@@ -66,6 +66,16 @@ class ClientesTable extends Table
             ->maxLength('direccion', 250)
             ->allowEmptyString('direccion');
 
+        $validator
+            ->scalar('tipofactura')
+            ->maxLength('tipofactura', 25)
+            ->allowEmptyString('diretipofacturaccion');
+
+        $validator
+            ->scalar('cuit')
+            ->maxLength('cuit', 15)
+            ->allowEmptyString('cuit');
+
         return $validator;
     }
 }
