@@ -106,6 +106,20 @@ $(document).ready(function() {
 
     });
 });
+function cambiarImpreso(){
+  if ($('#tipoimpresion').val() == 'sin impresion'){
+    $('#impreso').val('0');
+  } else {
+    $('#impreso').val('1');
+  }
+}
+function cambiarCortado(){
+  if ($('#tipocorte').val() == 'sin corte'){
+    $('#impreso').val('0');
+  } else {
+    $('#impreso').val('1');
+  }
+}
 var cantMateriales = 0;
 function buscarOt(){
     var clienteId = $("#cliente-id").val();

@@ -5,6 +5,21 @@ var Toast = Swal.mixin({
     timer: 3000
   });
 $(document).ready(function() {
+    $('#divfechainicioextrusora').datetimepicker({
+        format: 'L',
+        locale: 'es',
+        value: new Date()
+    });
+    $('#divfechainicioimpresora').datetimepicker({
+        //minDate: new Date(),
+        format: 'L',
+        locale: 'es'
+    });
+    $('#divfechainiciocortadora').datetimepicker({
+        //minDate: new Date(),
+        format: 'L',
+        locale: 'es'
+    });
     $('tbody').sortable({
       items: 'tr:not(tr:first-child)',
       placeholder: 'placeholder',
@@ -78,22 +93,6 @@ $(document).ready(function() {
       }
     });
 
-    $('#divfechainicioextrusora').datetimepicker({
-        //minDate: new Date(),
-        format: 'DD-MM-YYYY',
-        locale: 'es'
-    });
-    $('#divfechainicioimpresora').datetimepicker({
-        //minDate: new Date(),
-        format: 'DD-MM-YYYY',
-        locale: 'es'
-    });
-    $('#divfechainiciocortadora').datetimepicker({
-        //minDate: new Date(),
-        format: 'DD-MM-YYYY',
-        locale: 'es'
-    });
-   
     $('#ordenOtAddForm').submit(function(){
         //serialize form data
         var formData = $(this).serialize();
@@ -172,7 +171,7 @@ function borrarProgramacion(){
                       title: 'Se elimino la programacion con exito;'
                     });
                     $("#trOrdenOt"+ordenotId).remove();
-                    location.reload();                    
+                    location.reload();
                 }
             },
             error: function(xhr,textStatus,error){
@@ -240,6 +239,10 @@ function programarOT(OTId,numeroOT,nombrecliente){
     $("#id").val(0);
     $("#ordenesdetrabajo-id").val(OTId);
     $('#myModal').modal('toggle');
+
+    $("#fechainicioextrusora").val($.datepicker.formatDate('dd/mm/yy', new Date()));
+    $("#fechainicioimpresora").val(new Date());
+    $("#fechainiciocortadora").val(new Date());
 }
 function editarProgramacionOt(ordenOTId,oTId,numeroOT,nombrecliente,estrusoraId,inicioEstrusion,impresoraId,inicioImpresion,cortadoraId,inicioCorte){
     $('#myModal').modal('toggle');
