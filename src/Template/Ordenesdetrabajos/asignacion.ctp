@@ -669,7 +669,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
               <div class="tab-pane fade" id="programacionFinalizadas" role="tabpanel" aria-labelledby="programacionFinalizadasTab">
                 <h4>Listado de OT's finalizadas:</h4>
                 <div class="card-body">
-                  <table id="tblOrdenesDeTrabajo" class="table table-bordered table-head-fixed text-nowrap text-center">
+                  <table id="tblOrdenesDeTrabajo" class="table table-bordered table-head-fixed text-nowrap text-center" style="width: auto;">
                     <thead>
                       <tr>
                         <th>Ingreso</th>
@@ -681,7 +681,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <th>Materiales</th>
                         <th>Imp.</th>
                         <th>Cort.</th>
-                        <th>Obs.</th>
+                        <th>Obsrtvación</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -794,6 +794,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                 echo $this->Form->control('fechainicioimpresora',[
                   'type'=>'text',
                   'required'=>true,
+                  'onkeydown'=>'return false',
                   'label'=>[
                     'text'=>'Inicio de impresión:',
                     'style'=>'width:100%'

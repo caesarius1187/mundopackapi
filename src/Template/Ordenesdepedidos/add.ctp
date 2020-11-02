@@ -18,6 +18,12 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
   font-size: 12px;
   line-height: 1.42857;
 }
+form input{
+font-size:12px !important;
+}
+form select{
+font-size:14px !important;
+}
 </style>
 
 <!-- Content Header (Page header) -->
@@ -259,11 +265,13 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     </div>
                     <div class="col-sm-2">
                       <?= $this->Form->control('impreso',[
-                        'type'=>'hidden'
+                        'type'=>'hidden',
+                        'value'=>'0'
                       ]); ?>
                       <?= $this->Form->control('tipoimpresion',[
                           'label'=>'Tipo de impresión:',
                           'type'=>'select',
+                          'onchange'=>'cambiarImpreso()',
                           'options'=>[
                             'sin impresion'=>'No',
                             'centrado'=>'Centrado',
@@ -273,12 +281,14 @@ echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
                     </div>
                     <div class="col-sm-2">
                       <?= $this->Form->control('cortado',[
-                        'type'=>'hidden'
+                        'type'=>'hidden',
+                        'value'=>'0'
                       ]); ?>
                       <?= $this->Form->control('tipocorte',[
                         'label'=>'Tipo de corte:',
                         'class'=>'inputCalculoOT',
                         'type'=>'select',
+                        'onchange'=>'cambiarCortado()',
                         'options'=>[
                           'sin corte'=>'No',
                           'fondo'=>'Fondo',

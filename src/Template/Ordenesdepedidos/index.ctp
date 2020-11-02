@@ -87,16 +87,16 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                           if($user_data['role']=='superuser'){
                             echo $this->Html->link(__('<i class="fas fa-book"></i>'), ['action' => 'informe', $ordenesdepedido->id],[
                               'escape' => false,
-                              'class' => 'btn btn-warning btn-sm'
+                              'class' => 'btn btn-warning btn-sm ml-1'
                               ]);
                             echo $this->Html->link(__('<i class="fas fa-edit"></i>'), ['action' => 'add', $ordenesdepedido->id],[
                               'escape' => false,
-                              'class' => 'btn btn-success btn-sm'
+                              'class' => 'btn btn-success btn-sm ml-1'
                               ]);
                             echo $this->Form->postLink(__('<i class="fas fa-trash"></i>'), ['action' => 'delete', $ordenesdepedido->id], [
                               'confirm' => __('¿Está seguro que desea eliminar la OT con ID#{0}?', $ordenesdepedido->id),
                               'escape' => false,
-                              'class' => 'btn btn-danger btn-sm'
+                              'class' => 'btn btn-danger btn-sm ml-1'
                               ]);
                           } ?>
                       </td>
