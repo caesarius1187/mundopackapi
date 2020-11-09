@@ -75,106 +75,132 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
           </div>
           <div class="card-body">
             <div class="tab-content" id="custom-tabs-one-tabContent">
+
               <div class="tab-pane fade show active" id="programacionPendientes" role="tabpanel" aria-labelledby="programacionPendientesTab">
-                <div class="card-body table-responsive p-0">
-                  <table id="tblOrdenesDeTrabajo" class="table table-bordered table-head-fixed text-nowrap text-center" style="width: auto;">
-                    <thead>
-                      <tr>
-                        <th>Acción</th>
-                        <th>Ingreso</th>
-                        <th>Terminación</th>
-                        <th>Cliente</th>
-                        <th>OT</th>
-                        <th>Medidas</th>
-                        <th>Cant.</th>
-                        <th>Materiales</th>
-                        <th>Imp.</th>
-                        <th>Cort.</th>
-                        <th>Obs.</th>
-                        <th>Porc.</th>
+                <h4>Listado de OT's pendientes:</h4>
+                <div class="card-body table-responsive p-0 divPendientes">
+                <div style="width:100%" class="text-left bg-secondary">
+                  <span style="font-weight:bold;padding-left:50px;">MATRIZ CHICA</span>
+                </div>
+                <table id="tblPendientesMatrizChica" class="table table-sm text-nowrap text-center">
+                  <tbody>
+                    <tr class="thead-light">
+                      <head>
+                        <th style="width:70px">Orden</th>
+                        <th style="width:120px">Acción</th>
+                        <th style="width:80px">Ingreso</th>
+                        <th style="width:80px">Terminación</th>
+                        <th style="width:100px">Cliente</th>
+                        <th style="width:50px">OT</th>
+                        <th style="width:80px">Medidas</th>
+                        <th style="width:50px">Cant.</th>
+                        <th style="width:180px">Materiales</th>
+                        <th style="width:50px">Imp.</th>
+                        <th style="width:50px">Cort.</th>
+                        <th style="width:50px">Obs.</th>
+                        <th style="width:50px">Porc.</th>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colspan="12" class="text-left text-secondary py-0"><small>Matriz Chica</small></td>
-                      </tr>
-                      <?php
-                      foreach ($ordenesdetrabajos as $ordenesdetrabajo){
-                          //matriz chica
-                          if($ordenesdetrabajo->ancho>=49){
-                            continue;
-                          }
-                          $porentaje = 0;
-                          $cantidad = $ordenesdetrabajo->aextrusar;
-                          $cantidad += $ordenesdetrabajo->impreso?$ordenesdetrabajo->aextrusar:0;
-                          $cantidad += $ordenesdetrabajo->cortado?$ordenesdetrabajo->aextrusar:0;
-                          $echas = $ordenesdetrabajo->extrusadas;
-                          $echas += $ordenesdetrabajo->impresas;
-                          $echas += $ordenesdetrabajo->cortadas;
-                          // Solucion a error de división por cero
-                          $porcentaje = $cantidad==0?0:$echas/$cantidad*100;
-                          $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
-                          $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
-                          ?>
-                          <tr>
-                            <td>
-                                <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
-                                <?php
-                                if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
-                                  echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
-                                }
-                                if($ordenesdetrabajo->estado=='En Proceso'){
-                                  echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
-                                }
-                                if($ordenesdetrabajo->estado=='En Proceso'){
-                                  echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
-                                }?>
-                                <button type="button" class="btn btn-default btn-xs">
-                                <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
-                                      'escape' => false,
-                                      'target' => '_blank',
-                                ]) ?>
-                                </button>
-                            </td>
-                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
-                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
-                            <td><?= $nombrecliente ?></td>
-                            <td><?= $numeroOT ?></td>
-                            <td><?= $ordenesdetrabajo->medida ?></td>
-                            <td><?= $ordenesdetrabajo->aextrusar?></td>
-                            <td>
-                            <?php
-                            $pesoxmil = $ordenesdetrabajo->pesoxmil;
-                            foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
-                                ?>
-                                <small class="font-weight-bold">
-                                  <?= $materialesot->material ?>
-                                </small>
-                                <small class="font-italic">
-                                  <?= $materialesot->tipo ?>
-                                </small>
-                                <small>(<?= ($materialesot->porcentaje*$pesoxmil/100)."Kg" ?>)</small>
-                                <br />
-                                <?php
+                    </head>
+                    <?php
+                    foreach ($ordenesdetrabajos as $ordenesdetrabajo){
+                        //matriz chica
+                        if($ordenesdetrabajo->ancho>=49){
+                          continue;
+                        }
+                        $porentaje = 0;
+                        $cantidad = $ordenesdetrabajo->aextrusar;
+                        $cantidad += $ordenesdetrabajo->impreso?$ordenesdetrabajo->aextrusar:0;
+                        $cantidad += $ordenesdetrabajo->cortado?$ordenesdetrabajo->aextrusar:0;
+                        $echas = $ordenesdetrabajo->extrusadas;
+                        $echas += $ordenesdetrabajo->impresas;
+                        $echas += $ordenesdetrabajo->cortadas;
+                        // Solucion a error de división por cero
+                        $porcentaje = $cantidad==0?0:$echas/$cantidad*100;
+                        $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
+                        $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
+                        ?>
+                        <tr id="trOrdenOtP<?= $ordenesdetrabajo->ordenots[0]->id ?>">
+                          <td style="width:70px">
+                            <?= $ordenesdetrabajo->ordenots[0]->prioridadpendientes ?></td>
+                          </td>
+                          <td>
+                              <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
+                              <?php
+                              if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
+                                echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
                               }
+                              if($ordenesdetrabajo->estado=='En Proceso'){
+                                echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
+                              }
+                              if($ordenesdetrabajo->estado=='En Proceso'){
+                                echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
+                              }?>
+                              <button type="button" class="btn btn-default btn-xs">
+                              <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
+                                    'escape' => false,
+                                    'target' => '_blank',
+                              ]) ?>
+                              </button>
+                          </td>
+                          <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
+                          <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
+                          <td><?= $nombrecliente ?></td>
+                          <td><?= $numeroOT ?></td>
+                          <td><?= $ordenesdetrabajo->medida ?></td>
+                          <td><?= $ordenesdetrabajo->aextrusar?></td>
+                          <td>
+                          <?php
+                          $pesoxmil = $ordenesdetrabajo->pesoxmil;
+                          foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
                               ?>
-                            </td>
-                            <td><?= $ordenesdetrabajo->impreso?'Si':'No'?></td>
-                            <td><?= $ordenesdetrabajo->cortado?'Si':'No'?></td>
-                            <td><?= $ordenesdetrabajo->observaciones ?></td>
-                            <td><span class="badge bg-danger"><?= number_format($porcentaje,0,'','')?>%</span></td>
-                          </tr>
+                              <small class="font-weight-bold">
+                                <?= $materialesot->material ?>
+                              </small>
+                              <small class="font-italic">
+                                <?= $materialesot->tipo ?>
+                              </small>
+                              <small>(<?= ($materialesot->porcentaje*$pesoxmil/100)."Kg" ?>)</small>
+                              <br />
+                              <?php
+                            }
+                            ?>
+                          </td>
+                          <td><?= $ordenesdetrabajo->impreso?'Si':'No'?></td>
+                          <td><?= $ordenesdetrabajo->cortado?'Si':'No'?></td>
+                          <td><?= $ordenesdetrabajo->observaciones ?></td>
+                          <td><span class="badge bg-danger"><?= number_format($porcentaje,0,'','')?>%</span></td>
+                        </tr>
                       <?php } ?>
-                      <tr>
-                        <td colspan="12" class="text-left text-secondary py-0"><small>Matriz Meiana</small></td>
-                      </tr>
+                      </tbody>
+                    </table>
+                    <div style="width:1830px" class="text-left bg-secondary">
+                      <span style="font-weight:bold;padding-left:50px;">MATRIZ MEDIANA</span>
+                    </div>
+                    <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
+                      <thead>
+                        <tr class="thead-light">
+                          <th style="width:70px">Orden</th>
+                          <th style="width:120px">Acción</th>
+                          <th style="width:80px">Ingreso</th>
+                          <th style="width:80px">Terminación</th>
+                          <th style="width:100px">Cliente</th>
+                          <th style="width:50px">OT</th>
+                          <th style="width:80px">Medidas</th>
+                          <th style="width:50px">Cant.</th>
+                          <th style="width:180px">Materiales</th>
+                          <th style="width:50px">Imp.</th>
+                          <th style="width:50px">Cort.</th>
+                          <th style="width:50px">Obs.</th>
+                          <th style="width:50px">Porc.</th>
+                        </tr>
+                      </thead>
+                      <tbody>
                       <?php
                       foreach ($ordenesdetrabajos as $ordenesdetrabajo){
-                          //matriz chica
+                          //matriz mediana
                           if($ordenesdetrabajo->ancho<=49||$ordenesdetrabajo->ancho>69){
                             continue;
                           }
-
                           $porentaje = 0;
                           $cantidad = $ordenesdetrabajo->aextrusar;
                           $cantidad += $ordenesdetrabajo->impreso?$ordenesdetrabajo->aextrusar:0;
@@ -188,6 +214,9 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
                           ?>
                           <tr>
+                            <td style="width:70px">
+                              <?= $ordenot->prioridadpendientes ?></td>
+                            </td>
                             <td>
                                 <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
                                 <?php
@@ -235,13 +264,34 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td><?= $ordenesdetrabajo->observaciones ?></td>
                             <td><span class="badge bg-danger"><?= number_format($porcentaje,0,'','')?>%</span></td>
                           </tr>
-                      <?php } ?>
-                       <tr>
-                        <td colspan="12" class="text-left text-secondary py-0"><small>Matriz Grande</small></td>
-                      </tr>
+                        <?php } ?>
+                        </tbody>
+                      </table>
+                      <div style="width:1830px" class="text-left bg-secondary">
+                        <span style="font-weight:bold;padding-left:50px;">MATRIZ GRANDE</span>
+                      </div>
+                      <table id="tblPendientesMatrizGrande" class="table table-sm text-nowrap text-center">
+                        <thead>
+                          <tr class="thead-light">
+                            <th style="width:70px">Orden</th>
+                            <th style="width:120px">Acción</th>
+                            <th style="width:80px">Ingreso</th>
+                            <th style="width:80px">Terminación</th>
+                            <th style="width:100px">Cliente</th>
+                            <th style="width:50px">OT</th>
+                            <th style="width:80px">Medidas</th>
+                            <th style="width:50px">Cant.</th>
+                            <th style="width:180px">Materiales</th>
+                            <th style="width:50px">Imp.</th>
+                            <th style="width:50px">Cort.</th>
+                            <th style="width:50px">Obs.</th>
+                            <th style="width:50px">Porc.</th>
+                          </tr>
+                        </thead>
+                        <tbody>
                       <?php
                       foreach ($ordenesdetrabajos as $ordenesdetrabajo){
-                          //matriz chica
+                          //matriz grande
                           if($ordenesdetrabajo->ancho<=70){
                             continue;
                           }
@@ -259,6 +309,9 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
                           ?>
                           <tr>
+                            <td style="width:70px">
+                              <?= $ordenot->prioridadpendientes ?></td>
+                            </td>
                             <td>
                                 <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
                                 <?php
@@ -316,7 +369,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                 <h4>Listado de OT's programas para extrudar:</h4>
                 <div class="card-body table-responsive p-0 divExtrusoras">
                   <?php foreach ($extrusoras as $extrusora){ ?>
-                    <div style="width:1830px" class="text-left bg-info">
+                    <div style="width:1880px" class="text-left bg-info">
                       <span style="text-transform:uppercase;font-weight:bold;padding-left:50px;"><?= $extrusora->nombre ?></span>
                     </div>
                     <table id="tblExtrusora<?= $extrusora->id ?>" class="table table-sm text-nowrap text-center">
@@ -327,7 +380,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:100px">Acción</th>
                             <th style="width:50px">Inicio</th>
                             <th style="width:50px">Fin</th>
-                            <th style="width:100px">Cliente</th>
+                            <th style="width:150px">Cliente</th>
                             <th style="width:50px">OT</th>
                             <th style="width:80px">Medidas</th>
                             <th style="width:50px">Cant.</th>
@@ -361,7 +414,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
-                            <td style="width:100px"><?= $nombrecliente ?></td>
+                            <td style="width:150px"><small><?= $nombrecliente ?></small></td>
                             <td style="width:50px"><?= $numeroOT ?></td>
                             <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>

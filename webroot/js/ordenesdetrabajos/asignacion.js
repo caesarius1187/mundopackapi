@@ -21,6 +21,7 @@ $(document).ready(function() {
         locale: 'es'
     });
     $('tbody').sortable({
+      cancel: ".no",
       items: 'tr:not(tr:first-child)',
       placeholder: 'placeholder',
       cursor: 'move',
@@ -38,6 +39,22 @@ $(document).ready(function() {
         });
         console.log(newOrders);
         switch (contTable[3]) {
+          case 'P':
+            $.ajax({
+              type: 'POST',
+              url: serverLayoutURL+'ordenots/reorderPendientes.json',
+              data:{'data':newOrders},
+              success: function (response) {
+                console.log(response);
+                $(newOrders).each(function(indice, elemento){
+                  $("#trOrdenOtP"+elemento[1]).find("td:first").html(elemento[0]);
+                });
+              },
+              error: function () {
+                alert('error');
+              }
+            });
+           break;
            case 'E':
              $.ajax({
                type: 'POST',

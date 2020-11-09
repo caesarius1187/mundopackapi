@@ -122,7 +122,29 @@ class OrdenotsController extends AppController
             '_serialize' => ['data']
         ]);
     }
+    public function reorderPendientes() {
+      $this->request->allowMethod('ajax');
 
+      $listPriority = $this->request->getData()['data'];
+
+      $this->set('_serialize', $listPriority);
+
+      foreach ($listPriority as $value) {
+        if($value[1]!=''){
+          $ordenot = $this->Ordenots->get($value[1]);
+          $ordenot->prioridadpendientes = $value[0];
+          $this->Ordenots->save($ordenot);
+        }
+      }
+      $data=[
+          'respuesta'=>'',
+          'error'=>0,
+      ];
+      $this->set([
+          'data' => $data,
+          '_serialize' => ['data']
+      ]);
+    }
     public function reorderE() {
       $this->request->allowMethod('ajax');
 

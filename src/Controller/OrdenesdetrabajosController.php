@@ -41,7 +41,7 @@ class OrdenesdetrabajosController extends AppController
             'contain'=>[
                 'Ordenesdepedidos'=>[
                     'Clientes'
-                ]                
+                ]
             ],
             'conditions'=>[
                 'Ordenesdetrabajos.ordenesdepedido_id IN (SELECT id FROM Ordenesdepedidos WHERE Ordenesdepedidos.cliente_id = '.$clienteID.')',
@@ -62,6 +62,7 @@ class OrdenesdetrabajosController extends AppController
 
         $conditions=[
             'contain'=>[
+                'Ordenots',
                 'Ordenesdepedidos'=>[
                     'Clientes'
                 ],
@@ -69,7 +70,7 @@ class OrdenesdetrabajosController extends AppController
             ],
             'conditions'=>[
                 'Ordenesdetrabajos.estado IN ("En Proceso","Pausado")',
-                'Ordenesdetrabajos.id NOT IN (SELECT ordenesdetrabajo_id FROM ordenots)'
+                'Ordenesdetrabajos.id IN (SELECT ordenesdetrabajo_id FROM ordenots WHERE prioridadpendientes <> 0)'
             ]
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
@@ -266,7 +267,7 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Cortadoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
             'contain' => [
-                
+
                 'Ordenots'=>[
                     'Extrusoras',
                     'Impresoras',
@@ -341,6 +342,25 @@ class OrdenesdetrabajosController extends AppController
                 $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
                 $newmaterialOt->ordenesdetrabajo_id = $result->id;
                 $this->Materialesots->save($newmaterialOt);
+            }
+            if ($this->request->getData()['ancho']<50){
+              $this->loadModel('Ordenots');
+              $orderPendMax = $this->Ordenots->find('all',[
+                  'conditions'=>[
+                      'Ordenots.matriz'=>'chica'
+                  ],
+                  'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridadpendientes)'),
+              ]);
+              $maxNumPrioridad = 0;
+              foreach ($orderPendMax as $key => $value) {
+                  $maxNumPrioridad = $value->maxprioridad;
+              }
+              $maxNumPrioridad++;
+              $newordenOt = $this->Ordenots->newEntity();
+              $newordenOt->matriz = 'chica';
+              $newordenOt->prioridadpendientes = $maxNumPrioridad;
+              $newordenOt->ordenesdetrabajo_id = $result->id;
+              $this->Ordenots->save($newordenOt);
             }
             $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
             $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
