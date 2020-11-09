@@ -531,7 +531,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                 <?= $this->Form->control('scrap'); ?>
             </div>
             
-            <div class="col-sm-4">
+            <div class="col-sm-12">
                 <?= $this->Form->control('observacion'); ?>
             </div>
         </div>
@@ -594,7 +594,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-12">
                 <?= $this->Form->control('observacion'); ?>
             </div>
         </div>
@@ -673,7 +673,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-2">
                 <?= $this->Form->control('cantidad'); ?>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-12">
                 <?= $this->Form->control('observacion'); ?>
             </div>
         </div>
@@ -693,7 +693,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><?= __('Agregar Bobina de Impresion') ?></h5>
+        <h5 class="modal-title"><?= __('Cerrar Orden de Trabajo') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -706,7 +706,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             ]
         ]) ?>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-12">
                 <?= $this->Form->control('id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
                 <?= $this->Form->control('observaciones'); ?>
             </div>
@@ -720,8 +720,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-3">
                 <?= $this->Form->control('cierrediferenciakg',['label'=>'Diferencia Kg']); ?>
             </div>
-            <div class="col-sm-4">
-                <?= $this->Form->control('concluciones'); ?>
+            <div class="col-sm-12">
+                <?= $this->Form->control('concluciones',[
+                  'label'=>'Conclusiones'
+                ]); ?>
             </div>
         </div>
         <?= $this->Form->end() ?>

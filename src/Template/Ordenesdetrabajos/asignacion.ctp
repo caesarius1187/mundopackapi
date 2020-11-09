@@ -77,28 +77,6 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
             <div class="tab-content" id="custom-tabs-one-tabContent">
 
               <div class="tab-pane fade show active" id="programacionPendientes" role="tabpanel" aria-labelledby="programacionPendientesTab">
-                <h4>Listado de OT's pendientes:</h4>
-                <div class="card-body table-responsive p-0 divPendientes">
-                <div style="width:100%" class="text-left bg-secondary">
-                  <span style="font-weight:bold;padding-left:50px;">MATRIZ CHICA</span>
-                </div>
-                <table id="tblPendientesMatrizChica" class="table table-sm text-nowrap text-center">
-                  <tbody>
-                    <tr class="thead-light">
-                      <head>
-                        <th style="width:70px">Orden</th>
-                        <th style="width:120px">Acción</th>
-                        <th style="width:80px">Ingreso</th>
-                        <th style="width:80px">Terminación</th>
-                        <th style="width:100px">Cliente</th>
-                        <th style="width:50px">OT</th>
-                        <th style="width:80px">Medidas</th>
-                        <th style="width:50px">Cant.</th>
-                        <th style="width:180px">Materiales</th>
-                        <th style="width:50px">Imp.</th>
-                        <th style="width:50px">Cort.</th>
-                        <th style="width:50px">Obs.</th>
-                        <th style="width:50px">Porc.</th>
                       </tr>
                     </head>
                     <?php
@@ -232,7 +210,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 <button type="button" class="btn btn-default btn-xs">
                                 <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
                                       'escape' => false,
-                                      'target' => '_blank',
+                                      'target' => '_self',
                                 ]) ?>
                                 </button>
                             </td>
@@ -327,7 +305,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 <button type="button" class="btn btn-default btn-xs">
                                 <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
                                       'escape' => false,
-                                      'target' => '_blank',
+                                      'target' => '_self',
                                 ]) ?>
                                 </button>
                             </td>
@@ -411,6 +389,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px">
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
                               <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button> 
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
@@ -529,7 +508,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             </td>
                             <td style="width:50px">
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
-                              <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>                           
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button> 
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
@@ -647,6 +627,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             </td>
                             <td style="width:50px">
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button> 
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
