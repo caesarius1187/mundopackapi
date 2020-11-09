@@ -4,9 +4,23 @@ var Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000
   });
+  function cambiarImpreso(){
+    if ($('#tipoimpresion').val() == 'sin impresion'){
+      $('#impreso').val('0');
+    } else {
+      $('#impreso').val('1');
+    }
+  }
+  function cambiarCortado(){
+    if ($('#tipocorte').val() == 'sin corte'){
+      $('#impreso').val('0');
+    } else {
+      $('#impreso').val('1');
+    }
+  }
 var cantMateriales = 0;
-$(document).ready(function() {    
-    cantMateriales = $("#cantmateriales").val();    
+$(document).ready(function() {
+    cantMateriales = $("#cantmateriales").val();
     $('#OrdenesDeTrabajoEditForm').submit(function(){
         //vamos a revisar que los porcentajes sumen 100
         var suma = 0;

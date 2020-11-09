@@ -397,7 +397,7 @@ font-size:14px !important;
                           <th>Numero</th>
                           <th>Cant.</th>
                           <th>A Extrusar</th>
-                          <th>Material</th>
+                          <th style="text-align:center">Materiales</th>
                           <th>Color</th>
                           <th>Fuelle</th>
                           <th>Medida</th>
@@ -405,7 +405,7 @@ font-size:14px !important;
                           <th>Imp.</th>
                           <th>Cor.</th>
                           <th>Precio U.</th>
-                          <th>Obs.</th>
+                          <th>Observación</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -418,16 +418,21 @@ font-size:14px !important;
                               <td><?= $ordendetrabajo->numero?></td>
                               <td><?= $ordendetrabajo->cantidad?></td>
                               <td><?= $ordendetrabajo->aextrusar?></td>
+                              <td style="text-align:center">
                               <?php
-                              $materialtext = "";
-                              foreach ($ordendetrabajo['materialesots'] as $key => $material) {
-                                 $materialtext .= $material['material'].":".$material['tipo']." al ".$material['porcentaje']."% /";
-                              }
-                              ?>
-                              <td title="<?= $materialtext ?>">
-                                <label style=" display:block; width: 150px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                                  <?= $materialtext ?>
-                                </label>
+                                foreach ($ordendetrabajo['materialesots'] as $key => $material) {
+                                    ?>
+                                    <small class="font-weight-bold">
+                                      <?= $material['material'] ?>
+                                    </small>
+                                    <small class="font-italic">
+                                      <?= $material['tipo'] ?>
+                                    </small>
+                                    <small>(<?= $material['porcentaje']."%" ?>)</small>
+                                    <br />
+                                    <?php
+                                }
+                                ?>
                               </td>
                               <td><?= $ordendetrabajo->color?></td>
                               <td><?= $ordendetrabajo->fuelle?></td>

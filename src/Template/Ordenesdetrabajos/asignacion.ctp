@@ -75,10 +75,27 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
           </div>
           <div class="card-body">
             <div class="tab-content" id="custom-tabs-one-tabContent">
-
               <div class="tab-pane fade show active" id="programacionPendientes" role="tabpanel" aria-labelledby="programacionPendientesTab">
-                      </tr>
-                    </head>
+                <div style="width:100%" class="text-left bg-secondary">
+                  <span style="font-weight:bold;padding-left:50px;">MATRIZ CHICA</span>
+                </div>
+                <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
+                  <tbody>
+                    <tr class="thead-light">
+                      <th style="width:70px">Orden</th>
+                      <th style="width:120px">Acción</th>
+                      <th style="width:80px">Ingreso</th>
+                      <th style="width:80px">Terminación</th>
+                      <th style="width:100px">Cliente</th>
+                      <th style="width:50px">OT</th>
+                      <th style="width:80px">Medidas</th>
+                      <th style="width:50px">Cant.</th>
+                      <th style="width:180px">Materiales</th>
+                      <th style="width:50px">Imp.</th>
+                      <th style="width:50px">Cort.</th>
+                      <th style="width:50px">Obs.</th>
+                      <th style="width:50px">Porc.</th>
+                    </tr>
                     <?php
                     foreach ($ordenesdetrabajos as $ordenesdetrabajo){
                         //matriz chica
@@ -151,11 +168,11 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       <?php } ?>
                       </tbody>
                     </table>
-                    <div style="width:1830px" class="text-left bg-secondary">
+                    <div style="width:100%" class="text-left bg-secondary">
                       <span style="font-weight:bold;padding-left:50px;">MATRIZ MEDIANA</span>
                     </div>
                     <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
-                      <thead>
+                      <tbody>
                         <tr class="thead-light">
                           <th style="width:70px">Orden</th>
                           <th style="width:120px">Acción</th>
@@ -171,8 +188,6 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           <th style="width:50px">Obs.</th>
                           <th style="width:50px">Porc.</th>
                         </tr>
-                      </thead>
-                      <tbody>
                       <?php
                       foreach ($ordenesdetrabajos as $ordenesdetrabajo){
                           //matriz mediana
@@ -245,11 +260,11 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <?php } ?>
                         </tbody>
                       </table>
-                      <div style="width:1830px" class="text-left bg-secondary">
+                      <div style="width:100%" class="text-left bg-secondary">
                         <span style="font-weight:bold;padding-left:50px;">MATRIZ GRANDE</span>
                       </div>
                       <table id="tblPendientesMatrizGrande" class="table table-sm text-nowrap text-center">
-                        <thead>
+                        <tbody>
                           <tr class="thead-light">
                             <th style="width:70px">Orden</th>
                             <th style="width:120px">Acción</th>
@@ -265,82 +280,79 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:50px">Obs.</th>
                             <th style="width:50px">Porc.</th>
                           </tr>
-                        </thead>
-                        <tbody>
                       <?php
                       foreach ($ordenesdetrabajos as $ordenesdetrabajo){
-                          //matriz grande
-                          if($ordenesdetrabajo->ancho<=70){
-                            continue;
-                          }
+                        //matriz grande
+                        if($ordenesdetrabajo->ancho<=70){
+                          continue;
+                        }
 
-                          $porentaje = 0;
-                          $cantidad = $ordenesdetrabajo->aextrusar;
-                          $cantidad += $ordenesdetrabajo->impreso?$ordenesdetrabajo->aextrusar:0;
-                          $cantidad += $ordenesdetrabajo->cortado?$ordenesdetrabajo->aextrusar:0;
-                          $echas = $ordenesdetrabajo->extrusadas;
-                          $echas += $ordenesdetrabajo->impresas;
-                          $echas += $ordenesdetrabajo->cortadas;
-                          // Solucion a error de división por cero
-                          $porcentaje = $cantidad==0?0:$echas/$cantidad*100;
-                          $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
-                          $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
-                          ?>
-                          <tr>
-                            <td style="width:70px">
-                              <?= $ordenot->prioridadpendientes ?></td>
-                            </td>
-                            <td>
-                                <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
-                                <?php
-                                if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
-                                  echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
-                                }
-                                if($ordenesdetrabajo->estado=='En Proceso'){
-                                  echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
-                                }
-                                if($ordenesdetrabajo->estado=='En Proceso'){
-                                  echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
-                                }?>
-                                <button type="button" class="btn btn-default btn-xs">
-                                <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
-                                      'escape' => false,
-                                      'target' => '_self',
-                                ]) ?>
-                                </button>
-                            </td>
-                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
-                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
-                            <td><?= $nombrecliente ?></td>
-                            <td><?= $numeroOT ?></td>
-                            <td><?= $ordenesdetrabajo->medida ?></td>
-                            <td><?= $ordenesdetrabajo->aextrusar?></td>
-                            <td>
-                            <?php
-                            $pesoxmil = $ordenesdetrabajo->pesoxmil;
-                            foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
-                                ?>
-                                <small class="font-weight-bold">
-                                  <?= $materialesot->material ?>
-                                </small>
-                                <small class="font-italic">
-                                  <?= $materialesot->tipo ?>
-                                </small>
-                                <small>(<?= ($materialesot->porcentaje*$pesoxmil/100)."Kg" ?>)</small>
-                                <br />
-                                <?php
+                        $porentaje = 0;
+                        $cantidad = $ordenesdetrabajo->aextrusar;
+                        $cantidad += $ordenesdetrabajo->impreso?$ordenesdetrabajo->aextrusar:0;
+                        $cantidad += $ordenesdetrabajo->cortado?$ordenesdetrabajo->aextrusar:0;
+                        $echas = $ordenesdetrabajo->extrusadas;
+                        $echas += $ordenesdetrabajo->impresas;
+                        $echas += $ordenesdetrabajo->cortadas;
+                        // Solucion a error de división por cero
+                        $porcentaje = $cantidad==0?0:$echas/$cantidad*100;
+                        $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
+                        $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
+                        ?>
+                        <tr>
+                          <td style="width:70px">
+                            <?= $ordenot->prioridadpendientes ?></td>
+                          </td>
+                          <td>
+                              <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
+                              <?php
+                              if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
+                                echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
                               }
+                              if($ordenesdetrabajo->estado=='En Proceso'){
+                                echo '<button type="button" onclick="pausarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-pause"></i></button> ';
+                              }
+                              if($ordenesdetrabajo->estado=='En Proceso'){
+                                echo '<button type="button" onclick="cancelarOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>';
+                              }?>
+                              <button type="button" class="btn btn-default btn-xs">
+                              <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
+                                    'escape' => false,
+                                    'target' => '_self',
+                              ]) ?>
+                              </button>
+                          </td>
+                          <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
+                          <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
+                          <td><?= $nombrecliente ?></td>
+                          <td><?= $numeroOT ?></td>
+                          <td><?= $ordenesdetrabajo->medida ?></td>
+                          <td><?= $ordenesdetrabajo->aextrusar?></td>
+                          <td>
+                          <?php
+                          $pesoxmil = $ordenesdetrabajo->pesoxmil;
+                          foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
                               ?>
-                            </td>
-                            <td><?= $ordenesdetrabajo->impreso?'Si':'No'?></td>
-                            <td><?= $ordenesdetrabajo->cortado?'Si':'No'?></td>
-                            <td><?= $ordenesdetrabajo->observaciones ?></td>
-                            <td><span class="badge bg-danger"><?= number_format($porcentaje,0,'','')?>%</span></td>
-                          </tr>
-                      <?php } ?>
-                    </tbody>
-                  </table>
-                </div>
+                              <small class="font-weight-bold">
+                                <?= $materialesot->material ?>
+                              </small>
+                              <small class="font-italic">
+                                <?= $materialesot->tipo ?>
+                              </small>
+                              <small>(<?= ($materialesot->porcentaje*$pesoxmil/100)."Kg" ?>)</small>
+                              <br />
+                              <?php
+                            }
+                            ?>
+                          </td>
+                          <td><?= $ordenesdetrabajo->impreso?'Si':'No'?></td>
+                          <td><?= $ordenesdetrabajo->cortado?'Si':'No'?></td>
+                          <td><?= $ordenesdetrabajo->observaciones ?></td>
+                          <td><span class="badge bg-danger"><?= number_format($porcentaje,0,'','')?>%</span></td>
+                        </tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
               </div>
 
               <div class="tab-pane fade" id="programacionExtrusoras" role="tabpanel" aria-labelledby="programacionExtrusorasTab">
@@ -389,7 +401,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px">
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
                               <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
-                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button> 
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button>
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
@@ -508,8 +520,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             </td>
                             <td style="width:50px">
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
-                              <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>                           
-                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button> 
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button>
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
@@ -628,7 +640,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px">
                               <button type="button" class="btn btn-secondary btn-sm" onclick="editarProgramacionOt(<?= $ordenot->id?>,<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')"><i class="far fa-calendar-alt"></i></button>
                               <button type="button" class="btn btn-secondary btn-sm" onclick="clonarProgramacionOt(<?= $ordenot->ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>',<?= $ordenot->extrusora_id?>,'<?= $inicioEstrusion ?>',<?= $ordenot->impresora_id?>,'<?= $inicioImpresion?>',<?= $ordenot->cortadora_id?>,'<?= $inicioCorte?>')" title="Duplicar Programacion"><i class="far fa-clone"></i></button>
-                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button> 
+                              <button type="button" class="btn btn-secondary btn-sm" onclick="pausarOT(<?= $ordenot->ordenesdetrabajo->id ?>)" ><i class="fas fa-pause"></i></button>
                             </td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
@@ -758,6 +770,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   </table>
                 </div>
               </div>
+
             </div>
           </div>
         </div>

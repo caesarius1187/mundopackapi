@@ -344,41 +344,46 @@ class OrdenesdetrabajosController extends AppController
                 $this->Materialesots->save($newmaterialOt);
             }
             if ($this->request->getData()['ancho']<50){
-              $this->loadModel('Ordenots');
-              $orderPendMax = $this->Ordenots->find('all',[
-                  'conditions'=>[
-                      'Ordenots.matriz'=>'chica'
-                  ],
-                  'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridadpendientes)'),
-              ]);
-              $maxNumPrioridad = 0;
-              foreach ($orderPendMax as $key => $value) {
-                  $maxNumPrioridad = $value->maxprioridad;
-              }
-              $maxNumPrioridad++;
-              $newordenOt = $this->Ordenots->newEntity();
-              $newordenOt->matriz = 'chica';
-              $newordenOt->prioridadpendientes = $maxNumPrioridad;
-              $newordenOt->ordenesdetrabajo_id = $result->id;
-              $this->Ordenots->save($newordenOt);
+              $tipoMatriz = 'chica';
+            } else if ($this->request->getData()['ancho']>=50&&$this->request->getData()['ancho']<70) {
+              $tipoMatriz = 'mediana';
+            } else {
+              $tipoMatriz = 'grande';
             }
+            $this->loadModel('Ordenots');
+            $orderPendMax = $this->Ordenots->find('all',[
+                'conditions'=>[
+                    'Ordenots.matriz'=>$tipoMatriz
+                ],
+                'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridadpendientes)'),
+            ]);
+            $maxNumPrioridad = 0;
+            foreach ($orderPendMax as $key => $value) {
+                $maxNumPrioridad = $value->maxprioridad;
+            }
+            $maxNumPrioridad++;
+            $newordenOt = $this->Ordenots->newEntity();
+            $newordenOt->matriz = $tipoMatriz;
+            $newordenOt->prioridadpendientes = $maxNumPrioridad;
+            $newordenOt->ordenesdetrabajo_id = $result->id;
+            $this->Ordenots->save($newordenOt);
+
             $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
             $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
             $respuesta['request'] = $this->request->getData();
             $respuesta['error'] = 0;
             $OTerrors = $ordenesdetrabajo->errors();
             $respuesta['errors'] = $OTerrors;
-        }else{
+          } else {
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
             $respuesta['error'] = 1;
             $OTerrors = $ordenesdetrabajo->errors();
             $respuesta['errors'] = $OTerrors;
-        }
-        $this->set([
-            'respuesta' => $respuesta,
-            '_serialize' => ['respuesta']
-        ]);
-
+          }
+          $this->set([
+              'respuesta' => $respuesta,
+              '_serialize' => ['respuesta']
+          ]);
     }
 
     public function add()
