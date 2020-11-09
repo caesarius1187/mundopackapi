@@ -133,7 +133,7 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
     <div class="col-lg-2 col-6">
       <div class="small-box bg-success">
         <div class="inner" style="height: 110px">
-          <h4><strong><?= $cortadora->nombre ?></strong></h4>
+          <h5><strong><?= $cortadora->nombre ?></strong></h5>
           <?php
             $ordenOtMenorPrioridad=null;
             $menorPrioridad = 1000;
