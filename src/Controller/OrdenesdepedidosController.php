@@ -253,7 +253,7 @@ class OrdenesdepedidosController extends AppController
     }
 
     public function cancelarop($opid){
-         $this->loadModel('Ordenesdetrabajos');
+        $this->loadModel('Ordenesdetrabajos');
         $this->loadModel('Ordenots');
 
         $data=[
@@ -297,5 +297,29 @@ class OrdenesdepedidosController extends AppController
             'data' => $data,
             '_serialize' => ['data']
         ]);
+    }
+
+    public function delete($id = null)
+    {
+        $this->loadModel('Ordenesdetrabajos');
+        $this->loadModel('Ordenots');
+        $this->request->allowMethod(['post', 'delete']);
+        $ordenesdepedido = $this->Ordenesdepedidos->get($id);
+        if ($this->Ordenesdepedidos->delete($ordenesdepedido)) {
+            $ordenesdetrabajos=$this->Ordenesdetrabajos->find('all',[
+                'conditions'=>[
+                    'Ordenesdetrabajos.ordenesdepedido_id'=>$id
+                ]
+            ]);
+            foreach ($ordenesdetrabajos as $key => $ot) {
+                $this->Ordenots->deleteAll(['ordenesdetrabajo_id'=>$ot['id']]);
+            }
+            $this->Ordenesdetrabajos->deleteAll(['ordenesdepedido_id'=>$id]);
+            $this->Flash->success(__('Se elimino la orden de pedido.'));
+        } else {
+            $this->Flash->error(__('Error. No se elimino la orden de pedido'));
+        }
+
+        return $this->redirect(['action' => 'index']);
     }
 }

@@ -180,12 +180,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-8">
               <h1 class="m-0 text-dark">Planificacion </h1>
           </div><!-- /.col -->           
+          <div class="col-sm-4">
+              <h1 class="m-0 text-dark">Etapas </h1>
+          </div><!-- /.col -->   
         </div><!-- /.row -->
         <div class="row">
-          <div class="col-12">
+          <div class="col-8">
             <div class="card">
               <div class="card-body">
                 <table class="table">
@@ -203,11 +206,11 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     <?php
                     foreach ($ordenesdetrabajo->ordenots as $ordenot) {
                       ?>
-                      <td><?= $ordenot->extrusora->nombre?></td>
+                      <td><?= $ordenot->extrusora->nombre?$ordenot->extrusora->nombre:''; ?></td>
                       <td><?= $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):''; ?></td>
-                      <td><?= $ordenot->impresora->nombre?></td>
+                      <td><?= $ordenot->impresora->nombre?$ordenot->impresora->nombre:''; ?></td>
                       <td><?= $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):''; ?></td>
-                      <td><?= $ordenot->cortadora->nombre?></td>
+                      <td><?= $ordenot->cortadora->nombre?$ordenot->cortadora->nombre:''; ?></td>
                       <td><?= $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):''; ?></td>
                       <?php
                     }
@@ -217,6 +220,88 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
               </div>
             </div>
           </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Extrusion</th>
+                      <th>Impresion</th>
+                      <th>Corte</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <?php 
+                        $BtnClassExtrusion="warning";
+                        if($ordenesdetrabajo->aextrusar <= $ordenesdetrabajo->extrusadas){
+                          $BtnClasssExtrusion="warning";
+                        }else{
+                          $BtnClasssExtrusion="success";                          
+                        }
+                        if($ordenesdetrabajo->extrusadas==0){
+                          $BtnClasssExtrusion="danger";                          
+                        }
+                        $BtnClassImpresion="warning";
+                        if($ordenesdetrabajo->aextrusar <= $ordenesdetrabajo->impresas){
+                          $BtnClassImpresion="warning";
+                        }else{
+                          $BtnClassImpresion="success";                          
+                        }
+                        if($ordenesdetrabajo->impresas==0){
+                          $BtnClassImpresion="danger";                          
+                        }
+                        $BtnClassCorte="warning";
+                        if($ordenesdetrabajo->aextrusar <= $ordenesdetrabajo->acortar){
+                          $BtnClassCorte="warning";
+                        }else{
+                          $BtnClassCorte="success";                          
+                        }
+                        if($ordenesdetrabajo->acortar==0){
+                          $BtnClassCorte="danger";                          
+                        }
+                      ?>
+                      <td>
+                        <button type="button" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                          
+                        </button>
+                      </td>
+                      <td>
+                        <?php
+                        if($ordenesdetrabajo->impreso){ ?>
+                          <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->aimprimir*1) ?>
+                          </button>
+                          <?php
+                        }else{
+                          ?>
+                          <button type="button" class="btn btn-success">NO</button>
+                          <?php
+                        }?>                          
+                      </td>
+                      <td>
+                        <?php
+                        if($ordenesdetrabajo->cortado){ ?>
+                          <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->acortar*1)?>                          
+                          </button>
+                        <?php
+                        }else{
+                          ?>
+                          <button type="button" class="btn btn-success">NO</button>
+                          <?php
+                        }?>        
+                      </td>
+                    </tr>                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+                  
+        </div><!-- /.row -->
+        <div class="row">
+          
         </div>
     </div><!-- /.container-fluid -->
 </div>

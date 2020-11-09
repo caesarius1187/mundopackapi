@@ -363,6 +363,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:80px">Medidas</th>
                             <th style="width:50px">Cant.</th>
                             <th style="width:180px">Materiales</th>
+                            <th style="width:50px">Ext.</th>
                             <th style="width:50px">Imp.</th>
                             <th style="width:50px">Cort.</th>
                             <th style="width:50px">Obs.</th>
@@ -414,8 +415,60 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                             </td>
-                            <td style="width:50px"><?= $ordenot->ordenesdetrabajo->impreso?'Si':'No'?></td>
-                            <td style="width:50px"><?= $ordenot->ordenesdetrabajo->cortado?'Si':'No'?></td>
+                            <?php 
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->extrusadas){
+                                $BtnClassExtrusion="warning";
+                              }else{
+                                $BtnClassExtrusion="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->extrusadas==0){
+                                $BtnClassExtrusion="danger";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
+                                $BtnClassImpresion="warning";
+                              }else{
+                                $BtnClassImpresion="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->impresas==0){
+                                $BtnClassImpresion="danger";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
+                                $BtnClassCorte="warning";
+                              }else{
+                                $BtnClassCorte="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->cortadas==0){
+                                $BtnClassCorte="danger";                          
+                              }
+                            ?>
+                            <td>
+                              <button type="button" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenot->ordenesdetrabajo->extrusadas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>
+                              </button>
+                            </td>
+                            <td>
+                              <?php
+                              if($ordenot->ordenesdetrabajo->impreso){ ?>
+                                <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenot->ordenesdetrabajo->impresas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1) ?>
+                                </button>
+                                <?php
+                              }else{
+                                ?>
+                                <button type="button" class="btn btn-success">NO</button>
+                                <?php
+                              }?>                          
+                            </td>
+                            <td>
+                              <?php
+                              if($ordenot->ordenesdetrabajo->cortado){ ?>
+                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->acortar*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>                          
+                                </button>
+                              <?php
+                              }else{
+                                ?>
+                                <button type="button" class="btn btn-success">NO</button>
+                                <?php
+                              }?>        
+                            </td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->observaciones ?></td>
                             <?php
                             for($i=0; $i<20; $i++){
@@ -482,6 +535,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:80px">Medidas</th>
                             <th style="width:50px">Cant.</th>
                             <th style="width:180px">Materiales</th>
+                            <th style="width:50px">Ext.</th>
                             <th style="width:50px">Imp.</th>
                             <th style="width:50px">Cort.</th>
                             <th style="width:50px">Obs.</th>
@@ -534,8 +588,60 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                             </td>
-                            <td style="width:50px"><?= $ordenot->ordenesdetrabajo->impreso?'Si':'No'?></td>
-                            <td style="width:50px"><?= $ordenot->ordenesdetrabajo->cortado?'Si':'No'?></td>
+                            <?php 
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->extrusadas){
+                                $BtnClassExtrusion="warning";
+                              }else{
+                                $BtnClassExtrusion="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->extrusadas==0){
+                                $BtnClassExtrusion="danger";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
+                                $BtnClassImpresion="warning";
+                              }else{
+                                $BtnClassImpresion="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->impresas==0){
+                                $BtnClassImpresion="danger";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
+                                $BtnClassCorte="warning";
+                              }else{
+                                $BtnClassCorte="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->cortadas==0){
+                                $BtnClassCorte="danger";                          
+                              }
+                            ?>
+                            <td>
+                              <button type="button" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenot->ordenesdetrabajo->extrusadas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>
+                              </button>
+                            </td>
+                            <td>
+                              <?php
+                              if($ordenot->ordenesdetrabajo->impreso){ ?>
+                                <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenot->ordenesdetrabajo->impresas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1) ?>
+                                </button>
+                                <?php
+                              }else{
+                                ?>
+                                <button type="button" class="btn btn-success">NO</button>
+                                <?php
+                              }?>                          
+                            </td>
+                            <td>
+                              <?php
+                              if($ordenot->ordenesdetrabajo->cortado){ ?>
+                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->acortar*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>                          
+                                </button>
+                              <?php
+                              }else{
+                                ?>
+                                <button type="button" class="btn btn-success">NO</button>
+                                <?php
+                              }?>        
+                            </td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->observaciones ?></td>
                             <?php
                             for($i=0; $i<20; $i++){
@@ -602,6 +708,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <th style="width:80px">Medidas</th>
                         <th style="width:50px">Cant.</th>
                         <th style="width:180px">Materiales</th>
+                        <th style="width:50px">Ext.</th>
                         <th style="width:50px">Imp.</th>
                         <th style="width:50px">Cort.</th>
                         <th style="width:50px">Obs.</th>
@@ -653,8 +760,60 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                             </td>
-                            <td style="width:50px"><?= $ordenot->ordenesdetrabajo->impreso?'Si':'No'?></td>
-                            <td style="width:50px"><?= $ordenot->ordenesdetrabajo->cortado?'Si':'No'?></td>
+                            <?php 
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->extrusadas){
+                                $BtnClassExtrusion="warning";
+                              }else{
+                                $BtnClassExtrusion="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->extrusadas==0){
+                                $BtnClassExtrusion="danger";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
+                                $BtnClassImpresion="warning";
+                              }else{
+                                $BtnClassImpresion="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->impresas==0){
+                                $BtnClassImpresion="danger";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
+                                $BtnClassCorte="warning";
+                              }else{
+                                $BtnClassCorte="success";                          
+                              }
+                              if($ordenot->ordenesdetrabajo->cortadas==0){
+                                $BtnClassCorte="danger";                          
+                              }
+                            ?>
+                            <td>
+                              <button type="button" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenot->ordenesdetrabajo->extrusadas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>
+                              </button>
+                            </td>
+                            <td>
+                              <?php
+                              if($ordenot->ordenesdetrabajo->impreso){ ?>
+                                <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenot->ordenesdetrabajo->impresas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1) ?>
+                                </button>
+                                <?php
+                              }else{
+                                ?>
+                                <button type="button" class="btn btn-success">NO</button>
+                                <?php
+                              }?>                          
+                            </td>
+                            <td>
+                              <?php
+                              if($ordenot->ordenesdetrabajo->cortado){ ?>
+                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->cortadas*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>
+                                </button>
+                              <?php
+                              }else{
+                                ?>
+                                <button type="button" class="btn btn-success">NO</button>
+                                <?php
+                              }?>        
+                            </td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->observaciones ?></td>
                             <?php
                             for($i=0; $i<20; $i++){
