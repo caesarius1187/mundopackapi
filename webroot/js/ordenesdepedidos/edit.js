@@ -102,6 +102,21 @@ function loadMaterial(){
         .attr('name',namePorcentaje)
         .attr('id',idPorcentaje);
     cantMateriales++;
+     calcularKilosDeMateriales();
+}
+function deleteMaterial(buttonRemove){
+    $(buttonRemove).closest('tr').remove();
+    calcularKilosDeMateriales();
+}
+function calcularKilosDeMateriales(){
+    var pesoxmil = $("#pesoxmil").val()*1;
+    $(".porcentaje").each(function(){
+        var trMaterial = $(this).closest('tr');
+        var porcentaje = $(this).val()*1;
+        var spankilos = $(trMaterial).find('.spankilos');
+        var kilosMaterial = pesoxmil/100*porcentaje;
+        $(spankilos).html(kilosMaterial.toFixed(2));
+    })
 }
 function calcularOT(){
     var ancho = $("#ancho").val();
@@ -111,6 +126,10 @@ function calcularOT(){
     var aextrusar = $("#aextrusar").val()*1;
 
     var pesoxmil = ancho*largo*espesor*0.000184*cantidad/1000;
+    var tipocorte = $("#tipocorte").val();
+    if(tipocorte=='lateral 2l'){
+        pesoxmil = pesoxmil/2;
+    }
     $("#pesoxmil").val(pesoxmil.toFixed(2));
     var metrototal = pesoxmil/(ancho*espesor*0.000184)*10;
     $("#metrototal").val(metrototal.toFixed(2));
@@ -120,6 +139,8 @@ function calcularOT(){
         var metrobob = metrototal/aextrusar;
         $("#metrobob").val(metrobob.toFixed(2));
     }
+
+    calcularKilosDeMateriales();
 }
 function showSiNo(myBoolean){
     if(myBoolean){

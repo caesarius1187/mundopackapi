@@ -62,7 +62,9 @@ class OrdenesdetrabajosController extends AppController
 
         $conditions=[
             'contain'=>[
-                'Ordenots',
+                'Ordenots'=>[
+                    'sort'=>['Ordenots.prioridadpendientes']
+                ],
                 'Ordenesdepedidos'=>[
                     'Clientes'
                 ],
@@ -420,38 +422,30 @@ class OrdenesdetrabajosController extends AppController
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                 $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
                 foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
-                    if($materialesot['id']!=0){
+                    if(isset($materialesot['id']) && $materialesot['id']!=0){
                         $newmaterialOt = $this->Materialesots->get($materialesot['id'], [
                             'contain' => [],
                         ]);
                         $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
+                        $newmaterialOt->id = $materialesot['id'];
                     }else{
                         $newmaterialOt = $this->Materialesots->newEntity();
                     }
-                    $newmaterialOt->id = $materialesot['id'];
-                    $newmaterialOt->ordenesdetrabajo_id = $materialesot['ordenesdetrabajo_id'];
+                    $newmaterialOt->ordenesdetrabajo_id = $ordenesdetrabajo->id;
                     $newmaterialOt->material = $materialesot['material'];
                     $newmaterialOt->tipo = $materialesot['tipo'];
                     $newmaterialOt->porcentaje = $materialesot['porcentaje'];
                     $savedMaterial = $this->Materialesots->save($newmaterialOt);
                 }
-                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
-                $respuesta['request'] = $this->request->getData();
-                $respuesta['error'] = 0;
-                $OPerrors = $ordenesdetrabajo->errors();
-                $respuesta['errors'] = $OPerrors;
+                $this->Flash->success('La orden de trabajo fue modificada');
             }else{
-                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
-                $respuesta['request'] = $this->request->getData();
-                $respuesta['error'] = 1;
-                $OPerrors = $ordenesdetrabajo->errors();
-                $respuesta['errors'] = $OPerrors;
+                $this->Flash->success('Error. La orden de trabajo NO fue modificada. Intente de nuevo mas tarde');
             }
-            $this->set([
-                'respuesta' => $respuesta,
-                '_serialize' => ['respuesta']
+            return $this->redirect([
+                'controller'=>'ordenesdepedidos',
+                'action' => 'add',
+                $ordenesdetrabajo->ordenesdepedido_id
             ]);
-            return;
         }
 
         $ordenesdepedidos = $this->Ordenesdetrabajos->Ordenesdepedidos->find('list', ['limit' => 200]);
@@ -462,28 +456,52 @@ class OrdenesdetrabajosController extends AppController
 
      public function cerrar($id = null)
     {
+        $this->loadModel('Ordenesdepedidos');
+
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
         ]);
+        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
+            'conditions'=>[
+                'Ordenesdepedidos.id'=>$ordenesdetrabajo->ordenesdepedido_id,
+            ],
+            'contain'=>[
+                'Clientes',
+                'Ordenesdetrabajos'=>[
+                    'conditions'=>[
+                        'Ordenesdetrabajos.id'=>$id
+                    ],
+                    'Bobinasdeextrusions'=>[
+                        'Extrusoras',
+                        'Empleados'
+                    ],
+                    'Bobinasdeimpresions'=>[
+                        'Impresoras',
+                        'Empleados'
+                    ],
+                    'Bobinasdecortes'=>[
+                        'Cortadoras',
+                        'Empleados'
+                    ],
+                    'Materialesots'
+                ],
+            ]
+        ]);
+        $this->set(compact('ordenesdepedidos'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
             date_default_timezone_set('America/Argentina/Salta');
             $ordenesdetrabajo->cierre = date('Y-m-d H:i:s');
             $ordenesdetrabajo->estado = 'Terminado';
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
+                $this->Flash->success('La orden de trabajo fue cerrada');
                 $respuesta['error'] = 0;
             }else{
-                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
-                $respuesta['request'] = $this->request->getData();
-                $respuesta['error'] = 1;
-                $OPerrors = $ordenesdetrabajo->errors();
-                $respuesta['errors'] = $OPerrors;
+                $this->Flash->success("Error no se cerro la orden de trabajo.");
             }
-            $this->set([
-                'respuesta' => $respuesta,
-                '_serialize' => ['respuesta']
+            return $this->redirect([
+                'controller'=>'ordenesdepedidos',
+                'action' => 'index'
             ]);
-            return;
         }
     }
 

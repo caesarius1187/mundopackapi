@@ -119,7 +119,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <?= $ordenesdetrabajo->ordenots[0]->prioridadpendientes ?></td>
                           </td>
                           <td>
-                              <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
+                              <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, <?= $ordenesdetrabajo->ordenots[0]->id ?>,'<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
                               <?php
                               if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
                                 echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
@@ -208,10 +208,10 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           ?>
                           <tr>
                             <td style="width:70px">
-                              <?= $ordenot->prioridadpendientes ?></td>
+                              <?= $ordenesdetrabajo->ordenots[0]->prioridadpendientes ?></td>
                             </td>
                             <td>
-                                <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
+                                <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?> , <?= $ordenesdetrabajo->ordenots[0]->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
                                 <?php
                                 if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
                                   echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
@@ -301,10 +301,10 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         ?>
                         <tr>
                           <td style="width:70px">
-                            <?= $ordenot->prioridadpendientes ?></td>
+                            <?= $ordenesdetrabajo->ordenots[0]->prioridadpendientes ?></td>
                           </td>
                           <td>
-                              <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
+                              <button type="button" onclick="programarOT(<?= $ordenesdetrabajo->id?>, <?= $ordenesdetrabajo->ordenots[0]->id ?>, '<?=$numeroOT?>','<?=$nombrecliente?>')" class="btn btn-default btn-xs"><i class="fas fa-calendar"></i></button>
                               <?php
                               if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
                                 echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';

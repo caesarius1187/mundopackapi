@@ -174,7 +174,14 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     </div>
                   </div>
                 </div>
-                <button type="button" name="button" onclick="$('#modalCerrarOT').modal('show')" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> Cerrar OT</button>
+                 <?= $this->Html->link(__('Cerrar Ot'), [
+                    'action' => 'cerrar',
+                    $ordenesdetrabajo->id
+                  ], [
+                    "type"=>"button", 
+                    "class"=>"btn btn-secondary float-sm-right",
+                    'escape' => false,
+                  ]) ?>
               </div>
             </div>
           </div>
@@ -206,12 +213,14 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     <?php
                     foreach ($ordenesdetrabajo->ordenots as $ordenot) {
                       ?>
-                      <td><?= $ordenot->extrusora->nombre?$ordenot->extrusora->nombre:''; ?></td>
-                      <td><?= $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):''; ?></td>
-                      <td><?= $ordenot->impresora->nombre?$ordenot->impresora->nombre:''; ?></td>
-                      <td><?= $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):''; ?></td>
-                      <td><?= $ordenot->cortadora->nombre?$ordenot->cortadora->nombre:''; ?></td>
-                      <td><?= $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):''; ?></td>
+                      <tr>
+                        <td><?= $ordenot->extrusora?$ordenot->extrusora->nombre:''; ?></td>
+                        <td><?= $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):''; ?></td>
+                        <td><?= $ordenot->impresora?$ordenot->impresora->nombre:''; ?></td>
+                        <td><?= $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):''; ?></td>
+                        <td><?= $ordenot->cortadora?$ordenot->cortadora->nombre:''; ?></td>
+                        <td><?= $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):''; ?></td>
+                      </tr>
                       <?php
                     }
                     ?>

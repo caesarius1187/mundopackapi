@@ -251,15 +251,15 @@ function cancelarOT(oTId){
         }
     });
 }
-function programarOT(OTId,numeroOT,nombrecliente){
+function programarOT(OTId,ordenOtId,numeroOT,nombrecliente){
     $('#myModal').find('.modal-title').html("Programar OT Numero: "+numeroOT+" del Cliente: "+nombrecliente);
-    $("#id").val(0);
+    $("#id").val(ordenOtId);
     $("#ordenesdetrabajo-id").val(OTId);
     $('#myModal').modal('toggle');
 
-    $("#fechainicioextrusora").val($.datepicker.formatDate('dd/mm/yy', new Date()));
-    $("#fechainicioimpresora").val(new Date());
-    $("#fechainiciocortadora").val(new Date());
+    $("#fechainicioextrusora").val("");
+    $("#fechainiciocortadora").val("");
+    $("#fechainicioimpresora").val("");
 }
 function editarProgramacionOt(ordenOTId,oTId,numeroOT,nombrecliente,estrusoraId,inicioEstrusion,impresoraId,inicioImpresion,cortadoraId,inicioCorte){
     $('#myModal').modal('toggle');

@@ -1,5 +1,5 @@
 <?php
-echo $this->Html->script('ordenesdepedidos/edit',array('inline'=>false));
+echo $this->Html->script('ordenesdepedidos/add',array('inline'=>false));
 ?>
 <style media="screen">
 .btn-circle {
@@ -208,38 +208,93 @@ font-size:14px !important;
                   </tr>
                 </thead>
                 <tbody id="tblMaterialesBody">
-                    <tr>
-                      <td >
-                        <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
-                          'type'=>'hidden',
-                        ]); ?>
-                        <?= $this->Form->control('Materialesots.0.material',[
-                          'label'=>false,
-                          'type'=>'select',
-                          'options'=>[$materiales]
-                        ]); ?>
-                      </td>
-                      <td>
-                        <?= $this->Form->control('Materialesots.0.tipo',[
-                          'label'=>false,
-                          'type'=>'select',
-                          'options'=>[
-                            'Nuevo'=>'Nuevo',
-                            'Reciclado'=>'Reciclado',
-                          ]
-                        ]); ?>
-                      </td>
-                      <td>
-                        <?= $this->Form->control('Materialesots.0.porcentaje',[
-                          'label'=>false,
-                          'class'=>'porcentaje',
-                          'onclick'=>'calcularKilosDeMateriales()',
-                          'value'=>'100',
-                        ]); ?>
-                      </td>
-                      <td><h4><span class="spankilos badge badge-warning">0.00</span><h4></td>
-                      <td> <button onclick="deleteMaterial(this)" type="button" name="button" class="btn btn-danger btn-sm btn-circle"><i class="fas fa-minus"></i></button> </td>
-                    </tr>
+                  <?php
+                  $cantMateriales = 0;
+                  foreach ($ordenesdetrabajo['materialesots'] as $key => $materialesot) {
+                      $cantMateriales++;
+                      ?>
+                      <tr>
+                        <td>
+                          <?= $this->Form->control('Materialesots.'.$key.'.id',[
+                            'type'=>'hidden',
+                            'value'=>$materialesot->id
+                          ]); ?>
+                          <?= $this->Form->control('Materialesots.'.$key.'.ordenesdetrabajo_id',[
+                            'type'=>'hidden',
+                            'value'=>$materialesot->ordenesdetrabajo_id
+                          ]); ?>
+                          <?= $this->Form->control('Materialesots.'.$key.'.material',[
+                            'label'=>false,
+                            'value'=>$materialesot->material,
+                            'type'=>'select',
+                            'options'=>[$materiales]
+                          ]); ?>
+                        </td>
+                        <td>
+                          <?= $this->Form->control('Materialesots.'.$key.'.tipo',[
+                            'label'=>false,
+                            'value'=>$materialesot->tipo,
+                            'type'=>'select',
+                            'options'=>[
+                              'Nuevo'=>'Nuevo',
+                              'Reciclado'=>'Reciclado',
+                            ]
+                          ]); ?>
+                        </td>
+                        <td>
+                          <?= $this->Form->control('Materialesots.'.$key.'.porcentaje',[
+                            'label'=>false,
+                            'value'=>$materialesot->porcentaje,
+                            'class'=>'porcentaje',
+                            'onchange'=>'calcularKilosDeMateriales()',
+                          ]); ?>
+                        </td>
+                        <td><h4><span class="spankilos badge badge-warning">0.00</span><h4></td>
+                        <td> <button onclick="deleteMaterial(this)" type="button" name="button" class="btn btn-danger btn-sm btn-circle"><i class="fas fa-minus"></i></button> </td>
+                      </tr>
+                      <?php
+                  }
+                  if($cantMateriales==0){
+                      $cantMateriales++;
+                      ?>
+                      <tr>
+                        <td>
+                          <?= $this->Form->control('Materialesots.0.id',[
+                            'type'=>'hidden',
+                          ]); ?>
+                          <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
+                            'type'=>'hidden',
+                            'value'=>$ordenesdetrabajo->id
+                          ]); ?>
+                          <?= $this->Form->control('Materialesots.0.material',[
+                            'label'=>false,
+                            'type'=>'select',
+                            'options'=>[$materiales]
+                          ]); ?>
+                        </td>
+                        <td>
+                          <?= $this->Form->control('Materialesots.0.tipo',[
+                            'label'=>false,
+                            'type'=>'select',
+                            'options'=>[
+                              'Nuevo'=>'Nuevo',
+                              'Reciclado'=>'Reciclado',
+                            ]
+                          ]); ?>
+                        </td>
+                        <td>
+                          <?= $this->Form->control('Materialesots.0.porcentaje',[
+                            'label'=>false,
+                            'class'=>'porcentaje',
+                          ]); ?>
+                        </td>
+                        <td><h4><span class="spankilos badge badge-warning">0.00</span><h4></td>
+                        <td> <button onclick="deleteMaterial(this)" type="button" name="button" class="btn btn-danger btn-sm btn-circle"><i class="fas fa-minus"></i></button> </td>
+                      </tr>
+                      <?php
+                  }
+                  echo $this->Form->control('cantmateriales',['type'=>'hidden','value'=>$cantMateriales ]); 
+                  ?>
                 </tbody>
               </table>
             </div>
