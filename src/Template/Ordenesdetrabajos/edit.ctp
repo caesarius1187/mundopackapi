@@ -162,7 +162,6 @@ font-size:14px !important;
             <div class="col-sm-2">
               <?= $this->Form->control('impreso',[
                 'type'=>'hidden',
-                'value'=>'0'
               ]); ?>
               <?= $this->Form->control('tipoimpresion',[
                   'label'=>'Tipo de impresión:',
@@ -178,7 +177,6 @@ font-size:14px !important;
             <div class="col-sm-2">
               <?= $this->Form->control('cortado',[
                 'type'=>'hidden',
-                'value'=>'0'
               ]); ?>
               <?= $this->Form->control('tipocorte',[
                 'label'=>'Tipo de corte:',

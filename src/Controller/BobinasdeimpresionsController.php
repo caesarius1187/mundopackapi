@@ -143,12 +143,13 @@ class BobinasdeimpresionsController extends AppController
             //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
             
             $ordenesdetrabajo->impresas = $ordenesdetrabajo->impresas+1 ;
-
-            if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $respuesta['respuesta'] .= "Se actualizo las bobinas impresas de la orden de pedido.";
-            }else{
-                $respuesta['error'] = 2;
-                $respuesta['respuesta'] .= "No se pudo actualizar las bobinas impresas de la orden de pedido.";
+            if($bobinasdeextrusion->first()->terminacion!='Parcial'){
+                if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                    $respuesta['respuesta'] .= "Se actualizo las bobinas impresas de la orden de pedido.";
+                }else{
+                    $respuesta['error'] = 2;
+                    $respuesta['respuesta'] .= "No se pudo actualizar las bobinas impresas de la orden de pedido.";
+                }
             }
             //Si las impresas = aetxrusar entonces tengo que sacarla de las prioridades de las Impresoras
             //no vamos a hacer esto ya por que cambio el sistema de prioridades y se ajusta por fecha

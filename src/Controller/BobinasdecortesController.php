@@ -54,6 +54,8 @@ class BobinasdecortesController extends AppController
         $this->loadModel('Ordenots');
         $this->loadModel('Cortadoras');
         $this->loadModel('Bobinascorteorigens');
+        $this->loadModel('Bobinasdeimpresions');
+        $this->loadModel('Bobinasdeextrusions');
         $respuesta=[];
         $respuesta['respuesta'] = '';
         $respuesta['error'] = 0;
@@ -115,7 +117,10 @@ class BobinasdecortesController extends AppController
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
                     $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada;
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
-                    $cantCortadas++;
+                    $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinaextrusioncortada);
+                    if($bobinasdeextrusion->terminacion!='Parcial'){
+                        $cantCortadas++;
+                    }
                 }
             }
             if(isset($this->request->getData()['bobinasdeimpresion_id'])){
@@ -125,7 +130,11 @@ class BobinasdecortesController extends AppController
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
                     $bobinacorteorigen->bobinasdeimpresion_id = $bobinaimpresioncortada;
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
-                    $cantCortadas++;
+                    $bobinasdeimpresion = $this->Bobinasdeimpresions->findById($bobinaimpresioncortada);
+                    $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinasdeimpresion->first()->bobinasdeextrusion_id);
+                    if($bobinasdeextrusion->first()->terminacion!='Parcial'){
+                        $cantCortadas++;
+                    }
                 }
             }
             $respuesta['bobinasorigens'] = $this->Bobinascorteorigens->find('all',[

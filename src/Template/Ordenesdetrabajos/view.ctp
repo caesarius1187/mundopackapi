@@ -278,7 +278,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <td>
                         <?php
                         if($ordenesdetrabajo->impreso){ ?>
-                          <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->aimprimir*1) ?>
+                          <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenesdetrabajo->impresas*1)."/".($ordenesdetrabajo->aextrusar*1) ?>
                           </button>
                           <?php
                         }else{
@@ -290,7 +290,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <td>
                         <?php
                         if($ordenesdetrabajo->cortado){ ?>
-                          <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->acortar*1)?>                          
+                          <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenesdetrabajo->cortadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                          
                           </button>
                         <?php
                         }else{

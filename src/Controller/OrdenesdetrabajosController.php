@@ -359,19 +359,19 @@ class OrdenesdetrabajosController extends AppController
                 ],
                 'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridadpendientes)'),
             ]);
-            $maxNumPrioridad = 0;
+            $maxNumPrioridad = 1;
             foreach ($orderPendMax as $key => $value) {
                 $maxNumPrioridad = $value->maxprioridad;
             }
-            $maxNumPrioridad++;
+            $maxNumPrioridad = $maxNumPrioridad*1+1;
             $newordenOt = $this->Ordenots->newEntity();
             $newordenOt->matriz = $tipoMatriz;
             $newordenOt->prioridadpendientes = $maxNumPrioridad;
             $newordenOt->ordenesdetrabajo_id = $result->id;
             $this->Ordenots->save($newordenOt);
-
             $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
             $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+            $respuesta['newordenOt'] = $newordenOt;
             $respuesta['request'] = $this->request->getData();
             $respuesta['error'] = 0;
             $OTerrors = $ordenesdetrabajo->errors();

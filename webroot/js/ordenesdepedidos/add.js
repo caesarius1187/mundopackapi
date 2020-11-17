@@ -105,6 +105,7 @@ $(document).ready(function() {
         }
 
     });
+    calcularKilosDeMateriales();
 });
 function cambiarImpreso(){
   if ($('#tipoimpresion').val() == 'sin impresion'){
@@ -115,9 +116,9 @@ function cambiarImpreso(){
 }
 function cambiarCortado(){
   if ($('#tipocorte').val() == 'sin corte'){
-    $('#impreso').val('0');
+    $('#cortado').val('0');
   } else {
-    $('#impreso').val('1');
+    $('#cortado').val('1');
   }
 }
 var cantMateriales = 0;
