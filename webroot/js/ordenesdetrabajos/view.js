@@ -35,6 +35,16 @@ $(document).ready(function() {
                       title: data.respuesta.respuesta
                     })
                     loadBobinaEstrusion(data.respuesta.bobinasdeextrusion,data.respuesta.empleado,data.respuesta.extrusora);
+                    //mostramos +1 en el btn de extrusadas
+                    if($("#modalAddBobinaEstrusion").find("#terminacion").val()!='Parcial'){
+                        var aextrusar = $("#aextrusar").val();
+                        var extrusadas = $("#extrusadas").val();
+                        if($("#btnExtruasdas").length>0){
+                            extrusadas++;
+                            $("#btnExtruasdas").html(extrusadas+"/"+aextrusar);
+                        }
+                        $("#extrusadas").val(extrusadas);
+                    }
                     $('#modalAddBobinaEstrusion').modal('hide');
                 }
             },
@@ -74,6 +84,16 @@ $(document).ready(function() {
                       title: data.respuesta.respuesta
                     })
                     loadBobinaImpresion(data.respuesta.bobinasdeimpresion,data.respuesta.empleado,data.respuesta.bobinasdeextrusion,data.respuesta.impresora);
+                    //mostramos +1 en el btn de extrusadas
+                    if(data.respuesta.bobinasdeextrusion.terminacion!='Parcial'){
+                        var aextrusar = $("#aextrusar").val();
+                        var impresas = $("#impresas").val();
+                        if($("#btnImpresas").length>0){
+                            impresas++;
+                            $("#btnImpresas").html(impresas+"/"+aextrusar);
+                        }
+                        $("#impresas").val(impresas);
+                    }
                     $('#modalAddBobinaImpresion').modal('hide');
                 }
             },
@@ -117,6 +137,32 @@ $(document).ready(function() {
                     var bobinasorigens = data.respuesta.bobinasorigens;
                     var cortadora = data.respuesta.cortadora;
                     loadBobinaCorte(bobinadecorte,empleado,bobinasorigens,cortadora);
+                    //mostramos +1 en el btn de extrusadas
+                    var tieneimpresion = $("#tieneimpresion").val();
+                    $(bobinasorigens).each(function(){
+                        if(tieneimpresion){
+                            var aextrusar = $("#aextrusar").val();
+                            var cortadas = $("#cortadas").val();
+                            if($("#btnCortadas").length>0){
+                                cortadas++;
+                                $("#btnCortadas").html(cortadas+"/"+aextrusar);
+                            }
+                            $("#cortadas").val(cortadas);
+                        }else{
+                            if(this.bobinasdeestrusion.numero.terminacion!='Parcial'){
+                                var aextrusar = $("#aextrusar").val();
+                                var cortadas = $("#cortadas").val();
+                                if($("#btnCortadas").length>0){
+                                    cortadas++;
+                                    $("#btnCortadas").html(cortadas+"/"+aextrusar);
+                                }
+                                $("#cortadas").val(cortadas);
+                            }
+                        }
+                        
+                    });
+                    
+
                     $('#modalAddBobinaCorte').modal('hide');
                 }
             },
@@ -128,13 +174,33 @@ $(document).ready(function() {
     });
     $("#modalAddBobinaEstrusion").on('shown.bs.modal', function() {
         $("#modalAddBobinaEstrusion").find("#empleado-id").val('');
+        $("#modalAddBobinaEstrusion").find("#horas").val('');
+        $("#modalAddBobinaEstrusion").find("#terminacion").val('Completa');
+        $("#modalAddBobinaEstrusion").find("#bobinasdeextrusion-id").val('');
+        $("#modalAddBobinaEstrusion").find("#kilogramos").val('');
+        $("#modalAddBobinaEstrusion").find("#metros").val('');
+        $("#modalAddBobinaEstrusion").find("#scrap").val('');
+        $("#modalAddBobinaEstrusion").find("#observacion").val('');
     });
     $('#modalAddBobinaImpresion').on('shown.bs.modal', function() {
         $("#modalAddBobinaImpresion").find("#empleado-id").val('');
-       getListaBobinasExtrusionParaImpresion();
+        $("#modalAddBobinaImpresion").find("#bobinasdeextrusion-id").val('');
+        $("#modalAddBobinaImpresion").find("#horas").val('');
+        $("#modalAddBobinaImpresion").find("#kilogramos").val('');
+        $("#modalAddBobinaImpresion").find("#metros").val('');
+        $("#modalAddBobinaImpresion").find("#scrap").val('');
+        $("#modalAddBobinaImpresion").find("#observacion").val('');
+        getListaBobinasExtrusionParaImpresion();
     }) ;
     $('#modalAddBobinaCorte').on('shown.bs.modal', function() {
         $("#modalAddBobinaCorte").find("#empleado-id").val('');
+        $("#modalAddBobinaCorte").find("#bobinasdeextrusion-id").val('');
+        $("#modalAddBobinaCorte").find("#horas").val('');
+        $("#modalAddBobinaCorte").find("#kilogramos").val('');
+        $("#modalAddBobinaCorte").find("#scrapsacabocado").val('');
+        $("#modalAddBobinaCorte").find("#scrap").val('');
+        $("#modalAddBobinaCorte").find("#cantidad").val('');
+        $("#modalAddBobinaCorte").find("#observacion").val('');
         var tieneimpresion = $("#tieneimpresion").val();
         if(tieneimpresion){
             getListaBobinaImpresionParaCorte();
@@ -486,8 +552,9 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
     $(bobinasorigens).each(function(){
         if(tieneimpresion){
             misBobinasOrigenes += this.bobinasdeimpresion.numero+"-";
+        }else{
+            misBobinasOrigenes += this.bobinasdeestrusion.numero+"-";
         }
-
     });
     var f=new Date(bobinadecorte.fecha);
     var dia=String(f.getDate()).padStart(2,"0");

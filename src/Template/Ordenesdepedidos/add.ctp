@@ -337,7 +337,7 @@ font-size:14px !important;
                                 <?= $this->Form->control('Materialesots.0.porcentaje',[
                                   'label'=>false,
                                   'class'=>'porcentaje',
-                                  'onclick'=>'calcularKilosDeMateriales()',
+                                  'onchange'=>'calcularKilosDeMateriales()',
                                   'value'=>'100',
                                 ]); ?>
                               </td>

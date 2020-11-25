@@ -133,7 +133,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               <button type="button" class="btn btn-default btn-xs">
                               <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
                                     'escape' => false,
-                                    'target' => '_blank',
+                                    'target' => '_self',
                               ]) ?>
                               </button>
                           </td>
@@ -875,7 +875,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
               <div class="tab-pane fade" id="programacionFinalizadas" role="tabpanel" aria-labelledby="programacionFinalizadasTab">
                 <h4>Listado de OT's finalizadas:</h4>
                 <div class="card-body">
-                  <table id="tblOrdenesDeTrabajo" class="table table-bordered table-head-fixed text-nowrap text-center" style="width: auto;">
+                  <table id="tblOrdenesDeTrabajo" class="table-head-fixed text-nowrap text-center" style="width: auto;">
                     <thead>
                       <tr>
                         <th>Ingreso</th>
@@ -888,6 +888,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <th>Imp.</th>
                         <th>Cort.</th>
                         <th>Obsrtvación</th>
+                        <th>Acciones<th>
                       </tr>
                     </thead>
                     <tbody>
@@ -923,6 +924,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td><?= $ordenesdetrabajo->impreso?'Si':'No'?></td>
                             <td><?= $ordenesdetrabajo->cortado?'Si':'No'?></td>
                             <td><?= $ordenesdetrabajo->observaciones ?></td>
+                            <td>
+                              <button type="button" class="btn btn-default btn-xs">
+                              <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
+                                    'escape' => false,
+                                    'target' => '_self',
+                              ]) ?>
+                              </button>
+                            </td>
                           </tr>
                       <?php } ?>
                     </tbody>

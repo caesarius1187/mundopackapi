@@ -72,6 +72,21 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     </div>
 
                     <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Peso Total: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->pesoxmil) ?></h5>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Metros Totales: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->metrototal) ?></h5>
+                    </div>
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Peso x Bobina: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->pesobob) ?></h5>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Metros por bobina: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->metrobob) ?></h5>
+                    </div>
+
+                    <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Precio unitario: ') ?></span> <?= h($ordenesdetrabajo->preciounitario) ?></h5>
                     </div>
                     <div class="col-sm-4">
@@ -244,7 +259,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     <tr>
                       <?php 
                         $BtnClassExtrusion="warning";
-                        if($ordenesdetrabajo->aextrusar <= $ordenesdetrabajo->extrusadas){
+                        if($ordenesdetrabajo->extrusadas <= $ordenesdetrabajo->aextrusar){
                           $BtnClasssExtrusion="warning";
                         }else{
                           $BtnClasssExtrusion="success";                          
@@ -253,7 +268,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                           $BtnClasssExtrusion="danger";                          
                         }
                         $BtnClassImpresion="warning";
-                        if($ordenesdetrabajo->aextrusar <= $ordenesdetrabajo->impresas){
+                        if($ordenesdetrabajo->impresas <= $ordenesdetrabajo->aextrusar){
                           $BtnClassImpresion="warning";
                         }else{
                           $BtnClassImpresion="success";                          
@@ -262,7 +277,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                           $BtnClassImpresion="danger";                          
                         }
                         $BtnClassCorte="warning";
-                        if($ordenesdetrabajo->aextrusar <= $ordenesdetrabajo->acortar){
+                        if($ordenesdetrabajo->cortadas <= $ordenesdetrabajo->aextrusar){
                           $BtnClassCorte="warning";
                         }else{
                           $BtnClassCorte="success";                          
@@ -272,13 +287,25 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                         }
                       ?>
                       <td>
-                        <button type="button" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                          
+                        <?= 
+                        $this->Form->control('aextrusar', ['type' => 'hidden','value'=>$ordenesdetrabajo->aextrusar]); 
+                        ?>
+                        <?= 
+                        $this->Form->control('extrusadas', ['type' => 'hidden','value'=>$ordenesdetrabajo->extrusadas]); 
+                        ?>
+                        <?= 
+                        $this->Form->control('impresas', ['type' => 'hidden','value'=>$ordenesdetrabajo->impresas]); 
+                        ?>
+                        <?= 
+                        $this->Form->control('cortadas', ['type' => 'hidden','value'=>$ordenesdetrabajo->cortadas]); 
+                        ?>
+                        <button type="button" id="btnExtruasdas" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                         
                         </button>
                       </td>
                       <td>
                         <?php
                         if($ordenesdetrabajo->impreso){ ?>
-                          <button type="button" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenesdetrabajo->impresas*1)."/".($ordenesdetrabajo->aextrusar*1) ?>
+                          <button type="button" id="btnImpresas" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenesdetrabajo->impresas*1)."/".($ordenesdetrabajo->aextrusar*1) ?>
                           </button>
                           <?php
                         }else{
@@ -290,7 +317,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <td>
                         <?php
                         if($ordenesdetrabajo->cortado){ ?>
-                          <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenesdetrabajo->cortadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                          
+                          <button type="button" id="btnCortadas" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenesdetrabajo->cortadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                          
                           </button>
                         <?php
                         }else{
