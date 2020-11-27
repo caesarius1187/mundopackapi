@@ -11,10 +11,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Pedido N° <?= $ordenesdetrabajo->ordenesdepedido->numero ?> - Orden de Trabajo N°<?= $ordenesdetrabajo->numero ?></h1>
+            <div class="col-sm-8">
+                <h1 class="m-0 text-dark">Pedido N° <?= $ordenesdetrabajo->ordenesdepedido->numero ?> - Orden de Trabajo N°<?= $ordenesdetrabajo->numero ?> - <?= $ordenesdetrabajo->estado ?></h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><?=$this->Html->link(__('Inicio'), ['action' => 'index'], [
                       'escape' => false,

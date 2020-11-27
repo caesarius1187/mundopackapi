@@ -419,6 +419,7 @@ class OrdenesdetrabajosController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
+            $ordenesdetrabajo->medida = $ordenesdetrabajo->ancho."x".$ordenesdetrabajo->largo."x".$ordenesdetrabajo->espesor;
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                 $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
                 foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {

@@ -151,7 +151,7 @@ $cakeDescription = 'Mundo Pack';
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
+      <!-- SidebarSearch Form 
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Buscar" aria-label="Search">
@@ -162,7 +162,7 @@ $cakeDescription = 'Mundo Pack';
           </div>
         </div>
       </div>
-
+      -->
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

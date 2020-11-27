@@ -149,7 +149,7 @@ $(document).ready(function() {
                             }
                             $("#cortadas").val(cortadas);
                         }else{
-                            if(this.bobinasdeestrusion.numero.terminacion!='Parcial'){
+                            if(this.bobinasdeextrusion.terminacion!='Parcial'){
                                 var aextrusar = $("#aextrusar").val();
                                 var cortadas = $("#cortadas").val();
                                 if($("#btnCortadas").length>0){
@@ -553,7 +553,7 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
         if(tieneimpresion){
             misBobinasOrigenes += this.bobinasdeimpresion.numero+"-";
         }else{
-            misBobinasOrigenes += this.bobinasdeestrusion.numero+"-";
+            misBobinasOrigenes += this.bobinasdeextrusion.numero+"-";
         }
     });
     var f=new Date(bobinadecorte.fecha);

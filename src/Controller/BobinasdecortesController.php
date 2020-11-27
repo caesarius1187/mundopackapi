@@ -118,7 +118,7 @@ class BobinasdecortesController extends AppController
                     $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada;
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
                     $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinaextrusioncortada);
-                    if($bobinasdeextrusion->terminacion!='Parcial'){
+                    if($bobinasdeextrusion->first()->terminacion!='Parcial'){
                         $cantCortadas++;
                     }
                 }
