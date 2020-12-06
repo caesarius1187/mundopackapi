@@ -29,7 +29,7 @@ class EmpleadosController extends AppController
                         'Ordenesdepedidos'
                     ],
                     'conditions'=>[
-                        "Ordenots.ordenesdetrabajo_id IN (Select id from Ordenesdetrabajos where Ordenesdetrabajos.estado = 'En Proceso')"
+                        "Ordenots.ordenesdetrabajo_id IN (Select id from ordenesdetrabajos where ordenesdetrabajos.estado = 'En Proceso')"
                     ]
                 ]
             ]
@@ -39,7 +39,7 @@ class EmpleadosController extends AppController
                 'Ordenots'=>[
                     'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'conditions'=>[
-                        "Ordenots.ordenesdetrabajo_id IN (Select id from Ordenesdetrabajos where Ordenesdetrabajos.estado = 'En Proceso')"
+                        "Ordenots.ordenesdetrabajo_id IN (Select id from ordenesdetrabajos where ordenesdetrabajos.estado = 'En Proceso')"
                     ]
                 ]
             ]
@@ -49,7 +49,7 @@ class EmpleadosController extends AppController
                 'Ordenots'=>[
                     'Ordenesdetrabajos'=>['Ordenesdepedidos'],
                     'conditions'=>[
-                        "Ordenots.ordenesdetrabajo_id IN (Select id from Ordenesdetrabajos where Ordenesdetrabajos.estado = 'En Proceso')"
+                        "Ordenots.ordenesdetrabajo_id IN (Select id from ordenesdetrabajos where ordenesdetrabajos.estado = 'En Proceso')"
                     ]
                 ]
             ]

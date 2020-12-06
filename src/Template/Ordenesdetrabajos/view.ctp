@@ -95,6 +95,20 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                 </div>
                 <div class="row">
                   <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación Extrusion: ') ?></span> <?= h($ordenesdetrabajo->observacionesextrusion) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación Impresion: ') ?></span> <?= h($ordenesdetrabajo->observacionesimpresion) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación Corte: ') ?></span> <?= h($ordenesdetrabajo->observacionescorte) ?></h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
                     <div class="card">
                       <div class="card-body">
                         <h5><span class="badge badge-info"><?= __('Materiales: ') ?></span>

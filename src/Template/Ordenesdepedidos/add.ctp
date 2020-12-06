@@ -163,10 +163,24 @@ font-size:14px !important;
                         'type'=>'select',
                         'options'=>[
                           'No'=>'No',
-                          '5cm'=>'5cm',
-                          '7,5cm'=>'7,5cm',
-                          '10cm'=>'10cm',
-                          '12.5cm'=>'12.5cm',
+                          '3cm' => '3cm' , 
+                          '3.5cm' => '3.5cm' , 
+                          '4cm' => '4cm' , 
+                          '4.5cm' => '4.5cm' , 
+                          '5.5cm' => '5.5cm' , 
+                          '6cm' => '6cm' , 
+                          '6.5cm' => '6.5cm' , 
+                          '7.2cm' => '7.2cm' , 
+                          '7.5cm' => '7.5cm' , 
+                          '8.5cm' => '8.5cm' , 
+                          '9cm' => '9cm' , 
+                          '9.5cm' => '9.5cm' , 
+                          '10cm' => '10cm' , 
+                          '11 cm' => '11 cm' , 
+                          '12.5cm' => '12.5cm' , 
+                          '15 cm' => '15 cm' , 
+                          '16 cm' => '16 cm' , 
+                          '25 cm' => '25 cm' 
                         ]
                       ]); ?>
                     </div>
@@ -181,12 +195,18 @@ font-size:14px !important;
                         ]
                       ]); ?>
                     </div>
-                    <div class="col-sm-2 form-check m-3">
+                    <div class="col-sm-2">
                       <?= $this->Form->control('tratado',[
-                        'type'=>'checkbox',
-                        'class'=>'form-check-input align-middle',
-                        'label'=>' Tratado'
+                        'type'=>'select',
+                        'label'=>' Tratado',
+                        'options'=>[
+                            'No'=>'No',
+                            '1 Cara'=>'1 Cara',
+                            '2 Caras'=>'2 Caras'
+                        ]
                       ]); ?>
+                    </div>
+                    <div class="col-sm-2 form-check m-3">                    
                       <?= $this->Form->control('perf',[
                         'type'=>'checkbox',
                         'class'=>'form-check-input align-middle',
@@ -354,9 +374,30 @@ font-size:14px !important;
                         'label'=>'Precio ($):',
                       ]); ?>
                     </div>
-                    <div class="col-sm-10">
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3">
                       <?= $this->Form->control('observaciones',[
                         'label'=>'Observaciones:',
+                        'type' => 'textarea', 'escape' => false
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3">
+                      <?= $this->Form->control('observacionesextrusion',[
+                        'label'=>'Observacion Extrusion:',
+                        'type' => 'textarea', 'escape' => false
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3">
+                      <?= $this->Form->control('observacionesimpresion',[
+                        'label'=>'Observacion Impresion:',
+                        'type' => 'textarea', 'escape' => false
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3s">
+                      <?= $this->Form->control('observacionescorte',[
+                        'label'=>'Observacion Corte:',
+                        'type' => 'textarea', 'escape' => false
                       ]); ?>
                     </div>
                   </div>
