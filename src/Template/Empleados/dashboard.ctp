@@ -192,7 +192,8 @@ echo $this->Html->script('empleados/dashboard',array('inline'=>false));
                 <th>Medidas</th>
                 <th>Cant.</th>
                 <th>Materiales</th>
-                <th>Imp.</th>
+                <th>Extr.</th>
+                <th>Impr.</th>
                 <th>Cort.</th>
                 <th>Obs.</th>
                 <th>Inicio Trabajo</th>

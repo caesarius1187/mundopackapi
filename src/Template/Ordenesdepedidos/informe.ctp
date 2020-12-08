@@ -119,7 +119,22 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                             <h5><span class="badge badge-secondary"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
                         </div>
                         <div class="col-sm-2">
-                            <h5><span class="badge badge-secondary"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
+                          <h5><span class="badge badge-secondary"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
+                          <h5><span class="badge badge-secondary"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
+                          <?php
+                            $totKgExtr = 0;
+                            foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                              $totKgExtr += $bobinasdeextrusion->kilogramos*1; 
+                            }
+                            ?>
+                            <h5><span class="badge badge-info"><?= __('Total Kg Extrusion: ') ?></span> <?= $this->Number->format($totKgExtr) ?></h5>
+                            <?php
+                            $totScrapExt = 0;
+                            foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                              $totScrapExt += $bobinasdeextrusion->scrap*1; 
+                            }
+                            ?>
+                            <h5><span class="badge badge-info"><?= __('Total de Scrap: ') ?></span> <?= $this->Number->format($totScrapExt) ?></h5>
                         </div>
                         <?php
                         if($ordenesdetrabajo->impreso){

@@ -88,10 +88,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
 
                     <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Precio unitario: ') ?></span> <?= h($ordenesdetrabajo->preciounitario) ?></h5>
-                    </div>
-                    <div class="col-sm-4">
-                        <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
-                    </div>
+                    </div>                  
                 </div>
                 <div class="row">
                   <div class="col-sm-3">
@@ -134,6 +131,20 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <div class="card-body">
                         <h5><span class="badge badge-info"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
                         <h5><span class="badge badge-info"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
+                        <?php
+                        $totKgExtr = 0;
+                        foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                          $totKgExtr += $bobinasdeextrusion->kilogramos*1; 
+                        }
+                        ?>
+                        <h5><span class="badge badge-info"><?= __('Total Kg Extrusion: ') ?></span> <?= $this->Number->format($totKgExtr) ?></h5>
+                        <?php
+                        $totScrapExt = 0;
+                        foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                          $totScrapExt += $bobinasdeextrusion->scrap*1; 
+                        }
+                        ?>
+                        <h5><span class="badge badge-info"><?= __('Total de Scrap: ') ?></span> <?= $this->Number->format($totScrapExt) ?></h5>
                       </div>
                     </div>
                   </div>
@@ -650,6 +661,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('bobinasdeextrusion_id',[
+                  'label'=>'Bobinas de Ext. Parciales',
                   'options'=>[],
                   'disabled'=>true,
                 ]); ?>

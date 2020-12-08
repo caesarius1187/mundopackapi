@@ -44,7 +44,7 @@ class OrdenesdetrabajosController extends AppController
                 ]
             ],
             'conditions'=>[
-                'Ordenesdetrabajos.ordenesdepedido_id IN (SELECT id FROM Ordenesdepedidos WHERE Ordenesdepedidos.cliente_id = '.$clienteID.')',
+                'Ordenesdetrabajos.ordenesdepedido_id IN (SELECT id FROM ordenesdepedidos WHERE ordenesdepedidos.cliente_id = '.$clienteID.')',
             ]
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
@@ -94,7 +94,13 @@ class OrdenesdetrabajosController extends AppController
 
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
-                'Ordenots'=>[
+                'Ordenots'=>[             
+                    'conditions'=>[
+                        'Ordenots.ordenesdetrabajo_id IN (
+                            Select id from ordenesdetrabajos 
+                                where ordenesdetrabajos.estado = "En Proceso"
+                        )'
+                    ],       
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -108,6 +114,12 @@ class OrdenesdetrabajosController extends AppController
         $impresoras = $this->Impresoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
+                    'conditions'=>[
+                        'Ordenots.ordenesdetrabajo_id IN (
+                            Select id from ordenesdetrabajos 
+                                where ordenesdetrabajos.estado = "En Proceso"
+                        )'
+                    ],
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -115,13 +127,18 @@ class OrdenesdetrabajosController extends AppController
                         'Materialesots'
                     ],
                     'sort'=>['Ordenots.prioridadimpresion']
-
                 ]
             ]
         ]);
         $cortadoras = $this->Cortadoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
+                    'conditions'=>[
+                        'Ordenots.ordenesdetrabajo_id IN (
+                            Select id from ordenesdetrabajos 
+                                where ordenesdetrabajos.estado = "En Proceso"
+                        )'
+                    ],
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -308,6 +325,20 @@ class OrdenesdetrabajosController extends AppController
         $impresoras = $this->Impresoras->find('list', ['limit' => 200]);
         $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);
         $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras','impresoras','cortadoras'));
+        $this->set([
+              'ordenesdetrabajo' => $ordenesdetrabajo,
+              'empleados' => $empleados,
+              'extrusoras' => $extrusoras,
+              'impresoras' => $impresoras,
+              'cortadoras' => $cortadoras,
+              '_serialize' => [
+                'ordenesdetrabajo',
+                'empleados',
+                'extrusoras',
+                'impresoras',
+                'cortadoras'
+            ]
+          ]);
     }
 
     /**

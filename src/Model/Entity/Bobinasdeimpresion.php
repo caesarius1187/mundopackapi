@@ -44,6 +44,7 @@ class Bobinasdeimpresion extends Entity
         'kilogramos' => true,
         'metros' => true,
         'scrap' => true,
+        'terminacion' => true,
         'observacion' => true,
         'created' => true,
         'modified' => true,

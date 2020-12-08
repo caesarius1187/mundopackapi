@@ -390,6 +390,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <?php foreach ($extrusora->ordenots as $ordenot){
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
                           $numeroOT =  $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero;
+                          $linkOT =  $this->Html->link(
+                              $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero,
+                              [
+                                'action' => 'view',$ordenot->ordenesdetrabajo->id], [
+                                'escape' => false,
+                                'target' => '_self',
+                              ]
+                          );
                           $nombrecliente =  $ordenot->ordenesdetrabajo->ordenesdepedido->cliente->nombre;
                           $inicioEstrusion = $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):'';
                           $inicioImpresion = $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):'';
@@ -407,7 +415,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
                             <td style="width:150px"><small><?= $nombrecliente ?></small></td>
-                            <td style="width:50px"><?= $numeroOT ?></td>
+                            <td style="width:50px"><?= $linkOT ?></td>
                             <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
                             <td style="width:180px">
@@ -433,7 +441,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassExtrusion="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->extrusadas==0){
+                              if($ordenot->ordenesdetrabajo->extrusadas*1==0){
                                 $BtnClassExtrusion="danger";                          
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
@@ -441,7 +449,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassImpresion="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->impresas==0){
+                              if($ordenot->ordenesdetrabajo->impresas*1==0){
                                 $BtnClassImpresion="danger";                          
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
@@ -449,7 +457,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassCorte="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->cortadas==0){
+                              if($ordenot->ordenesdetrabajo->cortadas*1==0){
                                 $BtnClassCorte="danger";                          
                               }
                             ?>
@@ -563,6 +571,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <?php foreach ($impresora->ordenots as $ordenot){
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
                           $numeroOT =  $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero;
+                          $linkOT =  $this->Html->link(
+                              $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero,
+                              [
+                                'action' => 'view',$ordenot->ordenesdetrabajo->id], [
+                                'escape' => false,
+                                'target' => '_self',
+                              ]
+                          );
                           $nombrecliente =  $ordenot->ordenesdetrabajo->ordenesdepedido->cliente->nombre;
                           $inicioEstrusion = $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):'';
                           $inicioImpresion = $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):'';
@@ -580,7 +596,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
                             <td style="width:100px"><?= $nombrecliente ?></td>
-                            <td style="width:50px"><?= $numeroOT ?></td>
+                            <td style="width:50px"><?= $linkOT ?></td>
                             <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
                             <td style="width:180px">
@@ -606,7 +622,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassExtrusion="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->extrusadas==0){
+                              if($ordenot->ordenesdetrabajo->extrusadas*1==0){
                                 $BtnClassExtrusion="danger";                          
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
@@ -614,7 +630,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassImpresion="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->impresas==0){
+                              if($ordenot->ordenesdetrabajo->impresas*1==0){
                                 $BtnClassImpresion="danger";                          
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
@@ -622,7 +638,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassCorte="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->cortadas==0){
+                              if($ordenot->ordenesdetrabajo->cortadas*1==0){
                                 $BtnClassCorte="danger";                          
                               }
                             ?>
@@ -735,6 +751,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       <?php foreach ($cortadora->ordenots as $ordenot){
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
                           $numeroOT =  $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero;
+                          $linkOT =  $this->Html->link(
+                              $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero,
+                              [
+                                'action' => 'view',$ordenot->ordenesdetrabajo->id], [
+                                'escape' => false,
+                                'target' => '_self',
+                              ]
+                          );
                           $nombrecliente =  $ordenot->ordenesdetrabajo->ordenesdepedido->cliente->nombre;
                           $inicioEstrusion = $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):'';
                           $inicioImpresion = $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):'';
@@ -752,7 +776,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px"><?= date('d-m',strtotime($fecha)) ?></td>
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
                             <td style="width:100px"><?= $nombrecliente ?></td>
-                            <td style="width:50px"><?= $numeroOT ?></td>
+                            <td style="width:50px"><?= $linkOT ?></td>
                             <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
                             <td style="width:180px">
@@ -778,7 +802,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassExtrusion="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->extrusadas==0){
+                              if($ordenot->ordenesdetrabajo->extrusadas*1==0){
                                 $BtnClassExtrusion="danger";                          
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
@@ -786,7 +810,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassImpresion="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->impresas==0){
+                              if($ordenot->ordenesdetrabajo->impresas*1==0){
                                 $BtnClassImpresion="danger";                          
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
@@ -794,7 +818,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                               }else{
                                 $BtnClassCorte="success";                          
                               }
-                              if($ordenot->ordenesdetrabajo->cortadas==0){
+                              if($ordenot->ordenesdetrabajo->cortadas*1==0){
                                 $BtnClassCorte="danger";                          
                               }
                             ?>
@@ -896,12 +920,20 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       foreach ($ordenesdetrabajosTerminadas as $ordenesdetrabajo){
                           $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
                           $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
+                          $linkOT =  $this->Html->link(
+                              $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero,
+                              [
+                                'action' => 'view',$ordenesdetrabajo->id], [
+                                'escape' => false,
+                                'target' => '_self',
+                              ]
+                          );
                           ?>
                           <tr>
                             <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
                             <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
                             <td><?= $nombrecliente ?></td>
-                            <td><?= $numeroOT ?></td>
+                            <td><?= $linkOT ?></td>
                             <td><?= $ordenesdetrabajo->medida ?></td>
                             <td><?= $ordenesdetrabajo->aextrusar?></td>
                             <td>

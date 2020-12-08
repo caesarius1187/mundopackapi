@@ -248,57 +248,7 @@ class BobinasdeextrusionsController extends AppController
                   $respuesta['error'] = 2;
                   $respuesta['respuesta'] .= "No se pudo actualizar las bobinas extrusadas de la orden de pedido.";
               }
-              //Si las extrusadas = aetxrusar entonces tengo que sacarla de las prioridades de las Extrusoras
-              //no vamos a hacer esto ya por que cambio el sistema de prioridades y se ajusta por fecha
-              /*if($ordenesdetrabajo->extrusadas==$ordenesdetrabajo->aextrusar){
-                  //buscamos las OrdenOts de la OT que debemos eliminar
-                   $conditionsOrdenOts=[
-                      'conditions'=>[
-                          'Ordenots.extrusora_id <> 0',
-                          'Ordenots.ordenesdetrabajo_id'=>$ordenesdetrabajo->id,
-                      ]
-                  ];
-                  $myOrderOtsTosDelete = $this->Ordenots->find('all',$conditionsOrdenOts);
-                  $respuesta['myOrderOtsTosDelete'] = $myOrderOtsTosDelete;
-                  foreach ($myOrderOtsTosDelete as $key => $myOrderOtToDelete) {
-                      //ahora borramos la OT y actualizamos las que le siguen
-                      //vamos a reducir en 1 las ordenes posteriores
-                      $newPrioridad = $myOrderOtToDelete->prioridad;
-                      //subimos a la que estaba abajo
-                      $conditionsOrdenOtsToUpdate=[
-                          'conditions'=>[
-                              'Ordenots.extrusora_id'=>$myOrderOtToDelete->extrusora_id,
-                              'Ordenots.impresora_id'=>$myOrderOtToDelete->impresora_id,
-                              'Ordenots.cortadora_id'=>$myOrderOtToDelete->cortadora_id,
-                              'Ordenots.prioridad >='=>$newPrioridad
-                          ]
-                      ];
-                      $myOrderOtsToUpdate = $this->Ordenots->find('all',$conditionsOrdenOtsToUpdate);
-                      $respuesta['myOrderOtsToUpdate'] = $myOrderOtsToUpdate;
-                      foreach ($myOrderOtsToUpdate as $key => $myOrderOtToUpdate) {
-                          $secOrdenot = $this->Ordenots->get($myOrderOtToUpdate->id , [
-                              'contain' => [
-                              ],
-                          ]);
-                          $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
-                          if ($this->Ordenots->save($secOrdenot)) {
-                              $subiOrden=true;
-                          }else{
-                              $respuesta['error'] = 1;
-                              $respuesta['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
-                          }
-                      }
-
-                      if ($this->Ordenots->delete($myOrderOtToDelete)) {
-
-                      } else {
-                          $respuesta['error'] =2 ;
-                          $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
-                      }
-                  }
-              }*/
             }
-            
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
             $respuesta['error'] = 1;
