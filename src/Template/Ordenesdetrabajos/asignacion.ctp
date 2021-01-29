@@ -76,21 +76,22 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
           <div class="card-body">
             <div class="tab-content" id="custom-tabs-one-tabContent">
               <div class="tab-pane fade show active" id="programacionPendientes" role="tabpanel" aria-labelledby="programacionPendientesTab">
-                <div style="width:100%" class="text-left bg-secondary">
-                  <span style="font-weight:bold;padding-left:50px;">MATRIZ CHICA</span>
-                </div>
-                <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
+                <div class="card-body table-responsive p-0">
+                  <div style="width:1110px" class="text-left bg-secondary">
+                    <span style="font-weight:bold;padding-left:50px;">MATRIZ CHICA</span>
+                  </div>
+                  <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
                   <tbody>
                     <tr class="thead-light">
                       <th style="width:70px">Orden</th>
                       <th style="width:120px">Acción</th>
                       <th style="width:80px">Ingreso</th>
                       <th style="width:80px">Terminación</th>
-                      <th style="width:100px">Cliente</th>
+                      <th style="width:180px">Cliente</th>
                       <th style="width:50px">OT</th>
                       <th style="width:80px">Medidas</th>
                       <th style="width:50px">Cant.</th>
-                      <th style="width:180px">Materiales</th>
+                      <th style="width:200px">Materiales</th>
                       <th style="width:50px">Imp.</th>
                       <th style="width:50px">Cort.</th>
                       <th style="width:50px">Obs.</th>
@@ -168,7 +169,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       <?php } ?>
                       </tbody>
                     </table>
-                    <div style="width:100%" class="text-left bg-secondary">
+                    <div style="width:1110px" class="text-left bg-secondary">
                       <span style="font-weight:bold;padding-left:50px;">MATRIZ MEDIANA</span>
                     </div>
                     <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
@@ -178,11 +179,11 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           <th style="width:120px">Acción</th>
                           <th style="width:80px">Ingreso</th>
                           <th style="width:80px">Terminación</th>
-                          <th style="width:100px">Cliente</th>
+                          <th style="width:180px">Cliente</th>
                           <th style="width:50px">OT</th>
                           <th style="width:80px">Medidas</th>
                           <th style="width:50px">Cant.</th>
-                          <th style="width:180px">Materiales</th>
+                          <th style="width:200px">Materiales</th>
                           <th style="width:50px">Imp.</th>
                           <th style="width:50px">Cort.</th>
                           <th style="width:50px">Obs.</th>
@@ -260,7 +261,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <?php } ?>
                         </tbody>
                       </table>
-                      <div style="width:100%" class="text-left bg-secondary">
+                      <div style="width:1110px" class="text-left bg-secondary">
                         <span style="font-weight:bold;padding-left:50px;">MATRIZ GRANDE</span>
                       </div>
                       <table id="tblPendientesMatrizGrande" class="table table-sm text-nowrap text-center">
@@ -270,11 +271,11 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:120px">Acción</th>
                             <th style="width:80px">Ingreso</th>
                             <th style="width:80px">Terminación</th>
-                            <th style="width:100px">Cliente</th>
+                            <th style="width:180px">Cliente</th>
                             <th style="width:50px">OT</th>
                             <th style="width:80px">Medidas</th>
                             <th style="width:50px">Cant.</th>
-                            <th style="width:180px">Materiales</th>
+                            <th style="width:200px">Materiales</th>
                             <th style="width:50px">Imp.</th>
                             <th style="width:50px">Cort.</th>
                             <th style="width:50px">Obs.</th>
@@ -354,12 +355,13 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   </tbody>
                 </table>
               </div>
+              </div>
 
               <div class="tab-pane fade" id="programacionExtrusoras" role="tabpanel" aria-labelledby="programacionExtrusorasTab">
                 <h4>Listado de OT's programas para extrudar:</h4>
                 <div class="card-body table-responsive p-0 divExtrusoras">
                   <?php foreach ($extrusoras as $extrusora){ ?>
-                    <div style="width:1880px" class="text-left bg-info">
+                    <div style="width:1950px" class="text-left bg-info">
                       <span style="text-transform:uppercase;font-weight:bold;padding-left:50px;"><?= $extrusora->nombre ?></span>
                     </div>
                     <table id="tblExtrusora<?= $extrusora->id ?>" class="table table-sm text-nowrap text-center">
@@ -374,7 +376,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:50px">OT</th>
                             <th style="width:80px">Medidas</th>
                             <th style="width:50px">Cant.</th>
-                            <th style="width:180px">Materiales</th>
+                            <th style="width:200px">Materiales</th>
                             <th style="width:50px">Imp.</th>
                             <th style="width:50px">Cort.</th>
                             <th style="width:50px">Obs.</th>
@@ -478,7 +480,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                 <h4>Listado de OT's programas para imprimir:</h4>
                 <div class="card-body table-responsive p-0">
                     <?php foreach ($impresoras as $impresora){ ?>
-                    <div style="width:1830px" class="text-left bg-warning">
+                    <div style="width:1980px" class="text-left bg-warning">
                       <span style="text-transform:uppercase;font-weight:bold;padding-left:50px;"><?= $impresora->nombre ?></span>
                     </div>
                     <table id="tblImpresora<?= $impresora->id ?>" class="table table-sm text-nowrap text-center">
@@ -489,11 +491,11 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:100px">Acción</th>
                             <th style="width:50px">Inicio</th>
                             <th style="width:50px">Fin</th>
-                            <th style="width:100px">Cliente</th>
+                            <th style="width:180px">Cliente</th>
                             <th style="width:50px">OT</th>
                             <th style="width:80px">Medidas</th>
                             <th style="width:50px">Cant.</th>
-                            <th style="width:180px">Materiales</th>
+                            <th style="width:200px">Materiales</th>
                             <th style="width:50px">Imp.</th>
                             <th style="width:50px">Cort.</th>
                             <th style="width:50px">Obs.</th>
@@ -598,7 +600,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                 <h4>Listado de OT's pendientes de corte:</h4>
                 <div class="card-body table-responsive p-0">
                   <?php foreach ($cortadoras as $cortadora){ ?>
-                  <div style="width:1830px" class="text-left bg-success">
+                  <div style="width:1930px" class="text-left bg-success">
                     <span style="text-transform:uppercase;font-weight:bold;padding-left:50px;"><?= $cortadora->nombre ?></span>
                   </div>
                   <table id="tblCortadora<?= $cortadora->id ?>" class="table table-sm text-nowrap text-center">
@@ -609,11 +611,11 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <th style="width:50px">Acción</th>
                         <th style="width:50px">Inicio</th>
                         <th style="width:50px">Fin</th>
-                        <th style="width:100px">Cliente</th>
+                        <th style="width:180px">Cliente</th>
                         <th style="width:50px">OT</th>
                         <th style="width:80px">Medidas</th>
                         <th style="width:50px">Cant.</th>
-                        <th style="width:180px">Materiales</th>
+                        <th style="width:200px">Materiales</th>
                         <th style="width:50px">Imp.</th>
                         <th style="width:50px">Cort.</th>
                         <th style="width:50px">Obs.</th>
