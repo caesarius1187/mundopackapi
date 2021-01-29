@@ -237,7 +237,6 @@ function cargarOrdendetrabajo(otId){
                     loadMaterial();     
                 }
                 $("#materialesots-"+miCantMateriales+"-material option[value='"+this.material+"']").attr("selected", true);
-                $("#materialesots-"+miCantMateriales+"-tipo option[value='"+this.tipo+"']").attr("selected", true);
                 $("#materialesots-"+miCantMateriales+"-porcentaje").val(this.porcentaje);
                 miCantMateriales++;
             });
@@ -267,11 +266,6 @@ function loadMaterial(){
     var inputMateriales = $trNew.find("#materialesots-"+cantMateriales+"-material")
         .attr('name',nameMaterial)
         .attr('id',idMaterial);
-    var nameTipo = "Materialesots["+newcantMateriales+"][tipo]";
-    var idTipo = "materialesots-"+newcantMateriales+"-tipo";
-    var inputTipo = $trNew.find("#materialesots-"+cantMateriales+"-tipo")
-        .attr('name',nameTipo)
-        .attr('id',idTipo);
     var namePorcentaje = "Materialesots["+newcantMateriales+"][porcentaje]";
     var idPorcentaje = "materialesots-"+newcantMateriales+"-porcentaje";
     var inputPorcentaje = $trNew.find("#materialesots-"+cantMateriales+"-porcentaje")

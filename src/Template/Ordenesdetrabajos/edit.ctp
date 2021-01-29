@@ -217,7 +217,6 @@ font-size:14px !important;
                 <thead class="thead-dark">
                   <tr>
                     <th class="align-middle">Material</th>
-                    <th class="align-middle">Tipo</th>
                     <th class="align-middle">Porcentaje (%)</th>
                     <th class="align-middle">Kilos</th>
                     <th><button type="button" name="button" class="btn btn-success" onclick="loadMaterial()"><i class="fas fa-plus"></i></button></th>
@@ -244,17 +243,6 @@ font-size:14px !important;
                             'value'=>$materialesot->material,
                             'type'=>'select',
                             'options'=>[$materiales]
-                          ]); ?>
-                        </td>
-                        <td>
-                          <?= $this->Form->control('Materialesots.'.$key.'.tipo',[
-                            'label'=>false,
-                            'value'=>$materialesot->tipo,
-                            'type'=>'select',
-                            'options'=>[
-                              'Nuevo'=>'Nuevo',
-                              'Reciclado'=>'Reciclado',
-                            ]
                           ]); ?>
                         </td>
                         <td>
@@ -286,16 +274,6 @@ font-size:14px !important;
                             'label'=>false,
                             'type'=>'select',
                             'options'=>[$materiales]
-                          ]); ?>
-                        </td>
-                        <td>
-                          <?= $this->Form->control('Materialesots.0.tipo',[
-                            'label'=>false,
-                            'type'=>'select',
-                            'options'=>[
-                              'Nuevo'=>'Nuevo',
-                              'Reciclado'=>'Reciclado',
-                            ]
                           ]); ?>
                         </td>
                         <td>

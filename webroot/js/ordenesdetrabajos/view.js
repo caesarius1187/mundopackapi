@@ -85,7 +85,7 @@ $(document).ready(function() {
                     })
                     loadBobinaImpresion(data.respuesta.bobinasdeimpresion,data.respuesta.empleado,data.respuesta.bobinasdeextrusion,data.respuesta.impresora);
                     //mostramos +1 en el btn de extrusadas
-                    if(data.respuesta.bobinasdeextrusion.terminacion!='Parcial'){
+                    if(data.respuesta.bobinasdeimpresion.terminacion!='Parcial'&&data.respuesta.bobinasdeextrusion.terminacion!='Parcial'){
                         var aextrusar = $("#aextrusar").val();
                         var impresas = $("#impresas").val();
                         if($("#btnImpresas").length>0){
@@ -238,13 +238,19 @@ $(document).ready(function() {
         });
         return false;
     });
-    $("#terminacion").on('change',function(){
+    $("#modalAddBobinaEstrusion #terminacion").on('change',function(){
         getBobinasExtrusionsParciales();
+    });
+    $("#modalAddBobinaImpresion #terminacion").on('change',function(){
+        getBobinasImpresionsParciales();
+    });
+    $("#modalAddBobinaImpresion #bobinasdeimpresion-id").on('change',function(){
+        selectBobExtParcialCorrespondiente();
     });
 });
 function getBobinasExtrusionsParciales(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
-    if($("#terminacion").val()=='Complementaria'){
+    if($("#modalAddBobinaEstrusion #terminacion").val()=='Complementaria'){
         $.ajax({
             type: 'POST',
             url: serverLayoutURL+'bobinasdeextrusions/getparciales/'+ordenesdetrabajoId+'.json',
@@ -272,16 +278,16 @@ function getBobinasExtrusionsParciales(){
                           icon: 'success',
                           title: 'Se cargo la lista de bobinas de extrusion parciales.'
                         });
-                        $("#bobinasdeextrusion-id").attr('disabled',false);
+                        $("#modalAddBobinaEstrusion #bobinasdeextrusion-id").attr('disabled',false);
                     }else{
                         Toast.fire({
                           icon: 'error',
                           title: "no hay bobinas de extrusion parciales para usar."
                         });
-                        $("#terminacion").val('Completa');
-                        $("#bobinasdeextrusion-id").find('option')
+                        $("#modalAddBobinaEstrusion #terminacion").val('Completa');
+                        $("#modalAddBobinaEstrusion #bobinasdeextrusion-id").find('option')
                                                    .remove();
-                        $("#bobinasdeextrusion-id").attr('disabled',true);
+                        $("#modalAddBobinaEstrusion #bobinasdeextrusion-id").attr('disabled',true);
                     }
                 }
             },
@@ -290,10 +296,75 @@ function getBobinasExtrusionsParciales(){
             }
         });
     }else{
-        $("#bobinasdeextrusion-id").find('option')
+        $("#modalAddBobinaEstrusion #bobinasdeextrusion-id").find('option')
                                    .remove();
-        $("#bobinasdeextrusion-id").attr('disabled',true);
+        $("#modalAddBobinaEstrusion #bobinasdeextrusion-id").attr('disabled',true);
     }
+}
+function getBobinasImpresionsParciales(){
+    var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
+    if($("#modalAddBobinaImpresion #terminacion").val()=='Complementaria'){
+        $.ajax({
+            type: 'POST',
+            url: serverLayoutURL+'bobinasdeimpresions/getparciales/'+ordenesdetrabajoId+'.json',
+            data: '',
+            success: function(response,textStatus,xhr){
+                if(response.respuesta.error!=0){
+                    Toast.fire({
+                      icon: 'error',
+                      title: data.data.respuesta
+                    })
+                }else{
+                    var bobinasdeimpresionsparciales = response.respuesta.data;
+
+                    var hayBobinasDeImpresion = false;
+                    for (var p in bobinasdeimpresionsparciales) {
+                        if( bobinasdeimpresionsparciales.hasOwnProperty(p) ) {
+                            $("#modalAddBobinaImpresion #bobinasdeimpresion-id").append(
+                                '<option value="'+p+'">'+bobinasdeimpresionsparciales[p]+'</option>'
+                            );
+
+                            hayBobinasDeImpresion = true;
+                        }
+                    }
+                    selectBobExtParcialCorrespondiente();
+                    if(hayBobinasDeImpresion){
+                        Toast.fire({
+                          icon: 'success',
+                          title: 'Se cargo la lista de bobinas de impresion parciales.'
+                        });
+                        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',false);
+                    }else{
+                        Toast.fire({
+                          icon: 'error',
+                          title: "no hay bobinas de impresion parciales para usar."
+                        });
+                        $("#modalAddBobinaImpresion #terminacion").val('Completa');
+                        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").find('option')
+                                                   .remove();
+                        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',true);
+                    }
+                }
+            },
+            error: function(xhr,textStatus,error){
+                alert(textStatus);
+            }
+        });
+    }else{
+        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").find('option')
+                                   .remove();
+        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',true);
+    }
+}
+function selectBobExtParcialCorrespondiente(){
+    var numBobinaImpParcialSelect = $("#modalAddBobinaImpresion #bobinasdeimpresion-id").val();
+    var numBobinaExtrRelacionada = $("#bobinasdeextrusiondeimp"+numBobinaImpParcialSelect).val();
+    var mymodal = $("#modalAddBobinaImpresion");
+    var mySelect = mymodal.find("#bobinasdeextrusion-id")
+    mySelect.find("option").removeAttr('selected');
+    var myOption = mySelect.find("option[value='"+numBobinaExtrRelacionada+"']")
+    mySelect.prop('selectedIndex',0);
+    myOption.attr("selected", true);
 }
 function getListaBobinasExtrusionParaImpresion(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
@@ -513,7 +584,16 @@ function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impr
             )
             .append(
                 $("<td>")
-                    .html(bobinasdeestrusion.numero)
+                    .append(
+                        $("<input>")
+                            .attr('type','hidden')
+                            .attr('name','bobinasdeextrusiondeimp'+bobinaimpresion.id)
+                            .attr('id','bobinasdeextrusiondeimp'+bobinaimpresion.id)
+                            .attr('value',bobinasdeestrusion.id)
+                    )
+                    .append(
+                        bobinasdeestrusion.numero
+                    )
             )
             .append(
                 $("<td>")
@@ -538,6 +618,10 @@ function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impr
             .append(
                 $("<td>")
                     .html(bobinaimpresion.scrap)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinaimpresion.terminacion)
             )
             .append(
                 $("<td>")

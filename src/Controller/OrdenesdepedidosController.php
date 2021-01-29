@@ -81,7 +81,9 @@ class OrdenesdepedidosController extends AppController
         $ordenesdepedido = $this->Ordenesdepedidos->get($id, [
             'contain' => [
               'Clientes',
-              'Ordenesdetrabajos'
+              'Ordenesdetrabajos'=>[
+                'Materialesots'
+              ]
             ],
         ]);
 
@@ -153,6 +155,7 @@ class OrdenesdepedidosController extends AppController
         $clientes = $this->Clientes->find('list',[
             'conditions'=>[
             ],
+            'order'=>['Clientes.nombre']
         ]);
         $materiales = $this->Ordenesdetrabajos->materiales;
         $this->set(compact('ordenesdepedido','maxNumOrdenPedido','clientes','materiales'));

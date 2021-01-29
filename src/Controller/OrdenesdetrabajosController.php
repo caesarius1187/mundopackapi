@@ -230,9 +230,21 @@ class OrdenesdetrabajosController extends AppController
             ],
         ]);
         $ordenesdetrabajo->estado = 'Pausado';
+        $ordenesdetrabajo->prioridadpendientes = 1;
+        $ordenesdetrabajo->prioridadextrusion = 0;
+        $ordenesdetrabajo->prioridadimpresion = 0;
+        $ordenesdetrabajo->prioridadcorte = 0;
         if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
             //si la or tiene ordenot asignadas las eliminamos
-            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
+            $this->Ordenots->updateAll(
+                ['ordenesdetrabajo_id' => $otid],
+                [
+                    'prioridadpendientes' => 1,
+                    'prioridadextrusion' => 0,
+                    'prioridadimpresion' => 0,
+                    'prioridadcorte' => 0
+                ]
+            );
             $data['respuesta'] .= "La OT fue pausada y se la saco de las listas de prioridades de las maquinas.";
         }else{
             $data['error'] = 1;
@@ -286,7 +298,6 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Cortadoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
             'contain' => [
-
                 'Ordenots'=>[
                     'Extrusoras',
                     'Impresoras',
@@ -302,6 +313,8 @@ class OrdenesdetrabajosController extends AppController
                     'Empleados',
                 ],
                 'Bobinasdeimpresions'=>[
+                    'Complementarias',
+                    'Parciales',
                     'Impresoras',
                     'Empleados',
                     'Bobinasdeextrusions'

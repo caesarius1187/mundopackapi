@@ -32,7 +32,7 @@
       <div class="col-md-12">
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title">ORDEN DE PEDIDO N° <?= h($ordenesdepedido->id) ?></h3>
+            <h3 class="card-title">ORDEN DE PEDIDO N° <?= h($ordenesdepedido->numero) ?></h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -74,11 +74,8 @@
             <table id="tblOrdenesDeTrabajo" class="table table-head-fixed text-nowrap">
               <thead>
                 <tr>
-                  <th scope="col"><?= __('Id') ?></th>
-                  <th scope="col"><?= __('Ordenesdepedido Id') ?></th>
                   <th scope="col"><?= __('Cantidad') ?></th>
                   <th scope="col"><?= __('Material') ?></th>
-                  <th scope="col"><?= __('Tipo') ?></th>
                   <th scope="col"><?= __('Color') ?></th>
                   <th scope="col"><?= __('Fuelle') ?></th>
                   <th scope="col"><?= __('Medida') ?></th>
@@ -92,18 +89,18 @@
                   <th scope="col"><?= __('Cierrescrap') ?></th>
                   <th scope="col"><?= __('Cierrediferenciakg') ?></th>
                   <th scope="col"><?= __('Concluciones') ?></th>
-                  <th scope="col"><?= __('Created') ?></th>
-                  <th scope="col"><?= __('Modified') ?></th>
+                  <th scope="col"><?= __('Creado') ?></th>
+                  <th scope="col"><?= __('Modificado') ?></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                 <?php foreach ($ordenesdepedido->ordenesdetrabajos as $ordenesdetrabajos): ?>
-                  <td><?= h($ordenesdetrabajos->id) ?></td>
-                  <td><?= h($ordenesdetrabajos->ordenesdepedido_id) ?></td>
                   <td><?= h($ordenesdetrabajos->cantidad) ?></td>
-                  <td><?= h($ordenesdetrabajos->material) ?></td>
-                  <td><?= h($ordenesdetrabajos->tipo) ?></td>
+                  <td><?php 
+                  foreach ($ordenesdetrabajos->materialesots as $key => $material) {
+                    echo $material->material."-".$material->porcentaje."%";
+                  } ?></td>
                   <td><?= h($ordenesdetrabajos->color) ?></td>
                   <td><?= h($ordenesdetrabajos->fuelle) ?></td>
                   <td><?= h($ordenesdetrabajos->medida) ?></td>
@@ -117,8 +114,8 @@
                   <td><?= h($ordenesdetrabajos->cierrescrap) ?></td>
                   <td><?= h($ordenesdetrabajos->cierrediferenciakg) ?></td>
                   <td><?= h($ordenesdetrabajos->concluciones) ?></td>
-                  <td><?= h($ordenesdetrabajos->created) ?></td>
-                  <td><?= h($ordenesdetrabajos->modified) ?></td>
+                  <td><?= date('d-m-Y',strtotime($ordenesdetrabajos->created)) ?></td>
+                  <td><?= date('d-m-Y',strtotime($ordenesdetrabajos->modified)) ?></td>
                 </tr>
               <?php endforeach; ?>
               </tbody>

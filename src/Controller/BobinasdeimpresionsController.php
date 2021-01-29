@@ -143,7 +143,7 @@ class BobinasdeimpresionsController extends AppController
             //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
             
             $ordenesdetrabajo->impresas = $ordenesdetrabajo->impresas+1 ;
-            if($bobinasdeextrusion->first()->terminacion!='Parcial'){
+            if($bobinasdeimpresion->terminacion!='Parcial'&&$bobinasdeextrusion->first()->terminacion!='Parcial'){
                 if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                     $respuesta['respuesta'] .= "Se actualizo las bobinas impresas de la orden de pedido.";
                 }else{
@@ -162,6 +162,23 @@ class BobinasdeimpresionsController extends AppController
             '_serialize' => ['respuesta']
         ]);
 
+    }
+    public function getparciales($ordenesdetrabajoId)
+    {
+        //tenemos que buscar las bobinas de impresion que ya se usaron en las impresiones y excluirlas
+        $bobinasdeimpresionsparciales  = $this->Bobinasdeimpresions->find('list', [
+            'conditions'=>[
+                'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
+                'Bobinasdeimpresions.terminacion'=>'Parcial'
+            ],
+            'limit' => 200
+        ]);
+        $respuesta['data'] = $bobinasdeimpresionsparciales;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta','bobinasdeimpresionsparciales']
+        ]);
     }
 
     /**

@@ -38,6 +38,7 @@ class Bobinasdeimpresion extends Entity
         'impresora_id' => true,
         'bobinasdeextrusion_id' => true,
         'ordenesdetrabajo_id' => true,
+        'bobinasdeimpresion_id' => true,
         'numero' => true,
         'fecha' => true,
         'horas' => true,

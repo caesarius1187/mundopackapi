@@ -58,6 +58,16 @@ class BobinasdeimpresionsTable extends Table
         $this->hasMany('Bobinascorteorigens', [
             'foreignKey' => 'bobinascorteorigen_id',
         ]);
+        $this->hasMany('Complementarias',[            
+             'className'=>'Bobinasdeimpresions',
+             'foreignKey'=>'bobinasdeimpresion_id'
+          ]
+        );
+        $this->belongsTo('Parciales',[
+               'className'=>'Bobinasdeimpresions',
+               'foreignKey'=>'bobinasdeimpresion_id'
+            ]
+        );
     }
 
     /**

@@ -65,7 +65,7 @@ class BobinasdeextrusionsTable extends Table
                'className'=>'Bobinasdeextrusions',
                'foreignKey'=>'bobinasdeextrusion_id'
             ]
-          );
+        );
 
         $this->hasMany('Bobinascorteorigens', [
             'foreignKey' => 'bobinasdeextrusion_id',

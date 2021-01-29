@@ -175,7 +175,6 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                             foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
                                 ?>
                                 <li><?= h($materialesot->material) ?>
-                                <?= h($materialesot->tipo) ?>
                                 <?= h($materialesot->porcentaje."%") ?>
                                 </li>
                                 <?php
@@ -204,6 +203,89 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                       <div class="col-sm-2">
                           <h5><span class="badge badge-secondary"><?= __('Precio unitario: ') ?></span> <?= h($ordenesdetrabajo->preciounitario) ?></h5>
                       </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5><span class="badge badge-info"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
+                            <h5><span class="badge badge-info"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
+                            <?php
+                            $totKgExtr = 0;
+                            foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                              $totKgExtr += $bobinasdeextrusion->kilogramos*1; 
+                            }
+                            ?>
+                            <h5><span class="badge badge-info"><?= __('Total Kg Extrusion: ') ?></span> <?= $this->Number->format($totKgExtr) ?></h5>
+                            <?php
+                            $totScrapExt = 0;
+                            foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                              $totScrapExt += $bobinasdeextrusion->scrap*1; 
+                            }
+                            ?>
+                            <h5><span class="badge badge-info"><?= __('Total de Scrap: ') ?></span> <?= $this->Number->format($totScrapExt) ?></h5>
+                          </div>
+                        </div>
+                      </div>
+                      <?php
+                      if($ordenesdetrabajo->impreso){
+                          $totKgImp = 0;
+                          $totScrapImp = 0;
+                            foreach ($ordenesdetrabajo->bobinasdeimpresions as $kbe=> $bobinasdeimpresion) {
+                              $totKgImp += $bobinasdeimpresion->kilogramos*1; 
+                              $totScrapImp += $bobinasdeimpresion->scrap*1; 
+                            }
+                          ?>
+                          <div class="col-sm-3">
+                            <div class="card">
+                              <div class="card-body">
+                                    <h5><span class="badge badge-info"><?= __('Impresas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->impresas) ?></h5>
+                                    <h5><span class="badge badge-info"><?= __('Tipo Impresion: ') ?></span> <?= $ordenesdetrabajo->tipoimpresion ?></h5>
+                                    <h5><span class="badge badge-info"><?= __('Total Kg Impresion: ') ?></span> <?= $this->Number->format($totKgImp) ?></h5>
+                                    <h5><span class="badge badge-info"><?= __('Total Scrap Impresion: ') ?></span> <?= $this->Number->format($totScrapImp) ?></h5>
+                              </div>
+                            </div>
+                          </div>
+                          <?php
+                      }else{
+                          ?>
+                          <div class="col-sm-3">
+                              <h5><span class="badge badge-info"><?= __('NO se imprime') ?></span></h5>
+                          </div>
+                          <?php
+                      }
+                      if($ordenesdetrabajo->cortado){
+                        $totKgCort=0;
+                        $totCantCort=0;
+                        $totScrapCort=0;
+                        foreach ($ordenesdetrabajo->bobinasdecortes as $kbe=> $bobinasdecorte) {
+                            $totKgCort += $bobinasdecorte->kilogramos*1; 
+                            $totCantCort += $bobinasdecorte->cantidad*1; 
+                            $totScrapCort += $bobinasdecorte->scrap*1; 
+                        }
+                        ?>
+                        <div class="col-sm-3">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5><span class="badge badge-info"><?= __('Cortadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cortadas) ?></h5>
+                              <h5><span class="badge badge-info"><?= __('Tipo Corte: ') ?></span> <?= $ordenesdetrabajo->tipocorte ?></h5>
+                              <h5><span class="badge badge-info"><?= __('Total Cant Cortadas: ') ?></span> <?= $this->Number->format($totCantCort) ?></h5>
+                              <h5><span class="badge badge-info"><?= __('Total Kg Corte: ') ?></span> <?= $this->Number->format($totKgCort) ?></h5>
+                              <h5><span class="badge badge-info"><?= __('Total Scrap Corte: ') ?></span> <?= $this->Number->format($totScrapCort) ?></h5>
+                              <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
+                              <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
+                            </div>
+                          </div>
+                        </div>
+                        <?php
+                      }else{
+                          ?>
+                          <div class="col-sm-3">
+                              <h5><span class="badge badge-info"><?= __('NO se corta') ?></span></h5>
+                          </div>
+                          <?php
+                      }
+                      ?>
                     </div>
                     <div class="row">
                       <div class="col-sm-3">
@@ -268,8 +350,8 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                       <th scope="col">Extrusora</th>
                                       <th scope="col">Fecha</th>
                                       <th scope="col">Extrusor</th>
-                                      <th scope="col">Hs.</th>
                                       <th scope="col">Kg.</th>
+                                      <th scope="col">Metros</th>
                                       <th scope="col">Scrap cant.</th>
                                       <th scope="col">Observación</th>
                                     </tr>
@@ -285,7 +367,8 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                           <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
                                           <td><?=$bobinasdeextrusion->horas; ?></td>
                                           <td><?=$bobinasdeextrusion->kilogramos; ?></td>
-                                          <td><?=$bobinasdeextrusion->scrap; ?></td>
+                                          <td><?=$bobinasdeextrusion->horas; ?></td>
+                                          <td><?=$bobinasdeextrusion->metros; ?></td>
                                           <td><?=$bobinasdeextrusion->observacion; ?></td>
                                         </tr>
                                         <?php
@@ -328,6 +411,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                       <th scope="col">Empleado</th>
                                       <th scope="col">Hs.</th>
                                       <th scope="col">Kg.</th>
+                                      <th scope="col">Metros</th>
                                       <th scope="col">Scrap cant.</th>
                                       <th scope="col">Observación</th>
                                     </tr>
@@ -343,6 +427,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                           <th><?=$bobinasdeimpresion->empleado->nombre; ?></th>
                                           <th><?=$bobinasdeimpresion->horas; ?></th>
                                           <th><?=$bobinasdeimpresion->kilogramos; ?></th>
+                                          <th><?=$bobinasdeimpresion->metros; ?></th>
                                           <th><?=$bobinasdeimpresion->scrap; ?></th>
                                           <th><?=$bobinasdeimpresion->observacion; ?></th>
                                         </tr>
@@ -387,6 +472,8 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                       <th scope="col">Hs.</th>
                                       <th scope="col">Kg.</th>
                                       <th scope="col">Scrap cant.</th>
+                                      <th scope="col">Scrap Sacabocado</th>
+                                      <th scope="col">Cantidad</th>
                                       <th scope="col">Observación</th>
                                     </tr>
                                   </thead>
@@ -402,6 +489,8 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                           <th><?=$bobinasdecorte->horas; ?></th>
                                           <th><?=$bobinasdecorte->kilogramos; ?></th>
                                           <th><?=$bobinasdecorte->scrap; ?></th>
+                                          <th><?=$bobinasdecorte->scrapsacabocado; ?></th>
+                                          <th><?=$bobinasdecorte->cantidad; ?></th>
                                           <th><?=$bobinasdecorte->observacion; ?></th>
                                         </tr>
                                         <?php

@@ -97,7 +97,8 @@ class BobinasdeextrusionsController extends AppController
         //tenemos que buscar las bobinas de extrusion que ya se usaron en las impresiones y excluirlas
         $bobinasdeimpresions  = $this->Bobinasdeimpresions->find('all', [
             'conditions'=>[
-                'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+                'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
+                'Bobinasdeimpresions.terminacion <> "Parcial"'
             ],
             'limit' => 200
         ]);
