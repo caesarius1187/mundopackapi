@@ -60,6 +60,7 @@ class OrdenotsController extends AppController
         }else{
             $ordenot = $this->Ordenots->patchEntity($ordenot, $this->request->getData());
         }
+        $ordenot->prioridadpendientes = 0;
         //vamos a poner la prioridad mas alta +1
         $maxprioridadextrusora = 0;
         $orderotMax = $this->Ordenots->find('all',[

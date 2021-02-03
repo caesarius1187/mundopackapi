@@ -39,6 +39,7 @@ class Ordenot extends Entity
         'cortadora_id' => true,
         'fechainiciocortadora' => true,
         'ordenesdetrabajo_id' => true,
+        'matriz' => true,
         'prioridadpendientes' => true,
         'prioridadextrusion' => true,
         'prioridadimpresion' => true,

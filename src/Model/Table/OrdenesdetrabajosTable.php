@@ -47,6 +47,7 @@ class OrdenesdetrabajosTable extends Table
             'ANTIBLOCK'=>'ANTIBLOCK',
             'ANTIESTATICO'=>'ANTIESTATICO',
             'CARBONATO O CARGA'=>'CARBONATO O CARGA',
+            'POLIPROPILENO'=>'POLIPROPILENO',
         ];
 
     public function initialize(array $config)

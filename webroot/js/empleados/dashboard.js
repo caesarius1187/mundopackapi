@@ -46,6 +46,44 @@ function loadOTExtrusora(extrusoraId){
                 var fechaInicioTrabajo = getDateArray(this.fechainicioextrusora);
                 var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
 
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
+                  $BtnClassExtrusion="warning";
+                }else{
+                  $BtnClassExtrusion="success";                          
+                }
+                if(this.ordenesdetrabajo.extrusadas*1==0){
+                  $BtnClassExtrusion="danger";                          
+                }
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.impresas){
+                  $BtnClassImpresion="warning";
+                }else{
+                  $BtnClassImpresion="success";                          
+                }
+                if(this.ordenesdetrabajo.impresas*1==0){
+                  $BtnClassImpresion="danger";                          
+                }
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.cortadas){
+                  $BtnClassCorte="warning";
+                }else{
+                  $BtnClassCorte="success";                          
+                }
+                if(this.ordenesdetrabajo.cortadas*1==0){
+                  $BtnClassCorte="danger";                          
+                }
+                var btnProgImp = "";
+                if(this.ordenesdetrabajo.impreso){ 
+                    btnProgImp = '<button type="button" class="btn btn-'+$BtnClassImpresion+'">'+this.ordenesdetrabajo.impresas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
+                }else{
+                    btnProgImp = '<button type="button" class="btn btn-success">NO</button>'
+                }         
+                var btnProgCorte = "";
+
+                if(this.ordenesdetrabajo.cortado){ 
+                  btnProgCorte = '<button type="button" class="btn btn-'+$BtnClassCorte+'">'+this.ordenesdetrabajo.cortadas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
+                }else{
+                  btnProgCorte = '<button type="button" class="btn btn-success">NO</button>';
+                }
+
                 var tr = $("<tr>")
                         .append(
                             $("<td class='text-center'>").html(this.prioridadextrusion)
@@ -71,12 +109,20 @@ function loadOTExtrusora(extrusoraId){
                         .append(
                             $("<td class='text-center'>").html("materiales")
                         )
-                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.impreso?'SI':'NO')
-                        )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cortado?'SI':'NO')
-                        )
+                            $("<td>").append(
+                                $("<button>")
+                                    .attr('type','button')
+                                    .addClass("btn btn-"+$BtnClassExtrusion)
+                                    .html(this.ordenesdetrabajo.extrusadas*1+"/"+this.ordenesdetrabajo.aextrusar*1)
+                            )
+                        )   
+                        .append(
+                            $("<td>").append(btnProgImp)
+                        )   
+                        .append(
+                            $("<td>").append(btnProgCorte)
+                        )                        
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
@@ -159,6 +205,44 @@ function loadOTImpresora(impresoraId){
                 var fechaInicioTrabajo = getDateArray(this.fechainicioimpresora);
                 var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
 
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
+                  $BtnClassExtrusion="warning";
+                }else{
+                  $BtnClassExtrusion="success";                          
+                }
+                if(this.ordenesdetrabajo.extrusadas*1==0){
+                  $BtnClassExtrusion="danger";                          
+                }
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.impresas){
+                  $BtnClassImpresion="warning";
+                }else{
+                  $BtnClassImpresion="success";                          
+                }
+                if(this.ordenesdetrabajo.impresas*1==0){
+                  $BtnClassImpresion="danger";                          
+                }
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.cortadas){
+                  $BtnClassCorte="warning";
+                }else{
+                  $BtnClassCorte="success";                          
+                }
+                if(this.ordenesdetrabajo.cortadas*1==0){
+                  $BtnClassCorte="danger";                          
+                }
+                var btnProgImp = "";
+                if(this.ordenesdetrabajo.impreso){ 
+                    btnProgImp = '<button type="button" class="btn btn-'+$BtnClassImpresion+'">'+this.ordenesdetrabajo.impresas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
+                }else{
+                    btnProgImp = '<button type="button" class="btn btn-success">NO</button>'
+                }         
+                var btnProgCorte = "";
+
+                if(this.ordenesdetrabajo.cortado){ 
+                  btnProgCorte = '<button type="button" class="btn btn-'+$BtnClassCorte+'">'+this.ordenesdetrabajo.cortadas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
+                }else{
+                  btnProgCorte = '<button type="button" class="btn btn-success">NO</button>';
+                }
+
                 var tr = $("<tr>")
                         .append(
                             $("<td class='text-center'>").html(this.prioridadimpresion)
@@ -184,12 +268,20 @@ function loadOTImpresora(impresoraId){
                         .append(
                             $("<td class='text-center'>").html("materiales")
                         )
-                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.impreso?'SI':'NO')
-                        )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cortado?'SI':'NO')
-                        )
+                            $("<td>").append(
+                                $("<button>")
+                                    .attr('type','button')
+                                    .addClass("btn btn-"+$BtnClassExtrusion)
+                                    .html(this.ordenesdetrabajo.extrusadas*1+"/"+this.ordenesdetrabajo.aextrusar*1)
+                            )
+                        )   
+                        .append(
+                            $("<td>").append(btnProgImp)
+                        )   
+                        .append(
+                            $("<td>").append(btnProgCorte)
+                        ) 
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
@@ -271,6 +363,44 @@ function loadOTCortadora(cortadoraId){
                 var fechaInicioTrabajo = getDateArray(this.fechainicioimpresora);
                 var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
 
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
+                  $BtnClassExtrusion="warning";
+                }else{
+                  $BtnClassExtrusion="success";                          
+                }
+                if(this.ordenesdetrabajo.extrusadas*1==0){
+                  $BtnClassExtrusion="danger";                          
+                }
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.impresas){
+                  $BtnClassImpresion="warning";
+                }else{
+                  $BtnClassImpresion="success";                          
+                }
+                if(this.ordenesdetrabajo.impresas*1==0){
+                  $BtnClassImpresion="danger";                          
+                }
+                if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.cortadas){
+                  $BtnClassCorte="warning";
+                }else{
+                  $BtnClassCorte="success";                          
+                }
+                if(this.ordenesdetrabajo.cortadas*1==0){
+                  $BtnClassCorte="danger";                          
+                }
+                var btnProgImp = "";
+                if(this.ordenesdetrabajo.impreso){ 
+                    btnProgImp = '<button type="button" class="btn btn-'+$BtnClassImpresion+'">'+this.ordenesdetrabajo.impresas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
+                }else{
+                    btnProgImp = '<button type="button" class="btn btn-success">NO</button>'
+                }         
+                var btnProgCorte = "";
+
+                if(this.ordenesdetrabajo.cortado){ 
+                  btnProgCorte = '<button type="button" class="btn btn-'+$BtnClassCorte+'">'+this.ordenesdetrabajo.cortadas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
+                }else{
+                  btnProgCorte = '<button type="button" class="btn btn-success">NO</button>';
+                }
+                
                 var tr = $("<tr>")
                         .append(
                             $("<td class='text-center'>").html(this.prioridadcorte)
@@ -296,12 +426,20 @@ function loadOTCortadora(cortadoraId){
                         .append(
                             $("<td class='text-center'>").html("materiales")
                         )
-                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.impreso?'SI':'NO')
-                        )
                         .append(
-                            $("<td class='text-center'>").html(this.ordenesdetrabajo.cortado?'SI':'NO')
-                        )
+                            $("<td>").append(
+                                $("<button>")
+                                    .attr('type','button')
+                                    .addClass("btn btn-"+$BtnClassExtrusion)
+                                    .html(this.ordenesdetrabajo.extrusadas*1+"/"+this.ordenesdetrabajo.aextrusar*1)
+                            )
+                        )   
+                        .append(
+                            $("<td>").append(btnProgImp)
+                        )   
+                        .append(
+                            $("<td>").append(btnProgCorte)
+                        ) 
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )

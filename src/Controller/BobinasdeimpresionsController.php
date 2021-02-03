@@ -143,62 +143,14 @@ class BobinasdeimpresionsController extends AppController
             //vamos a sumar 1 en las bobinas extrusoras de la orden de trabajo
             
             $ordenesdetrabajo->impresas = $ordenesdetrabajo->impresas+1 ;
-
-            if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $respuesta['respuesta'] .= "Se actualizo las bobinas impresas de la orden de pedido.";
-            }else{
-                $respuesta['error'] = 2;
-                $respuesta['respuesta'] .= "No se pudo actualizar las bobinas impresas de la orden de pedido.";
-            }
-            //Si las impresas = aetxrusar entonces tengo que sacarla de las prioridades de las Impresoras
-            //no vamos a hacer esto ya por que cambio el sistema de prioridades y se ajusta por fecha
-            /*if($ordenesdetrabajo->impresas==$ordenesdetrabajo->aextrusar){
-                //buscamos las OrdenOts de la OT que debemos eliminar
-                 $conditionsOrdenOts=[
-                    'conditions'=>[
-                        'Ordenots.impresora_id <> 0',
-                        'Ordenots.ordenesdetrabajo_id'=>$ordenesdetrabajo->id,
-                    ]
-                ];                
-                $myOrderOtsTosDelete = $this->Ordenots->find('all',$conditionsOrdenOts);
-                $respuesta['myOrderOtsTosDelete'] = $myOrderOtsTosDelete;
-                foreach ($myOrderOtsTosDelete as $key => $myOrderOtToDelete) {
-                    //ahora borramos la OT y actualizamos las que le siguen
-                    //vamos a reducir en 1 las ordenes posteriores
-                    $newPrioridad = $myOrderOtToDelete->prioridad;
-                    //subimos a la que estaba abajo
-                    $conditionsOrdenOtsToUpdate=[
-                        'conditions'=>[
-                            'Ordenots.extrusora_id'=>$myOrderOtToDelete->extrusora_id,
-                            'Ordenots.impresora_id'=>$myOrderOtToDelete->impresora_id,
-                            'Ordenots.cortadora_id'=>$myOrderOtToDelete->cortadora_id,
-                            'Ordenots.prioridad >='=>$newPrioridad
-                        ]
-                    ];
-                    $myOrderOtsToUpdate = $this->Ordenots->find('all',$conditionsOrdenOtsToUpdate);
-                    $respuesta['myOrderOtsToUpdate'] = $myOrderOtsToUpdate;
-                    foreach ($myOrderOtsToUpdate as $key => $myOrderOtToUpdate) {
-                        $secOrdenot = $this->Ordenots->get($myOrderOtToUpdate->id , [
-                            'contain' => [
-                            ],
-                        ]);
-                        $secOrdenot->prioridad = $secOrdenot->prioridad - 1 ;
-                        if ($this->Ordenots->save($secOrdenot)) {
-                            $subiOrden=true;
-                        }else{
-                            $respuesta['error'] = 1;
-                            $respuesta['respuesta'] .= "No se pudo cambiar la prioridad de las ordenes posteriories.";
-                        }
-                    }
-                    
-                    if ($this->Ordenots->delete($myOrderOtToDelete)) {
-                       
-                    } else {
-                        $respuesta['error'] =2 ;
-                        $respuesta['respuesta'] .= "No se pudo eliminar la prioridad seleccionada.";
-                    }
+            if($bobinasdeimpresion->terminacion!='Parcial'&&$bobinasdeextrusion->first()->terminacion!='Parcial'){
+                if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                    $respuesta['respuesta'] .= "Se actualizo las bobinas impresas de la orden de pedido.";
+                }else{
+                    $respuesta['error'] = 2;
+                    $respuesta['respuesta'] .= "No se pudo actualizar las bobinas impresas de la orden de pedido.";
                 }
-            }*/
+            }            
         }else{
             $respuesta['respuesta'] = 'Error. La orden de pedido NO fue guardada. Intente de nuevo mas tarde';
             $respuesta['error'] = 1;
@@ -210,6 +162,23 @@ class BobinasdeimpresionsController extends AppController
             '_serialize' => ['respuesta']
         ]);
 
+    }
+    public function getparciales($ordenesdetrabajoId)
+    {
+        //tenemos que buscar las bobinas de impresion que ya se usaron en las impresiones y excluirlas
+        $bobinasdeimpresionsparciales  = $this->Bobinasdeimpresions->find('list', [
+            'conditions'=>[
+                'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
+                'Bobinasdeimpresions.terminacion'=>'Parcial'
+            ],
+            'limit' => 200
+        ]);
+        $respuesta['data'] = $bobinasdeimpresionsparciales;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta','bobinasdeimpresionsparciales']
+        ]);
     }
 
     /**

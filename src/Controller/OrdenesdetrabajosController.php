@@ -44,7 +44,7 @@ class OrdenesdetrabajosController extends AppController
                 ]
             ],
             'conditions'=>[
-                'Ordenesdetrabajos.ordenesdepedido_id IN (SELECT id FROM Ordenesdepedidos WHERE Ordenesdepedidos.cliente_id = '.$clienteID.')',
+                'Ordenesdetrabajos.ordenesdepedido_id IN (SELECT id FROM ordenesdepedidos WHERE ordenesdepedidos.cliente_id = '.$clienteID.')',
             ]
         ];
         $ordenesdetrabajos = $this->Ordenesdetrabajos->find('all',$conditions);
@@ -62,7 +62,9 @@ class OrdenesdetrabajosController extends AppController
 
         $conditions=[
             'contain'=>[
-                'Ordenots',
+                'Ordenots'=>[
+                    'sort'=>['Ordenots.prioridadpendientes']
+                ],
                 'Ordenesdepedidos'=>[
                     'Clientes'
                 ],
@@ -92,7 +94,13 @@ class OrdenesdetrabajosController extends AppController
 
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
-                'Ordenots'=>[
+                'Ordenots'=>[             
+                    'conditions'=>[
+                        'Ordenots.ordenesdetrabajo_id IN (
+                            Select id from ordenesdetrabajos 
+                                where ordenesdetrabajos.estado = "En Proceso"
+                        )'
+                    ],       
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -106,6 +114,12 @@ class OrdenesdetrabajosController extends AppController
         $impresoras = $this->Impresoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
+                    'conditions'=>[
+                        'Ordenots.ordenesdetrabajo_id IN (
+                            Select id from ordenesdetrabajos 
+                                where ordenesdetrabajos.estado = "En Proceso"
+                        )'
+                    ],
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -113,13 +127,18 @@ class OrdenesdetrabajosController extends AppController
                         'Materialesots'
                     ],
                     'sort'=>['Ordenots.prioridadimpresion']
-
                 ]
             ]
         ]);
         $cortadoras = $this->Cortadoras->find('all',[
             'contain'=>[
                 'Ordenots'=>[
+                    'conditions'=>[
+                        'Ordenots.ordenesdetrabajo_id IN (
+                            Select id from ordenesdetrabajos 
+                                where ordenesdetrabajos.estado = "En Proceso"
+                        )'
+                    ],
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -211,9 +230,21 @@ class OrdenesdetrabajosController extends AppController
             ],
         ]);
         $ordenesdetrabajo->estado = 'Pausado';
+        $ordenesdetrabajo->prioridadpendientes = 1;
+        $ordenesdetrabajo->prioridadextrusion = 0;
+        $ordenesdetrabajo->prioridadimpresion = 0;
+        $ordenesdetrabajo->prioridadcorte = 0;
         if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
             //si la or tiene ordenot asignadas las eliminamos
-            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
+            $this->Ordenots->updateAll(
+                ['ordenesdetrabajo_id' => $otid],
+                [
+                    'prioridadpendientes' => 1,
+                    'prioridadextrusion' => 0,
+                    'prioridadimpresion' => 0,
+                    'prioridadcorte' => 0
+                ]
+            );
             $data['respuesta'] .= "La OT fue pausada y se la saco de las listas de prioridades de las maquinas.";
         }else{
             $data['error'] = 1;
@@ -267,7 +298,6 @@ class OrdenesdetrabajosController extends AppController
         $this->loadModel('Cortadoras');
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
             'contain' => [
-
                 'Ordenots'=>[
                     'Extrusoras',
                     'Impresoras',
@@ -283,6 +313,8 @@ class OrdenesdetrabajosController extends AppController
                     'Empleados',
                 ],
                 'Bobinasdeimpresions'=>[
+                    'Complementarias',
+                    'Parciales',
                     'Impresoras',
                     'Empleados',
                     'Bobinasdeextrusions'
@@ -306,6 +338,20 @@ class OrdenesdetrabajosController extends AppController
         $impresoras = $this->Impresoras->find('list', ['limit' => 200]);
         $cortadoras = $this->Cortadoras->find('list', ['limit' => 200]);
         $this->set(compact('ordenesdetrabajo','newbobinasdeextrusion','newbobinasdeimpresion','newbobinasdecorte','empleados','extrusoras','impresoras','cortadoras'));
+        $this->set([
+              'ordenesdetrabajo' => $ordenesdetrabajo,
+              'empleados' => $empleados,
+              'extrusoras' => $extrusoras,
+              'impresoras' => $impresoras,
+              'cortadoras' => $cortadoras,
+              '_serialize' => [
+                'ordenesdetrabajo',
+                'empleados',
+                'extrusoras',
+                'impresoras',
+                'cortadoras'
+            ]
+          ]);
     }
 
     /**
@@ -357,19 +403,19 @@ class OrdenesdetrabajosController extends AppController
                 ],
                 'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridadpendientes)'),
             ]);
-            $maxNumPrioridad = 0;
+            $maxNumPrioridad = 1;
             foreach ($orderPendMax as $key => $value) {
                 $maxNumPrioridad = $value->maxprioridad;
             }
-            $maxNumPrioridad++;
+            $maxNumPrioridad = $maxNumPrioridad*1+1;
             $newordenOt = $this->Ordenots->newEntity();
             $newordenOt->matriz = $tipoMatriz;
             $newordenOt->prioridadpendientes = $maxNumPrioridad;
             $newordenOt->ordenesdetrabajo_id = $result->id;
             $this->Ordenots->save($newordenOt);
-
             $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
             $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+            $respuesta['newordenOt'] = $newordenOt;
             $respuesta['request'] = $this->request->getData();
             $respuesta['error'] = 0;
             $OTerrors = $ordenesdetrabajo->errors();
@@ -417,41 +463,34 @@ class OrdenesdetrabajosController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
+            $ordenesdetrabajo->medida = $ordenesdetrabajo->ancho."x".$ordenesdetrabajo->largo."x".$ordenesdetrabajo->espesor;
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                 $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
                 foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
-                    if($materialesot['id']!=0){
+                    if(isset($materialesot['id']) && $materialesot['id']!=0){
                         $newmaterialOt = $this->Materialesots->get($materialesot['id'], [
                             'contain' => [],
                         ]);
                         $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
+                        $newmaterialOt->id = $materialesot['id'];
                     }else{
                         $newmaterialOt = $this->Materialesots->newEntity();
                     }
-                    $newmaterialOt->id = $materialesot['id'];
-                    $newmaterialOt->ordenesdetrabajo_id = $materialesot['ordenesdetrabajo_id'];
+                    $newmaterialOt->ordenesdetrabajo_id = $ordenesdetrabajo->id;
                     $newmaterialOt->material = $materialesot['material'];
                     $newmaterialOt->tipo = $materialesot['tipo'];
                     $newmaterialOt->porcentaje = $materialesot['porcentaje'];
                     $savedMaterial = $this->Materialesots->save($newmaterialOt);
                 }
-                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
-                $respuesta['request'] = $this->request->getData();
-                $respuesta['error'] = 0;
-                $OPerrors = $ordenesdetrabajo->errors();
-                $respuesta['errors'] = $OPerrors;
+                $this->Flash->success('La orden de trabajo fue modificada');
             }else{
-                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
-                $respuesta['request'] = $this->request->getData();
-                $respuesta['error'] = 1;
-                $OPerrors = $ordenesdetrabajo->errors();
-                $respuesta['errors'] = $OPerrors;
+                $this->Flash->success('Error. La orden de trabajo NO fue modificada. Intente de nuevo mas tarde');
             }
-            $this->set([
-                'respuesta' => $respuesta,
-                '_serialize' => ['respuesta']
+            return $this->redirect([
+                'controller'=>'ordenesdepedidos',
+                'action' => 'add',
+                $ordenesdetrabajo->ordenesdepedido_id
             ]);
-            return;
         }
 
         $ordenesdepedidos = $this->Ordenesdetrabajos->Ordenesdepedidos->find('list', ['limit' => 200]);
@@ -462,28 +501,52 @@ class OrdenesdetrabajosController extends AppController
 
      public function cerrar($id = null)
     {
+        $this->loadModel('Ordenesdepedidos');
+
         $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id, [
         ]);
+        $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
+            'conditions'=>[
+                'Ordenesdepedidos.id'=>$ordenesdetrabajo->ordenesdepedido_id,
+            ],
+            'contain'=>[
+                'Clientes',
+                'Ordenesdetrabajos'=>[
+                    'conditions'=>[
+                        'Ordenesdetrabajos.id'=>$id
+                    ],
+                    'Bobinasdeextrusions'=>[
+                        'Extrusoras',
+                        'Empleados'
+                    ],
+                    'Bobinasdeimpresions'=>[
+                        'Impresoras',
+                        'Empleados'
+                    ],
+                    'Bobinasdecortes'=>[
+                        'Cortadoras',
+                        'Empleados'
+                    ],
+                    'Materialesots'
+                ],
+            ]
+        ]);
+        $this->set(compact('ordenesdepedidos'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
             date_default_timezone_set('America/Argentina/Salta');
             $ordenesdetrabajo->cierre = date('Y-m-d H:i:s');
             $ordenesdetrabajo->estado = 'Terminado';
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
-                $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
+                $this->Flash->success('La orden de trabajo fue cerrada');
                 $respuesta['error'] = 0;
             }else{
-                $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
-                $respuesta['request'] = $this->request->getData();
-                $respuesta['error'] = 1;
-                $OPerrors = $ordenesdetrabajo->errors();
-                $respuesta['errors'] = $OPerrors;
+                $this->Flash->success("Error no se cerro la orden de trabajo.");
             }
-            $this->set([
-                'respuesta' => $respuesta,
-                '_serialize' => ['respuesta']
+            return $this->redirect([
+                'controller'=>'ordenesdepedidos',
+                'action' => 'index'
             ]);
-            return;
         }
     }
 

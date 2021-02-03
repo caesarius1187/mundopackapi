@@ -163,10 +163,25 @@ font-size:14px !important;
                         'type'=>'select',
                         'options'=>[
                           'No'=>'No',
-                          '5cm'=>'5cm',
-                          '7,5cm'=>'7,5cm',
-                          '10cm'=>'10cm',
-                          '12.5cm'=>'12.5cm',
+                          'Fuelle 3 cm – bolsas 15 cm de ancho'=>'Fuelle 3 cm – bolsas 15 cm de ancho',
+                          'Fuelle 3.5 cm – bol 20 cm para Vino, Fcia. San Francisco '=>'Fuelle 3.5 cm – bol 20 cm para Vino, Fcia. San Francisco ',
+                          'Fuelle 4 cm – bol 18 cm, 20 cm, 34 cm Artur'=>'Fuelle 4 cm – bol 18 cm, 20 cm, 34 cm Artur',
+                          'Fuelle 4.5 cm – bol 25 cm La Provincial'=>'Fuelle 4.5 cm – bol 25 cm La Provincial',
+                          'Fuelle 5 cm – bol 28 cm para Vino'=>'Fuelle 5 cm – bol 28 cm para Vino',
+                          'Fuelle 5.5 cm – bol 25 cm'=>'Fuelle 5.5 cm – bol 25 cm',
+                          'Fuelle 6 cm – bol 30 cm, 36 cm Mas Brillo, 36 cm Tierre Fuerte '=>'Fuelle 6 cm – bol 30 cm, 36 cm Mas Brillo, 36 cm Tierre Fuerte ',
+                          'Fuelle 6.5 cm – bol 35 cm, 37 cm'=>'Fuelle 6.5 cm – bol 35 cm, 37 cm',
+                          'Fuelle 7.2 cm – bol 43 cm Marilian'=>'Fuelle 7.2 cm – bol 43 cm Marilian',
+                          'Fuelle 7.5 cm – bol 40 cm'=>'Fuelle 7.5 cm – bol 40 cm',
+                          'Fuelle 8.5 cm – bol 45 cm, 47 cm'=>'Fuelle 8.5 cm – bol 45 cm, 47 cm',
+                          'Fuelle de 9 cm – bol 70 cm'=>'Fuelle de 9 cm – bol 70 cm',
+                          'Fuelle 9.5 cm – bol 50 cm'=>'Fuelle 9.5 cm – bol 50 cm',
+                          'Fuelle de 10 cm – bol 55 cm, 80 cm, 45 cm Mas Brillo'=>'Fuelle de 10 cm – bol 55 cm, 80 cm, 45 cm Mas Brillo',
+                          'Fuelle de 11 cm – bol 60 cm, 62 cm'=>'Fuelle de 11 cm – bol 60 cm, 62 cm',
+                          'Fuelle de 12.5 cm – bol 85 cm, 60 cm Mas Brillo'=>'Fuelle de 12.5 cm – bol 85 cm, 60 cm Mas Brillo',
+                          'Fuelle de 15 cm – bol 90 cm'=>'Fuelle de 15 cm – bol 90 cm',
+                          'Fuelle de 16 cm – bol 100 cm'=>'Fuelle de 16 cm – bol 100 cm',
+                          'Fuelle 25 cm – bol 120 cm '=>'Fuelle 25 cm – bol 120 cm ',                          
                         ]
                       ]); ?>
                     </div>
@@ -181,12 +196,18 @@ font-size:14px !important;
                         ]
                       ]); ?>
                     </div>
-                    <div class="col-sm-2 form-check m-3">
+                    <div class="col-sm-2">
                       <?= $this->Form->control('tratado',[
-                        'type'=>'checkbox',
-                        'class'=>'form-check-input align-middle',
-                        'label'=>' Tratado'
+                        'type'=>'select',
+                        'label'=>' Tratado',
+                        'options'=>[
+                            'No'=>'No',
+                            '1 Cara'=>'1 Cara',
+                            '2 Caras'=>'2 Caras'
+                        ]
                       ]); ?>
+                    </div>
+                    <div class="col-sm-2 form-check m-3">                    
                       <?= $this->Form->control('perf',[
                         'type'=>'checkbox',
                         'class'=>'form-check-input align-middle',
@@ -305,7 +326,6 @@ font-size:14px !important;
                         <thead class="thead-dark">
                           <tr>
                             <th class="align-middle">Material</th>
-                            <th class="align-middle">Tipo</th>
                             <th class="align-middle">Porcentaje (%)</th>
                             <th class="align-middle">Kilos</th>
                             <th><button type="button" name="button" class="btn btn-success" onclick="loadMaterial()"><i class="fas fa-plus"></i></button></th>
@@ -324,20 +344,10 @@ font-size:14px !important;
                                 ]); ?>
                               </td>
                               <td>
-                                <?= $this->Form->control('Materialesots.0.tipo',[
-                                  'label'=>false,
-                                  'type'=>'select',
-                                  'options'=>[
-                                    'Nuevo'=>'Nuevo',
-                                    'Reciclado'=>'Reciclado',
-                                  ]
-                                ]); ?>
-                              </td>
-                              <td>
                                 <?= $this->Form->control('Materialesots.0.porcentaje',[
                                   'label'=>false,
                                   'class'=>'porcentaje',
-                                  'onclick'=>'calcularKilosDeMateriales()',
+                                  'onchange'=>'calcularKilosDeMateriales()',
                                   'value'=>'100',
                                 ]); ?>
                               </td>
@@ -354,9 +364,30 @@ font-size:14px !important;
                         'label'=>'Precio ($):',
                       ]); ?>
                     </div>
-                    <div class="col-sm-10">
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3">
                       <?= $this->Form->control('observaciones',[
                         'label'=>'Observaciones:',
+                        'type' => 'textarea', 'escape' => false
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3">
+                      <?= $this->Form->control('observacionesextrusion',[
+                        'label'=>'Observacion Extrusion:',
+                        'type' => 'textarea', 'escape' => false
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3">
+                      <?= $this->Form->control('observacionesimpresion',[
+                        'label'=>'Observacion Impresion:',
+                        'type' => 'textarea', 'escape' => false
+                      ]); ?>
+                    </div>
+                    <div class="col-sm-3s">
+                      <?= $this->Form->control('observacionescorte',[
+                        'label'=>'Observacion Corte:',
+                        'type' => 'textarea', 'escape' => false
                       ]); ?>
                     </div>
                   </div>

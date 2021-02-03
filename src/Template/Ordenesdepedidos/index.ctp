@@ -76,8 +76,14 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                           }
                         }?>
                       </td>
-                      <td><?= h($ordenesdepedido->created) ?></td>
-                      <td><?= h($ordenesdepedido->modified) ?></td>
+                      <td>
+                        <?php
+                        echo date('d-m-Y H:i:s', strtotime($ordenesdepedido->created . " - 2 hours"));
+                        ?>
+                      </td>
+                      <td><?= 
+                       date('d-m-Y H:i:s', strtotime($ordenesdepedido->modified . " -2 hours"));
+                       ?></td>
                       <td class="actions">
                           <?= $this->Html->link(__('<i class="fas fa-search"></i>'), ['action' => 'view', $ordenesdepedido->id],[
                             'escape' => false,

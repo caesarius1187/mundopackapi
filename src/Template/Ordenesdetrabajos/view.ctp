@@ -11,10 +11,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Pedido N° <?= $ordenesdetrabajo->ordenesdepedido->numero ?> - Orden de Trabajo N°<?= $ordenesdetrabajo->numero ?></h1>
+            <div class="col-sm-8">
+                <h1 class="m-0 text-dark">Pedido N° <?= $ordenesdetrabajo->ordenesdepedido->numero ?> - Orden de Trabajo N°<?= $ordenesdetrabajo->numero ?> - <?= $ordenesdetrabajo->estado ?></h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><?=$this->Html->link(__('Inicio'), ['action' => 'index'], [
                       'escape' => false,
@@ -53,7 +53,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <h5><span class="badge badge-info"><?= __('Lamina: ') ?></span> <?= h($ordenesdetrabajo->lamina) ?></h5>
                   </div>
                   <div class="col-sm-2">
-                      <h5><span class="badge badge-info"><?= __('Tratado: ') ?></span> <?= h($ordenesdetrabajo->tratado?'SI':'NO') ?></h5>
+                      <h5><span class="badge badge-info"><?= __('Tratado: ') ?></span> <?= h($ordenesdetrabajo->tratado) ?></h5>
                   </div>
                   <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Manija: ') ?></span> <?= h($ordenesdetrabajo->manija) ?></h5>
@@ -72,11 +72,42 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     </div>
 
                     <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Peso Total: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->pesoxmil) ?></h5>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Metros Totales: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->metrototal) ?></h5>
+                    </div>
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Peso x Bobina: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->pesobob) ?></h5>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <h5><span class="badge badge-info"><?= __('Metros por bobina: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->metrobob) ?></h5>
+                    </div>
+                    <?php
+                    $session = $this->request->getSession();
+                    $user_data = $session->read('Auth.User');
+                    if($user_data['role']=='superuser'){
+                      ?>
+                    <div class="col-sm-2">
                       <h5><span class="badge badge-info"><?= __('Precio unitario: ') ?></span> <?= h($ordenesdetrabajo->preciounitario) ?></h5>
-                    </div>
-                    <div class="col-sm-4">
-                        <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
-                    </div>
+                    </div>                  
+                    <?php } ?>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación: ') ?></span> <?= h($ordenesdetrabajo->observaciones) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación Extrusion: ') ?></span> <?= h($ordenesdetrabajo->observacionesextrusion) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación Impresion: ') ?></span> <?= h($ordenesdetrabajo->observacionesimpresion) ?></h5>
+                  </div>
+                  <div class="col-sm-3">
+                      <h5><span class="badge badge-info"><?= __('Observación Corte: ') ?></span> <?= h($ordenesdetrabajo->observacionescorte) ?></h5>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-3">
@@ -88,7 +119,6 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                           foreach ($ordenesdetrabajo->materialesots as $key => $materialesot) {
                               ?>
                               <li><?= h($materialesot->material) ?>
-                              <?= h($materialesot->tipo) ?>
                               <?= h($materialesot->porcentaje."%") ?>
                               <?= ($materialesot->porcentaje*$ordenesdetrabajo->pesoxmil/100)."KG" ?>
                               </li>
@@ -105,17 +135,39 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <div class="card-body">
                         <h5><span class="badge badge-info"><?= __('Bobinas a extrusar: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->aextrusar) ?></h5>
                         <h5><span class="badge badge-info"><?= __('Extrusadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->extrusadas) ?></h5>
+                        <?php
+                        $totKgExtr = 0;
+                        foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                          $totKgExtr += $bobinasdeextrusion->kilogramos*1; 
+                        }
+                        ?>
+                        <h5><span class="badge badge-info"><?= __('Total Kg Extrusion: ') ?></span> <?= $this->Number->format($totKgExtr) ?></h5>
+                        <?php
+                        $totScrapExt = 0;
+                        foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
+                          $totScrapExt += $bobinasdeextrusion->scrap*1; 
+                        }
+                        ?>
+                        <h5><span class="badge badge-info"><?= __('Total de Scrap: ') ?></span> <?= $this->Number->format($totScrapExt) ?></h5>
                       </div>
                     </div>
                   </div>
                   <?php
                   if($ordenesdetrabajo->impreso){
+                      $totKgImp = 0;
+                      $totScrapImp = 0;
+                        foreach ($ordenesdetrabajo->bobinasdeimpresions as $kbe=> $bobinasdeimpresion) {
+                          $totKgImp += $bobinasdeimpresion->kilogramos*1; 
+                          $totScrapImp += $bobinasdeimpresion->scrap*1; 
+                        }
                       ?>
                       <div class="col-sm-3">
                         <div class="card">
                           <div class="card-body">
                                 <h5><span class="badge badge-info"><?= __('Impresas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->impresas) ?></h5>
                                 <h5><span class="badge badge-info"><?= __('Tipo Impresion: ') ?></span> <?= $ordenesdetrabajo->tipoimpresion ?></h5>
+                                <h5><span class="badge badge-info"><?= __('Total Kg Impresion: ') ?></span> <?= $this->Number->format($totKgImp) ?></h5>
+                                <h5><span class="badge badge-info"><?= __('Total Scrap Impresion: ') ?></span> <?= $this->Number->format($totScrapImp) ?></h5>
                           </div>
                         </div>
                       </div>
@@ -128,18 +180,29 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                       <?php
                   }
                   if($ordenesdetrabajo->cortado){
-                      ?>
-                      <div class="col-sm-3">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5><span class="badge badge-info"><?= __('Cortadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cortadas) ?></h5>
-                            <h5><span class="badge badge-info"><?= __('Tipo Corte: ') ?></span> <?= $ordenesdetrabajo->tipocorte ?></h5>
-                            <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
-                            <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
-                          </div>
+                    $totKgCort=0;
+                    $totCantCort=0;
+                    $totScrapCort=0;
+                    foreach ($ordenesdetrabajo->bobinasdecortes as $kbe=> $bobinasdecorte) {
+                        $totKgCort += $bobinasdecorte->kilogramos*1; 
+                        $totCantCort += $bobinasdecorte->cantidad*1; 
+                        $totScrapCort += $bobinasdecorte->scrap*1; 
+                    }
+                    ?>
+                    <div class="col-sm-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5><span class="badge badge-info"><?= __('Cortadas: ') ?></span> <?= $this->Number->format($ordenesdetrabajo->cortadas) ?></h5>
+                          <h5><span class="badge badge-info"><?= __('Tipo Corte: ') ?></span> <?= $ordenesdetrabajo->tipocorte ?></h5>
+                          <h5><span class="badge badge-info"><?= __('Total Cant Cortadas: ') ?></span> <?= $this->Number->format($totCantCort) ?></h5>
+                          <h5><span class="badge badge-info"><?= __('Total Kg Corte: ') ?></span> <?= $this->Number->format($totKgCort) ?></h5>
+                          <h5><span class="badge badge-info"><?= __('Total Scrap Corte: ') ?></span> <?= $this->Number->format($totScrapCort) ?></h5>
+                          <?= $this->Form->control('tienecorte',['type'=>'hidden','value'=>$ordenesdetrabajo->cortado]); ?>
+                          <?= $this->Form->control('tieneimpresion',['type'=>'hidden','value'=>$ordenesdetrabajo->impreso]); ?>
                         </div>
                       </div>
-                      <?php
+                    </div>
+                    <?php
                   }else{
                       ?>
                       <div class="col-sm-3">
@@ -174,18 +237,28 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     </div>
                   </div>
                 </div>
-                <button type="button" name="button" onclick="$('#modalCerrarOT').modal('show')" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> Cerrar OT</button>
+                 <?= $this->Html->link(__('Cerrar Ot'), [
+                    'action' => 'cerrar',
+                    $ordenesdetrabajo->id
+                  ], [
+                    "type"=>"button", 
+                    "class"=>"btn btn-secondary float-sm-right",
+                    'escape' => false,
+                  ]) ?>
               </div>
             </div>
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-8">
               <h1 class="m-0 text-dark">Planificacion </h1>
-          </div><!-- /.col -->
+          </div><!-- /.col -->           
+          <div class="col-sm-4">
+              <h1 class="m-0 text-dark">Etapas </h1>
+          </div><!-- /.col -->   
         </div><!-- /.row -->
         <div class="row">
-          <div class="col-12">
+          <div class="col-8">
             <div class="card">
               <div class="card-body">
                 <table class="table">
@@ -203,12 +276,14 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                     <?php
                     foreach ($ordenesdetrabajo->ordenots as $ordenot) {
                       ?>
-                      <td><?= $ordenot->extrusora->nombre?></td>
-                      <td><?= $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):''; ?></td>
-                      <td><?= $ordenot->impresora->nombre?></td>
-                      <td><?= $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):''; ?></td>
-                      <td><?= $ordenot->cortadora->nombre?></td>
-                      <td><?= $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):''; ?></td>
+                      <tr>
+                        <td><?= $ordenot->extrusora?$ordenot->extrusora->nombre:''; ?></td>
+                        <td><?= $ordenot->fechainicioextrusora?date('d-m-Y',strtotime($ordenot->fechainicioextrusora)):''; ?></td>
+                        <td><?= $ordenot->impresora?$ordenot->impresora->nombre:''; ?></td>
+                        <td><?= $ordenot->fechainicioimpresora?date('d-m-Y',strtotime($ordenot->fechainicioimpresora)):''; ?></td>
+                        <td><?= $ordenot->cortadora?$ordenot->cortadora->nombre:''; ?></td>
+                        <td><?= $ordenot->fechainiciocortadora?date('d-m-Y',strtotime($ordenot->fechainiciocortadora)):''; ?></td>
+                      </tr>
                       <?php
                     }
                     ?>
@@ -217,6 +292,100 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
               </div>
             </div>
           </div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Extrusion</th>
+                      <th>Impresion</th>
+                      <th>Corte</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <?php 
+                        $BtnClassExtrusion="warning";
+                        if($ordenesdetrabajo->extrusadas <= $ordenesdetrabajo->aextrusar){
+                          $BtnClasssExtrusion="warning";
+                        }else{
+                          $BtnClasssExtrusion="success";                          
+                        }
+                        if($ordenesdetrabajo->extrusadas==0){
+                          $BtnClasssExtrusion="danger";                          
+                        }
+                        $BtnClassImpresion="warning";
+                        if($ordenesdetrabajo->impresas <= $ordenesdetrabajo->aextrusar){
+                          $BtnClassImpresion="warning";
+                        }else{
+                          $BtnClassImpresion="success";                          
+                        }
+                        if($ordenesdetrabajo->impresas==0){
+                          $BtnClassImpresion="danger";                          
+                        }
+                        $BtnClassCorte="warning";
+                        if($ordenesdetrabajo->cortadas <= $ordenesdetrabajo->aextrusar){
+                          $BtnClassCorte="warning";
+                        }else{
+                          $BtnClassCorte="success";                          
+                        }
+                        if($ordenesdetrabajo->acortar==0){
+                          $BtnClassCorte="danger";                          
+                        }
+                      ?>
+                      <td>
+                        <?= 
+                        $this->Form->control('aextrusar', ['type' => 'hidden','value'=>$ordenesdetrabajo->aextrusar]); 
+                        ?>
+                        <?= 
+                        $this->Form->control('extrusadas', ['type' => 'hidden','value'=>$ordenesdetrabajo->extrusadas]); 
+                        ?>
+                        <?= 
+                        $this->Form->control('impresas', ['type' => 'hidden','value'=>$ordenesdetrabajo->impresas]); 
+                        ?>
+                        <?= 
+                        $this->Form->control('cortadas', ['type' => 'hidden','value'=>$ordenesdetrabajo->cortadas]); 
+                        ?>
+                        <button type="button" id="btnExtruasdas" class="btn btn-<?= $BtnClassExtrusion?>"><?= ($ordenesdetrabajo->extrusadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                         
+                        </button>
+                      </td>
+                      <td>
+                        <?php
+                        if($ordenesdetrabajo->impreso){ ?>
+                          <button type="button" id="btnImpresas" class="btn btn-<?= $BtnClassImpresion?>"><?= ($ordenesdetrabajo->impresas*1)."/".($ordenesdetrabajo->aextrusar*1) ?>
+                          </button>
+                          <?php
+                        }else{
+                          ?>
+                          <button type="button" class="btn btn-success">NO</button>
+                          <?php
+                        }?>                          
+                      </td>
+                      <td>
+                        <?php
+                        if($ordenesdetrabajo->cortado){ ?>
+                          <button type="button" id="btnCortadas" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenesdetrabajo->cortadas*1)."/".($ordenesdetrabajo->aextrusar*1)?>                          
+                          </button>
+                        <?php
+                        }else{
+                          ?>
+                          <button type="button" class="btn btn-success">NO</button>
+                          <?php
+                        }?>        
+                      </td>
+                    </tr>                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+                  
+        </div><!-- /.row -->
+        <div class="row">
+          
         </div>
     </div><!-- /.container-fluid -->
 </div>
@@ -265,7 +434,6 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Extrusora</th>
                               <th>Fecha</th>
                               <th>Extrusor</th>
-                              <th>Hs.</th>
                               <th>Kg.</th>
                               <th>Mts.</th>
                               <th>Scrap cant.</th>
@@ -283,7 +451,6 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <td><?=$bobinasdeextrusion->extrusora->nombre; ?></td>
                                   <td><?= date('d-m-Y h:m',strtotime($bobinasdeextrusion->fecha)); ?></td>
                                   <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
-                                  <td><?=$bobinasdeextrusion->horas; ?></td>
                                   <td><?=$bobinasdeextrusion->kilogramos; ?></td>
                                   <td><?=$bobinasdeextrusion->metros; ?></td>
                                   <td><?=$bobinasdeextrusion->scrap; ?></td>
@@ -349,6 +516,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Kg.</th>
                               <th>Mts.</th>
                               <th>Scrap cant.</th>
+                              <th>Terminacion</th>
                               <th>Observación</th>
                             </tr>
                           </thead>
@@ -359,13 +527,50 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                 <tr>
                                   <td><?= $bobinasdeimpresion->numero; ?></td>
                                   <td><?= $bobinasdeimpresion->impresora->nombre; ?></td>
-                                  <td><?= $bobinasdeimpresion->bobinasdeextrusion->numero; ?></td>
+                                  <td>
+                                     <?= $this->Form->control('bobinasdeextrusionDeImp'.$bobinasdeimpresion->id, [
+                                      'type' => 'hidden',
+                                      'value' => $bobinasdeimpresion->bobinasdeextrusion->id,
+                                    ]); ?>
+                                    <?= $bobinasdeimpresion->bobinasdeextrusion->numero; ?>
+                                  </td>
                                   <td><?= date('d-m-Y h:m',strtotime($bobinasdeimpresion->fecha)); ?></td>
                                   <td><?= $bobinasdeimpresion->empleado->nombre; ?></td>
                                   <td><?= $bobinasdeimpresion->horas; ?></td>
                                   <td><?= $bobinasdeimpresion->kilogramos; ?></td>
                                   <td><?= $bobinasdeimpresion->metros; ?></td>
                                   <td><?= $bobinasdeimpresion->scrap; ?></td>
+                                  <td>
+                                  <?php
+                                    //si la terminacion es parcial vamos a agregar un icono que diga si tiene una complementaria o no
+                                    $TitleChildrens="";
+                                    $classIcon="fas fa-exclamation";
+                                    $classButton="btn-warning";
+                                    $button="";
+                                    if($bobinasdeimpresion->terminacion=='Parcial'){
+                                      foreach ($bobinasdeimpresion->complementarias as $key => $childrenBobina) {
+                                          $TitleChildrens .= "Bobina parcial con complementaria: ".$childrenBobina->numero;
+                                          $classButton="btn-success";
+                                          $classIcon = "fas fa-check";
+
+                                      }
+                                      if(count($bobinasdeimpresion->complementarias)==0){
+                                        $TitleChildrens="No tiene bobina complementaria";
+                                        $classIcon="fas fa-exclamation";
+                                        $classButton="btn-warning";
+                                      }
+                                      $button = '<button title="'.$TitleChildrens.'" type="button" name="button" class="btn '.$classButton.' btn-sm"><i class="'.$classIcon.'"></i></button>';
+                                    }
+                                    if($bobinasdeimpresion->terminacion=='Complementaria'){
+                                      $TitleChildrens .= "Bobina complementaria de Parcial : ".$bobinasdeimpresion->parciale->numero;
+                                      $classButton="btn-success";
+                                      $classIcon = "fas fa-check";
+                                      $button = '<button title="'.$TitleChildrens.'" type="button" name="button" class="btn '.$classButton.' btn-sm"><i class="'.$classIcon.'"></i></button>';
+                                    }
+                                    ?>
+                                    <?=$bobinasdeimpresion->terminacion.$button; ?>
+
+                                  </td>
                                   <td><?= $bobinasdeimpresion->observacion; ?></td>
                                 </tr>
                                 <?php
@@ -498,9 +703,11 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-3">
                 <?= $this->Form->control('extrusora_id', ['options' => $extrusoras]); ?>
             </div>
+            <?php /*
             <div class="col-sm-2">
                 <?= $this->Form->control('horas'); ?>
             </div>
+            */ ?>
 
         </div>
         <div class="row">
@@ -515,6 +722,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('bobinasdeextrusion_id',[
+                  'label'=>'Bobinas de Ext. Parciales',
                   'options'=>[],
                   'disabled'=>true,
                 ]); ?>
@@ -585,6 +793,26 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-2">
                 <?= $this->Form->control('horas'); ?>
             </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+                <?= $this->Form->control('terminacion',[
+                  'options'=>[
+                    'Completa'=>'Completa',
+                    'Parcial'=>'Parcial',
+                    'Complementaria'=>'Complementaria',
+                  ]
+                ]); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('bobinasdeimpresion_id',[
+                  'label'=>'Bobinas de Imp. Parciales',
+                  'options'=>[],
+                  'disabled'=>true,
+                ]); ?>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-sm-2">
                 <?= $this->Form->control('kilogramos'); ?>
             </div>
@@ -614,7 +842,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><?= __('Agregar Bobina de Impresion') ?></h5>
+        <h5 class="modal-title"><?= __('Agregar Bobina de Corte') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
