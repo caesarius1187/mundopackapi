@@ -89,8 +89,24 @@ class OrdenesdetrabajosController extends AppController
                 'Ordenesdetrabajos.estado NOT IN ("En Proceso","Pausado")',
             ]
         ];
+
         $ordenesdetrabajosTerminadas = $this->Ordenesdetrabajos->find('all',$conditionsTerminadas);
         $this->set(compact('ordenesdetrabajosTerminadas'));
+
+        $conditionsPausadas=[
+            'contain'=>[
+                'Ordenesdepedidos'=>[
+                    'Clientes'
+                ],
+                'Materialesots'
+            ],
+            'conditions'=>[
+                'Ordenesdetrabajos.estado IN ("Pausado","Cancelado")',
+            ]
+        ];
+
+        $ordenesdetrabajosPausadas = $this->Ordenesdetrabajos->find('all',$conditionsPausadas);
+        $this->set(compact('ordenesdetrabajosPausadas'));
 
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
@@ -209,6 +225,31 @@ class OrdenesdetrabajosController extends AppController
         ]);
         $ordenesdetrabajo->estado = 'En Proceso';
         if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+
+            if ($ordenesdetrabajo->ancho<50){
+              $tipoMatriz = 'chica';
+            } else if ($ordenesdetrabajo->ancho>=50&&$ordenesdetrabajo->ancho<70) {
+              $tipoMatriz = 'mediana';
+            } else {
+              $tipoMatriz = 'grande';
+            }
+            $orderPendMax = $this->Ordenots->find('all',[
+                'conditions'=>[
+                    'Ordenots.matriz'=>$tipoMatriz
+                ],
+                'fields' => array('maxprioridad' => 'MAX(Ordenots.prioridadpendientes)'),
+            ]);
+            $maxNumPrioridad = 1;
+            foreach ($orderPendMax as $key => $value) {
+                $maxNumPrioridad = $value->maxprioridad;
+            }
+            $maxNumPrioridad = $maxNumPrioridad*1+1;
+            $newordenOt = $this->Ordenots->newEntity();
+            $newordenOt->matriz = $tipoMatriz;
+            $newordenOt->prioridadpendientes = $maxNumPrioridad;
+            $newordenOt->ordenesdetrabajo_id = $ordenesdetrabajo->id;
+            $this->Ordenots->save($newordenOt);
+
             $data['respuesta'] .= "La OT fue retomada. Ya se puede ver en las listas de prioridades que se pueden agregar.";
         }else{
             $data['error'] = 1;
@@ -236,15 +277,7 @@ class OrdenesdetrabajosController extends AppController
         $ordenesdetrabajo->prioridadcorte = 0;
         if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
             //si la or tiene ordenot asignadas las eliminamos
-            $this->Ordenots->updateAll(
-                ['ordenesdetrabajo_id' => $otid],
-                [
-                    'prioridadpendientes' => 1,
-                    'prioridadextrusion' => 0,
-                    'prioridadimpresion' => 0,
-                    'prioridadcorte' => 0
-                ]
-            );
+            $this->Ordenots->deleteAll(['ordenesdetrabajo_id' => $otid]);
             $data['respuesta'] .= "La OT fue pausada y se la saco de las listas de prioridades de las maquinas.";
         }else{
             $data['error'] = 1;
@@ -361,6 +394,7 @@ class OrdenesdetrabajosController extends AppController
      */
     public function addsingle(){
         $this->loadModel('Materialesots');
+        $this->loadModel('Ordenots');
         $respuesta=[];
         $respuesta['respuesta'] = '';
         $respuesta['error'] = 0;
@@ -396,7 +430,6 @@ class OrdenesdetrabajosController extends AppController
             } else {
               $tipoMatriz = 'grande';
             }
-            $this->loadModel('Ordenots');
             $orderPendMax = $this->Ordenots->find('all',[
                 'conditions'=>[
                     'Ordenots.matriz'=>$tipoMatriz

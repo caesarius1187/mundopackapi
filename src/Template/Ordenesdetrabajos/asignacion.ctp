@@ -71,10 +71,14 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
               <li class="nav-item">
                 <a class="nav-link" id="programacionFinalizadasTab" data-toggle="pill" href="#programacionFinalizadas" role="tab" aria-controls="programacionFinalizadas" aria-selected="false">Finalizadas</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" id="programacionPausadasTab" data-toggle="pill" href="#programacionPausadas" role="tab" aria-controls="programacionPausadas" aria-selected="false">Pausadas</a>
+              </li>
             </ul>
           </div>
           <div class="card-body">
             <div class="tab-content" id="custom-tabs-one-tabContent">
+              <!--Pendientes-->
               <div class="tab-pane fade show active" id="programacionPendientes" role="tabpanel" aria-labelledby="programacionPendientesTab">
                 <div class="card-body table-responsive p-0">
                   <div style="width:1360px" class="text-left bg-secondary">
@@ -356,7 +360,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                 </table>
               </div>
               </div>
-
+              <!--Extrusoras-->
               <div class="tab-pane fade" id="programacionExtrusoras" role="tabpanel" aria-labelledby="programacionExtrusorasTab">
                 <h4>Listado de OT's programas para extrudar:</h4>
                 <div class="card-body table-responsive p-0 divExtrusoras">
@@ -536,7 +540,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   ?>
                 </div>
               </div>
-
+              <!--Impresoras-->
               <div class="tab-pane fade" id="programacionImpresoras" role="tabpanel" aria-labelledby="programacionImpresorasTab">
                 <h4>Listado de OT's programas para imprimir:</h4>
                 <div class="card-body table-responsive p-0">
@@ -717,7 +721,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                     ?>
                 </div>
               </div>
-
+              <!--Cortadoras-->
               <div class="tab-pane fade" id="programacionCortadoras" role="tabpanel" aria-labelledby="programacionCortadorasTab">
                 <h4>Listado de OT's pendientes de corte:</h4>
                 <div class="card-body table-responsive p-0">
@@ -897,7 +901,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                     ?>
                 </div>
               </div>
-
+              <!--Finalizadas-->
               <div class="tab-pane fade" id="programacionFinalizadas" role="tabpanel" aria-labelledby="programacionFinalizadasTab">
                 <h4>Listado de OT's finalizadas:</h4>
                 <div class="card-body table-responsive p-0">
@@ -963,6 +967,84 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                     'target' => '_self',
                               ]) ?>
                               </button>
+                            </td>
+                          </tr>
+                      <?php } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--Pausadas-->
+              <div class="tab-pane fade" id="programacionPausadas" role="tabpanel" aria-labelledby="programacionPausadasTab">
+                <h4>Listado de OT's Pausadas:</h4>
+                <div class="card-body table-responsive p-0">
+                  <table id="tblOrdenesDeTrabajoPausadas" class="table-sm table-bordered text-nowrap table-head-fixed text-center">
+                    <thead>
+                      <tr>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Cliente</th>
+                        <th>OT</th>
+                        <th>Medidas</th>
+                        <th>Cant.</th>
+                        <th>Materiales</th>
+                        <th>Imp.</th>
+                        <th>Cort.</th>
+                        <th>Observación</th>
+                        <th>Acciones<th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      foreach ($ordenesdetrabajosPausadas as $ordenesdetrabajo){
+                          $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
+                          $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
+                          $linkOT =  $this->Html->link(
+                              $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero,
+                              [
+                                'action' => 'view',$ordenesdetrabajo->id], [
+                                'escape' => false,
+                                'target' => '_self',
+                              ]
+                          );
+                          ?>
+                          <tr>
+                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
+                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
+                            <td><small><?= $nombrecliente ?></small></td>
+                            <td><?= $linkOT ?></td>
+                            <td><?= $ordenesdetrabajo->medida ?></td>
+                            <td><?= $ordenesdetrabajo->aextrusar?></td>
+                            <td><?php
+                            $pesoxmil = $ordenot->ordenesdetrabajo->pesoxmil;
+                            foreach ($ordenot->ordenesdetrabajo->materialesots as $key => $materialesot) {
+                                ?>
+                                <small class="font-weight-bold">
+                                  <?= $materialesot->material ?>
+                                </small>
+                                <small class="font-italic">
+                                  <?= $materialesot->tipo ?>
+                                </small>
+                                <small>(<?= ($materialesot->porcentaje*$pesoxmil/100)."Kg" ?>)</small>
+                                <br />
+                                <?php
+                            }
+                            ?></td>
+                            <td><?= $ordenesdetrabajo->impreso?'Si':'No'?></td>
+                            <td><?= $ordenesdetrabajo->cortado?'Si':'No'?></td>
+                            <td><?= $ordenesdetrabajo->observaciones ?></td>
+                            <td>
+                              <button type="button" class="btn btn-default btn-xs">
+                              <?=$this->Html->link('<i class="fas fa-search"></i>', ['action' => 'view',$ordenesdetrabajo->id], [
+                                    'escape' => false,
+                                    'target' => '_self',
+                              ]) ?>
+                              </button>
+                              <?php
+                              if($ordenesdetrabajo->estado=='Pausado'||$ordenesdetrabajo->estado=='Cancelado'){
+                                echo '<button type="button" onclick="playOT('.$ordenesdetrabajo->id.')" class="btn btn-default btn-xs"><i class="fas fa-play"></i></button> ';
+                              }
+                              ?>
                             </td>
                           </tr>
                       <?php } ?>
