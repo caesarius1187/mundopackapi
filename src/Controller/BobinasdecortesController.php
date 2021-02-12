@@ -118,7 +118,7 @@ class BobinasdecortesController extends AppController
                     $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada;
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
                     $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinaextrusioncortada);
-                    if($bobinasdeextrusion->first()->terminacion!='Parcial'){
+                    if($bobinasdeextrusion->first()->terminacion!='Parcial'&&$this->request->getData()['terminacion']!='Parcial'){
                         $cantCortadas++;
                     }
                 }
@@ -132,7 +132,7 @@ class BobinasdecortesController extends AppController
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
                     $bobinasdeimpresion = $this->Bobinasdeimpresions->findById($bobinaimpresioncortada);
                     $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinasdeimpresion->first()->bobinasdeextrusion_id);
-                    if($bobinasdeextrusion->first()->terminacion!='Parcial'){
+                    if($bobinasdeextrusion->first()->terminacion!='Parcial'&&$this->request->getData()['terminacion']!='Parcial'){
                         $cantCortadas++;
                     }
                 }
@@ -256,5 +256,22 @@ class BobinasdecortesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    public function getparciales($ordenesdetrabajoId)
+    {
+        //tenemos que buscar las bobinas de impresion que ya se usaron en las impresiones y excluirlas
+        $bobinasdecortesparciales  = $this->Bobinasdecortes->find('list', [
+            'conditions'=>[
+                'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
+                'Bobinasdecortes.terminacion'=>'Parcial'
+            ],
+            'limit' => 200
+        ]);
+        $respuesta['data'] = $bobinasdecortesparciales;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta','bobinasdecortesparciales']
+        ]);
     }
 }

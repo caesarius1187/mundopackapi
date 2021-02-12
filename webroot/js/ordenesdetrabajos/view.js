@@ -244,6 +244,9 @@ $(document).ready(function() {
     $("#modalAddBobinaImpresion #terminacion").on('change',function(){
         getBobinasImpresionsParciales();
     });
+    $("#modalAddBobinaCorte #terminacion").on('change',function(){
+        getBobinasCortesParciales();
+    });
     $("#modalAddBobinaImpresion #bobinasdeimpresion-id").on('change',function(){
         selectBobExtParcialCorrespondiente();
     });
@@ -343,6 +346,61 @@ function getBobinasImpresionsParciales(){
                         $("#modalAddBobinaImpresion #bobinasdeimpresion-id").find('option')
                                                    .remove();
                         $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',true);
+                    }
+                }
+            },
+            error: function(xhr,textStatus,error){
+                alert(textStatus);
+            }
+        });
+    }else{
+        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").find('option')
+                                   .remove();
+        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',true);
+    }
+}
+function getBobinasCortesParciales(){
+    var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
+    if($("#modalAddBobinaCorte #terminacion").val()=='Complementaria'){
+        $.ajax({
+            type: 'POST',
+            url: serverLayoutURL+'bobinasdecortes/getparciales/'+ordenesdetrabajoId+'.json',
+            data: '',
+            success: function(response,textStatus,xhr){
+                if(response.respuesta.error!=0){
+                    Toast.fire({
+                      icon: 'error',
+                      title: data.data.respuesta
+                    })
+                }else{
+                    var bobinasdecortesparciales = response.respuesta.data;
+
+                    var hayBobinasDeCorte = false;
+                    for (var p in bobinasdecortesparciales) {
+                        if( bobinasdecortesparciales.hasOwnProperty(p) ) {
+                            $("#modalAddBobinaCorte #bobinasdecorte-id").append(
+                                '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
+                            );
+
+                            hayBobinasDeCorte = true;
+                        }
+                    }
+                    //selectBobExtParcialCorrespondiente();
+                    if(hayBobinasDeCorte){
+                        Toast.fire({
+                          icon: 'success',
+                          title: 'Se cargo la lista de bobinas de corte parciales.'
+                        });
+                        $("#modalAddBobinaCorte #bobinasdecorte-id").attr('disabled',false);
+                    }else{
+                        Toast.fire({
+                          icon: 'error',
+                          title: "no hay bobinas de corte parciales para usar."
+                        });
+                        $("#modalAddBobinaCorte #terminacion").val('Completa');
+                        $("#modalAddBobinaCorte #bobinasdecorte-id").find('option')
+                                                   .remove();
+                        $("#modalAddBobinaCorte #bobinasdecorte-id").attr('disabled',true);
                     }
                 }
             },
@@ -527,10 +585,6 @@ function loadBobinaEstrusion(bobinaestrusion, empleado,estrusora){
             )
             .append(
                 $("<td>")
-                    .html(bobinaestrusion.horas)
-            )
-            .append(
-                $("<td>")
                     .html(bobinaestrusion.kilogramos)
             )
             .append(
@@ -691,6 +745,10 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
             .append(
                 $("<td>")
                     .html(bobinadecorte.cantidad)
+            )
+            .append(
+                $("<td>")
+                    .html(bobinadecorte.terminacion)
             )
             .append(
                 $("<td>")

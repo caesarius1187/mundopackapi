@@ -511,7 +511,6 @@ class OrdenesdetrabajosController extends AppController
                     }
                     $newmaterialOt->ordenesdetrabajo_id = $ordenesdetrabajo->id;
                     $newmaterialOt->material = $materialesot['material'];
-                    $newmaterialOt->tipo = $materialesot['tipo'];
                     $newmaterialOt->porcentaje = $materialesot['porcentaje'];
                     $savedMaterial = $this->Materialesots->save($newmaterialOt);
                 }

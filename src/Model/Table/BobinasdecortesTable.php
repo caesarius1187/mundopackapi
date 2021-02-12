@@ -53,6 +53,18 @@ class BobinasdecortesTable extends Table
         $this->hasMany('Bobinascorteorigens', [
             'foreignKey' => 'bobinasdecorte_id',
         ]);
+
+        $this->hasMany('ComplementariasCorte',[            
+             'className'=>'Bobinasdecortes',
+             'foreignKey'=>'bobinasdecorte_id'
+          ]
+        );
+
+        $this->belongsTo('ParcialesCorte',[
+               'className'=>'Bobinasdecortes',
+               'foreignKey'=>'bobinasdecorte_id'
+            ]
+        );
     }
 
     /**

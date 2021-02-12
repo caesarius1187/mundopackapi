@@ -35,6 +35,8 @@ class Bobinasdecorte extends Entity
         'empleado_id' => true,
         'cortadora_id' => true,
         'ordenesdetrabajo_id' => true,
+        'bobinasdecorte_id' => true,
+        'terminacion' => true,
         'numero' => true,
         'fecha' => true,
         'horas' => true,

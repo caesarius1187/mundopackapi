@@ -615,6 +615,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Scrap .</th>
                               <th>Scrap sacabocado</th>
                               <th>Cant.</th>
+                              <th>Terminacion</th>
                               <th>Observación</th>
                             </tr>
                           </thead>
@@ -645,6 +646,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <td><?= $bobinasdecorte->scrap; ?></td>
                                   <td><?= $bobinasdecorte->scrapsacabocado; ?></td>
                                   <td><?= $bobinasdecorte->cantidad; ?></td>
+                                  <td><?= $bobinasdecorte->terminacion; ?></td>
                                   <td><?= $bobinasdecorte->observacion; ?></td>
                                 </tr>
                                 <?php
@@ -905,6 +907,24 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                 <?= $this->Form->control('observacion'); ?>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <?= $this->Form->control('terminacion',[
+                  'options'=>[
+                    'Completa'=>'Completa',
+                    'Parcial'=>'Parcial',
+                    'Complementaria'=>'Complementaria',
+                  ]
+                ]); ?>
+            </div>
+            <div class="col-sm-4">
+                <?= $this->Form->control('bobinasdecorte_id',[
+                  'label'=>'Bobinas de Cor. Parciales',
+                  'options'=>[],
+                  'disabled'=>true,
+                ]); ?>
+            </div>
+          </div>
         <?= $this->Form->end() ?>
       </div>
       <div class="modal-footer">

@@ -35,7 +35,8 @@ class BobinasdeimpresionsController extends AppController
                 'Bobinascorteorigens',
             ],
             'conditions'=>[
-                'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+                'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
+                'Bobinasdecortes.terminacion <> "Parcial"'
             ],
             'limit' => 200
         ]);
