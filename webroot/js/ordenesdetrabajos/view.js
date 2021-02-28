@@ -14,6 +14,22 @@ $(document).ready(function() {
             })
             return false;
         }
+        var kilogramos = $('#bobinaEstrusionAddForm').find("#kilogramos").val();
+        if(!kilogramos){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe Cargar kilogramos."
+            })
+            return false;
+        }
+        var metros = $('#bobinaEstrusionAddForm').find("#metros").val();
+        if(!metros){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe Cargar metros."
+            })
+            return false;
+        }
         //serialize form data
         var formData = $(this).serialize();
         //get form action
@@ -104,6 +120,22 @@ $(document).ready(function() {
         return false;
     });
     $('#bobinaCorteAddForm').submit(function(){
+        var bobinasimpresions = $('#bobinaCorteAddForm').find("#bobinasdeimpresion-id").val();
+        var bobinasdeextrusions = $('#bobinaCorteAddForm').find("#bobinasdeextrusion-id").val();
+        if(bobinasimpresions && bobinasimpresions.length==0){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe seleccionar la/s bobina/s de impresion que se usaron."
+            })
+            return false;
+        }
+        if(bobinasdeextrusions && bobinasdeextrusions.length==0){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe seleccionar la/s bobina/s de extrusion que se usaron."
+            })
+            return false;
+        }
         var empleadoId = $('#bobinaCorteAddForm').find("#empleado-id").val();
         if(!empleadoId){
             Toast.fire({
@@ -112,6 +144,15 @@ $(document).ready(function() {
             })
             return false;
         }
+        var kilogramos = $('#bobinaCorteAddForm').find("#kilogramos").val();
+        if(!kilogramos){
+            Toast.fire({
+              icon: 'error',
+              title: "Debe Cargar kilogramos."
+            })
+            return false;
+        }
+       
         //serialize form data
         var formData = $(this).serialize();
         //get form action

@@ -26,7 +26,7 @@ class BobinasdeimpresionsController extends AppController
 
         $this->set(compact('bobinasdeimpresions'));
     }
-     public function getlist($ordenesdetrabajoId)
+    public function getlist($ordenesdetrabajoId)
     {
         $this->loadModel('Bobinasdecortes');
         //tenemos que buscar las bobinas de impresions que ya se usaron en las cortes y excluirlas
@@ -120,13 +120,12 @@ class BobinasdeimpresionsController extends AppController
             'conditions'=>[    
                 'Bobinasdeimpresions.ordenesdetrabajo_id'=>$bobinasdeimpresion->ordenesdetrabajo_id
             ],
-            'fields' => array('maxprioridad' => 'MAX(Bobinasdeimpresions.numero)'),
+            'fields' => array('maxprioridad' => 'MAX(Bobinasdeimpresions.numero*1)'),
         ]); 
         foreach ($bobinaNumeroMax as $key => $value) {
             $maxBobinaNumero = $value->maxprioridad;
         }
-        $bobinasdeimpresion->numero = $maxBobinaNumero+1;
-
+        $bobinasdeimpresion->numero = $maxBobinaNumero*1+1;
         if ($this->Bobinasdeimpresions->save($bobinasdeimpresion)) {
             $respuesta['respuesta'] = 'La bobina de extrusion fue guardada.';
             $respuesta['bobinasdeimpresion'] = $bobinasdeimpresion;

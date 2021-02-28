@@ -732,10 +732,10 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
         </div>
          <div class="row">
             <div class="col-sm-2">
-                <?= $this->Form->control('kilogramos'); ?>
+                <?= $this->Form->control('kilogramos',['required'=>true]); ?>
             </div>
             <div class="col-sm-2">
-                <?= $this->Form->control('metros'); ?>
+                <?= $this->Form->control('metros',['required'=>true]); ?>
             </div>
             <div class="col-sm-2">
                 <?= $this->Form->control('scrap'); ?>

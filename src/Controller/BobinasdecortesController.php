@@ -88,7 +88,7 @@ class BobinasdecortesController extends AppController
             'conditions'=>[    
                 'Bobinasdecortes.ordenesdetrabajo_id'=>$bobinasdecorte->ordenesdetrabajo_id
             ],
-            'fields' => array('maxprioridad' => 'MAX(Bobinasdecortes.numero)'),
+            'fields' => array('maxprioridad' => 'MAX(Bobinasdecortes.numero*1)'),
         ]); 
         foreach ($bobinaNumeroMax as $key => $value) {
             $maxBobinaNumero = $value->maxprioridad;
