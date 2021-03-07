@@ -32,7 +32,9 @@ class BobinasdeimpresionsController extends AppController
         //tenemos que buscar las bobinas de impresions que ya se usaron en las cortes y excluirlas
         $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
             'contain'=>[
-                'Bobinascorteorigens',
+                'Bobinascorteorigens'=>[
+                  'Bobinasdecortes'
+                ],
             ],
             'conditions'=>[
                 'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
@@ -44,7 +46,9 @@ class BobinasdeimpresionsController extends AppController
         $bobinasdeimpresionYaUsadas[0] = 0;
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
             foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
-                $bobinasdeimpresionYaUsadas[] = $corteorigen->bobinasdeimpresion_id;
+                if($corteorigen->bobinasdeimpresion_id && $corteorigen->bobinasdecorte->terminacion != 'Parcial'){
+                    $bobinasdeimpresionYaUsadas[] = $corteorigen->bobinasdeimpresion_id;
+                }
             }
         }
         $bobinasdeimpresions = $this->Bobinasdeimpresions->find('list', [

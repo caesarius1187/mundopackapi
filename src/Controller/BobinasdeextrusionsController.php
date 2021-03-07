@@ -111,7 +111,9 @@ class BobinasdeextrusionsController extends AppController
         //tenemos que buscar las bobinas de extrusion que ya se usaron en las cortes y excluirlas
         $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
             'contain'=>[
-                'Bobinascorteorigens',
+                'Bobinascorteorigens'=>[
+                  'Bobinasdecortes'
+                ],
             ],
             'conditions'=>[
                 'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId
@@ -120,7 +122,7 @@ class BobinasdeextrusionsController extends AppController
         ]);
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
             foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
-              if($corteorigen->bobinasdeextrusion_id){
+              if($corteorigen->bobinasdeextrusion_id && $corteorigen->bobinasdecorte->terminacion != 'Parcial'){
                 $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeextrusion_id;
               }
             }
