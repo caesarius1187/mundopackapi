@@ -59,24 +59,24 @@ font-size:14px !important;
                 'type'=>'select',
                 'options'=>[
                   'No'=>'No',
-                  '3cm' => '3cm' , 
-                  '3.5cm' => '3.5cm' , 
-                  '4cm' => '4cm' , 
-                  '4.5cm' => '4.5cm' , 
-                  '5.5cm' => '5.5cm' , 
-                  '6cm' => '6cm' , 
-                  '6.5cm' => '6.5cm' , 
-                  '7.2cm' => '7.2cm' , 
-                  '7.5cm' => '7.5cm' , 
-                  '8.5cm' => '8.5cm' , 
-                  '9cm' => '9cm' , 
-                  '9.5cm' => '9.5cm' , 
-                  '10cm' => '10cm' , 
-                  '11 cm' => '11 cm' , 
-                  '12.5cm' => '12.5cm' , 
-                  '15 cm' => '15 cm' , 
-                  '16 cm' => '16 cm' , 
-                  '25 cm' => '25 cm' 
+                  '3cm' => '3cm' ,
+                  '3.5cm' => '3.5cm' ,
+                  '4cm' => '4cm' ,
+                  '4.5cm' => '4.5cm' ,
+                  '5.5cm' => '5.5cm' ,
+                  '6cm' => '6cm' ,
+                  '6.5cm' => '6.5cm' ,
+                  '7.2cm' => '7.2cm' ,
+                  '7.5cm' => '7.5cm' ,
+                  '8.5cm' => '8.5cm' ,
+                  '9cm' => '9cm' ,
+                  '9.5cm' => '9.5cm' ,
+                  '10cm' => '10cm' ,
+                  '11 cm' => '11 cm' ,
+                  '12.5cm' => '12.5cm' ,
+                  '15 cm' => '15 cm' ,
+                  '16 cm' => '16 cm' ,
+                  '25 cm' => '25 cm'
                 ]
               ]); ?>
             </div>
@@ -187,8 +187,8 @@ font-size:14px !important;
                   'onchange'=>'cambiarImpreso()',
                   'options'=>[
                     'sin impresion'=>'No',
-                    'centrado'=>'Centrado',
-                    'corrido'=>'Corrido'
+                    'centrada'=>'Centrado',
+                    'corrida'=>'Corrido'
                   ]
                 ]); ?>
             </div>
@@ -287,7 +287,7 @@ font-size:14px !important;
                       </tr>
                       <?php
                   }
-                  echo $this->Form->control('cantmateriales',['type'=>'hidden','value'=>$cantMateriales ]); 
+                  echo $this->Form->control('cantmateriales',['type'=>'hidden','value'=>$cantMateriales ]);
                   ?>
                 </tbody>
               </table>

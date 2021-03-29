@@ -181,7 +181,7 @@ font-size:14px !important;
                           'Fuelle de 12.5 cm – bol 85 cm, 60 cm Mas Brillo'=>'Fuelle de 12.5 cm – bol 85 cm, 60 cm Mas Brillo',
                           'Fuelle de 15 cm – bol 90 cm'=>'Fuelle de 15 cm – bol 90 cm',
                           'Fuelle de 16 cm – bol 100 cm'=>'Fuelle de 16 cm – bol 100 cm',
-                          'Fuelle 25 cm – bol 120 cm '=>'Fuelle 25 cm – bol 120 cm ',                          
+                          'Fuelle 25 cm – bol 120 cm '=>'Fuelle 25 cm – bol 120 cm ',
                         ]
                       ]); ?>
                     </div>
@@ -207,7 +207,7 @@ font-size:14px !important;
                         ]
                       ]); ?>
                     </div>
-                    <div class="col-sm-2 form-check m-3">                    
+                    <div class="col-sm-2 form-check m-3">
                       <?= $this->Form->control('perf',[
                         'type'=>'checkbox',
                         'class'=>'form-check-input align-middle',
@@ -295,8 +295,8 @@ font-size:14px !important;
                           'onchange'=>'cambiarImpreso()',
                           'options'=>[
                             'sin impresion'=>'No',
-                            'centrado'=>'Centrado',
-                            'corrido'=>'Corrido'
+                            'centrada'=>'Centrado',
+                            'corrida'=>'Corrido'
                           ]
                         ]); ?>
                     </div>
