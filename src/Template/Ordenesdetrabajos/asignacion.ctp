@@ -441,30 +441,30 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                             </td>
-                            <?php 
+                            <?php
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->extrusadas){
                                 $BtnClassExtrusion="warning";
                               }else{
-                                $BtnClassExtrusion="success";                          
+                                $BtnClassExtrusion="success";
                               }
                               if($ordenot->ordenesdetrabajo->extrusadas*1==0){
-                                $BtnClassExtrusion="danger";                          
+                                $BtnClassExtrusion="danger";
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
                                 $BtnClassImpresion="warning";
                               }else{
-                                $BtnClassImpresion="success";                          
+                                $BtnClassImpresion="success";
                               }
                               if($ordenot->ordenesdetrabajo->impresas*1==0){
-                                $BtnClassImpresion="danger";                          
+                                $BtnClassImpresion="danger";
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
                                 $BtnClassCorte="warning";
                               }else{
-                                $BtnClassCorte="success";                          
+                                $BtnClassCorte="success";
                               }
                               if($ordenot->ordenesdetrabajo->cortadas*1==0){
-                                $BtnClassCorte="danger";                          
+                                $BtnClassCorte="danger";
                               }
                             ?>
                             <td>
@@ -481,19 +481,19 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 ?>
                                 <button type="button" class="btn btn-success">NO</button>
                                 <?php
-                              }?>                          
+                              }?>
                             </td>
                             <td>
                               <?php
                               if($ordenot->ordenesdetrabajo->cortado){ ?>
-                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->acortar*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>                          
+                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->acortar*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>
                                 </button>
                               <?php
                               }else{
                                 ?>
                                 <button type="button" class="btn btn-success">NO</button>
                                 <?php
-                              }?>        
+                              }?>
                             </td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->observaciones ?></td>
                             <?php
@@ -575,6 +575,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         </head>
 
                         <?php foreach ($impresora->ordenots as $ordenot){
+                          if (!$ordenot->ordenesdetrabajo->impreso) continue;
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
                           $numeroOT =  $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero;
                           $linkOT =  $this->Html->link(
@@ -622,30 +623,30 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                             </td>
-                            <?php 
+                            <?php
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->extrusadas){
                                 $BtnClassExtrusion="warning";
                               }else{
-                                $BtnClassExtrusion="success";                          
+                                $BtnClassExtrusion="success";
                               }
                               if($ordenot->ordenesdetrabajo->extrusadas*1==0){
-                                $BtnClassExtrusion="danger";                          
+                                $BtnClassExtrusion="danger";
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
                                 $BtnClassImpresion="warning";
                               }else{
-                                $BtnClassImpresion="success";                          
+                                $BtnClassImpresion="success";
                               }
                               if($ordenot->ordenesdetrabajo->impresas*1==0){
-                                $BtnClassImpresion="danger";                          
+                                $BtnClassImpresion="danger";
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
                                 $BtnClassCorte="warning";
                               }else{
-                                $BtnClassCorte="success";                          
+                                $BtnClassCorte="success";
                               }
                               if($ordenot->ordenesdetrabajo->cortadas*1==0){
-                                $BtnClassCorte="danger";                          
+                                $BtnClassCorte="danger";
                               }
                             ?>
                             <td>
@@ -662,19 +663,19 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 ?>
                                 <button type="button" class="btn btn-success">NO</button>
                                 <?php
-                              }?>                          
+                              }?>
                             </td>
                             <td>
                               <?php
                               if($ordenot->ordenesdetrabajo->cortado){ ?>
-                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->acortar*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>                          
+                                <button type="button" class="btn btn-<?= $BtnClassCorte?>"><?= ($ordenot->ordenesdetrabajo->acortar*1)."/".($ordenot->ordenesdetrabajo->aextrusar*1)?>
                                 </button>
                               <?php
                               }else{
                                 ?>
                                 <button type="button" class="btn btn-success">NO</button>
                                 <?php
-                              }?>        
+                              }?>
                             </td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->observaciones ?></td>
                             <?php
@@ -755,6 +756,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       </tr>
                     </head>
                       <?php foreach ($cortadora->ordenots as $ordenot){
+                          if (!$ordenot->ordenesdetrabajo->cortado) continue;
                           $fecha = $ordenot->ordenesdetrabajo->ordenesdepedido->fecha;
                           $numeroOT =  $ordenot->ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenot->ordenesdetrabajo->numero;
                           $linkOT =  $this->Html->link(
@@ -802,30 +804,30 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             }
                             ?>
                             </td>
-                            <?php 
+                            <?php
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->extrusadas){
                                 $BtnClassExtrusion="warning";
                               }else{
-                                $BtnClassExtrusion="success";                          
+                                $BtnClassExtrusion="success";
                               }
                               if($ordenot->ordenesdetrabajo->extrusadas*1==0){
-                                $BtnClassExtrusion="danger";                          
+                                $BtnClassExtrusion="danger";
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->impresas){
                                 $BtnClassImpresion="warning";
                               }else{
-                                $BtnClassImpresion="success";                          
+                                $BtnClassImpresion="success";
                               }
                               if($ordenot->ordenesdetrabajo->impresas*1==0){
-                                $BtnClassImpresion="danger";                          
+                                $BtnClassImpresion="danger";
                               }
                               if($ordenot->ordenesdetrabajo->aextrusar > $ordenot->ordenesdetrabajo->cortadas){
                                 $BtnClassCorte="warning";
                               }else{
-                                $BtnClassCorte="success";                          
+                                $BtnClassCorte="success";
                               }
                               if($ordenot->ordenesdetrabajo->cortadas*1==0){
-                                $BtnClassCorte="danger";                          
+                                $BtnClassCorte="danger";
                               }
                             ?>
                             <td>
@@ -842,7 +844,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 ?>
                                 <button type="button" class="btn btn-success">NO</button>
                                 <?php
-                              }?>                          
+                              }?>
                             </td>
                             <td>
                               <?php
@@ -854,7 +856,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                                 ?>
                                 <button type="button" class="btn btn-success">NO</button>
                                 <?php
-                              }?>        
+                              }?>
                             </td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->observaciones ?></td>
                             <?php
