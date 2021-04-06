@@ -43,8 +43,8 @@ function loadOTExtrusora(extrusoraId){
                 var fechaFinArray = getDateArrayFromDateObject(fechaFin);
                 var formatedFechaFin = fechaFinArray[0]+"-"+fechaFinArray[1]+"-"+fechaFinArray[2];
 
-                var fechaInicioTrabajo = getDateArray(this.fechainicioextrusora);
-                var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
+                var fechaInicioTrabajo = this.fechainicioextrusora?getDateArray(this.fechainicioextrusora):null;
+                var formatedFechaInicioTrabajo = fechaInicioTrabajo?fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0]:'';
 
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
                   $BtnClassExtrusion="warning";
@@ -202,8 +202,8 @@ function loadOTImpresora(impresoraId){
                 var fechaFinArray = getDateArrayFromDateObject(fechaFin);
                 var formatedFechaFin = fechaFinArray[0]+"-"+fechaFinArray[1]+"-"+fechaFinArray[2];
 
-                var fechaInicioTrabajo = getDateArray(this.fechainicioimpresora);
-                var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
+                var fechaInicioTrabajo = this.fechainicioimpresora?getDateArray(this.fechainicioimpresora):null;
+                var formatedFechaInicioTrabajo = fechaInicioTrabajo?fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0]:'';
 
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
                   $BtnClassExtrusion="warning";
@@ -360,8 +360,8 @@ function loadOTCortadora(cortadoraId){
                 var fechaFinArray = getDateArrayFromDateObject(fechaFin);
                 var formatedFechaFin = fechaFinArray[0]+"-"+fechaFinArray[1]+"-"+fechaFinArray[2];
 
-                var fechaInicioTrabajo = getDateArray(this.fechainicioimpresora);
-                var formatedFechaInicioTrabajo = fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0];
+                var fechaInicioTrabajo = this.fechainiciocortadora?getDateArray(this.fechainiciocortadora):null;
+                var formatedFechaInicioTrabajo = fechaInicioTrabajo?fechaInicioTrabajo[2]+"-"+fechaInicioTrabajo[1]+"-"+fechaInicioTrabajo[0]:'';
 
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
                   $BtnClassExtrusion="warning";

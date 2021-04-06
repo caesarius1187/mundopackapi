@@ -35,9 +35,12 @@ class OrdenotsTable extends Table
     {
         parent::initialize($config);
 
+
         $this->setTable('ordenots');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('Extrusoras', [
             'foreignKey' => 'extrusora_id',

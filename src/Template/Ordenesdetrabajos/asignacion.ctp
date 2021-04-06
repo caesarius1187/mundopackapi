@@ -288,7 +288,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       <?php
                       foreach ($ordenesdetrabajos as $ordenesdetrabajo){
                         //matriz grande
-                        if($ordenesdetrabajo->ancho<=70){
+                        if($ordenesdetrabajo->ancho<70){
                           continue;
                         }
 
