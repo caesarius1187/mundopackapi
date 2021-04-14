@@ -32,6 +32,7 @@ class Bobinascorteorigen extends Entity
         'bobinasdeimpresion_id' => true,
         'bobinasdecorte_id' => true,
         'bobinasdeextrusion_id' => true,
+        'terminacion' => true,
         'created' => true,
         'modified' => true,
         'bobinasdeimpresion' => true,

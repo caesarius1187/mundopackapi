@@ -27,6 +27,44 @@ class BobinascorteorigensController extends AppController
         $this->set(compact('bobinascorteorigens'));
     }
 
+    public function getparciales($ordenesdetrabajoId,$haceimpresion)
+    {
+        //tenemos que buscar las bobinas de impresion que ya se usaron en las impresiones y excluirlas
+        if($haceimpresion*1){
+            $origenConsultanumero = 'Bobinasdeextrusions.numero';
+            $origenConsultaid = 'Bobinasdeimpresions.id';
+        }else{
+            $origenConsultanumero = 'Bobinasdeextrusions.numero';
+            $origenConsultaid = 'Bobinasdeextrusions.id';
+        }
+        $bobinascorteorigens  = $this->Bobinascorteorigens->find('all', [
+            'contain'=>[
+                'Bobinasdeextrusions',
+                'Bobinasdeimpresions',
+            ],
+            'conditions'=>[
+                'Bobinascorteorigens.bobinasdecorte_id IN (SELECT id FROM bobinasdecortes WHERE bobinasdecortes.ordenesdetrabajo_id = '.$ordenesdetrabajoId.')',
+                'Bobinascorteorigens.terminacion'=>'Parcial',
+                'Bobinascorteorigens.bobinasdeimpresion_id NOT IN (SELECT bobinasdeimpresion_id from Bobinascorteorigens bob where bob.terminacion = "Complementaria")'
+            ],
+            'limit' => 200,
+        ]);
+        $listBobinas = [];
+        foreach ($bobinascorteorigens as $key => $value) {
+            if($haceimpresion*1){
+                $listBobinas[$value->bobinasdeimpresion->id]=$value->bobinasdeimpresion->numero;
+            }else{
+                $listBobinas[$value->bobinasdeextrusion->id]=$value->bobinasdeextrusion->numero;
+            }
+        }
+        $respuesta['data'] = $listBobinas;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            '_serialize' => ['respuesta','bobinascorteorigens']
+        ]);
+    }
+
     /**
      * View method
      *

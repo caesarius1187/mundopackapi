@@ -67,7 +67,7 @@ class BobinasdecortesController extends AppController
             'contain' => [
             ],
         ]);
-        if($ordenesdetrabajo->aextrusar==$ordenesdetrabajo->cortadas){
+        /*if($ordenesdetrabajo->aextrusar==$ordenesdetrabajo->cortadas){
             //ya no se pueden agregar bobinas
             //las bobinas de corte se van a incrementar con las bobinas origens asi usamos todas las bobinas ya cortadas
             $respuesta['respuesta'] = 'Ya se cargaron todas las bobinas de corte que se necesitaban('.$ordenesdetrabajo->aextrusar.') para esta Orden de Trabajo';
@@ -77,7 +77,7 @@ class BobinasdecortesController extends AppController
                 '_serialize' => ['respuesta']
             ]);
             return;
-        }
+        }*/
 
         date_default_timezone_set('America/Argentina/Salta');
         $bobinasdecorte->fecha = date('Y-m-d H:i:s');
@@ -110,31 +110,28 @@ class BobinasdecortesController extends AppController
             //vamos a sumar 1 en las bobinas cortadora de la orden de trabajo
             //TODO: pero vamos a sumar 1 por cada bobinascorteorigens
             $cantCortadas = 0;
-            if(isset($this->request->getData()['bobinasdeextrusion_id'])){
-                $bobinasDeExtrusionCortadas = $this->request->getData()['bobinasdeextrusion_id'];
+
+            $firstelement = reset($this->request->getData()['bobinascorteorigen']);
+            if(isset($firstelement['bobinasdeextrusion_id'])){
+                $bobinasDeExtrusionCortadas = $this->request->getData()['bobinascorteorigen'];
                 foreach ($bobinasDeExtrusionCortadas as $key => $bobinaextrusioncortada) {
                     $bobinacorteorigen = $this->Bobinascorteorigens->newEntity();
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
-                    $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada;
+                    $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada['bobinasdeextrusion_id'];
+                    $bobinacorteorigen->terminacion = $bobinaextrusioncortada['terminacion'];
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
-                    $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinaextrusioncortada);
-                    if($bobinasdeextrusion->first()->terminacion!='Parcial'&&$this->request->getData()['terminacion']!='Parcial'){
-                        $cantCortadas++;
-                    }
+                    $cantCortadas++;
                 }
             }
-            if(isset($this->request->getData()['bobinasdeimpresion_id'])){
-                $bobinasDeImpresionCortadas = $this->request->getData()['bobinasdeimpresion_id'];
+            if(isset($firstelement['bobinasdeimpresion_id'])){
+                $bobinasDeImpresionCortadas = $this->request->getData()['bobinascorteorigen'];
                 foreach ($bobinasDeImpresionCortadas as $key => $bobinaimpresioncortada) {
                     $bobinacorteorigen = $this->Bobinascorteorigens->newEntity();
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
-                    $bobinacorteorigen->bobinasdeimpresion_id = $bobinaimpresioncortada;
+                    $bobinacorteorigen->bobinasdeimpresion_id = $bobinaimpresioncortada['bobinasdeimpresion_id'];
+                    $bobinacorteorigen->terminacion = $bobinaimpresioncortada['terminacion'];
                     $this->Bobinascorteorigens->save($bobinacorteorigen);
-                    $bobinasdeimpresion = $this->Bobinasdeimpresions->findById($bobinaimpresioncortada);
-                    $bobinasdeextrusion = $this->Bobinasdeextrusions->findById($bobinasdeimpresion->first()->bobinasdeextrusion_id);
-                    if($bobinasdeextrusion->first()->terminacion!='Parcial'&&$this->request->getData()['terminacion']!='Parcial'){
-                        $cantCortadas++;
-                    }
+                    $cantCortadas++;
                 }
             }
             $respuesta['bobinasorigens'] = $this->Bobinascorteorigens->find('all',[

@@ -33,12 +33,11 @@ class BobinasdeimpresionsController extends AppController
         $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
             'contain'=>[
                 'Bobinascorteorigens'=>[
-                  'Bobinasdecortes'
+                  'Bobinasdecortes',
                 ],
             ],
             'conditions'=>[
                 'Bobinasdecortes.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
-                'Bobinasdecortes.terminacion <> "Parcial"'
             ],
             'limit' => 200
         ]);
@@ -46,7 +45,7 @@ class BobinasdeimpresionsController extends AppController
         $bobinasdeimpresionYaUsadas[0] = 0;
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
             foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
-                if($corteorigen->bobinasdeimpresion_id && $corteorigen->bobinasdecorte->terminacion != 'Parcial'){
+                if($corteorigen->bobinasdeimpresion_id){
                     $bobinasdeimpresionYaUsadas[] = $corteorigen->bobinasdeimpresion_id;
                 }
             }

@@ -46,12 +46,12 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
           <table id="example" class="table table-bordered table-hover table-sm">
               <thead>
                   <tr>
-                      <th scope="col"><?= $this->Paginator->sort('Numero') ?></th>
-                      <th scope="col"><?= $this->Paginator->sort('Cliente') ?></th>
-                      <th scope="col"><?= $this->Paginator->sort('Fecha') ?></th>
-                      <th scope="col"><?= $this->Paginator->sort('Estado') ?></th>
-                      <th scope="col"><?= $this->Paginator->sort('Creado') ?></th>
-                      <th scope="col"><?= $this->Paginator->sort('Modificado') ?></th>
+                      <th scope="col">Numero</th>
+                      <th scope="col">Cliente</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Estado</th>
+                      <th scope="col">Creado</th>
+                      <th scope="col">Modificado</th>
                       <th scope="col" class="actions"><?= __('Acciones') ?></th>
                   </tr>
               </thead>
@@ -115,35 +115,36 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
 <script>
   $(function () {
     $('#example').DataTable( {
-    "language": {
-        "sProcessing":     "Procesando...",
-        "sLengthMenu":     "Mostrar _MENU_ registros",
-        "sZeroRecords":    "No se encontraron resultados",
-        "sEmptyTable":     "Ningún dato disponible en esta tabla =(",
-        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix":    "",
-        "sSearch":         "Buscar: ",
-        "sUrl":            "",
-        "sInfoThousands":  ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-            "sFirst":    "Primero",
-            "sLast":     "Último",
-            "sNext":     "Siguiente",
-            "sPrevious": "Anterior"
-        },
-        "oAria": {
-            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        },
-        "buttons": {
-            "copy": "Copiar",
-            "colvis": "Visibilidad"
-        }
-    },
-    "autoWidth": true
-    } );
+      "order": [[ 0, "desc" ]],
+      "language": {
+          "sProcessing":     "Procesando...",
+          "sLengthMenu":     "Mostrar _MENU_ registros",
+          "sZeroRecords":    "No se encontraron resultados",
+          "sEmptyTable":     "Ningún dato disponible en esta tabla =(",
+          "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+          "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+          "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+          "sInfoPostFix":    "",
+          "sSearch":         "Buscar: ",
+          "sUrl":            "",
+          "sInfoThousands":  ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+              "sFirst":    "Primero",
+              "sLast":     "Último",
+              "sNext":     "Siguiente",
+              "sPrevious": "Anterior"
+          },
+          "oAria": {
+              "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          },
+          "buttons": {
+              "copy": "Copiar",
+              "colvis": "Visibilidad"
+          }
+      },
+      "autoWidth": true
+    });
   });
 </script>

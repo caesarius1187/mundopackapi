@@ -449,7 +449,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                 <tr>
                                   <td><?=$bobinasdeextrusion->numero; ?></td>
                                   <td><?=$bobinasdeextrusion->extrusora->nombre; ?></td>
-                                  <td><?= date('d-m-Y h:m',strtotime($bobinasdeextrusion->fecha)); ?></td>
+                                  <td><?= date('d-m-Y H:m',strtotime($bobinasdeextrusion->fecha)); ?></td>
                                   <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
                                   <td><?=$bobinasdeextrusion->kilogramos; ?></td>
                                   <td><?=$bobinasdeextrusion->metros; ?></td>
@@ -793,7 +793,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                 ]); ?>
             </div>
             <div class="col-sm-2">
-                <?= $this->Form->control('horas'); ?>
+                <?= $this->Form->control('horas',['type'=>'number']); ?>
             </div>
           </div>
           <div class="row">
@@ -841,7 +841,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
 </div>
 
 <div class="modal" id="modalAddBobinaCorte" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"><?= __('Agregar Bobina de Corte') ?></h5>
@@ -869,28 +869,48 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
             <div class="col-sm-3">
                 <?= $this->Form->control('cortadora_id', ['options' => $cortadoras]); ?>
             </div>
-            <div class="col-sm-4">
-              <?php
-                if($ordenesdetrabajo->impreso){
-                  echo $this->Form->control('bobinasdeimpresion_id', [
-                      'options' => [],
-                      'multiple' => true,
-                      'required' => true,
-                      'label' => 'Bobina de impresion',
-                  ]);
-                }else{
-                  echo $this->Form->control('bobinasdeextrusion_id', [
-                      'options' => [],
-                      'multiple' => true,
-                      'required' => true,
-                      'label' => 'Bobina de extrusion',
-                  ]);
-                }
-              ?>
-            </div>
             <div class="col-sm-2">
-                <?= $this->Form->control('horas'); ?>
+                <?= $this->Form->control('horas',['type'=>'number']); ?>
             </div>
+            <div class="col-sm-12 border">
+              <div class="row">
+                  <div class="col-sm-12">
+                    <h3>Agregar Bobinas de Origen del Corte</h3>
+                  </div>
+                  <div class="col-sm-3">
+                    <?php
+                      if($ordenesdetrabajo->impreso){
+                        echo $this->Form->control('origenbobinasdeimpresion_id', [
+                            'options' => [],
+                            'label' => 'Bobina de impresion',
+                        ]);
+                      }else{
+                        echo $this->Form->control('origenbobinasdeextrusion_id', [
+                            'options' => [],
+                            'label' => 'Bobina de extrusion',
+                        ]);
+                      }
+                    ?>
+                  </div>
+                  <div class="col-sm-4">
+                    <?= $this->Form->control('terminacion',[
+                        'options'=>[
+                          'Completa'=>'Completa',
+                          'Parcial'=>'Parcial',
+                          'Complementaria'=>'Complementaria',
+                        ]
+                      ]); ?>
+                  </div>                 
+                  <div class="col-sm-1" style="display: flex;align-items: flex-end;padding-bottom: 15px;">
+                    <button type="button" name="button" onclick="loadBobinaOrigen()" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i></button>
+                  </div>
+              </div>
+              <div class="row" id="divRowBobinasAgregadas">
+
+               
+              </div>
+            </div>
+            
             <div class="col-sm-2">
                 <?= $this->Form->control('kilogramos'); ?>
             </div>
@@ -909,21 +929,9 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <?= $this->Form->control('terminacion',[
-                  'options'=>[
-                    'Completa'=>'Completa',
-                    'Parcial'=>'Parcial',
-                    'Complementaria'=>'Complementaria',
-                  ]
-                ]); ?>
+                
             </div>
-            <div class="col-sm-4">
-                <?= $this->Form->control('bobinasdecorte_id',[
-                  'label'=>'Bobinas de Cor. Parciales',
-                  'options'=>[],
-                  'disabled'=>true,
-                ]); ?>
-            </div>
+            
           </div>
         <?= $this->Form->end() ?>
       </div>

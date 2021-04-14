@@ -276,6 +276,11 @@ function loadMaterial(){
     calcularKilosDeMateriales();
 }
 function deleteMaterial(buttonRemove){
+    if ($('#tblMateriales tbody tr').length == 1) {
+        alert('Debe haber por lo menos un material');
+        calcularKilosDeMateriales();
+        return;
+    }
     $(buttonRemove).closest('tr').remove();
     calcularKilosDeMateriales();
 }

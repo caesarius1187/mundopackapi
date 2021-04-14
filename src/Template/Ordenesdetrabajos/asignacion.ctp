@@ -93,7 +93,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                       <th style="width:80px">Terminación</th>
                       <th style="width:180px">Cliente</th>
                       <th style="width:50px">OT</th>
-                      <th style="width:80px">Medidas</th>
+                      <th style="width:120px">Medidas</th>
                       <th style="width:50px">Cant.</th>
                       <th style="width:250px">Materiales</th>
                       <th style="width:50px">Imp.</th>
@@ -185,7 +185,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           <th style="width:80px">Terminación</th>
                           <th style="width:180px">Cliente</th>
                           <th style="width:50px">OT</th>
-                          <th style="width:80px">Medidas</th>
+                          <th style="width:120px">Medidas</th>
                           <th style="width:50px">Cant.</th>
                           <th style="width:250px">Materiales</th>
                           <th style="width:50px">Imp.</th>
@@ -277,7 +277,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:80px">Terminación</th>
                             <th style="width:180px">Cliente</th>
                             <th style="width:50px">OT</th>
-                            <th style="width:80px">Medidas</th>
+                            <th style="width:120px">Medidas</th>
                             <th style="width:50px">Cant.</th>
                             <th style="width:250px">Materiales</th>
                             <th style="width:50px">Imp.</th>
@@ -378,7 +378,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:50px">Fin</th>
                             <th style="width:180px">Cliente</th>
                             <th style="width:50px">OT</th>
-                            <th style="width:80px">Medidas</th>
+                            <th style="width:120px">Medidas</th>
                             <th style="width:50px">Cant.</th>
                             <th style="width:250px">Materiales</th>
                             <th style="width:50px">Ext.</th>
@@ -422,7 +422,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
                             <td style="width:180px"><small><?= $nombrecliente ?></small></td>
                             <td style="width:50px"><?= $linkOT ?></td>
-                            <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
+                            <td style="width:120px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
                             <td style="width:180px">
                             <?php
@@ -558,7 +558,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <th style="width:50px">Fin</th>
                             <th style="width:180px">Cliente</th>
                             <th style="width:50px">OT</th>
-                            <th style="width:80px">Medidas</th>
+                            <th style="width:120px">Medidas</th>
                             <th style="width:50px">Cant.</th>
                             <th style="width:180px">Materiales</th>
                             <th style="width:50px">Ext.</th>
@@ -604,7 +604,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
                             <td style="width:180px"><small><?= $nombrecliente ?></small></td>
                             <td style="width:50px"><?= $linkOT ?></td>
-                            <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
+                            <td style="width:120px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
                             <td style="width:180px">
                             <?php
@@ -740,7 +740,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         <th style="width:50px">Fin</th>
                         <th style="width:180px">Cliente</th>
                         <th style="width:50px">OT</th>
-                        <th style="width:80px">Medidas</th>
+                        <th style="width:120px">Medidas</th>
                         <th style="width:50px">Cant.</th>
                         <th style="width:250px">Materiales</th>
                         <th style="width:50px">Ext.</th>
@@ -785,7 +785,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                             <td style="width:50px"><?= date('d-m',strtotime($fecha." +1 Months ")) ?></td>
                             <td style="width:180px"><small><?= $nombrecliente ?></small></td>
                             <td style="width:50px"><?= $linkOT ?></td>
-                            <td style="width:80px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
+                            <td style="width:120px"><?= $ordenot->ordenesdetrabajo->medida ?></td>
                             <td style="width:50px"><?= $ordenot->ordenesdetrabajo->aextrusar?></td>
                             <td style="width:180px">
                             <?php

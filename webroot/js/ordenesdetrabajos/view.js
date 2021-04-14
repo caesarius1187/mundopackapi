@@ -152,7 +152,13 @@ $(document).ready(function() {
             })
             return false;
         }
-       
+        if ( $('#divRowBobinasAgregadas').children().length == 0 ) {
+            Toast.fire({
+              icon: 'error',
+              title: "Debe Agregar Bobinas de extrusion o impresion a la bobina de corte."
+            })
+            return false;
+        }
         //serialize form data
         var formData = $(this).serialize();
         //get form action
@@ -242,6 +248,8 @@ $(document).ready(function() {
         $("#modalAddBobinaCorte").find("#scrap").val('');
         $("#modalAddBobinaCorte").find("#cantidad").val('');
         $("#modalAddBobinaCorte").find("#observacion").val('');
+        $("#modalAddBobinaCorte").find("#terminacion").val('Completa');
+        $('#divRowBobinasAgregadas').empty();
         var tieneimpresion = $("#tieneimpresion").val();
         if(tieneimpresion){
             getListaBobinaImpresionParaCorte();
@@ -403,9 +411,10 @@ function getBobinasImpresionsParciales(){
 function getBobinasCortesParciales(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
     if($("#modalAddBobinaCorte #terminacion").val()=='Complementaria'){
+        var tieneimpresion = $("#tieneimpresion").val();
         $.ajax({
             type: 'POST',
-            url: serverLayoutURL+'bobinasdecortes/getparciales/'+ordenesdetrabajoId+'.json',
+            url: serverLayoutURL+'bobinascorteorigens/getparciales/'+ordenesdetrabajoId+'/'+tieneimpresion+'.json',
             data: '',
             success: function(response,textStatus,xhr){
                 if(response.respuesta.error!=0){
@@ -417,12 +426,22 @@ function getBobinasCortesParciales(){
                     var bobinasdecortesparciales = response.respuesta.data;
 
                     var hayBobinasDeCorte = false;
+                    $("#origenbobinasdeimpresion-id").find('option')
+                                                   .remove();
                     for (var p in bobinasdecortesparciales) {
                         if( bobinasdecortesparciales.hasOwnProperty(p) ) {
-                            $("#modalAddBobinaCorte #bobinasdecorte-id").append(
-                                '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
-                            );
-
+                            if(tieneimpresion){
+                                
+                                $("#origenbobinasdeimpresion-id").append(
+                                    '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
+                                );
+                            }else{
+                                $("#origenbobinasdeextrusion-id").find('option')
+                                                   .remove();
+                                $("#origenbobinasdeextrusion-id").append(
+                                    '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
+                                );
+                            }
                             hayBobinasDeCorte = true;
                         }
                     }
@@ -432,16 +451,19 @@ function getBobinasCortesParciales(){
                           icon: 'success',
                           title: 'Se cargo la lista de bobinas de corte parciales.'
                         });
-                        $("#modalAddBobinaCorte #bobinasdecorte-id").attr('disabled',false);
                     }else{
                         Toast.fire({
                           icon: 'error',
                           title: "no hay bobinas de corte parciales para usar."
                         });
                         $("#modalAddBobinaCorte #terminacion").val('Completa');
-                        $("#modalAddBobinaCorte #bobinasdecorte-id").find('option')
+                        $("#origenbobinasdeextrusion-id").find('option')
                                                    .remove();
-                        $("#modalAddBobinaCorte #bobinasdecorte-id").attr('disabled',true);
+                        if(tieneimpresion){
+                            getListaBobinaImpresionParaCorte();
+                        }else{
+                            getListaBobinasExtrusionParaCorte();
+                        }
                     }
                 }
             },
@@ -450,9 +472,12 @@ function getBobinasCortesParciales(){
             }
         });
     }else{
-        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").find('option')
-                                   .remove();
-        $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',true);
+        var tieneimpresion = $("#tieneimpresion").val();
+        if(tieneimpresion){
+            getListaBobinaImpresionParaCorte();
+        }else{
+            getListaBobinasExtrusionParaCorte();
+        }
     }
 }
 function selectBobExtParcialCorrespondiente(){
@@ -513,7 +538,7 @@ function getListaBobinasExtrusionParaImpresion(){
 function getListaBobinasExtrusionParaCorte(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
     //limpiamos la lista
-    $("#modalAddBobinaCorte #bobinasdeextrusion-id")
+    $("#modalAddBobinaCorte #origenbobinasdeextrusion-id")
         .find('option')
         .remove();
     $.ajax({
@@ -532,7 +557,7 @@ function getListaBobinasExtrusionParaCorte(){
                 for (var p in bobinasdeextrusions) {
                     if( bobinasdeextrusions.hasOwnProperty(p) ) {
                         hayBobinasDeExtrusion = true;
-                        $("#modalAddBobinaCorte #bobinasdeextrusion-id").append('<option value="'+p+'">'+bobinasdeextrusions[p]+'</option>');
+                        $("#modalAddBobinaCorte #origenbobinasdeextrusion-id").append('<option value="'+p+'">'+bobinasdeextrusions[p]+'</option>');
                     }
                 }
                 if(hayBobinasDeExtrusion){
@@ -557,7 +582,7 @@ function getListaBobinasExtrusionParaCorte(){
 function getListaBobinaImpresionParaCorte(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
     //limpiamos la lista
-    $("#modalAddBobinaCorte #bobinasdeimpresion-id")
+    $("#modalAddBobinaCorte #origenbobinasdeimpresion-id")
         .find('option')
         .remove();
     $.ajax({
@@ -576,7 +601,7 @@ function getListaBobinaImpresionParaCorte(){
                 for (var p in bobinasdeimpresions) {
                     if( bobinasdeimpresions.hasOwnProperty(p) ) {
                         hayBobinasDeImpresion = true;
-                        $("#modalAddBobinaCorte #bobinasdeimpresion-id").append('<option value="'+p+'">'+bobinasdeimpresions[p]+'</option>');
+                        $("#modalAddBobinaCorte #origenbobinasdeimpresion-id").append('<option value="'+p+'">'+bobinasdeimpresions[p]+'</option>');
                     }
                 }
                 if(hayBobinasDeImpresion){
@@ -723,6 +748,48 @@ function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impr
                     .html(bobinaimpresion.observacion)
             )
     )
+}
+var bobinasOrigenesAgregadas = 0;
+function loadBobinaOrigen(){
+    var tieneimpresion = $("#tieneimpresion").val();
+    var misBobinasOrigenId = 0;
+    var nameSelectBobinaOrigen = 0;
+    if(tieneimpresion){
+        misBobinasOrigenId = $("#origenbobinasdeimpresion-id").val();
+        idSelectBobinaOrigen = "bobinasdeimpresion-id";
+        nameSelectBobinaOrigen = "bobinasdeimpresion_id";
+    }else{
+        misBobinasOrigenId = $("#origenbobinasdeextrusion-id").val();
+        idSelectBobinaOrigen = "bobinasdeestrusion-id";
+        nameSelectBobinaOrigen = "bobinasdeestrusion_id";
+    }
+    var terminacion = $("#bobinaCorteAddForm #terminacion").val();
+    var bobinaParcialOrigen = $("#bobinascorteorigen-id").val();
+
+    var divRowBobinasAgregadas = $('#divRowBobinasAgregadas');
+
+    $inputIdBobinaOrigen = $("<input>")
+                .attr('attr','text')
+                .attr('maxlength','50')
+                .attr('name','bobinascorteorigen['+bobinasOrigenesAgregadas+']['+nameSelectBobinaOrigen+']')
+                .attr('id','bobinascorteorigen-'+bobinasOrigenesAgregadas+'-'+idSelectBobinaOrigen)
+                .val(misBobinasOrigenId)
+                .addClass('form-control');
+    $inputTerminacion = $("<input>")
+                .attr('attr','text')
+                .attr('maxlength','50')
+                .attr('name','bobinascorteorigen['+bobinasOrigenesAgregadas+'][terminacion]')
+                .attr('id','bobinascorteorigen-'+bobinasOrigenesAgregadas+'-terminacion')
+                .val(terminacion)
+                .addClass('form-control');    
+    $divCol1 = $("<div>")
+                    .addClass('col-sm-6')
+                    .append($inputIdBobinaOrigen);
+    $divCol2 = $("<div>")
+                    .addClass('col-sm-6')
+                    .append($inputTerminacion);    
+    divRowBobinasAgregadas.append($divCol1).append($divCol2);
+    bobinasOrigenesAgregadas++;
 }
 function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
     var tblBobinasdeCorte = $("#tblBobinasdeCorte");
