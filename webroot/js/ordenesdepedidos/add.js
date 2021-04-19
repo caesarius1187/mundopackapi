@@ -96,6 +96,51 @@ $(document).ready(function() {
         }
         return false;
     });
+    $('#OrdenesDeTrabajoEditForm').submit(function(){
+        //vamos a revisar que los porcentajes sumen 100
+        var suma = 0;
+        $(".porcentaje").each(function(){
+            suma+=$(this).val()*1;
+        })
+        if(suma!=100){
+            Toast.fire({
+              icon: 'error',
+              title: "Los porcentajes de materiales no suman 100"
+            })
+            return false;
+        }
+        var r = confirm("Esta seguro que quiere modificar la Orden de Trabajo?");
+        if(r){
+            //serialize form data
+            var formData = $(this).serialize();
+            //get form action
+            var formUrl = $(this).attr('action')+".json";
+            $.ajax({
+                type: 'POST',
+                url: formUrl,
+                data: formData,
+                success: function(data,textStatus,xhr){
+                    if(data.respuesta.error!=0){
+                        Toast.fire({
+                          icon: 'error',
+                          title: data.respuesta.respuesta
+                        })
+                    }else{
+                        Toast.fire({
+                          icon: 'success',
+                          title: data.respuesta.respuesta
+                        })
+                    }
+                    location.reload();
+                },
+                error: function(xhr,textStatus,error){
+                    bootstrapAlert(textStatus);
+                }
+            });
+        }
+        return false;
+    });
+    
     $(".inputCalculoOT").on('change',function(){
         var tipocorte = $("#tipocorte").val();
         if(tipocorte=='lateral 2l'){

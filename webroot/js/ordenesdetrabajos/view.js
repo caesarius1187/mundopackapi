@@ -754,14 +754,17 @@ function loadBobinaOrigen(){
     var tieneimpresion = $("#tieneimpresion").val();
     var misBobinasOrigenId = 0;
     var nameSelectBobinaOrigen = 0;
+    var selectedBobinaText = "";
     if(tieneimpresion){
         misBobinasOrigenId = $("#origenbobinasdeimpresion-id").val();
         idSelectBobinaOrigen = "bobinasdeimpresion-id";
         nameSelectBobinaOrigen = "bobinasdeimpresion_id";
+        selectedBobinaText =  $("#origenbobinasdeimpresion-id option:selected").html();
     }else{
         misBobinasOrigenId = $("#origenbobinasdeextrusion-id").val();
         idSelectBobinaOrigen = "bobinasdeestrusion-id";
         nameSelectBobinaOrigen = "bobinasdeestrusion_id";
+        selectedBobinaText =  $("#origenbobinasdeextrusion-id option:selected").html();
     }
     var terminacion = $("#bobinaCorteAddForm #terminacion").val();
     var bobinaParcialOrigen = $("#bobinascorteorigen-id").val();
@@ -769,14 +772,17 @@ function loadBobinaOrigen(){
     var divRowBobinasAgregadas = $('#divRowBobinasAgregadas');
 
     $inputIdBobinaOrigen = $("<input>")
-                .attr('attr','text')
+                .attr('type','hidden')
                 .attr('maxlength','50')
                 .attr('name','bobinascorteorigen['+bobinasOrigenesAgregadas+']['+nameSelectBobinaOrigen+']')
                 .attr('id','bobinascorteorigen-'+bobinasOrigenesAgregadas+'-'+idSelectBobinaOrigen)
                 .val(misBobinasOrigenId)
                 .addClass('form-control');
+    $labelBobinaOrigen = $("<label>")
+                .html(selectedBobinaText)
     $inputTerminacion = $("<input>")
                 .attr('attr','text')
+                .attr('readonly',true)
                 .attr('maxlength','50')
                 .attr('name','bobinascorteorigen['+bobinasOrigenesAgregadas+'][terminacion]')
                 .attr('id','bobinascorteorigen-'+bobinasOrigenesAgregadas+'-terminacion')
@@ -784,7 +790,8 @@ function loadBobinaOrigen(){
                 .addClass('form-control');    
     $divCol1 = $("<div>")
                     .addClass('col-sm-6')
-                    .append($inputIdBobinaOrigen);
+                    .append($inputIdBobinaOrigen)
+                    .append($labelBobinaOrigen);
     $divCol2 = $("<div>")
                     .addClass('col-sm-6')
                     .append($inputTerminacion);    
