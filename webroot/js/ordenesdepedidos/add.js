@@ -416,10 +416,10 @@ function cargarOTenTbl(ordenesdetrabajo){
                 $("<td>").html(ordenesdetrabajo.perf)
             )
             .append(
-                $("<td>").html(showSiNo(impreso))
+                $("<td>").html(showSiNo(ordenesdetrabajo.impreso))
             )
             .append(
-                $("<td>").html(showSiNo(cortado))
+                $("<td>").html(showSiNo(ordenesdetrabajo.cortado))
             )
             .append(
                 $("<td>").html(ordenesdetrabajo.preciounitario)
