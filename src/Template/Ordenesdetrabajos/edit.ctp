@@ -187,8 +187,8 @@ font-size:14px !important;
                   'onchange'=>'cambiarImpreso()',
                   'options'=>[
                     'sin impresion'=>'No',
-                    'centrada'=>'Centrado',
-                    'corrida'=>'Corrido'
+                    'centrado'=>'Centrado',
+                    'corrido'=>'Corrido'
                   ]
                 ]); ?>
             </div>
