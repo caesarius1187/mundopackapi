@@ -41,7 +41,8 @@ class CortadorasController extends AppController
                     ],
                     'Ordenesdetrabajos'=>[
                         'conditions'=>[
-                            'Ordenesdetrabajos.estado'=>'En Proceso'
+                            'Ordenesdetrabajos.estado'=>'En Proceso',
+                            'Ordenesdetrabajos.cortado'=>1
                         ],
                         'Ordenesdepedidos'=>[
                             'Clientes'

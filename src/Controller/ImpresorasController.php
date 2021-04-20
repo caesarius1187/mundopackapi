@@ -41,7 +41,8 @@ class ImpresorasController extends AppController
                     ],
                     'Ordenesdetrabajos'=>[
                         'conditions'=>[
-                            'Ordenesdetrabajos.estado'=>'En Proceso'
+                            'Ordenesdetrabajos.estado'=>'En Proceso',
+                            'Ordenesdetrabajos.impreso'=>1
                         ],
                         'Ordenesdepedidos'=>[
                             'Clientes'
