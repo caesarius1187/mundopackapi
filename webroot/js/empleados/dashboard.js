@@ -49,36 +49,36 @@ function loadOTExtrusora(extrusoraId){
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
                   $BtnClassExtrusion="warning";
                 }else{
-                  $BtnClassExtrusion="success";                          
+                  $BtnClassExtrusion="success";
                 }
                 if(this.ordenesdetrabajo.extrusadas*1==0){
-                  $BtnClassExtrusion="danger";                          
+                  $BtnClassExtrusion="danger";
                 }
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.impresas){
                   $BtnClassImpresion="warning";
                 }else{
-                  $BtnClassImpresion="success";                          
+                  $BtnClassImpresion="success";
                 }
                 if(this.ordenesdetrabajo.impresas*1==0){
-                  $BtnClassImpresion="danger";                          
+                  $BtnClassImpresion="danger";
                 }
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.cortadas){
                   $BtnClassCorte="warning";
                 }else{
-                  $BtnClassCorte="success";                          
+                  $BtnClassCorte="success";
                 }
                 if(this.ordenesdetrabajo.cortadas*1==0){
-                  $BtnClassCorte="danger";                          
+                  $BtnClassCorte="danger";
                 }
                 var btnProgImp = "";
-                if(this.ordenesdetrabajo.impreso){ 
+                if(this.ordenesdetrabajo.impreso){
                     btnProgImp = '<button type="button" class="btn btn-'+$BtnClassImpresion+'">'+this.ordenesdetrabajo.impresas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
                 }else{
                     btnProgImp = '<button type="button" class="btn btn-success">NO</button>'
-                }         
+                }
                 var btnProgCorte = "";
 
-                if(this.ordenesdetrabajo.cortado){ 
+                if(this.ordenesdetrabajo.cortado){
                   btnProgCorte = '<button type="button" class="btn btn-'+$BtnClassCorte+'">'+this.ordenesdetrabajo.cortadas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
                 }else{
                   btnProgCorte = '<button type="button" class="btn btn-success">NO</button>';
@@ -116,13 +116,13 @@ function loadOTExtrusora(extrusoraId){
                                     .addClass("btn btn-"+$BtnClassExtrusion)
                                     .html(this.ordenesdetrabajo.extrusadas*1+"/"+this.ordenesdetrabajo.aextrusar*1)
                             )
-                        )   
+                        )
                         .append(
                             $("<td>").append(btnProgImp)
-                        )   
+                        )
                         .append(
                             $("<td>").append(btnProgCorte)
-                        )                        
+                        )
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
@@ -167,7 +167,7 @@ function loadOTImpresora(impresoraId){
         data: '',
         success: function(data,textStatus,xhr){
             $('#myModalMaquina').modal('toggle');
-            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-industry"></i>'+data.impresora.nombre);
+            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-print"></i>'+data.impresora.nombre);
             $('#myModalMaquina').find('#tblPendientes tr').remove();
             $(data.impresora.ordenots).each(function(){
                 var porentaje = 0;
@@ -208,36 +208,36 @@ function loadOTImpresora(impresoraId){
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
                   $BtnClassExtrusion="warning";
                 }else{
-                  $BtnClassExtrusion="success";                          
+                  $BtnClassExtrusion="success";
                 }
                 if(this.ordenesdetrabajo.extrusadas*1==0){
-                  $BtnClassExtrusion="danger";                          
+                  $BtnClassExtrusion="danger";
                 }
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.impresas){
                   $BtnClassImpresion="warning";
                 }else{
-                  $BtnClassImpresion="success";                          
+                  $BtnClassImpresion="success";
                 }
                 if(this.ordenesdetrabajo.impresas*1==0){
-                  $BtnClassImpresion="danger";                          
+                  $BtnClassImpresion="danger";
                 }
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.cortadas){
                   $BtnClassCorte="warning";
                 }else{
-                  $BtnClassCorte="success";                          
+                  $BtnClassCorte="success";
                 }
                 if(this.ordenesdetrabajo.cortadas*1==0){
-                  $BtnClassCorte="danger";                          
+                  $BtnClassCorte="danger";
                 }
                 var btnProgImp = "";
-                if(this.ordenesdetrabajo.impreso){ 
+                if(this.ordenesdetrabajo.impreso){
                     btnProgImp = '<button type="button" class="btn btn-'+$BtnClassImpresion+'">'+this.ordenesdetrabajo.impresas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
                 }else{
                     btnProgImp = '<button type="button" class="btn btn-success">NO</button>'
-                }         
+                }
                 var btnProgCorte = "";
 
-                if(this.ordenesdetrabajo.cortado){ 
+                if(this.ordenesdetrabajo.cortado){
                   btnProgCorte = '<button type="button" class="btn btn-'+$BtnClassCorte+'">'+this.ordenesdetrabajo.cortadas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
                 }else{
                   btnProgCorte = '<button type="button" class="btn btn-success">NO</button>';
@@ -275,13 +275,13 @@ function loadOTImpresora(impresoraId){
                                     .addClass("btn btn-"+$BtnClassExtrusion)
                                     .html(this.ordenesdetrabajo.extrusadas*1+"/"+this.ordenesdetrabajo.aextrusar*1)
                             )
-                        )   
+                        )
                         .append(
                             $("<td>").append(btnProgImp)
-                        )   
+                        )
                         .append(
                             $("<td>").append(btnProgCorte)
-                        ) 
+                        )
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
@@ -325,7 +325,7 @@ function loadOTCortadora(cortadoraId){
         data: '',
         success: function(data,textStatus,xhr){
             $('#myModalMaquina').modal('toggle');
-            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-industry"></i>'+data.cortadora.nombre);
+            $('#myModalMaquina').find('.modal-title').html('<i class="fas fa-cut"></i>'+data.cortadora.nombre);
             $('#myModalMaquina').find('#tblPendientes tr').remove();
             $(data.cortadora.ordenots).each(function(){
                 var porentaje = 0;
@@ -366,41 +366,41 @@ function loadOTCortadora(cortadoraId){
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.extrusadas){
                   $BtnClassExtrusion="warning";
                 }else{
-                  $BtnClassExtrusion="success";                          
+                  $BtnClassExtrusion="success";
                 }
                 if(this.ordenesdetrabajo.extrusadas*1==0){
-                  $BtnClassExtrusion="danger";                          
+                  $BtnClassExtrusion="danger";
                 }
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.impresas){
                   $BtnClassImpresion="warning";
                 }else{
-                  $BtnClassImpresion="success";                          
+                  $BtnClassImpresion="success";
                 }
                 if(this.ordenesdetrabajo.impresas*1==0){
-                  $BtnClassImpresion="danger";                          
+                  $BtnClassImpresion="danger";
                 }
                 if(this.ordenesdetrabajo.aextrusar > this.ordenesdetrabajo.cortadas){
                   $BtnClassCorte="warning";
                 }else{
-                  $BtnClassCorte="success";                          
+                  $BtnClassCorte="success";
                 }
                 if(this.ordenesdetrabajo.cortadas*1==0){
-                  $BtnClassCorte="danger";                          
+                  $BtnClassCorte="danger";
                 }
                 var btnProgImp = "";
-                if(this.ordenesdetrabajo.impreso){ 
+                if(this.ordenesdetrabajo.impreso){
                     btnProgImp = '<button type="button" class="btn btn-'+$BtnClassImpresion+'">'+this.ordenesdetrabajo.impresas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
                 }else{
                     btnProgImp = '<button type="button" class="btn btn-success">NO</button>'
-                }         
+                }
                 var btnProgCorte = "";
 
-                if(this.ordenesdetrabajo.cortado){ 
+                if(this.ordenesdetrabajo.cortado){
                   btnProgCorte = '<button type="button" class="btn btn-'+$BtnClassCorte+'">'+this.ordenesdetrabajo.cortadas*1+'/'+this.ordenesdetrabajo.aextrusar*1+'</button>';
                 }else{
                   btnProgCorte = '<button type="button" class="btn btn-success">NO</button>';
                 }
-                
+
                 var tr = $("<tr>")
                         .append(
                             $("<td class='text-center'>").html(this.prioridadcorte)
@@ -433,13 +433,13 @@ function loadOTCortadora(cortadoraId){
                                     .addClass("btn btn-"+$BtnClassExtrusion)
                                     .html(this.ordenesdetrabajo.extrusadas*1+"/"+this.ordenesdetrabajo.aextrusar*1)
                             )
-                        )   
+                        )
                         .append(
                             $("<td>").append(btnProgImp)
-                        )   
+                        )
                         .append(
                             $("<td>").append(btnProgCorte)
-                        ) 
+                        )
                         .append(
                             $("<td class='text-center'>").html(this.ordenesdetrabajo.observaciones)
                         )
