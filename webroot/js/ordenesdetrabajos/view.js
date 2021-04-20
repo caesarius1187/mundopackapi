@@ -412,9 +412,15 @@ function getBobinasCortesParciales(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
     if($("#modalAddBobinaCorte #terminacion").val()=='Complementaria'){
         var tieneimpresion = $("#tieneimpresion").val();
+        var urlImpresion = 0;
+        if(tieneimpresion==""){
+            urlImpresion = 0;
+        }else{
+            urlImpresion = 1;
+        }
         $.ajax({
             type: 'POST',
-            url: serverLayoutURL+'bobinascorteorigens/getparciales/'+ordenesdetrabajoId+'/'+tieneimpresion+'.json',
+            url: serverLayoutURL+'bobinascorteorigens/getparciales/'+ordenesdetrabajoId+'/'+urlImpresion+'.json',
             data: '',
             success: function(response,textStatus,xhr){
                 if(response.respuesta.error!=0){

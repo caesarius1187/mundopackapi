@@ -112,14 +112,16 @@ class BobinasdecortesController extends AppController
             $cantCortadas = 0;
 
             $firstelement = reset($this->request->getData()['bobinascorteorigen']);
-            if(isset($firstelement['bobinasdeextrusion_id'])){
+            if(isset($firstelement['bobinasdeestrusion_id'])){
                 $bobinasDeExtrusionCortadas = $this->request->getData()['bobinascorteorigen'];
                 foreach ($bobinasDeExtrusionCortadas as $key => $bobinaextrusioncortada) {
                     $bobinacorteorigen = $this->Bobinascorteorigens->newEntity();
                     $bobinacorteorigen->bobinasdecorte_id = $bobinasdecorte->id;
-                    $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada['bobinasdeextrusion_id'];
+                    $bobinacorteorigen->bobinasdeextrusion_id = $bobinaextrusioncortada['bobinasdeestrusion_id'];
                     $bobinacorteorigen->terminacion = $bobinaextrusioncortada['terminacion'];
-                    $this->Bobinascorteorigens->save($bobinacorteorigen);
+                    if(!$this->Bobinascorteorigens->save($bobinacorteorigen)){
+                        $respuesta['errors'] += $bobinacorteorigen->errors();
+                    }
                     $cantCortadas++;
                 }
             }
@@ -136,7 +138,7 @@ class BobinasdecortesController extends AppController
             }
             $respuesta['bobinasorigens'] = $this->Bobinascorteorigens->find('all',[
                 'contain'=>['Bobinasdeimpresions','Bobinasdeextrusions'],
-                'conditions'=>['Bobinascorteorigens.bobinasdecorte_id'=>$bobinacorteorigen->bobinasdecorte_id]
+                'conditions'=>['Bobinascorteorigens.bobinasdecorte_id'=>$bobinasdecorte->id]
             ]);
 
             $ordenesdetrabajo->cortadas = $ordenesdetrabajo->cortadas+$cantCortadas ;

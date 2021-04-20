@@ -33,9 +33,11 @@ class BobinascorteorigensController extends AppController
         if($haceimpresion*1){
             $origenConsultanumero = 'Bobinasdeextrusions.numero';
             $origenConsultaid = 'Bobinasdeimpresions.id';
+            $idBobinaOrigen = 'bobinasdeimpresion_id';
         }else{
             $origenConsultanumero = 'Bobinasdeextrusions.numero';
             $origenConsultaid = 'Bobinasdeextrusions.id';
+            $idBobinaOrigen = 'bobinasdeextrusion_id';
         }
         $bobinascorteorigens  = $this->Bobinascorteorigens->find('all', [
             'contain'=>[
@@ -45,7 +47,11 @@ class BobinascorteorigensController extends AppController
             'conditions'=>[
                 'Bobinascorteorigens.bobinasdecorte_id IN (SELECT id FROM bobinasdecortes WHERE bobinasdecortes.ordenesdetrabajo_id = '.$ordenesdetrabajoId.')',
                 'Bobinascorteorigens.terminacion'=>'Parcial',
-                'Bobinascorteorigens.bobinasdeimpresion_id NOT IN (SELECT bobinasdeimpresion_id from Bobinascorteorigens bob where bob.terminacion = "Complementaria")'
+                'Bobinascorteorigens.'.$idBobinaOrigen.' NOT IN (
+                    SELECT '.$idBobinaOrigen.' from Bobinascorteorigens bob 
+                    where bob.terminacion = "Complementaria"
+                    AND '.$idBobinaOrigen.'!= null
+                )'
             ],
             'limit' => 200,
         ]);
