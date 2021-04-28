@@ -105,13 +105,13 @@ class BobinasdeimpresionsController extends AppController
         ]);
         if($ordenesdetrabajo->aextrusar==$ordenesdetrabajo->impresas){
             //ya no se pueden agregar bobinas
-            $respuesta['respuesta'] = 'Ya se cargaron todas las bobinas de impresion que se necesitaban('.$ordenesdetrabajo->aextrusar.') para esta Orden de Trabajo';
+            /*$respuesta['respuesta'] = 'Ya se cargaron todas las bobinas de impresion que se necesitaban('.$ordenesdetrabajo->aextrusar.') para esta Orden de Trabajo';
             $respuesta['error'] = 1;
              $this->set([
                 'respuesta' => $respuesta,
                 '_serialize' => ['respuesta']
             ]);
-            return;
+            return;*/
         }
 
         date_default_timezone_set('America/Argentina/Salta');

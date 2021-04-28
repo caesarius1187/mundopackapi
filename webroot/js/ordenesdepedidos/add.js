@@ -111,32 +111,7 @@ $(document).ready(function() {
         }
         var r = confirm("Esta seguro que quiere modificar la Orden de Trabajo?");
         if(r){
-            //serialize form data
-            var formData = $(this).serialize();
-            //get form action
-            var formUrl = $(this).attr('action')+".json";
-            $.ajax({
-                type: 'POST',
-                url: formUrl,
-                data: formData,
-                success: function(data,textStatus,xhr){
-                    if(data.respuesta.error!=0){
-                        Toast.fire({
-                          icon: 'error',
-                          title: data.respuesta.respuesta
-                        })
-                    }else{
-                        Toast.fire({
-                          icon: 'success',
-                          title: data.respuesta.respuesta
-                        })
-                    }
-                    location.reload();
-                },
-                error: function(xhr,textStatus,error){
-                    bootstrapAlert(textStatus);
-                }
-            });
+            return true;
         }
         return false;
     });
@@ -267,7 +242,9 @@ function cargarOrdendetrabajo(otId){
             $("#metrobob").val(data.ordenesdetrabajo.metrobob);
             $("#manija option[value='"+data.ordenesdetrabajo.manija+"']").attr("selected", true);
             $("#tipoimpresion option[value='"+data.ordenesdetrabajo.tipoimpresion+"']").attr("selected", true);
+            $("#tipoimpresion").trigger("change");
             $("#tipocorte option[value='"+data.ordenesdetrabajo.tipocorte+"']").attr("selected", true);
+            $("#tipocorte").trigger("change");
             
             $("#preciounitario").val(data.ordenesdetrabajo.preciounitario);
 

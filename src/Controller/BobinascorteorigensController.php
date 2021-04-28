@@ -48,9 +48,9 @@ class BobinascorteorigensController extends AppController
                 'Bobinascorteorigens.bobinasdecorte_id IN (SELECT id FROM bobinasdecortes WHERE bobinasdecortes.ordenesdetrabajo_id = '.$ordenesdetrabajoId.')',
                 'Bobinascorteorigens.terminacion'=>'Parcial',
                 'Bobinascorteorigens.'.$idBobinaOrigen.' NOT IN (
-                    SELECT '.$idBobinaOrigen.' from Bobinascorteorigens bob 
+                    SELECT '.$idBobinaOrigen.' from bobinascorteorigens bob 
                     where bob.terminacion = "Complementaria"
-                    AND '.$idBobinaOrigen.'!= null
+                    AND '.$idBobinaOrigen.' IS NOT NULL
                 )'
             ],
             'limit' => 200,

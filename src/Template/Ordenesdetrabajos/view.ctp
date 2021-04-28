@@ -615,7 +615,6 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                               <th>Scrap .</th>
                               <th>Scrap sacabocado</th>
                               <th>Cant.</th>
-                              <th>Terminacion</th>
                               <th>Observación</th>
                             </tr>
                           </thead>
@@ -629,13 +628,28 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <td>
                                   <?php
                                   if($ordenesdetrabajo->impreso){
+                                    ?>
+                                    <div class="container">
+                                    <?php
                                     foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
-                                      echo $bobinaorigen->bobinasdeimpresion->numero."-";
+                                      ?>
+                                      <div class="row">
+                                        <div class="col-sm-2 text-nowrap"><?= $bobinaorigen->bobinasdeimpresion->numero ?></div>
+                                        <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeimpresion->terminacion ?>"><?= $bobinaorigen->bobinasdeimpresion->terminacion ?></div>
+                                      </div>
+                                      <?php
                                     }
                                   }else{
                                     foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
-                                      echo $bobinaorigen->bobinasdeextrusion->numero."-";
+                                      ?>
+                                      <div class="row">
+                                        <div class="col-sm-2 text-nowrap"><?= $bobinaorigen->bobinasdeextrusion->numero ?></div>
+                                        <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeextrusion->terminacion ?>"><?= $bobinaorigen->bobinasdeextrusion->terminacion ?></div>
+                                      </div>
+                                      <?php
                                     }
+                                    ?>
+                                    </div> <?php
                                   }
                                   ?>
                                   <td><?= date('d-m-Y h:m',strtotime($bobinasdecorte->fecha)); ?></td>
@@ -646,7 +660,6 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <td><?= $bobinasdecorte->scrap; ?></td>
                                   <td><?= $bobinasdecorte->scrapsacabocado; ?></td>
                                   <td><?= $bobinasdecorte->cantidad; ?></td>
-                                  <td><?= $bobinasdecorte->terminacion; ?></td>
                                   <td><?= $bobinasdecorte->observacion; ?></td>
                                 </tr>
                                 <?php

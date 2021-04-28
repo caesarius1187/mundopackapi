@@ -620,7 +620,7 @@ function getListaBobinaImpresionParaCorte(){
                       icon: 'error',
                       title: "No hay bobinas de impresion para usar."
                     });
-                    $('#modalAddBobinaCorte').modal('hide');
+                    //$('#modalAddBobinaCorte').modal('hide');
                 }
             }
         },
@@ -806,15 +806,19 @@ function loadBobinaOrigen(){
 }
 function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
     var tblBobinasdeCorte = $("#tblBobinasdeCorte");
-    var misBobinasOrigenes = "";
+    var divContainerBobinasOrigenes = $("<div>").addClass('container').append();
+    var divRowBobinasOrigenes = $("<div>").addClass('row');
     var tieneimpresion = $("#tieneimpresion").val();
     $(bobinasorigens).each(function(){
         if(tieneimpresion){
-            misBobinasOrigenes += this.bobinasdeimpresion.numero+"-";
+            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeimpresion.numero))
+            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.bobinasdeimpresion.terminacion))
         }else{
-            misBobinasOrigenes += this.bobinasdeextrusion.numero+"-";
+            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeextrusion.numero))
+            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.bobinasdeextrusion.terminacion))
         }
     });
+    divContainerBobinasOrigenes.append(divRowBobinasOrigenes);
     var f=new Date(bobinadecorte.fecha);
     var dia=String(f.getDate()).padStart(2,"0");
     var mes=String(f.getMonth()+1).padStart(2,"0");
@@ -833,7 +837,7 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
             )
             .append(
                 $("<td>")
-                    .html(misBobinasOrigenes)
+                    .html(divContainerBobinasOrigenes)
             )
             .append(
                 $("<td>")
@@ -866,11 +870,7 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
             .append(
                 $("<td>")
                     .html(bobinadecorte.cantidad)
-            )
-            .append(
-                $("<td>")
-                    .html(bobinadecorte.terminacion)
-            )
+            )            
             .append(
                 $("<td>")
                     .html(bobinadecorte.observacion)
