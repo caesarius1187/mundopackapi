@@ -495,20 +495,21 @@ class OrdenesdetrabajosController extends AppController
             'contain' => ['Materialesots'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            //
             $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
             $ordenesdetrabajo->medida = $ordenesdetrabajo->ancho."x".$ordenesdetrabajo->largo."x".$ordenesdetrabajo->espesor;
             if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
                 $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
+                //ahora vamos a borrar todas los materiales de la OT que tenemos y agregaremos los que vienen en el form
+                $result = $this->Materialesots->deleteAllFromOt($id);
                 foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
                     if(isset($materialesot['id']) && $materialesot['id']!=0){
-                        $newmaterialOt = $this->Materialesots->get($materialesot['id'], [
-                            'contain' => [],
-                        ]);
-                        $newmaterialOt = $this->Materialesots->patchEntity($newmaterialOt, $materialesot);
-                        $newmaterialOt->id = $materialesot['id'];
+                       
                     }else{
-                        $newmaterialOt = $this->Materialesots->newEntity();
+                        $materialesot['id'] = 0;
                     }
+                    $newmaterialOt = $this->Materialesots->newEntity();
+                    $newmaterialOt->id = $materialesot['id'];
                     $newmaterialOt->ordenesdetrabajo_id = $ordenesdetrabajo->id;
                     $newmaterialOt->material = $materialesot['material'];
                     $newmaterialOt->porcentaje = $materialesot['porcentaje'];

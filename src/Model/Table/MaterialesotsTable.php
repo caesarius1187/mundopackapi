@@ -22,6 +22,9 @@ use Cake\Validation\Validator;
  */
 class MaterialesotsTable extends Table
 {
+    public function deleteAllFromOt($otId){
+        return $this->deleteAll(['ordenesdetrabajo_id'=>$otId]);
+    }
     /**
      * Initialize method
      *
