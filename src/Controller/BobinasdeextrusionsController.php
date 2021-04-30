@@ -153,7 +153,12 @@ class BobinasdeextrusionsController extends AppController
         $bobinasdeextrusionsparciales  = $this->Bobinasdeextrusions->find('list', [
             'conditions'=>[
                 'Bobinasdeextrusions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
-                'Bobinasdeextrusions.terminacion'=>'Parcial'
+                'Bobinasdeextrusions.terminacion'=>'Parcial',
+                'Bobinasdeextrusions.id NOT IN (
+                    SELECT bobinasdeextrusion_id from Bobinasdeextrusions  
+                    where Bobinasdeextrusions.terminacion = "Complementaria"
+                    AND bobinasdeextrusion_id IS NOT NULL
+                )'
             ],
             'limit' => 200
         ]);

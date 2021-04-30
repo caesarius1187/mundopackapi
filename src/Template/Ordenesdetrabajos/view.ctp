@@ -631,23 +631,23 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                     ?>
                                     <div class="container">
                                     <?php
-                                    foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
-                                      ?>
-                                      <div class="row">
-                                        <div class="col-sm-2 text-nowrap"><?= $bobinaorigen->bobinasdeimpresion->numero ?></div>
-                                        <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeimpresion->terminacion ?>"><?= $bobinaorigen->bobinasdeimpresion->terminacion ?></div>
-                                      </div>
-                                      <?php
-                                    }
+                                      foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
+                                        ?>
+                                        <div class="row">
+                                          <div class="col-sm-2 text-nowrap"><?= $bobinaorigen->bobinasdeimpresion->numero ?></div>
+                                          <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeimpresion->terminacion ?>"><?= $bobinaorigen->terminacion ?></div>
+                                        </div>
+                                        <?php
+                                      }
                                   }else{
                                     foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
                                       ?>
                                       <div class="row">
                                         <div class="col-sm-2 text-nowrap"><?= $bobinaorigen->bobinasdeextrusion->numero ?></div>
-                                        <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeextrusion->terminacion ?>"><?= $bobinaorigen->bobinasdeextrusion->terminacion ?></div>
+                                        <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeextrusion->terminacion ?>"><?= $bobinaorigen->terminacion ?></div>
                                       </div>
                                       <?php
-                                    }
+                                      }
                                     ?>
                                     </div> <?php
                                   }

@@ -26,6 +26,17 @@ class BobinasdeimpresionsController extends AppController
 
         $this->set(compact('bobinasdeimpresions'));
     }
+    public function getbobinaimpresions($bobinaImpresionId){
+        $bobinasdeimpresion = $this->Bobinasdeimpresions->get($bobinaImpresionId, [
+        ]);
+        $respuesta['data'] = $bobinasdeimpresion;
+        $respuesta['error'] = 0;
+        $this->set([
+            'respuesta' => $respuesta,
+            'bobinasdeimpresion' => $bobinasdeimpresion,
+            '_serialize' => ['respuesta','bobinasdeimpresion']
+        ]);
+    }
     public function getlist($ordenesdetrabajoId)
     {
         $this->loadModel('Bobinasdecortes');
@@ -172,7 +183,12 @@ class BobinasdeimpresionsController extends AppController
         $bobinasdeimpresionsparciales  = $this->Bobinasdeimpresions->find('list', [
             'conditions'=>[
                 'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
-                'Bobinasdeimpresions.terminacion'=>'Parcial'
+                'Bobinasdeimpresions.terminacion'=>'Parcial',
+                'Bobinasdeimpresions.id NOT IN (
+                    SELECT bobinasdeimpresion_id from Bobinasdeimpresions  
+                    where Bobinasdeimpresions.terminacion = "Complementaria"
+                    AND bobinasdeimpresion_id IS NOT NULL
+                )'
             ],
             'limit' => 200
         ]);

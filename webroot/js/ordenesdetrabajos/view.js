@@ -299,7 +299,36 @@ $(document).ready(function() {
     $("#modalAddBobinaImpresion #bobinasdeimpresion-id").on('change',function(){
         selectBobExtParcialCorrespondiente();
     });
+    $("#bobinasdeimpresion-id").on('change',function(){
+        getBobinaExtrusionDeBobinaParcialDeImpresion();
+    });
 });
+function getBobinaExtrusionDeBobinaParcialDeImpresion(){
+    var bobinasdeimpresionId = $("#bobinasdeimpresion-id").val();
+    $.ajax({
+        type: 'GET',
+        url: serverLayoutURL+'bobinasdeimpresions/getbobinaimpresions/'+bobinasdeimpresionId+'.json',
+        data: '',
+        success: function(response,textStatus,xhr){
+            if(response.respuesta.error!=0){
+                Toast.fire({
+                  icon: 'error',
+                  title: data.data.respuesta
+                })
+            }else{
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Se selecciono la bobina relacionada.'
+                });
+                var bobinasdeimpresion = response.respuesta.data;
+                $("#bobinaImpresionAddForm").find("#bobinasdeextrusion-id").val(bobinasdeimpresion.bobinasdeextrusion_id)
+            }
+        },
+        error: function(xhr,textStatus,error){
+            alert(textStatus);
+        }
+    });
+}
 function getBobinasExtrusionsParciales(){
     var ordenesdetrabajoId = $("#ordenesdetrabajo-id").val();
     if($("#modalAddBobinaEstrusion #terminacion").val()=='Complementaria'){
@@ -386,6 +415,7 @@ function getBobinasImpresionsParciales(){
                           title: 'Se cargo la lista de bobinas de impresion parciales.'
                         });
                         $("#modalAddBobinaImpresion #bobinasdeimpresion-id").attr('disabled',false);
+                        $("#bobinasdeimpresion-id").trigger('change');
                     }else{
                         Toast.fire({
                           icon: 'error',
@@ -532,7 +562,6 @@ function getListaBobinasExtrusionParaImpresion(){
                       icon: 'error',
                       title: "no hay bobinas de extrusion para usar"
                     });
-                    $('#modalAddBobinaImpresion').modal('hide');
                 }
             }
         },
@@ -576,7 +605,6 @@ function getListaBobinasExtrusionParaCorte(){
                       icon: 'error',
                       title: "no hay bobinas de extrusion para usar"
                     });
-                    $('#modalAddBobinaCorte').modal('hide');
                 }
             }
         },
@@ -620,7 +648,6 @@ function getListaBobinaImpresionParaCorte(){
                       icon: 'error',
                       title: "No hay bobinas de impresion para usar."
                     });
-                    //$('#modalAddBobinaCorte').modal('hide');
                 }
             }
         },
