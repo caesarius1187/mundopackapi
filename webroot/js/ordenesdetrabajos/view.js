@@ -839,10 +839,10 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
     $(bobinasorigens).each(function(){
         if(tieneimpresion){
             divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeimpresion.numero))
-            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.bobinasdeimpresion.terminacion))
+            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.terminacion))
         }else{
             divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeextrusion.numero))
-            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.bobinasdeextrusion.terminacion))
+            divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.terminacion))
         }
     });
     divContainerBobinasOrigenes.append(divRowBobinasOrigenes);
