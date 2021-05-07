@@ -122,7 +122,8 @@ class BobinasdecortesController extends AppController
                     if(!$this->Bobinascorteorigens->save($bobinacorteorigen)){
                         $respuesta['errors'] += $bobinacorteorigen->errors();
                     }
-                    $cantCortadas++;
+                    if($bobinaextrusioncortada['terminacion']!='Parcial')
+                        $cantCortadas++;
                 }
             }
             if(isset($firstelement['bobinasdeimpresion_id'])){

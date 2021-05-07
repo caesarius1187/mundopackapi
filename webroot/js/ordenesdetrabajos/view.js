@@ -155,7 +155,7 @@ $(document).ready(function() {
         if ( $('#divRowBobinasAgregadas').children().length == 0 ) {
             Toast.fire({
               icon: 'error',
-              title: "Debe Agregar Bobinas de extrusion o impresion a la bobina de corte."
+              title: "Debe Agregar Bobinas de extrusion a la bobina de corte."
             })
             return false;
         }
@@ -187,7 +187,7 @@ $(document).ready(function() {
                     //mostramos +1 en el btn de extrusadas
                     var tieneimpresion = $("#tieneimpresion").val();
                     $(bobinasorigens).each(function(){
-                        if(this.bobinasdeextrusion.terminacion!='Parcial'){
+                        if(this.terminacion!='Parcial'){
                             var aextrusar = $("#aextrusar").val();
                             var cortadas = $("#cortadas").val();
                             if($("#btnCortadas").length>0){
@@ -454,11 +454,11 @@ function getBobinasCortesParciales(){
     if($("#modalAddBobinaCorte #terminacion").val()=='Complementaria'){
         var tieneimpresion = $("#tieneimpresion").val();
         var urlImpresion = 0;
-        if(tieneimpresion==""){
+        /*if(tieneimpresion==""){
             urlImpresion = 0;
         }else{
             urlImpresion = 1;
-        }
+        }*/
         $.ajax({
             type: 'POST',
             url: serverLayoutURL+'bobinascorteorigens/getparciales/'+ordenesdetrabajoId+'/'+urlImpresion+'.json',
@@ -477,7 +477,13 @@ function getBobinasCortesParciales(){
                                                    .remove();
                     for (var p in bobinasdecortesparciales) {
                         if( bobinasdecortesparciales.hasOwnProperty(p) ) {
-                            if(tieneimpresion){
+                            $("#origenbobinasdeextrusion-id").find('option')
+                                               .remove();
+                            $("#origenbobinasdeextrusion-id").append(
+                                '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
+                            );
+                            hayBobinasDeCorte = true;
+                            /*if(tieneimpresion){
                                 
                                 $("#origenbobinasdeimpresion-id").append(
                                     '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
@@ -489,7 +495,7 @@ function getBobinasCortesParciales(){
                                     '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
                                 );
                             }
-                            hayBobinasDeCorte = true;
+                            */
                         }
                     }
                     //selectBobExtParcialCorrespondiente();
@@ -506,11 +512,12 @@ function getBobinasCortesParciales(){
                         $("#modalAddBobinaCorte #terminacion").val('Completa');
                         $("#origenbobinasdeextrusion-id").find('option')
                                                    .remove();
-                        if(tieneimpresion){
+                        getListaBobinasExtrusionParaCorte();
+                        /*if(tieneimpresion){
                             getListaBobinaImpresionParaCorte();
                         }else{
                             getListaBobinasExtrusionParaCorte();
-                        }
+                        }*/
                     }
                 }
             },
@@ -519,12 +526,13 @@ function getBobinasCortesParciales(){
             }
         });
     }else{
-        var tieneimpresion = $("#tieneimpresion").val();
+        getListaBobinasExtrusionParaCorte();
+        /*var tieneimpresion = $("#tieneimpresion").val();
         if(tieneimpresion){
             getListaBobinaImpresionParaCorte();
         }else{
             getListaBobinasExtrusionParaCorte();
-        }
+        }*/
     }
 }
 function selectBobExtParcialCorrespondiente(){
