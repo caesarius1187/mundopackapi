@@ -258,10 +258,12 @@ function cargarOrdendetrabajo(otId){
                 if(miCantMateriales!=0){
                     loadMaterial();     
                 }
-                $("#materialesots-"+miCantMateriales+"-material option[value='"+this.material+"']").attr("selected", true);
-                $("#materialesots-"+miCantMateriales+"-porcentaje").val(this.porcentaje);
+                $addedNumMaterial = getLastNumMaterial()*1-1;
+                $("#materialesots-"+$addedNumMaterial+"-material option[value='"+this.material+"']").attr("selected", true);
+                $("#materialesots-"+$addedNumMaterial+"-porcentaje").val(this.porcentaje);
                 miCantMateriales++;
             });
+            $('#cantmateriales').val(miCantMateriales);
             Toast.fire({
               icon: 'success',
               title: "Se encontraron las siguientes Ordenes de trabajo del cliente seleccionado"
@@ -277,24 +279,53 @@ function getDateArray(fecha){
     arrayFecha = arrayFecha[0].split('-');
     return arrayFecha;
 }
+function getLastNumMaterial(){
+    $numMaterial = 0;
+    $(".rowMaterial").each(function(){
+        $numMaterialRow = $(this).attr("numMaterial");
+        if($numMaterial*1<$numMaterialRow*1){
+            $numMaterial=$numMaterialRow*1;
+        }
+    })
+    return $numMaterial;
+}
 function loadMaterial(){
     var $tableBody = $('#tblMateriales').find("tbody"),
     $trLast = $tableBody.find("tr:last"),
     $trNew = $trLast.clone();
+    $canMaterialLast = $($trNew).attr('numMaterial');
     $trLast.after($trNew);
-    var newcantMateriales = cantMateriales+1;
+    $numLastRoeMaterialLast = $canMaterialLast;
+    $($trNew).attr('numMaterial',$numLastRoeMaterialLast*1+1)
+    var newcantMateriales = $canMaterialLast;
+    $canMaterialLast --;
+
     var nameMaterial = "Materialesots["+newcantMateriales+"][material]";
     var idMaterial = "materialesots-"+newcantMateriales+"-material";
-    var inputMateriales = $trNew.find("#materialesots-"+cantMateriales+"-material")
+    var inputMateriales = $trNew.find("#materialesots-"+$canMaterialLast+"-material")
         .attr('name',nameMaterial)
         .attr('id',idMaterial);
     var namePorcentaje = "Materialesots["+newcantMateriales+"][porcentaje]";
     var idPorcentaje = "materialesots-"+newcantMateriales+"-porcentaje";
-    var inputPorcentaje = $trNew.find("#materialesots-"+cantMateriales+"-porcentaje")
+    var inputPorcentaje = $trNew.find("#materialesots-"+$canMaterialLast+"-porcentaje")
         .attr('name',namePorcentaje)
         .attr('id',idPorcentaje);
-    cantMateriales++;
 
+    var nameId = "Materialesots["+newcantMateriales+"][id]";
+    var idId = "materialesots-"+newcantMateriales+"-id";
+    var inputId = $trNew.find("#materialesots-"+$canMaterialLast+"-id")
+        .val(0)
+        .attr('name',nameId)
+        .attr('id',idId)
+        .attr('value',0);
+
+    var nameOrdenTrabajoId = "Materialesots["+newcantMateriales+"][ordenesdetrabajo_id]";
+    var idOrdenTrabajoId = "materialesots-"+newcantMateriales+"-ordenesdetrabajo-id";
+    var inputId = $trNew.find("#materialesots-"+$canMaterialLast+"-ordenesdetrabajo-id")
+        .attr('name',nameOrdenTrabajoId)
+        .attr('id',idOrdenTrabajoId);
+
+    cantMateriales++;
     calcularKilosDeMateriales();
 }
 function deleteMaterial(buttonRemove){

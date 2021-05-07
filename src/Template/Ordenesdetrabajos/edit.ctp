@@ -228,7 +228,7 @@ font-size:14px !important;
                   foreach ($ordenesdetrabajo['materialesots'] as $key => $materialesot) {
                       $cantMateriales++;
                       ?>
-                      <tr>
+                      <tr numMaterial="<?= $cantMateriales ?>" class="rowMaterial">
                         <td>
                           <?= $this->Form->control('Materialesots.'.$key.'.id',[
                             'type'=>'hidden',
@@ -261,7 +261,7 @@ font-size:14px !important;
                   if($cantMateriales==0){
                       $cantMateriales++;
                       ?>
-                      <tr>
+                      <tr numMaterial="<?= $cantMateriales ?>" class="rowMaterial">
                         <td>
                           <?= $this->Form->control('Materialesots.0.id',[
                             'type'=>'hidden',

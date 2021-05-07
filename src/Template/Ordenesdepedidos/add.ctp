@@ -332,7 +332,7 @@ font-size:14px !important;
                           </tr>
                         </thead>
                         <tbody id="tblMaterialesBody">
-                            <tr>
+                            <tr numMaterial="0" class="rowMaterial">
                               <td >
                                 <?= $this->Form->control('Materialesots.0.ordenesdetrabajo_id',[
                                   'type'=>'hidden',

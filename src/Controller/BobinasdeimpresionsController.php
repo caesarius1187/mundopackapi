@@ -185,8 +185,8 @@ class BobinasdeimpresionsController extends AppController
                 'Bobinasdeimpresions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
                 'Bobinasdeimpresions.terminacion'=>'Parcial',
                 'Bobinasdeimpresions.id NOT IN (
-                    SELECT bobinasdeimpresion_id from Bobinasdeimpresions  
-                    where Bobinasdeimpresions.terminacion = "Complementaria"
+                    SELECT bobinasdeimpresion_id from bobinasdeimpresions  
+                    where bobinasdeimpresions.terminacion = "Complementaria"
                     AND bobinasdeimpresion_id IS NOT NULL
                 )'
             ],
