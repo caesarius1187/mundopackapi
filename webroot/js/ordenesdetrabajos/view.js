@@ -187,6 +187,16 @@ $(document).ready(function() {
                     //mostramos +1 en el btn de extrusadas
                     var tieneimpresion = $("#tieneimpresion").val();
                     $(bobinasorigens).each(function(){
+                        if(this.bobinasdeextrusion.terminacion!='Parcial'){
+                            var aextrusar = $("#aextrusar").val();
+                            var cortadas = $("#cortadas").val();
+                            if($("#btnCortadas").length>0){
+                                cortadas++;
+                                $("#btnCortadas").html(cortadas+"/"+aextrusar);
+                            }
+                            $("#cortadas").val(cortadas);
+                        }
+                        /*
                         if(tieneimpresion){
                             var aextrusar = $("#aextrusar").val();
                             var cortadas = $("#cortadas").val();
@@ -205,7 +215,7 @@ $(document).ready(function() {
                                 }
                                 $("#cortadas").val(cortadas);
                             }
-                        }
+                        }*/
                         
                     });
                     
@@ -251,11 +261,12 @@ $(document).ready(function() {
         $("#modalAddBobinaCorte").find("#terminacion").val('Completa');
         $('#divRowBobinasAgregadas').empty();
         var tieneimpresion = $("#tieneimpresion").val();
-        if(tieneimpresion){
+        getListaBobinasExtrusionParaCorte();
+        /*if(tieneimpresion){
             getListaBobinaImpresionParaCorte();
         }else{
             getListaBobinasExtrusionParaCorte();
-        }
+        }*/
     }) ;
     $('#cerrarOrdenDeTrabajo').submit(function(){
         //serialize form data
@@ -788,6 +799,8 @@ function loadBobinaOrigen(){
     var misBobinasOrigenId = 0;
     var nameSelectBobinaOrigen = 0;
     var selectedBobinaText = "";
+    
+    /*
     if(tieneimpresion){
         misBobinasOrigenId = $("#origenbobinasdeimpresion-id").val();
         idSelectBobinaOrigen = "bobinasdeimpresion-id";
@@ -799,6 +812,11 @@ function loadBobinaOrigen(){
         nameSelectBobinaOrigen = "bobinasdeestrusion_id";
         selectedBobinaText =  $("#origenbobinasdeextrusion-id option:selected").html();
     }
+    */
+    misBobinasOrigenId = $("#origenbobinasdeextrusion-id").val();
+    idSelectBobinaOrigen = "bobinasdeestrusion-id";
+    nameSelectBobinaOrigen = "bobinasdeestrusion_id";
+    selectedBobinaText =  $("#origenbobinasdeextrusion-id option:selected").html();
     var terminacion = $("#bobinaCorteAddForm #terminacion").val();
     var bobinaParcialOrigen = $("#bobinascorteorigen-id").val();
 
@@ -837,13 +855,16 @@ function loadBobinaCorte(bobinadecorte, empleado, bobinasorigens, cortadora){
     var divRowBobinasOrigenes = $("<div>").addClass('row');
     var tieneimpresion = $("#tieneimpresion").val();
     $(bobinasorigens).each(function(){
+        divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeextrusion.numero))
+        divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.terminacion))
+        /*
         if(tieneimpresion){
             divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeimpresion.numero))
             divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.terminacion))
         }else{
             divRowBobinasOrigenes.append($("<div>").addClass('col-sm-2 text-nowrap').html(this.bobinasdeextrusion.numero))
             divRowBobinasOrigenes.append($("<div>").addClass('col-sm-6 text-truncate').html(this.terminacion))
-        }
+        }*/
     });
     divContainerBobinasOrigenes.append(divRowBobinasOrigenes);
     var f=new Date(bobinadecorte.fecha);

@@ -600,12 +600,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                             <tr>
                               <th>Fecha</th>
                               <th>Cortadora</th>
+                              <th>Bobina Est N°</th>
                               <?php
+                              /*
                               if($ordenesdetrabajo->impreso){
                                 echo  "<th>Bobina Imp N°</th>";
                               }else{
                                 echo  "<th>Bobina Est N°</th>";
                               }
+                              */
                               ?>
                               <th>Fecha</th>
                               <th>Cortador</th>
@@ -627,7 +630,15 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                   <td><?= $bobinasdecorte->cortadora->nombre; ?></td>
                                   <td>
                                   <?php
-                                  if($ordenesdetrabajo->impreso){
+                                  foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $bobinaorigen) {
+                                    ?>
+                                    <div class="row">
+                                      <div class="col-sm-2 text-nowrap"><?= $bobinaorigen->bobinasdeextrusion->numero ?></div>
+                                      <div class="col-sm-8 text-truncate" title="<?= $bobinaorigen->bobinasdeextrusion->terminacion ?>"><?= $bobinaorigen->terminacion ?></div>
+                                    </div>
+                                    <?php
+                                  }
+                                  /*if($ordenesdetrabajo->impreso){
                                     ?>
                                     <div class="container">
                                     <?php
@@ -650,7 +661,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                       }
                                     ?>
                                     </div> <?php
-                                  }
+                                  }*/
                                   ?>
                                   <td><?= date('d-m-Y h:m',strtotime($bobinasdecorte->fecha)); ?></td>
                                   <td><?= $bobinasdecorte->empleado->nombre; ?></td>
@@ -892,7 +903,11 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                   </div>
                   <div class="col-sm-3">
                     <?php
-                      if($ordenesdetrabajo->impreso){
+                      echo $this->Form->control('origenbobinasdeextrusion_id', [
+                        'options' => [],
+                        'label' => 'Bobina de extrusion',
+                      ]);
+                      /*if($ordenesdetrabajo->impreso){
                         echo $this->Form->control('origenbobinasdeimpresion_id', [
                             'options' => [],
                             'label' => 'Bobina de impresion',
@@ -902,7 +917,7 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                             'options' => [],
                             'label' => 'Bobina de extrusion',
                         ]);
-                      }
+                      }*/
                     ?>
                   </div>
                   <div class="col-sm-4">
