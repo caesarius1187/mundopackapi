@@ -81,12 +81,18 @@ class OrdenesdetrabajosController extends AppController
         $conditionsTerminadas=[
             'contain'=>[
                 'Ordenesdepedidos'=>[
-                    'Clientes'
+                    'Clientes'=>[
+                        'fields'=>['id','nombre']
+                    ],
+                    'fields'=>['id','numero','fecha']
                 ],
                 'Materialesots'
             ],
             'conditions'=>[
                 'Ordenesdetrabajos.estado NOT IN ("En Proceso","Pausado")',
+            ],
+            'order'=>[
+                'Ordenesdepedidos.fecha DESC',
             ]
         ];
 
@@ -96,12 +102,18 @@ class OrdenesdetrabajosController extends AppController
         $conditionsPausadas=[
             'contain'=>[
                 'Ordenesdepedidos'=>[
-                    'Clientes'
+                    'Clientes'=>[
+                        'fields'=>['id','nombre']
+                    ],
+                    'fields'=>['id','numero','fecha']
                 ],
                 'Materialesots'
             ],
             'conditions'=>[
                 'Ordenesdetrabajos.estado IN ("Pausado","Cancelado")',
+            ],
+            'order'=>[
+                'Ordenesdepedidos.fecha DESC',
             ]
         ];
 

@@ -88,6 +88,7 @@ $(document).ready(function() {
                         })
                     }
                     cargarOTenTbl(data.respuesta.ordenesdetrabajo);
+                    clearOTForm();
                 },
                 error: function(xhr,textStatus,error){
                     bootstrapAlert(textStatus);
@@ -127,6 +128,40 @@ $(document).ready(function() {
     });
     calcularKilosDeMateriales();
 });
+function clearOTForm(){
+    $("#color").val("");
+    $("#fuelle").val("NO");
+    $("#tipofuelle").val("NO");
+    $("#tratado").val("NO");
+    $("#perf").prop( "checked", false );;
+    $("#ancho").val("");
+    $("#largo").val("");
+    $("#espesor").val("");
+    $("#cantidad").val("");
+    $("#pesoxmil").val("");
+    $("#metrototal").val("");
+    $("#aextrusar").val("");
+    $("#pesobob").val("");
+    $("#metrobob").val("");
+    $("#manija").val("nO");
+    $("#tipoimpresion").val("sin impresion");
+    $("#tipoimpresion").trigger("change");
+    $("#tipocorte").val("sin corte");
+    $("#tipocorte").trigger("change");
+    var $tableBody = $('#tblMateriales').find("tbody"),
+    $trs = $tableBody.find("tr");
+    $trs.each(function(){
+        var rowCount = $('#tblMateriales tr').length;
+        if(rowCount>1){
+            $(this).remove();
+        }
+    });
+    $("#preciounitario").val("");
+    $("#observaciones").val("");
+    $("#observacionesextrusion").val("");
+    $("#observacionesimpresion").val("");
+    $("#observacionescorte").val("");
+}
 function cambiarImpreso(){
   if ($('#tipoimpresion').val() == 'sin impresion'){
     $('#impreso').val('0');

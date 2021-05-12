@@ -553,7 +553,7 @@ function getListaBobinasExtrusionParaImpresion(){
         .remove();
     $.ajax({
         type: 'POST',
-        url: serverLayoutURL+'bobinasdeextrusions/getlist/'+ordenesdetrabajoId+'.json',
+        url: serverLayoutURL+'bobinasdeextrusions/getlistparaimpresion/'+ordenesdetrabajoId+'.json',
         data: '',
         success: function(response,textStatus,xhr){
             if(response.respuesta.error!=0){
@@ -597,7 +597,7 @@ function getListaBobinasExtrusionParaCorte(){
         .remove();
     $.ajax({
         type: 'POST',
-        url: serverLayoutURL+'bobinasdeextrusions/getlist/'+ordenesdetrabajoId+'.json',
+        url: serverLayoutURL+'bobinasdeextrusions/getlistparacorte/'+ordenesdetrabajoId+'.json',
         data: '',
         success: function(response,textStatus,xhr){
             if(response.respuesta.error!=0){

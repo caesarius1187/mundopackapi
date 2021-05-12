@@ -90,7 +90,7 @@ class BobinasdeextrusionsController extends AppController
         $this->set(compact('bobinasdeextrusions'));
     }
 
-    public function getlist($ordenesdetrabajoId)
+    public function getlistparaimpresion($ordenesdetrabajoId)
     {
         $this->loadModel('Bobinasdeimpresions');
         $this->loadModel('Bobinasdecortes');
@@ -108,6 +108,30 @@ class BobinasdeextrusionsController extends AppController
             $bobinasdeextrusionYaUsadas[] = $bobinasdeimpresion->bobinasdeextrusion_id;
         }        
         $bobinasyausadasenimpresion=$bobinasdeextrusionYaUsadas;
+        
+        $bobinasdeextrusionsConditions=[
+            'conditions'=>[
+                'Bobinasdeextrusions.id NOT IN'=>$bobinasdeextrusionYaUsadas,
+                'Bobinasdeextrusions.ordenesdetrabajo_id'=>$ordenesdetrabajoId
+            ],
+            'limit' => 200
+        ];
+        $bobinasdeextrusions = $this->Bobinasdeextrusions->find('list',$bobinasdeextrusionsConditions );
+        $respuesta['data'] = $bobinasdeextrusions;
+        $respuesta['error'] = 0;
+        $this->set([
+            'bobinasdeextrusionsConditions' => $bobinasdeextrusionsConditions,
+            'respuesta' => $respuesta,
+            'bobinasdeextrusions' => $bobinasdeextrusions,
+            '_serialize' => ['respuesta','bobinasdeextrusions','bobinasdeextrusionsConditions']
+        ]);
+    }
+    public function getlistparacorte($ordenesdetrabajoId)
+    {
+        $this->loadModel('Bobinasdeimpresions');
+        $this->loadModel('Bobinasdecortes');
+        $bobinasdeextrusionYaUsadas = [];
+        $bobinasdeextrusionYaUsadas[0] = 0;
         //tenemos que buscar las bobinas de extrusion que ya se usaron en las cortes y excluirlas
         $bobinasdecortes  = $this->Bobinasdecortes->find('all', [
             'contain'=>[
