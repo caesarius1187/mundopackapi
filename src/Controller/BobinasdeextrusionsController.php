@@ -30,50 +30,62 @@ class BobinasdeextrusionsController extends AppController
             'Ordenesdetrabajos' => ['Ordenesdepedidos'=>'Clientes']
           ],
       ]);
-      require_once(ROOT . DS . 'vendor' .  DS . "autoload.php");
-      $nombre_impresora = "Ticketera";
-      $connector = new WindowsPrintConnector($nombre_impresora);
-      $printer = new Printer($connector);
-      $printer->setJustification(Printer::JUSTIFY_CENTER);
-      try{
-      	$logo = EscposImage::load("img\bobina.png", false);
-       $printer->bitImage($logo);
-      }catch(Exception $e){/*No hacemos nada si hay error*/}
-      date_default_timezone_set("America/Argentina/Salta");
-      $printer->feed(1);
-      $printer->text(date("Y-m-d H:i:s") . "\n");
-      $printer->feed(2);
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("CLIENTE: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text($bobinasdeextrusion->ordenesdetrabajo->ordenesdepedido->cliente->nombre."\n");
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("FECHA: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text($bobinasdeextrusion->fecha."\n");
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("O.T. N°: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text("P".$bobinasdeextrusion->ordenesdetrabajo->ordenesdepedido->numero." - ".$bobinasdeextrusion->ordenesdetrabajo->numero."\n");
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("Máquina N°: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text($bobinasdeextrusion->numero."\n");
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("Medida: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text($bobinasdeextrusion->ordenesdetrabajo->medida."\n");
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("Bobina: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text($bobinasdeextrusion->numero."\n");
-      $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
-      $printer -> text("Kilogramos: ");
-      $printer -> selectPrintMode(Printer::MODE_FONT_B);
-      $printer -> text($bobinasdeextrusion->kilogramos."\n");
-      $printer->feed(2);
-      $printer -> cut();
-      $printer -> close();
+
+      $http = new Client();
+      $response = $http->post(
+        'http://localhost/ticket/ticket.php',
+        json_encode($bobinasdeextrusion),
+        ['type' => 'json']
+      );
+
+      // require_once(ROOT . DS . 'vendor' .  DS . "autoload.php");
+      // $nombre_impresora = "Ticketera";
+      // $connector = new WindowsPrintConnector($nombre_impresora);
+      // $printer = new Printer($connector);
+      // $printer->setJustification(Printer::JUSTIFY_CENTER);
+      // try{
+      // 	$logo = EscposImage::load("img\bobina.png", false);
+      //  $printer->bitImage($logo);
+      // }catch(Exception $e){/*No hacemos nada si hay error*/}
+      // date_default_timezone_set("America/Argentina/Salta");
+      // $printer->feed(1);
+      // $printer->text(date("Y-m-d H:i:s") . "\n");
+      // $printer->feed(2);
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("CLIENTE: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->ordenesdetrabajo->ordenesdepedido->cliente->nombre."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("FECHA: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->fecha."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("O.T. N°: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text("P".$bobinasdeextrusion->ordenesdetrabajo->ordenesdepedido->numero." - ".$bobinasdeextrusion->ordenesdetrabajo->numero."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("Máquina N°: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->numero."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("Medida: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->ordenesdetrabajo->medida."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("Bobina: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->numero."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("Metros: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->metros."\n");
+      // $printer -> selectPrintMode(Printer::MODE_EMPHASIZED);
+      // $printer -> text("Kilogramos: ");
+      // $printer -> selectPrintMode(Printer::MODE_FONT_B);
+      // $printer -> text($bobinasdeextrusion->kilogramos."\n");
+      // $printer->feed(2);
+      // $printer -> cut();
+      // $printer -> close();
       $respuesta = 'imprimi';
       $this->set([
          'respuesta' => $respuesta,
@@ -106,9 +118,9 @@ class BobinasdeextrusionsController extends AppController
         $bobinasdeextrusionYaUsadas[0] = 0;
         foreach ($bobinasdeimpresions as $key => $bobinasdeimpresion) {
             $bobinasdeextrusionYaUsadas[] = $bobinasdeimpresion->bobinasdeextrusion_id;
-        }        
+        }
         $bobinasyausadasenimpresion=$bobinasdeextrusionYaUsadas;
-        
+
         $bobinasdeextrusionsConditions=[
             'conditions'=>[
                 'Bobinasdeextrusions.id NOT IN'=>$bobinasdeextrusionYaUsadas,
@@ -179,7 +191,7 @@ class BobinasdeextrusionsController extends AppController
                 'Bobinasdeextrusions.ordenesdetrabajo_id'=>$ordenesdetrabajoId,
                 'Bobinasdeextrusions.terminacion'=>'Parcial',
                 'Bobinasdeextrusions.id NOT IN (
-                    SELECT bobinasdeextrusion_id from bobinasdeextrusions  
+                    SELECT bobinasdeextrusion_id from bobinasdeextrusions
                     where bobinasdeextrusions.terminacion = "Complementaria"
                     AND bobinasdeextrusion_id IS NOT NULL
                 )'
