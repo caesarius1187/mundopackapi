@@ -480,7 +480,9 @@ echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>fals
                                     <?=$bobinasdeextrusion->terminacion.$button; ?>
 
                                     </td>
-                                  <td class="text-center"><button type="button" name="button" onclick="imprimir(<?=$bobinasdeextrusion->id ?>)" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></button></td>
+                                  <td class="text-center">
+                                    <?= $this->Html->link(__('Imprimir'), ['controller'=>'Bobinasdeextrusions','action' => 'printticket', $bobinasdeextrusion->id],['target' => '_blank']) ?>
+                                  </td>
                                 </tr>
                                 <?php
                             }

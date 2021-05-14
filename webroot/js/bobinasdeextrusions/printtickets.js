@@ -1,25 +1,17 @@
-function imprimir(id){
+$(document).ready(function(){
+  var data = $('#bobinasdeextrusion').val();
   $.ajax({
       type: 'POST',
-      url: serverLayoutURL+'bobinasdeextrusions/printticket/'+id+'.json',
-      data: '',
+      url: 'http://localhost/ticket/ticket.php',
+      data: data,
       success: function(data,textStatus,xhr){
-          if(data.data.error!=0){
-              Toast.fire({
-                icon: 'error',
-                title: data.data.respuesta
-              })
-          }else{
-              Toast.fire({
-                icon: 'success',
-                title: 'Se cambió prioridad con éxito.'
-              })
-              var row = $("#liOrdenOt"+ordenOTId);
-              row.insertBefore(row.prev());
-          }
+        Toast.fire({
+          icon: 'success',
+          title: 'Imprimiendo..'
+        })
       },
       error: function(xhr,textStatus,error){
           alert(textStatus);
       }
   });
-}
+});

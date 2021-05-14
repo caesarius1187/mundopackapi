@@ -31,12 +31,7 @@ class BobinasdeextrusionsController extends AppController
           ],
       ]);
 
-      $http = new Client();
-      $response = $http->post(
-        'http://localhost/ticket/ticket.php',
-        json_encode($bobinasdeextrusion),
-        ['type' => 'json']
-      );
+      $this->set(compact('bobinasdeextrusion'));
 
       // require_once(ROOT . DS . 'vendor' .  DS . "autoload.php");
       // $nombre_impresora = "Ticketera";
