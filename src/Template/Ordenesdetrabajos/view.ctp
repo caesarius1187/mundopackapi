@@ -4,7 +4,6 @@
  * @var \App\Model\Entity\Ordenesdetrabajo $ordenesdetrabajo
  */
 echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
-echo $this->Html->script('bobinasdeextrusions/printtickets',array('inline'=>false));
 ?>
 
 <!-- Content Header (Page header) -->

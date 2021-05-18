@@ -459,7 +459,9 @@ class OrdenesdetrabajosController extends AppController
             $newordenOt->ordenesdetrabajo_id = $result->id;
             $this->Ordenots->save($newordenOt);
             $respuesta['respuesta'] = 'La orden de trabajo fue guardada';
-            $respuesta['ordenesdetrabajo'] = $ordenesdetrabajo;
+            $respuesta['ordenesdetrabajo'] = $this->Ordenesdetrabajos->get($result->id, [
+                'contain' => ['Materialesots'],
+            ]);
             $respuesta['newordenOt'] = $newordenOt;
             $respuesta['request'] = $this->request->getData();
             $respuesta['error'] = 0;

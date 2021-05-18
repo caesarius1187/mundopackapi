@@ -152,7 +152,7 @@ function clearOTForm(){
     $trs = $tableBody.find("tr");
     $trs.each(function(){
         var rowCount = $('#tblMateriales tr').length;
-        if(rowCount>1){
+        if(rowCount>2){
             $(this).remove();
         }
     });
@@ -259,7 +259,7 @@ function cargarOrdendetrabajo(otId){
         data: '',
         success: function(data,textStatus,xhr){
             $('#myModalMaquina').modal('hide');
-            
+            $('#cliente-id').attr('disabled',true);
             $("#color").val(data.ordenesdetrabajo.color);
             $("#fuelle option[value='"+data.ordenesdetrabajo.fuelle+"']").attr("selected", true);
             $("#tipofuelle option[value='"+data.ordenesdetrabajo.tipofuelle+"']").attr("selected", true);
@@ -432,6 +432,10 @@ function calcularOTInverso(){
 }
 function cargarOTenTbl(ordenesdetrabajo){
     var tblOrdenes = $("#tblOrdenesDeTrabajo");
+    var materiales = '';
+    $(ordenesdetrabajo.materialesots).each(function(){
+        materiales += this.material+' '+this.porcentaje+' %';
+    });
     tblOrdenes.append(
         $("<tr>")
             .append(
@@ -444,7 +448,7 @@ function cargarOTenTbl(ordenesdetrabajo){
                 $("<td>").html(ordenesdetrabajo.aextrusar)
             )
             .append(
-                $("<td>").html(ordenesdetrabajo.material)
+                $("<td>").html(materiales)
             )
             .append(
                 $("<td>").html(ordenesdetrabajo.color)
