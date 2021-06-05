@@ -727,7 +727,7 @@ function loadBobinaEstrusion(bobinaestrusion, empleado,estrusora){
                         $("<button>")
                             .attr('type','button')
                             .attr('name','button')
-                            .attr('onclick',"imprimir("+bobinaestrusion.id+")")
+                            .attr('onclick',"imprimirTicket("+bobinaestrusion.id+")")
                             .addClass("btn btn-warning btn-sm")
                             .append(
                                 $("<i>").addClass("fas fa-print")
@@ -735,6 +735,20 @@ function loadBobinaEstrusion(bobinaestrusion, empleado,estrusora){
                     )
             )
     )
+}
+function imprimirTicket(bobinaestrusionId){
+   $.ajax({
+        type: 'GET',
+        url: serverLayoutURL+'bobinasdeextrusions/printticket/'+bobinaestrusionId,
+        data: '',
+        success: function(response,textStatus,xhr){
+            $("#modalImprimirTicket").find("#divPrintTicket").html(response);
+            $('#modalImprimirTicket').modal('show');
+        },
+        error: function(xhr,textStatus,error){
+            alert(textStatus);
+        }
+    });
 }
 function loadBobinaImpresion(bobinaimpresion, empleado, bobinasdeestrusion, impresora){
     var tblBobinasdeEstrusion = $("#tblBobinasdeImpresion");

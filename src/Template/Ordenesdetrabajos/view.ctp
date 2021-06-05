@@ -481,6 +481,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                     </td>
                                   <td class="text-center">
                                     <?= $this->Html->link(__('Imprimir'), ['controller'=>'Bobinasdeextrusions','action' => 'printticket', $bobinasdeextrusion->id],['target' => '_blank']) ?>
+                                    <button type="button" name="button" onclick="imprimirTicket(<?= $bobinasdeextrusion->id ?>)" class="btn btn-success float-sm-right"><i class="fas fa-plus"></i> Imprimir</button>
                                   </td>
                                 </tr>
                                 <?php
@@ -1015,6 +1016,29 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="$('#cerrarOrdenDeTrabajo').submit()">Guardar Cierre</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+</div>
+
+<div class="modal" id="modalImprimirTicket" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?= __('Imprimiendo Ticket') ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="divPrintTicket"></div>
+       
+      </div>
+      <div class="modal-footer">
+        <?php /* <button type="button" class="btn btn-primary" onclick="$('#cerrarOrdenDeTrabajo').submit()">Guardar Cierre</button> */ ?>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
       <!-- /.info-box-content -->
