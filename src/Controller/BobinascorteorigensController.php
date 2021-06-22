@@ -34,40 +34,45 @@ class BobinascorteorigensController extends AppController
             $origenConsultanumero = 'Bobinasdeextrusions.numero';
             $origenConsultaid = 'Bobinasdeimpresions.id';
             $idBobinaOrigen = 'bobinasdeimpresion_id';
+            $contenidoBobina = 'Bobinasdeimpresions';
         }else{
             $origenConsultanumero = 'Bobinasdeextrusions.numero';
             $origenConsultaid = 'Bobinasdeextrusions.id';
             $idBobinaOrigen = 'bobinasdeextrusion_id';
+            $contenidoBobina = 'Bobinasdeextrusions';
         }
+        $bobinascorteorigensConditions = [
+                'Bobinascorteorigens.bobinasdecorte_id IN (SELECT id FROM bobinasdecortes WHERE bobinasdecortes.ordenesdetrabajo_id = '.$ordenesdetrabajoId.')',
+                'Bobinascorteorigens.'.$idBobinaOrigen.' NOT IN (
+                    SELECT '.$idBobinaOrigen.' from bobinascorteorigens bob 
+                    where 
+                    bob.terminacion IN ("Complementaria","Completa")
+                    AND '.$idBobinaOrigen.' IS NOT NULL
+                )'
+            ];
         $bobinascorteorigens  = $this->Bobinascorteorigens->find('all', [
             'contain'=>[
                 'Bobinasdeextrusions',
-                'Bobinasdeimpresions',
+                //'Bobinasdeimpresions',
             ],
-            'conditions'=>[
-                'Bobinascorteorigens.bobinasdecorte_id IN (SELECT id FROM bobinasdecortes WHERE bobinasdecortes.ordenesdetrabajo_id = '.$ordenesdetrabajoId.')',
-                'Bobinascorteorigens.terminacion'=>'Parcial',
-                'Bobinascorteorigens.'.$idBobinaOrigen.' NOT IN (
-                    SELECT '.$idBobinaOrigen.' from bobinascorteorigens bob 
-                    where bob.terminacion = "Complementaria"
-                    AND '.$idBobinaOrigen.' IS NOT NULL
-                )'
-            ],
+            'conditions'=>$bobinascorteorigensConditions,
             'limit' => 200,
         ]);
         $listBobinas = [];
         foreach ($bobinascorteorigens as $key => $value) {
-            if($haceimpresion*1){
+            $listBobinas[$value->bobinasdeextrusion->id]=$value->bobinasdeextrusion->numero;
+            /*if($haceimpresion*1){
                 $listBobinas[$value->bobinasdeimpresion->id]=$value->bobinasdeimpresion->numero;
             }else{
                 $listBobinas[$value->bobinasdeextrusion->id]=$value->bobinasdeextrusion->numero;
-            }
+            }*/
         }
         $respuesta['data'] = $listBobinas;
         $respuesta['error'] = 0;
         $this->set([
+            'bobinascorteorigensConditions' => $bobinascorteorigensConditions,
             'respuesta' => $respuesta,
-            '_serialize' => ['respuesta','bobinascorteorigens']
+            '_serialize' => ['respuesta','bobinascorteorigens','bobinascorteorigensConditions']
         ]);
     }
 

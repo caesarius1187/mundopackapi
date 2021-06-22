@@ -473,12 +473,11 @@ function getBobinasCortesParciales(){
                     var bobinasdecortesparciales = response.respuesta.data;
 
                     var hayBobinasDeCorte = false;
-                    $("#origenbobinasdeimpresion-id").find('option')
-                                                   .remove();
+                    $("#origenbobinasdeimpresion-id").find('option').remove();
+                    $("#origenbobinasdeextrusion-id").find('option').remove();
                     for (var p in bobinasdecortesparciales) {
                         if( bobinasdecortesparciales.hasOwnProperty(p) ) {
-                            $("#origenbobinasdeextrusion-id").find('option')
-                                               .remove();
+                           
                             $("#origenbobinasdeextrusion-id").append(
                                 '<option value="'+p+'">'+bobinasdecortesparciales[p]+'</option>'
                             );

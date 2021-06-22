@@ -153,7 +153,7 @@ class BobinasdeextrusionsController extends AppController
         ]);
         foreach ($bobinasdecortes as $key => $bobinasdecorte) {
             foreach ($bobinasdecorte['bobinascorteorigens'] as $key => $corteorigen) {
-              if($corteorigen->bobinasdeextrusion_id && $corteorigen->bobinasdecorte->terminacion != 'Parcial'){
+              if($corteorigen->bobinasdeextrusion_id){
                 $bobinasdeextrusionYaUsadas[] = $corteorigen->bobinasdeextrusion_id;
               }
             }
