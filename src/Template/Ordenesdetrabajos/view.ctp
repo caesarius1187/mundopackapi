@@ -535,7 +535,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                     ]); ?>
                                     <?= $bobinasdeimpresion->bobinasdeextrusion->numero; ?>
                                   </td>
-                                  <td><?= date('d-m-Y h:m',strtotime($bobinasdeimpresion->fecha)); ?></td>
+                                  <td><?= date('d-m-Y h:i',strtotime($bobinasdeimpresion->fecha)); ?></td>
                                   <td><?= $bobinasdeimpresion->empleado->nombre; ?></td>
                                   <td><?= $bobinasdeimpresion->horas; ?></td>
                                   <td><?= $bobinasdeimpresion->kilogramos; ?></td>
@@ -664,7 +664,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                     </div> <?php
                                   }*/
                                   ?>
-                                  <td><?= date('d-m-Y h:m',strtotime($bobinasdecorte->fecha)); ?></td>
+                                  <td><?= date('d-m-Y h:i',strtotime($bobinasdecorte->fecha)); ?></td>
                                   <td><?= $bobinasdecorte->empleado->nombre; ?></td>
                                   <td><?= $bobinasdecorte->horas; ?></td>
                                   <td><?= $bobinasdecorte->kilogramos; ?></td>
