@@ -448,7 +448,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                                 <tr>
                                   <td><?=$bobinasdeextrusion->numero; ?></td>
                                   <td><?=$bobinasdeextrusion->extrusora->nombre; ?></td>
-                                  <td><?= date('d-m-Y H:m',strtotime($bobinasdeextrusion->fecha)); ?></td>
+                                  <td><?= date('d-m-Y H:i',strtotime($bobinasdeextrusion->fecha)); ?></td>
                                   <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
                                   <td><?=$bobinasdeextrusion->kilogramos; ?></td>
                                   <td><?=$bobinasdeextrusion->metros; ?></td>

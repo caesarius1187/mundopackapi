@@ -186,7 +186,7 @@ font-size:14px !important;
                       ]); ?>
                     </div>
                     <div class="col-sm-3">
-                      <?= $this->Form->control('tipofuelle',[
+                      <?= $this->Form->control('lamina',[
                         'label'=>'Lamina:',
                         'type'=>'select',
                         'options'=>[
