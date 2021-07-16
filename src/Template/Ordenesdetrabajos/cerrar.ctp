@@ -273,9 +273,9 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                         <tr>
                                           <td><?=$bobinasdeextrusion->numero; ?></td>
                                           <td><?=$bobinasdeextrusion->extrusora->nombre; ?></td>
-                                          <td><?= date('d-m-Y H:i',strtotime($bobinasdeextrusion->fecha)); ?></td>
+                                          <td><?= date('d-m-Y',strtotime($bobinasdeextrusion->fecha)); ?></td>
                                           <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
-                                          <td><?=$bobinasdeextrusion->horas; ?></td>
+                                          <td><?= date('H:i',strtotime($bobinasdeextrusion->fecha)); ?></td>
                                           <td><?=$bobinasdeextrusion->kilogramos; ?></td>
                                           <td><?=$bobinasdeextrusion->scrap; ?></td>
                                           <td><?=$bobinasdeextrusion->observacion; ?></td>
@@ -329,14 +329,14 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                     foreach ($ordenesdetrabajo->bobinasdeimpresions as $kbe=> $bobinasdeimpresion) {
                                         ?>
                                         <tr>
-                                          <th><?=$bobinasdeimpresion->numero; ?></th>
-                                          <th><?=$bobinasdeimpresion->impresora->nombre; ?></th>
-                                          <th><?= date('d-m-Y H:i',strtotime($bobinasdeimpresion->fecha)); ?></th>
-                                          <th><?=$bobinasdeimpresion->empleado->nombre; ?></th>
-                                          <th><?=$bobinasdeimpresion->horas; ?></th>
-                                          <th><?=$bobinasdeimpresion->kilogramos; ?></th>
-                                          <th><?=$bobinasdeimpresion->scrap; ?></th>
-                                          <th><?=$bobinasdeimpresion->observacion; ?></th>
+                                          <td><?=$bobinasdeimpresion->numero; ?></td>
+                                          <td><?=$bobinasdeimpresion->impresora->nombre; ?></td>
+                                          <td><?= date('d-m-Y',strtotime($bobinasdeimpresion->fecha)); ?></td>
+                                          <td><?=$bobinasdeimpresion->empleado->nombre; ?></td>
+                                          <td><?= date('H:i',strtotime($bobinasdeimpresion->fecha)); ?></td>
+                                          <td><?=$bobinasdeimpresion->kilogramos; ?></td>
+                                          <td><?=$bobinasdeimpresion->scrap; ?></td>
+                                          <td><?=$bobinasdeimpresion->observacion; ?></td>
                                         </tr>
                                         <?php
                                     }
@@ -387,14 +387,14 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                     foreach ($ordenesdetrabajo->bobinasdecortes as $kbe=> $bobinasdecorte) {
                                         ?>
                                         <tr>
-                                          <th><?=$bobinasdecorte->numero; ?></th>
-                                          <th><?=$bobinasdecorte->cortadora->nombre; ?></th>
-                                          <th><?= date('d-m-Y H:i',strtotime($bobinasdecorte->fecha)); ?></th>
-                                          <th><?=$bobinasdecorte->empleado->nombre; ?></th>
-                                          <th><?=$bobinasdecorte->horas; ?></th>
-                                          <th><?=$bobinasdecorte->kilogramos; ?></th>
-                                          <th><?=$bobinasdecorte->scrap; ?></th>
-                                          <th><?=$bobinasdecorte->observacion; ?></th>
+                                          <td><?=$bobinasdecorte->numero; ?></td>
+                                          <td><?=$bobinasdecorte->cortadora->nombre; ?></td>
+                                          <td><?= date('d-m-Y',strtotime($bobinasdecorte->fecha)); ?></td>
+                                          <td><?=$bobinasdecorte->empleado->nombre; ?></td>
+                                          <td><?= date('H:i',strtotime($bobinasdecorte->fecha)); ?></td>
+                                          <td><?=$bobinasdecorte->kilogramos; ?></td>
+                                          <td><?=$bobinasdecorte->scrap; ?></td>
+                                          <td><?=$bobinasdecorte->observacion; ?></td>
                                         </tr>
                                         <?php
                                     }
