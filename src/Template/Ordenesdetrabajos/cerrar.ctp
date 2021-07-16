@@ -81,7 +81,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
               </div>
               <div class="col-md-2">
                 <dt class="text-center">FECHA:</dt>
-                <dd class="text-center"><?= h($ordenesdepedido->fecha) ?></dd>
+                <dd class="text-center"><?= date('d-m-Y',strtotime($ordenesdepedido->fecha)) ?></dd>
               </div>
             </div>
 
@@ -117,14 +117,14 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                         <?php
                           $totKgExtr = 0;
                           foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
-                            $totKgExtr += $bobinasdeextrusion->kilogramos*1; 
+                            $totKgExtr += $bobinasdeextrusion->kilogramos*1;
                           }
                           ?>
                           <h5><span class="badge badge-info"><?= __('Total Kg Extrusion: ') ?></span> <?= $this->Number->format($totKgExtr) ?></h5>
                           <?php
                           $totScrapExt = 0;
                           foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
-                            $totScrapExt += $bobinasdeextrusion->scrap*1; 
+                            $totScrapExt += $bobinasdeextrusion->scrap*1;
                           }
                           ?>
                           <h5><span class="badge badge-info"><?= __('Total de Scrap: ') ?></span> <?= $this->Number->format($totScrapExt) ?></h5>
@@ -273,7 +273,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                         <tr>
                                           <td><?=$bobinasdeextrusion->numero; ?></td>
                                           <td><?=$bobinasdeextrusion->extrusora->nombre; ?></td>
-                                          <td><?=$bobinasdeextrusion->fecha->i18nFormat('d-m-Y'); ?></td>
+                                          <td><?= date('d-m-Y H:i',strtotime($bobinasdeextrusion->fecha)); ?></td>
                                           <td><?=$bobinasdeextrusion->empleado->nombre; ?></td>
                                           <td><?=$bobinasdeextrusion->horas; ?></td>
                                           <td><?=$bobinasdeextrusion->kilogramos; ?></td>
@@ -331,7 +331,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                         <tr>
                                           <th><?=$bobinasdeimpresion->numero; ?></th>
                                           <th><?=$bobinasdeimpresion->impresora->nombre; ?></th>
-                                          <th><?=$bobinasdeimpresion->fecha->i18nFormat('d-m-Y'); ?></th>
+                                          <th><?= date('d-m-Y H:i',strtotime($bobinasdeimpresion->fecha)); ?></th>
                                           <th><?=$bobinasdeimpresion->empleado->nombre; ?></th>
                                           <th><?=$bobinasdeimpresion->horas; ?></th>
                                           <th><?=$bobinasdeimpresion->kilogramos; ?></th>
@@ -389,7 +389,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                                         <tr>
                                           <th><?=$bobinasdecorte->numero; ?></th>
                                           <th><?=$bobinasdecorte->cortadora->nombre; ?></th>
-                                          <th><?=$bobinasdecorte->fecha->i18nFormat('d-m-Y'); ?></th>
+                                          <th><?= date('d-m-Y H:i',strtotime($bobinasdecorte->fecha)); ?></th>
                                           <th><?=$bobinasdecorte->empleado->nombre; ?></th>
                                           <th><?=$bobinasdecorte->horas; ?></th>
                                           <th><?=$bobinasdecorte->kilogramos; ?></th>
@@ -451,7 +451,7 @@ echo $this->Html->script('ordenesdepedidos/index',array('inline'=>false));
                   <div class="">
                     <button type="button" class="btn btn-primary" onclick="$('#cerrarOrdenDeTrabajo').submit()">Guardar Cierre</button>
                   </div>
-              </div>              
+              </div>
             </div>
           <?php endforeach; ?>
 
