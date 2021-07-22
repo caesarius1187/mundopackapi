@@ -131,7 +131,7 @@ $(document).ready(function() {
 function clearOTForm(){
     $("#color").val("");
     $("#fuelle").val("NO");
-    $("#tipofuelle").val("NO");
+    $("#lamina").val("NO");
     $("#tratado").val("NO");
     $("#perf").prop( "checked", false );;
     $("#ancho").val("");
@@ -261,9 +261,9 @@ function cargarOrdendetrabajo(otId){
             $('#myModalMaquina').modal('hide');
             $('#cliente-id').attr('disabled',true);
             $("#color").val(data.ordenesdetrabajo.color);
-            $("#fuelle option[value='"+data.ordenesdetrabajo.fuelle+"']").attr("selected", true);
-            $("#tipofuelle option[value='"+data.ordenesdetrabajo.tipofuelle+"']").attr("selected", true);
-            $("#tratado option[value='"+data.ordenesdetrabajo.tratado+"']").attr("selected", true);
+            $("#fuelle option[value='"+data.ordenesdetrabajo.fuelle+"']").prop('selected', true);
+            $("#lamina option[value='"+data.ordenesdetrabajo.lamina+"']").prop('selected', true);
+            $("#tratado option[value='"+data.ordenesdetrabajo.tratado+"']").prop('selected', true);
             $("#perforado").val(data.ordenesdetrabajo.perforado);
 
             $("#ancho").val(data.ordenesdetrabajo.ancho);
@@ -275,10 +275,10 @@ function cargarOrdendetrabajo(otId){
             $("#aextrusar").val(data.ordenesdetrabajo.aextrusar);
             $("#pesobob").val(data.ordenesdetrabajo.pesobob);
             $("#metrobob").val(data.ordenesdetrabajo.metrobob);
-            $("#manija option[value='"+data.ordenesdetrabajo.manija+"']").attr("selected", true);
-            $("#tipoimpresion option[value='"+data.ordenesdetrabajo.tipoimpresion+"']").attr("selected", true);
+            $("#manija option[value='"+data.ordenesdetrabajo.manija+"']").prop('selected', true);
+            $("#tipoimpresion option[value='"+data.ordenesdetrabajo.tipoimpresion+"']").prop('selected', true);
             $("#tipoimpresion").trigger("change");
-            $("#tipocorte option[value='"+data.ordenesdetrabajo.tipocorte+"']").attr("selected", true);
+            $("#tipocorte option[value='"+data.ordenesdetrabajo.tipocorte+"']").prop('selected', true);
             $("#tipocorte").trigger("change");
             
             $("#preciounitario").val(data.ordenesdetrabajo.preciounitario);
@@ -294,7 +294,7 @@ function cargarOrdendetrabajo(otId){
                     loadMaterial();     
                 }
                 $addedNumMaterial = getLastNumMaterial()*1-1;
-                $("#materialesots-"+$addedNumMaterial+"-material option[value='"+this.material+"']").attr("selected", true);
+                $("#materialesots-"+$addedNumMaterial+"-material option[value='"+this.material+"']").prop('selected', true);
                 $("#materialesots-"+$addedNumMaterial+"-porcentaje").val(this.porcentaje);
                 miCantMateriales++;
             });
@@ -303,6 +303,7 @@ function cargarOrdendetrabajo(otId){
               icon: 'success',
               title: "Se encontraron las siguientes Ordenes de trabajo del cliente seleccionado"
             })
+            calcularKilosDeMateriales();
         },
         error: function(xhr,textStatus,error){
             alert(textStatus);
