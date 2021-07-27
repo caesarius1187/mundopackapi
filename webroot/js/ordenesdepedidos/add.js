@@ -287,11 +287,14 @@ function cargarOrdendetrabajo(otId){
             $("#observacionesextrusion").val(data.ordenesdetrabajo.observacionesextrusion);
             $("#observacionesimpresion").val(data.ordenesdetrabajo.observacionesimpresion);
             $("#observacionescorte").val(data.ordenesdetrabajo.observacionescorte);
-            var miCantMateriales= cantMateriales;
+            var cargueElPrimero = false;
+            var miCantMateriales = 0;
             //load materiales
             $(data.ordenesdetrabajo.materialesots).each(function(){
-                if(miCantMateriales!=0){
+                if(cargueElPrimero){
                     loadMaterial();     
+                }else{
+                    cargueElPrimero = true;                    
                 }
                 $addedNumMaterial = getLastNumMaterial()*1-1;
                 $("#materialesots-"+$addedNumMaterial+"-material option[value='"+this.material+"']").prop('selected', true);

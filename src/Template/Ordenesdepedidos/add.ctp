@@ -280,7 +280,7 @@ font-size:14px !important;
                           'options'=>[
                             'no'=>'No',
                             'camiseta'=>'Camiseta',
-                            'rinon'=>'Riñon',
+                            'rinon'=>'Rinon',
                           ]
                         ]) ; ?>
                     </div>
