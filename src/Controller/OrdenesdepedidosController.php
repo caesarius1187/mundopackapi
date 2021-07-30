@@ -21,7 +21,8 @@ class OrdenesdepedidosController extends AppController
     {
         $ordenesdepedidos = $this->Ordenesdepedidos->find('all',[
             'conditions'=>[
-                'Ordenesdepedidos.id <> '=> 1
+                'Ordenesdepedidos.id <> '=> 1,
+                'Ordenesdepedidos.estado <> '=> "Cancelado"
             ],
             'contain'=>[
                 'Clientes'

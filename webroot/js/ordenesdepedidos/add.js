@@ -287,9 +287,11 @@ function cargarOrdendetrabajo(otId){
             $("#observacionesextrusion").val(data.ordenesdetrabajo.observacionesextrusion);
             $("#observacionesimpresion").val(data.ordenesdetrabajo.observacionesimpresion);
             $("#observacionescorte").val(data.ordenesdetrabajo.observacionescorte);
+            //borramos todos los materiales menos el primero
+            $('#tblMateriales tbody tr:not(:first)').remove();
             var cargueElPrimero = false;
             var miCantMateriales = 0;
-            //load materiales
+            //load materiales            
             $(data.ordenesdetrabajo.materialesots).each(function(){
                 if(cargueElPrimero){
                     loadMaterial();     
