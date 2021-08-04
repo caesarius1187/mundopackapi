@@ -82,7 +82,7 @@ class OrdenotsController extends AppController
             'fields' => array('maxprioridadimpresion' => 'MAX(Ordenots.prioridadimpresion)'),
         ]);
         foreach ($orderotMax as $key => $value) {
-            $maxprioridadimpresion = $value['$maxprioridadimpresion'];
+            $maxprioridadimpresion = $value['maxprioridadimpresion'];
         }
         $ordenot->prioridadimpresion = $maxprioridadimpresion+1;
         //vamos a poner la prioridad mas alta +1
@@ -94,7 +94,7 @@ class OrdenotsController extends AppController
             'fields' => array('maxprioridadcorte' => 'MAX(Ordenots.prioridadcorte)'),
         ]);
         foreach ($orderotMax as $key => $value) {
-            $maxprioridadcorte = $value['$maxprioridadcorte'];
+            $maxprioridadcorte = $value['maxprioridadcorte'];
         }
         $ordenot->prioridadcorte = $maxprioridadcorte+1;
         if($ordenot->fechainicioextrusora!=''){
