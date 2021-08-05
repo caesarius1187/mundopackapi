@@ -110,7 +110,7 @@ class OrdenesdetrabajosController extends AppController
                 'Materialesots'
             ],
             'conditions'=>[
-                'Ordenesdetrabajos.estado IN ("Pausado","Cancelado")',
+                'Ordenesdetrabajos.estado = "Pausado"',
             ],
             'order'=>[
                 'Ordenesdepedidos.fecha DESC',
