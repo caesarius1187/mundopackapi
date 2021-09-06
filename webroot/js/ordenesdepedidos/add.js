@@ -116,7 +116,7 @@ $(document).ready(function() {
         }
         return false;
     });
-    
+
     $(".inputCalculoOT").on('change',function(){
         var tipocorte = $("#tipocorte").val();
         if(tipocorte=='lateral 2l'){
@@ -264,8 +264,12 @@ function cargarOrdendetrabajo(otId){
             $("#fuelle option[value='"+data.ordenesdetrabajo.fuelle+"']").prop('selected', true);
             $("#lamina option[value='"+data.ordenesdetrabajo.lamina+"']").prop('selected', true);
             $("#tratado option[value='"+data.ordenesdetrabajo.tratado+"']").prop('selected', true);
-            $("#perforado").val(data.ordenesdetrabajo.perforado);
-
+            /* console.log(data.ordenesdetrabajo.perf) */
+            if (data.ordenesdetrabajo.perf == 1) {
+                $("#perf").prop('checked', true);
+            } else {
+                $("#perf").prop('checked', false);
+            }
             $("#ancho").val(data.ordenesdetrabajo.ancho);
             $("#largo").val(data.ordenesdetrabajo.largo);
             $("#espesor").val(data.ordenesdetrabajo.espesor);
@@ -280,7 +284,7 @@ function cargarOrdendetrabajo(otId){
             $("#tipoimpresion").trigger("change");
             $("#tipocorte option[value='"+data.ordenesdetrabajo.tipocorte+"']").prop('selected', true);
             $("#tipocorte").trigger("change");
-            
+
             $("#preciounitario").val(data.ordenesdetrabajo.preciounitario);
 
             $("#observaciones").val(data.ordenesdetrabajo.observaciones);
@@ -291,12 +295,12 @@ function cargarOrdendetrabajo(otId){
             $('#tblMateriales tbody tr:not(:first)').remove();
             var cargueElPrimero = false;
             var miCantMateriales = 0;
-            //load materiales            
+            //load materiales
             $(data.ordenesdetrabajo.materialesots).each(function(){
                 if(cargueElPrimero){
-                    loadMaterial();     
+                    loadMaterial();
                 }else{
-                    cargueElPrimero = true;                    
+                    cargueElPrimero = true;
                 }
                 $addedNumMaterial = getLastNumMaterial()*1-1;
                 $("#materialesots-"+$addedNumMaterial+"-material option[value='"+this.material+"']").prop('selected', true);
@@ -411,7 +415,7 @@ function calcularOT(){
     }
 
     calcularKilosDeMateriales();
-    
+
 }
 
 function calcularOTInverso(){

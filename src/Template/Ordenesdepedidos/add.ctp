@@ -149,9 +149,6 @@ font-size:14px !important;
                       ]); ?>
 
                   <div class="row">
-                    <div class="col-sm-1">
-
-                    </div>
                     <div class="col-sm-2">
                       <?= $this->Form->control('color',[
                         'label'=>'Color:'
@@ -207,7 +204,7 @@ font-size:14px !important;
                         ]
                       ]); ?>
                     </div>
-                    <div class="col-sm-2 form-check m-3">
+                    <div class="col-sm-2 row justify-content-center align-items-center">
                       <?= $this->Form->control('perf',[
                         'type'=>'checkbox',
                         'class'=>'form-check-input align-middle',
@@ -468,7 +465,7 @@ font-size:14px !important;
                               <td><?= $ordendetrabajo->color?></td>
                               <td><?= $ordendetrabajo->fuelle?></td>
                               <td><?= $ordendetrabajo->medida?></td>
-                              <td><?= $ordendetrabajo->perf?></td>
+                              <td><?= $ordendetrabajo->perf?'SI':'NO'?></td>
                               <td><?= $ordendetrabajo->impreso?'SI':'NO'?></td>
                               <td><?= $ordendetrabajo->cortado?'SI':'NO'?></td>
                               <td><?= $ordendetrabajo->preciounitario?></td>

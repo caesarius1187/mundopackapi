@@ -92,7 +92,7 @@ class OrdenesdetrabajosController extends AppController
                 'Ordenesdetrabajos.estado NOT IN ("En Proceso","Pausado")',
             ],
             'order'=>[
-                'Ordenesdepedidos.fecha DESC',
+                'Ordenesdetrabajos.cierre DESC',
             ]
         ];
 
@@ -122,13 +122,13 @@ class OrdenesdetrabajosController extends AppController
 
         $extrusoras = $this->Extrusoras->find('all',[
             'contain'=>[
-                'Ordenots'=>[             
+                'Ordenots'=>[
                     'conditions'=>[
                         'Ordenots.ordenesdetrabajo_id IN (
-                            Select id from ordenesdetrabajos 
+                            Select id from ordenesdetrabajos
                                 where ordenesdetrabajos.estado = "En Proceso"
                         )'
-                    ],       
+                    ],
                     'Ordenesdetrabajos'=>[
                         'Ordenesdepedidos'=>[
                             'Clientes'
@@ -144,7 +144,7 @@ class OrdenesdetrabajosController extends AppController
                 'Ordenots'=>[
                     'conditions'=>[
                         'Ordenots.ordenesdetrabajo_id IN (
-                            Select id from ordenesdetrabajos 
+                            Select id from ordenesdetrabajos
                                 where ordenesdetrabajos.estado = "En Proceso"
                         )'
                     ],
@@ -163,7 +163,7 @@ class OrdenesdetrabajosController extends AppController
                 'Ordenots'=>[
                     'conditions'=>[
                         'Ordenots.ordenesdetrabajo_id IN (
-                            Select id from ordenesdetrabajos 
+                            Select id from ordenesdetrabajos
                                 where ordenesdetrabajos.estado = "En Proceso"
                         )'
                     ],
@@ -518,7 +518,7 @@ class OrdenesdetrabajosController extends AppController
                 $result = $this->Materialesots->deleteAllFromOt($id);
                 foreach ($this->request->getData()['Materialesots'] as $kmots => $materialesot) {
                     if(isset($materialesot['id']) && $materialesot['id']!=0){
-                       
+
                     }else{
                         $materialesot['id'] = 0;
                     }

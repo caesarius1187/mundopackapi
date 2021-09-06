@@ -97,14 +97,14 @@
                 <tr>
                 <?php foreach ($ordenesdepedido->ordenesdetrabajos as $ordenesdetrabajos): ?>
                   <td><?= h($ordenesdetrabajos->cantidad) ?></td>
-                  <td><?php 
+                  <td><?php
                   foreach ($ordenesdetrabajos->materialesots as $key => $material) {
                     echo $material->material."-".$material->porcentaje."%";
                   } ?></td>
                   <td><?= h($ordenesdetrabajos->color) ?></td>
                   <td><?= h($ordenesdetrabajos->fuelle) ?></td>
                   <td><?= h($ordenesdetrabajos->medida) ?></td>
-                  <td><?= h($ordenesdetrabajos->perf) ?></td>
+                  <td><?= h($ordenesdetrabajos->perf?'SI':'NO') ?></td>
                   <td><?= h($ordenesdetrabajos->impreso) ?></td>
                   <td><?= h($ordenesdetrabajos->preciounitario) ?></td>
                   <td><?= h($ordenesdetrabajos->observaciones) ?></td>

@@ -84,7 +84,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   <div style="width:1360px" class="text-left bg-secondary">
                     <span style="font-weight:bold;padding-left:50px;">MATRIZ CHICA</span>
                   </div>
-                  <table id="tblPendientesMatrizMediana" class="table table-sm text-nowrap text-center">
+                  <table id="tblPendientesMatrizChica" class="table table-sm text-nowrap text-center">
                   <tbody>
                     <tr class="thead-light">
                       <th style="width:70px">Orden</th>
@@ -211,7 +211,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
                           $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
                           ?>
-                          <tr>
+                          <tr id="trOrdenOtP<?= $ordenesdetrabajo->ordenots[0]->id ?>">
                             <td style="width:70px">
                               <?= $ordenesdetrabajo->ordenots[0]->prioridadpendientes ?></td>
                             </td>
@@ -304,7 +304,7 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                         $nombrecliente =  $ordenesdetrabajo->ordenesdepedido->cliente->nombre;
                         $numeroOT =  $ordenesdetrabajo->ordenesdepedido->numero.'-'.$ordenesdetrabajo->numero ;
                         ?>
-                        <tr>
+                        <tr id="trOrdenOtP<?= $ordenesdetrabajo->ordenots[0]->id ?>">
                           <td style="width:70px">
                             <?= $ordenesdetrabajo->ordenots[0]->prioridadpendientes ?></td>
                           </td>
@@ -910,8 +910,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                   <table id="tblOrdenesDeTrabajoFinalizadas" class="table-sm table-bordered text-nowrap table-head-fixed text-center">
                     <thead>
                       <tr>
+                        <th>Cierre</th>
                         <th>Inicio</th>
-                        <th>Fin</th>
                         <th>Cliente</th>
                         <th>OT</th>
                         <th>Medidas</th>
@@ -938,8 +938,8 @@ echo $this->Html->script('ordenesdetrabajos/asignacion',array('inline'=>false));
                           );
                           ?>
                           <tr>
+                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->cierre)) ?></td>
                             <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha)) ?></td>
-                            <td><?= date('d-m-Y',strtotime($ordenesdetrabajo->ordenesdepedido->fecha." +1 Months ")) ?></td>
                             <td><small><?= $nombrecliente ?></small></td>
                             <td><?= $linkOT ?></td>
                             <td><?= $ordenesdetrabajo->medida ?></td>
