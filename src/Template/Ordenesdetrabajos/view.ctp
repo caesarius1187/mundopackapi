@@ -144,7 +144,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                         <?php
                         $totScrapExt = 0;
                         foreach ($ordenesdetrabajo->bobinasdeextrusions as $kbe=> $bobinasdeextrusion) {
-                          $totScrapExt += $bobinasdeextrusion->scrap*1;
+                          $totScrapExt += (double)$bobinasdeextrusion->scrap;
                         }
                         ?>
                         <h5><span class="badge badge-info"><?= __('Total de Scrap: ') ?></span> <?= $this->Number->format($totScrapExt) ?></h5>
@@ -183,9 +183,9 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                     $totCantCort=0;
                     $totScrapCort=0;
                     foreach ($ordenesdetrabajo->bobinasdecortes as $kbe=> $bobinasdecorte) {
-                        $totKgCort += $bobinasdecorte->kilogramos*1;
-                        $totCantCort += $bobinasdecorte->cantidad*1;
-                        $totScrapCort += $bobinasdecorte->scrap*1;
+                        $totKgCort += (double)$bobinasdecorte->kilogramos;
+                        $totCantCort += (double)$bobinasdecorte->cantidad;
+                        $totScrapCort += (double)$bobinasdecorte->scrap;
                     }
                     ?>
                     <div class="col-sm-3">
@@ -381,6 +381,20 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
           </div>
         </div>
         <div class="row mb-2">
+          <div class="col-sm-12">
+              <h1 class="m-0 text-dark">Observaciones: </h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-12">
+                <textarea id="observaciones" class="form-control" rows="5"><?= h($ordenesdetrabajo->observaciones) ?></textarea>
+            </div>
+            <div class="col-12">
+                <button type="button" name="button" onclick="editObservacion()" class="btn btn-secondary float-sm-right mt-2"><i class="fas fa-save"></i> Guardar observaciones</button>
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+        <div class="row mb-2">
 
         </div><!-- /.row -->
         <div class="row">
@@ -429,7 +443,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                         <table id="tblBobinasdeEstrusion" class="table table-bordered table-hover">
                           <thead>
                             <tr>
-                              <th>Numero</th>
+                              <th>Número</th>
                               <th>Extrusora</th>
                               <th>Fecha</th>
                               <th>Extrusor</th>
@@ -508,7 +522,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                         <table id="tblBobinasdeImpresion" class="table table-bordered table-hover">
                           <thead>
                             <tr>
-                              <th>Numero</th>
+                              <th>Número</th>
                               <th>Impresora</th>
                               <th>Bobina Extrusion N°</th>
                               <th>Fecha</th>
@@ -599,7 +613,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                         <table id="tblBobinasdeCorte" class="table table-bordered table-hover">
                           <thead>
                             <tr>
-                              <th>Fecha</th>
+                              <th>Número</th>
                               <th>Cortadora</th>
                               <th>Bobina Est N°</th>
                               <?php
@@ -730,12 +744,6 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
             <div class="col-sm-6">
                 <?= $this->Form->control('extrusora_id', ['options' => $extrusoras]); ?>
             </div>
-            <?php /*
-            <div class="col-sm-2">
-                <?= $this->Form->control('horas'); ?>
-            </div>
-            */ ?>
-
         </div>
         <div class="row">
             <div class="col-sm-6">
@@ -756,16 +764,18 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
             </div>
         </div>
          <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <?= $this->Form->control('kilogramos',['required'=>true]); ?>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <?= $this->Form->control('metros',['required'=>true]); ?>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <?= $this->Form->control('scrap'); ?>
             </div>
-
+            <div class="col-sm-3">
+                <?= $this->Form->control('horas',['type'=>'number']); ?>
+            </div>
             <div class="col-sm-12">
                 <?= $this->Form->control('observacion'); ?>
             </div>
@@ -800,29 +810,26 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
             ]
         ]) ?>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <?= $this->Form->control('empleado_id', [
-                  'empty' => ['' => 'Seleccione Empleado'],
+                  'empty' => ['' => 'Seleccione...'],
                   'options' => $empleados,
                   'required' => true,
                 ]); ?>
                 <?= $this->Form->control('ordenesdetrabajo_id', ['type' => 'hidden','value'=>$ordenesdetrabajo->id]); ?>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <?= $this->Form->control('impresora_id', ['options' => $impresoras]); ?>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <?= $this->Form->control('bobinasdeextrusion_id', [
                     'options' => [],
                     'label' => 'Bobina de extrusion',
                 ]); ?>
             </div>
-            <div class="col-sm-2">
-                <?= $this->Form->control('horas',['type'=>'number']); ?>
-            </div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <?= $this->Form->control('terminacion',[
                   'options'=>[
                     'Completa'=>'Completa',
@@ -831,7 +838,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
                   ]
                 ]); ?>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <?= $this->Form->control('bobinasdeimpresion_id',[
                   'label'=>'Bobinas de Imp. Parciales',
                   'options'=>[],
@@ -840,14 +847,17 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <?= $this->Form->control('kilogramos'); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <?= $this->Form->control('metros'); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <?= $this->Form->control('scrap'); ?>
+            </div>
+            <div class="col-sm-3">
+                <?= $this->Form->control('horas',['type'=>'number']); ?>
             </div>
             <div class="col-sm-12">
                 <?= $this->Form->control('observacion'); ?>
@@ -1034,7 +1044,7 @@ echo $this->Html->script('ordenesdetrabajos/view',array('inline'=>false));
       </div>
       <div class="modal-body">
         <div id="divPrintTicket"></div>
-       
+
       </div>
       <div class="modal-footer">
         <?php /* <button type="button" class="btn btn-primary" onclick="$('#cerrarOrdenDeTrabajo').submit()">Guardar Cierre</button> */ ?>

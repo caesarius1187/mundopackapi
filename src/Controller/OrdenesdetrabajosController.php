@@ -546,6 +546,34 @@ class OrdenesdetrabajosController extends AppController
         $this->set(compact('ordenesdetrabajo', 'ordenesdepedidos','materiales'));
     }
 
+    public function editObservacion()
+    {
+        $this->request->allowMethod('ajax');
+        $id = $this->request->getData()['data']['id'];
+        $obs = $this->request->getData()['data']['obs'];
+
+        $ordenesdetrabajo = $this->Ordenesdetrabajos->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $ordenesdetrabajo = $this->Ordenesdetrabajos->patchEntity($ordenesdetrabajo, $this->request->getData());
+            $ordenesdetrabajo->observaciones = $obs;
+            if ($this->Ordenesdetrabajos->save($ordenesdetrabajo)) {
+                $this->Flash->success('La observación fué modificada con éxito.');
+                $respuesta['error'] = 0;
+            }else{
+                $this->Flash->success('Error: La observación "NO" fue modificada, intente de nuevo más tarde.');
+            }
+        }
+
+        $data=[
+            'respuesta'=>'',
+            'error'=>0,
+        ];
+        $this->set([
+            'data' => $data,
+            '_serialize' => ['data']
+        ]);
+    }
+
      public function cerrar($id = null)
     {
         $this->loadModel('Ordenesdepedidos');
